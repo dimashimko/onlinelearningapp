@@ -74,6 +74,7 @@ class _App extends StatelessWidget {
           title: 'Online Learning App',
           // title: context.read<AuthRepository>().toString(),
           theme: AppThemes.light(),
+          // theme: AppThemes.dark(),
           initialRoute: SplashScreenPage.routeName,
           onGenerateRoute: AppRouter.generateRoute,
           routes: {

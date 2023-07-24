@@ -29,7 +29,7 @@ class CustomButtonLight extends StatelessWidget {
             width: double.infinity,
             height: 50.0,
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.secondary,
+              color: Theme.of(context).colorScheme.onPrimary,
               border: Border.all(
                 width: 1.0,
                 color: Theme.of(context).colorScheme.primary,
@@ -39,7 +39,7 @@ class CustomButtonLight extends StatelessWidget {
             alignment: Alignment.center,
             child: Text(
               title,
-              style: Theme.of(context).textTheme.labelMedium,
+              style: Theme.of(context).textTheme.labelSmall,
               textAlign: TextAlign.center,
             ),
           ),

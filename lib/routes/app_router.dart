@@ -1,4 +1,5 @@
 import 'package:online_learning_app/pages/auth_pages/sign_in_page/sign_in_page.dart';
+import 'package:online_learning_app/pages/auth_pages/sign_up_page/sign_up_page.dart';
 import 'package:online_learning_app/pages/main_page.dart';
 import 'package:online_learning_app/pages/profile_pages/profile_page/profile_page.dart';
 import 'package:online_learning_app/pages/tickets_pages/ticket_details_page/ticket_details_page.dart';
@@ -20,6 +21,11 @@ class AppRouter {
         builder = (_) => SignInPage(
           isFirst: args.isFirst,
         );
+        break;
+
+
+      case SignUpPage.routeName:
+        builder = (_) =>  SignUpPage();
         break;
 
     // [END] Auth pages

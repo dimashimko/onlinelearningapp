@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:online_learning_app/pages/auth_pages/sign_up_page/sign_up_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button_light.dart';
@@ -41,11 +42,24 @@ class _SlideModel {
 }
 
 class _SignInPageState extends State<SignInPage> {
-  void _navigateToPage(BuildContext context, String route) {
-    Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(
-      route,
-      (_) => false,
+  void _navigateToPage({
+    required BuildContext context,
+    required String route,
+    bool isRoot = false,
+    Object? arguments,
+  }) {
+    Navigator.of(
+      context,
+      rootNavigator: isRoot,
+    ).pushNamed(route, arguments: arguments);
+  }
+
+  void _goToSignUpPage(BuildContext context) {
+    _navigateToPage(
+      context: context,
+      route: SignUpPage.routeName,
     );
+    // testRequest();
   }
 
   final List<_SlideModel> listSlideModel = [
@@ -76,10 +90,9 @@ class _SignInPageState extends State<SignInPage> {
   void initState() {
     super.initState();
     imageController = PageController(
-      viewportFraction: 1,
-      keepPage: false,
-      initialPage: widget.isFirst? 0:listSlideModel.length - 1
-    );
+        viewportFraction: 1,
+        keepPage: false,
+        initialPage: widget.isFirst ? 0 : listSlideModel.length - 1);
     isButtonsVisible = !widget.isFirst;
     imageController.addListener(() {
       if (imageController.page != null) {
@@ -96,6 +109,10 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Theme.of(context).colorScheme.background,
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -109,7 +126,6 @@ class _SignInPageState extends State<SignInPage> {
                   child: InkWell(
                     onTap: () {
                       imageController.jumpToPage(listSlideModel.length - 1);
-                      log('*** page: ${imageController.page}');
                     },
                     child: Text(
                       !isButtonsVisible ? 'Skip' : '',
@@ -158,7 +174,9 @@ class _SignInPageState extends State<SignInPage> {
                             child: CustomButton(
                               title: 'Sign up',
                               padding: 4,
-                              onTap: () {},
+                              onTap: () {
+                                _goToSignUpPage(context);
+                              },
                             ),
                           ),
                           Expanded(
@@ -209,7 +227,7 @@ class CustomSmoothPageIndicator extends StatelessWidget {
             // strokeWidth: 1.5,
             // dotColor: AppColors.scaffold,
             // dotColor: Theme.of(context).primaryColor,
-            activeDotColor: Theme.of(context).primaryColor,
+            activeDotColor: Theme.of(context).colorScheme.primary,
           ),
         ),
       ),

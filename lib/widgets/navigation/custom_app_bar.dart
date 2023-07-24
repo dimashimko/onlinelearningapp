@@ -10,8 +10,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.action,
     this.onAction,
     this.onLeading,
+    this.backgroundColor,
   }) : super(key: key);
 
+  final Color? backgroundColor;
   final Widget? title;
   final Widget? leading;
   final Widget? action;
@@ -24,7 +26,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: AppColors.scaffold,
+      backgroundColor:
+          backgroundColor ?? Theme.of(context).colorScheme.background,
+      surfaceTintColor: Theme.of(context).colorScheme.background,
       elevation: 0.0,
       centerTitle: true,
       titleTextStyle: const TextStyle(

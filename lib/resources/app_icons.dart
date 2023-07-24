@@ -14,6 +14,7 @@ class AppIcons {
   static const String illustration_01 = '$_path/illustration_01.svg';
   static const String illustration_02 = '$_path/illustration_02.svg';
   static const String illustration_03 = '$_path/illustration_03.svg';
+  static const String arrow_back = '$_path/arrow_back.svg';
 
 
 
