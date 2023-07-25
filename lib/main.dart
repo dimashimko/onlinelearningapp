@@ -3,10 +3,12 @@ import 'dart:developer';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_learning_app/database/local_database.dart';
+import 'package:online_learning_app/firebase_options.dart';
 import 'package:online_learning_app/pages/uncategorized_pages/splash_screen_page/splash_screen_page.dart';
 import 'package:online_learning_app/repositories/auth_repository.dart';
 import 'package:online_learning_app/resources/app_locale.dart';
@@ -26,6 +28,9 @@ Future<void> main() async {
   await runZonedGuarded<Future<void>>(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
       await EasyLocalization.ensureInitialized();
       await LocalDB.instance.ensureInitialized();
       SystemChrome.setPreferredOrientations([
