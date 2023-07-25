@@ -1,24 +1,24 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:online_learning_app/pages/auth_pages/log_in_page/log_in_page.dart';
+import 'package:online_learning_app/pages/auth_pages/sign_up_page/sign_up_page.dart';
 import 'package:online_learning_app/pages/auth_pages/widgets/authFormFields.dart';
-import 'package:online_learning_app/resources/app_colors.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/elements/custom_error_text.dart';
-import 'package:online_learning_app/widgets/elements/custom_text_form.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
 
-class SignUpPage extends StatefulWidget {
-  SignUpPage({Key? key}) : super(key: key);
+class LogInPage extends StatefulWidget {
+  LogInPage({Key? key}) : super(key: key);
 
-  static const routeName = '/auth_pages/sign_up_page';
+  static const routeName = '/auth_pages/log_in_page';
 
   @override
-  State<SignUpPage> createState() => _SignUpPageState();
+  State<LogInPage> createState() => _LogInPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _LogInPageState extends State<LogInPage> {
   void _navigateToPage({
     required BuildContext context,
     required String route,
@@ -34,18 +34,30 @@ class _SignUpPageState extends State<SignUpPage> {
     Navigator.of(context).pop();
   }
 
-  void _goToLogInPage(BuildContext context) {
+  void _goToSignUpPage(BuildContext context) {
     _navigateToPage(
       context: context,
-      route: LogInPage.routeName,
+      route: SignUpPage.routeName,
     );
+  }
+
+  void onTapForgetPassword() {
+    log('*** onTapForgetPassword');
+  }
+
+  void onTapLoginWithGoogle() {
+    log('*** onTapLoginWithGoogle');
+  }
+
+  void onTapLoginWithFacebook() {
+    log('*** onTapLoginWithFacebook');
   }
 
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  void onTapRegister() async {
+  void onTapLogin() async {
     bool isAcceptedPrivacyPolicy = false;
     bool isValid = false;
 
@@ -82,7 +94,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.tertiary,
-      appBar: SignUpPageAppBar(
+      appBar: LogInPageAppBar(
         iconColor: Theme.of(context).colorScheme.onBackground,
         backgroundColor: Theme.of(context).colorScheme.tertiary,
         onTap: () {
@@ -115,11 +127,11 @@ class _SignUpPageState extends State<SignUpPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Sign Up',
+                                'Log In',
                                 style: Theme.of(context).textTheme.displayLarge,
                               ),
                               Text(
-                                'Enter your details below & free sign up',
+                                '',
                                 style: Theme.of(context).textTheme.titleSmall,
                               ),
                             ],
@@ -139,76 +151,62 @@ class _SignUpPageState extends State<SignUpPage> {
                               key: _formKey,
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   AuthFormFields(
                                     emailController: _emailController,
                                     passwordController: _passwordController,
                                   ),
-                                  SizedBox(height: 16.0),
-                                  CustomButton(
-                                    title: 'Create account',
-                                    onTap: () {
-                                      onTapRegister();
+                                  ForgetPasswordButton(
+                                    onTapForgetPassword: () {
+                                      onTapForgetPassword();
                                     },
                                   ),
-                                  SizedBox(height: 16.0),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      CustomCheckBox(
-                                        acceptPrivacyPolicy:
-                                            acceptPrivacyPolicy,
-                                        changeAcceptPrivacyPolicy:
-                                            (newStatusAccept) {
-                                          acceptPrivacyPolicy = newStatusAccept;
-                                        },
-                                      ),
-                                      const SizedBox(width: 8.0),
-                                      Expanded(
-                                        child: Text(
-                                          'By creating an account you have to agree with our them & condication.',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleMedium,
-                                        ),
-                                      ),
-                                    ],
+                                  const SizedBox(height: 16.0),
+                                  CustomButton(
+                                    title: 'Log In',
+                                    onTap: () {
+                                      onTapLogin();
+                                    },
                                   ),
+                                  const SizedBox(height: 16.0),
                                   if (privacypolicyErrorText.isNotEmpty)
                                     CustomErrorText(
                                       errorText: privacypolicyErrorText,
                                     ),
-                                  SizedBox(height: 32.0),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'Already have an account？',
+                                        'Don’t have an account? ',
                                         style: Theme.of(context)
                                             .textTheme
                                             .titleMedium,
                                       ),
                                       InkWell(
-                                        onTap: () {
-                                          _goToLogInPage(context);
+                                        onTap: (){
+                                          _goToSignUpPage(context);
                                         },
                                         child: Text(
-                                          'Log in',
+                                          'Sign up',
                                           style: TextStyle(
                                             fontSize: 14.0,
                                             color: Theme.of(context)
                                                 .colorScheme
                                                 .primary,
                                             fontWeight: FontWeight.w700,
-                                            decoration:
-                                                TextDecoration.underline,
+                                            decoration: TextDecoration.underline,
                                           ),
                                         ),
                                       ),
                                     ],
-                                  )
+                                  ),
+                                  const SizedBox(height: 16.0),
+                                  LoginWithOtherServicesButtons(
+                                    onGoogle: () => onTapLoginWithGoogle(),
+                                    onFacebook: () => onTapLoginWithFacebook(),
+                                  ),
                                 ],
                               ),
                             ),
@@ -227,47 +225,86 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 }
 
-class CustomCheckBox extends StatefulWidget {
-  CustomCheckBox({
-    required this.acceptPrivacyPolicy,
-    required this.changeAcceptPrivacyPolicy,
+class LoginWithOtherServicesButtons extends StatelessWidget {
+  const LoginWithOtherServicesButtons({
+    required this.onGoogle,
+    required this.onFacebook,
     Key? key,
   }) : super(key: key);
 
-  bool acceptPrivacyPolicy;
-  final Function(bool) changeAcceptPrivacyPolicy;
+  final VoidCallback onGoogle;
+  final VoidCallback onFacebook;
 
-  @override
-  State<CustomCheckBox> createState() => _CustomCheckBoxState();
-}
-
-class _CustomCheckBoxState extends State<CustomCheckBox> {
   @override
   Widget build(BuildContext context) {
-    return widget.acceptPrivacyPolicy
-        ? InkWell(
-            child: const Icon(Icons.check_box),
-            onTap: () {
-              setState(() {
-                widget.acceptPrivacyPolicy = false;
-                widget.changeAcceptPrivacyPolicy(widget.acceptPrivacyPolicy);
-              });
-            },
-          )
-        : InkWell(
-            child: const Icon(Icons.check_box_outline_blank),
-            onTap: () {
-              setState(() {
-                widget.acceptPrivacyPolicy = true;
-                widget.changeAcceptPrivacyPolicy(widget.acceptPrivacyPolicy);
-              });
-            },
-          );
-    // : Icon(Icons.check_box_outline_blank);
+    return Column(
+      children: [
+
+        Row(
+          children: [
+            const Expanded(
+              child: Divider(),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Text(
+                'Or login with',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+            ),
+            const Expanded(
+              child: Divider(),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12.0),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            InkWell(
+              child: SvgPicture.asset(AppIcons.google),
+              onTap: () {
+                print('***SignInWith google');
+              },
+            ),
+            const SizedBox(width: 20.0),
+            InkWell(
+              child: SvgPicture.asset(AppIcons.facebook),
+              onTap: () {
+                print('***SignInWith facebook');
+              },
+            ),
+          ],
+        )
+      ],
+    );
   }
 }
 
-PreferredSizeWidget SignUpPageAppBar({
+class ForgetPasswordButton extends StatelessWidget {
+  const ForgetPasswordButton({
+    required this.onTapForgetPassword,
+    super.key,
+  });
+
+  final VoidCallback onTapForgetPassword;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTapForgetPassword,
+      child: Container(
+        alignment: Alignment.centerRight,
+        child: Text(
+          'Forget password?',
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+      ),
+    );
+  }
+}
+
+PreferredSizeWidget LogInPageAppBar({
   required Color iconColor,
   required Color backgroundColor,
   required VoidCallback onTap,

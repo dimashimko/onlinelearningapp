@@ -30,7 +30,7 @@ class AppThemes {
 
         // title
         titleMedium: TextStyle(
-          fontSize: 16,
+          fontSize: 14,
           fontWeight: FontWeight.w400,
           color: Color(0xFF858597),
           // color: AppColors.gray,
@@ -114,7 +114,7 @@ class AppThemes {
 
           // title
           titleMedium: TextStyle(
-            fontSize: 16,
+            fontSize: 14,
             fontWeight: FontWeight.w400,
             color: Color(0xFFF4F3FD),
             // color: AppColors.gray,

@@ -1,3 +1,4 @@
+import 'package:online_learning_app/pages/auth_pages/log_in_page/log_in_page.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_in_page/sign_in_page.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_up_page/sign_up_page.dart';
 import 'package:online_learning_app/pages/main_page.dart';
@@ -19,16 +20,19 @@ class AppRouter {
       case SignInPage.routeName:
         final SignInPageArguments args = arguments as SignInPageArguments;
         builder = (_) => SignInPage(
-          isFirst: args.isFirst,
-        );
+              isFirst: args.isFirst,
+            );
         break;
-
 
       case SignUpPage.routeName:
-        builder = (_) =>  SignUpPage();
+        builder = (_) => SignUpPage();
         break;
 
-    // [END] Auth pages
+      case LogInPage.routeName:
+        builder = (_) => LogInPage();
+        break;
+
+      // [END] Auth pages
 
       // [START] Profile pages
 
@@ -54,7 +58,6 @@ class AppRouter {
         break;
 
       // [END] Tickets pages
-
 
       case MainPage.routeName:
         builder = (_) => const MainPage();

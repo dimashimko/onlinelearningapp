@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:online_learning_app/pages/auth_pages/log_in_page/log_in_page.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_up_page/sign_up_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
@@ -58,6 +59,14 @@ class _SignInPageState extends State<SignInPage> {
     _navigateToPage(
       context: context,
       route: SignUpPage.routeName,
+    );
+    // testRequest();
+  }
+
+  void _goToLogInPage(BuildContext context) {
+    _navigateToPage(
+      context: context,
+      route: LogInPage.routeName,
     );
     // testRequest();
   }
@@ -183,7 +192,9 @@ class _SignInPageState extends State<SignInPage> {
                             child: CustomButtonLight(
                               title: 'Log in',
                               padding: 4,
-                              onTap: () {},
+                              onTap: () {
+                                _goToLogInPage(context);
+                              },
                             ),
                           ),
                         ],
@@ -264,7 +275,7 @@ class _CustomSlideItem extends StatelessWidget {
             child: Text(
               slideModel.description,
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.titleMedium,
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(fontSize: 16.0),
             ),
           ),
         ],

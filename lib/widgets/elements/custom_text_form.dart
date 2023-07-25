@@ -57,22 +57,11 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       decoration: InputDecoration(
         filled: true,
         fillColor: Theme.of(context).colorScheme.surfaceVariant,
-        // hoverColor: Colors.red,
-        // focusColor: Colors.red,
         errorStyle: const TextStyle(
           height: 1.0,
           fontSize: 12,
         ),
         // errorMaxLines: 2,
-/*        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(
-            widget.borderRadius,
-          ),
-          borderSide: BorderSide(
-            // color: Theme.of(context).colorScheme.outline,
-            color: Colors.red,
-          ),
-        ),*/
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(
             widget.borderRadius,
@@ -105,7 +94,6 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             widget.borderRadius,
           ),
           borderSide: BorderSide(
-            // color: Theme.of(context).colorScheme.outline,
             color: Colors.red,
           ),
         ),
@@ -114,10 +102,6 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         hintText: widget.hintText,
         hintStyle: widget.hintStyle,
         suffixIcon: widget.suffixIcon,
-/*        errorStyle: TextStyle(
-          // color: Colors.red,
-          fontSize: 14.0,
-        ),*/
         // suffixIconColor: AppColors.white,
         // contentPadding: const EdgeInsets.symmetric(horizontal: 10),
       ),
