@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/pages/auth_pages/log_in_page/log_in_page.dart';
@@ -71,25 +72,6 @@ class _SignInPageState extends State<SignInPage> {
     // testRequest();
   }
 
-  final List<_SlideModel> listSlideModel = [
-    _SlideModel(
-      illustration: AppIcons.illustration_01,
-      title: 'Numerous free trial courses',
-      description: 'Free courses for you to find your way to learning',
-    ),
-    _SlideModel(
-      illustration: AppIcons.illustration_02,
-      title: 'Quick and easy learning',
-      description:
-          'Easy and fast learning at any time to help you improve various skills',
-    ),
-    _SlideModel(
-      illustration: AppIcons.illustration_03,
-      title: 'Create your own study plan',
-      description:
-          'Study according to the study plan, make study more motivated',
-    ),
-  ];
 
   late final imageController;
 
@@ -98,6 +80,8 @@ class _SignInPageState extends State<SignInPage> {
   @override
   void initState() {
     super.initState();
+
+    // Show Auth Button
     imageController = PageController(
         viewportFraction: 1,
         keepPage: false,
@@ -208,6 +192,27 @@ class _SignInPageState extends State<SignInPage> {
       ),
     );
   }
+
+
+  final List<_SlideModel> listSlideModel = [
+    _SlideModel(
+      illustration: AppIcons.illustration_01,
+      title: 'Numerous free trial courses',
+      description: 'Free courses for you to find your way to learning',
+    ),
+    _SlideModel(
+      illustration: AppIcons.illustration_02,
+      title: 'Quick and easy learning',
+      description:
+      'Easy and fast learning at any time to help you improve various skills',
+    ),
+    _SlideModel(
+      illustration: AppIcons.illustration_03,
+      title: 'Create your own study plan',
+      description:
+      'Study according to the study plan, make study more motivated',
+    ),
+  ];
 }
 
 class CustomSmoothPageIndicator extends StatelessWidget {

@@ -6,13 +6,6 @@ bool isAuthorized() {
   return user.accessToken != null;
 }
 
-bool isMine(int? userId) {
-  final UserModel userModel = LocalDB.instance.getUser();
-
-  if (userModel.id == userId) return true;
-  return false;
-}
-
 Future<bool?> localRequest({
   int seconds = 3,
   isSuccess = true,

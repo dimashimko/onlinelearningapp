@@ -23,6 +23,10 @@ class AppRouter {
             );
         break;
 
+      case HomePage.routeName:
+        builder = (_) => const HomePage();
+        break;
+
       case SignUpPage.routeName:
         builder = (_) => SignUpPage();
         break;
@@ -48,6 +52,10 @@ class AppRouter {
         break;
 
       // [END] Tickets pages
+
+      case RootPage.routeName:
+        builder = (_) => const RootPage();
+        break;
 
       case MainPage.routeName:
         builder = (_) => const MainPage();
