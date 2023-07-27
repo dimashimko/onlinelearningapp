@@ -89,21 +89,6 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
           print('*** 2 FirebaseAuth true');
           // return _navigateToPage(MainPage.routeName);
           return _goToMainPage();
-
-          // if (localUser.uid != null) {
-          //   print('*** 3 user no first');
-          //   return _navigateToPage(MainPage.routeName);
-          //   // return _navigateToPage(SignInPage.routeName);
-          //
-          // } else {
-          //   print('*** 1 user is first');
-          //   LocalDB.instance.saveUser(
-          //     localUser.copyWith(
-          //       uid: '0',
-          //     ),
-          //   );
-          //   return _navigateToPage(RegistrationIntroPage.routeName);
-          // }
         }
 
         final UserModel user = LocalDB.instance.getUser();
