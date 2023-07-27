@@ -1,5 +1,8 @@
 import 'dart:developer';
 
+import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_up_page/sign_up_page.dart';
@@ -41,6 +44,26 @@ class _LogInPageState extends State<LogInPage> {
     );
   }
 
+  void onTapLogin() async {
+    bool isValid = false;
+
+    setState(() {
+      if (_formKey.currentState != null) {
+        isValid = _formKey.currentState!.validate();
+      }
+    });
+    if (isValid) {
+      firebaseSignIn();
+    }
+  }
+
+  Future firebaseSignIn() async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: _emailController.text.trim(),
+      password: _passwordController.text.trim(),
+    );
+  }
+
   void onTapForgetPassword() {
     log('*** onTapForgetPassword');
   }
@@ -53,42 +76,19 @@ class _LogInPageState extends State<LogInPage> {
     log('*** onTapLoginWithFacebook');
   }
 
+
+
+
+
+
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  void onTapLogin() async {
-    bool isAcceptedPrivacyPolicy = false;
-    bool isValid = false;
-
-    setState(() {
-      if (_formKey.currentState != null) {
-        isValid = _formKey.currentState!.validate();
-      }
-      isAcceptedPrivacyPolicy = valid();
-    });
-    if (isAcceptedPrivacyPolicy && isValid) {}
-  }
-
-  bool valid() {
-    bool isValid = true;
-
-    if (!acceptPrivacyPolicy) {
-      isValid = false;
-      privacypolicyErrorText = 'You need to take privacy policy';
-    } else {
-      privacypolicyErrorText = '';
-    }
-
-    return isValid;
-  }
-
   // validating
-  bool acceptPrivacyPolicy = false;
   String emailErrorText = '';
   String nameErrorText = '';
   String passwordErrorText = '';
-  String privacypolicyErrorText = '';
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +115,7 @@ class _LogInPageState extends State<LogInPage> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(
-                        height: 80,
+                        height: 90,
                         alignment: Alignment.bottomLeft,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
@@ -171,10 +171,6 @@ class _LogInPageState extends State<LogInPage> {
                                     },
                                   ),
                                   const SizedBox(height: 16.0),
-                                  if (privacypolicyErrorText.isNotEmpty)
-                                    CustomErrorText(
-                                      errorText: privacypolicyErrorText,
-                                    ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
@@ -185,7 +181,7 @@ class _LogInPageState extends State<LogInPage> {
                                             .titleMedium,
                                       ),
                                       InkWell(
-                                        onTap: (){
+                                        onTap: () {
                                           _goToSignUpPage(context);
                                         },
                                         child: Text(
@@ -196,7 +192,8 @@ class _LogInPageState extends State<LogInPage> {
                                                 .colorScheme
                                                 .primary,
                                             fontWeight: FontWeight.w700,
-                                            decoration: TextDecoration.underline,
+                                            decoration:
+                                                TextDecoration.underline,
                                           ),
                                         ),
                                       ),
@@ -239,7 +236,6 @@ class LoginWithOtherServicesButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-
         Row(
           children: [
             const Expanded(

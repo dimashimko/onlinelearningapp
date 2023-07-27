@@ -1,6 +1,7 @@
 import 'package:online_learning_app/pages/auth_pages/log_in_page/log_in_page.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_in_page/sign_in_page.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_up_page/sign_up_page.dart';
+import 'package:online_learning_app/pages/home_page/home_page.dart';
 import 'package:online_learning_app/pages/main_page.dart';
 import 'package:online_learning_app/pages/profile_pages/profile_page/profile_page.dart';
 import 'package:online_learning_app/pages/tickets_pages/ticket_details_page/ticket_details_page.dart';
@@ -22,6 +23,10 @@ class AppRouter {
         builder = (_) => SignInPage(
               isFirst: args.isFirst,
             );
+        break;
+
+      case HomePage.routeName:
+        builder = (_) => const HomePage();
         break;
 
       case SignUpPage.routeName:
@@ -58,6 +63,10 @@ class AppRouter {
         break;
 
       // [END] Tickets pages
+
+      case RootPage.routeName:
+        builder = (_) => const RootPage();
+        break;
 
       case MainPage.routeName:
         builder = (_) => const MainPage();

@@ -103,7 +103,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(
-                        height: 80,
+                        height: 90,
                         alignment: Alignment.bottomLeft,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
