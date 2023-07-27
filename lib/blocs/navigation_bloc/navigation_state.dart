@@ -7,7 +7,7 @@ class NavigationState {
   const NavigationState({
     this.status = NavigationStateStatus.initial,
     this.currentIndex = 0,
-    this.route = TicketsPage.routeName,
+    this.route = HomePage.routeName,
   });
 
   final NavigationStateStatus status;

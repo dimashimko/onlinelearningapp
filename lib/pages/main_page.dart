@@ -1,9 +1,8 @@
 import 'package:online_learning_app/blocs/navigation_bloc/navigation_bloc.dart';
+import 'package:online_learning_app/pages/home_page/home_page.dart';
 import 'package:online_learning_app/pages/profile_pages/profile_page/profile_page.dart';
-import 'package:online_learning_app/pages/tickets_pages/tickets_page/ticket_page.dart';
 import 'package:online_learning_app/routes/app_router.dart';
 import 'package:online_learning_app/widgets/navigation/custom_bottom_navigation_bar.dart';
-import 'package:online_learning_app/widgets/navigation/custom_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,10 +14,9 @@ class MainPage extends StatefulWidget {
   @override
   State<MainPage> createState() => _MainPageState();
 }
-
 class _MainPageState extends State<MainPage> {
   static const List<String> _pages = [
-    TicketsPage.routeName,
+    HomePage.routeName,
     ProfilePage.routeName,
   ];
 
@@ -73,11 +71,10 @@ class _MainPageState extends State<MainPage> {
             child: Scaffold(
               body: Navigator(
                 key: _navigatorKey,
-                initialRoute: TicketsPage.routeName,
+                initialRoute: HomePage.routeName,
                 onGenerateRoute: AppRouter.generateRoute,
               ),
               drawerEnableOpenDragGesture: false,
-              drawer: const CustomDrawer(),
               bottomNavigationBar: CustomBottomNavigationBar(
                 currentTab: state.currentIndex,
                 onSelect: (int index) {

@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:online_learning_app/pages/tickets_pages/tickets_page/ticket_page.dart';
 import 'package:meta/meta.dart';
+import 'package:online_learning_app/pages/home_page/home_page.dart';
 
 part 'navigation_event.dart';
 

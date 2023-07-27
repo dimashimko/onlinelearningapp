@@ -1,10 +1,9 @@
 import 'package:online_learning_app/pages/auth_pages/log_in_page/log_in_page.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_in_page/sign_in_page.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_up_page/sign_up_page.dart';
+import 'package:online_learning_app/pages/home_page/home_page.dart';
 import 'package:online_learning_app/pages/main_page.dart';
 import 'package:online_learning_app/pages/profile_pages/profile_page/profile_page.dart';
-import 'package:online_learning_app/pages/tickets_pages/ticket_details_page/ticket_details_page.dart';
-import 'package:online_learning_app/pages/tickets_pages/tickets_page/ticket_page.dart';
 import 'package:flutter/material.dart';
 
 class AppRouter {
@@ -44,17 +43,8 @@ class AppRouter {
 
       // [START] Tickets pages
 
-      case TicketDetailsPage.routeName:
-        final TicketDetailsPageArguments args =
-            arguments as TicketDetailsPageArguments;
-        builder = (_) => TicketDetailsPage(
-              index: args.index,
-              title: args.title,
-            );
-        break;
-
-      case TicketsPage.routeName:
-        builder = (_) => const TicketsPage();
+      case HomePage.routeName:
+        builder = (_) => const HomePage();
         break;
 
       // [END] Tickets pages

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:online_learning_app/database/local_database.dart';
 import 'package:online_learning_app/models/users/user_model.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_in_page/sign_in_page.dart';
@@ -29,49 +30,40 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
 
   void _setInitialData() {
     Timer(
-      const Duration(milliseconds: 200),
+      const Duration(milliseconds: 2000),
       () {
         final UserModel user = LocalDB.instance.getUser();
-        final String? accessToken = user.accessToken;
-        final String? refreshToken = user.refreshToken;
 
         bool isFirst = LocalDB.instance.getFlagIsFirst() == null;
         LocalDB.instance.setFlagNoFirst();
 
-        // if no token
-        if (refreshToken == null || accessToken == null) {
-          // return _navigateToPage(SignInPage.routeName);
+        if (FirebaseAuth.instance.currentUser != null) {
+          print('*** 1 FirebaseAuth true');
+          return _goToMainPage();
+        } else {
+          print('*** 1 FirebaseAuth false');
+
           return _goToSignInPage(isFirst);
         }
-
-        // if token isExpired
-        if (JwtDecoder.isExpired(refreshToken)) {
-          /*context.read<AuthBloc>().add(
-                  Logout(),
-                );*/
-
-          // return _navigateToPage(SignInPage.routeName);
-          return _goToSignInPage(isFirst);
-        }
-
-        return _navigateToPage(MainPage.routeName);
       },
     );
   }
 
   void _goToSignInPage(bool isFirst) async {
-    Navigator.pushNamed(
+    Navigator.pushNamedAndRemoveUntil(
       context,
       SignInPage.routeName,
+      (_) => false,
       arguments: SignInPageArguments(
         isFirst: isFirst,
       ),
     );
   }
 
-  void _navigateToPage(String route) {
-    Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(
-      route,
+  void _goToMainPage() async {
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      MainPage.routeName,
       (_) => false,
     );
   }

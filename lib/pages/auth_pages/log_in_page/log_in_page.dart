@@ -1,10 +1,15 @@
 import 'dart:developer';
 
+import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_up_page/sign_up_page.dart';
 import 'package:online_learning_app/pages/auth_pages/widgets/authFormFields.dart';
+import 'package:online_learning_app/pages/main_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
+import 'package:online_learning_app/services/auth_service.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/elements/custom_error_text.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
@@ -30,15 +35,46 @@ class _LogInPageState extends State<LogInPage> {
     ).pushReplacementNamed(route);
   }
 
-  void _goToBackPage(BuildContext context) {
+  void _goToBackPage() {
     Navigator.of(context).pop();
   }
 
-  void _goToSignUpPage(BuildContext context) {
+  void _goToSignUpPage() {
     _navigateToPage(
       context: context,
       route: SignUpPage.routeName,
     );
+  }
+
+  void _goToMainPage() {
+    _navigateToPage(
+      context: context,
+      route: MainPage.routeName,
+    );
+  }
+
+  void onTapLogin() async {
+    bool isValid = false;
+
+    setState(() {
+      if (_formKey.currentState != null) {
+        isValid = _formKey.currentState!.validate();
+      }
+    });
+    if (isValid) {
+      firebaseSignIn();
+    }
+  }
+
+  Future firebaseSignIn() async {
+    bool isSuccessful = await AuthService.signInWithEmailAndPassword(
+      email: _emailController.text.trim(),
+      password: _passwordController.text.trim(),
+    );
+    log('*** isSuccessful: $isSuccessful');
+    if (isSuccessful) {
+      _goToMainPage();
+    }
   }
 
   void onTapForgetPassword() {
@@ -57,38 +93,10 @@ class _LogInPageState extends State<LogInPage> {
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  void onTapLogin() async {
-    bool isAcceptedPrivacyPolicy = false;
-    bool isValid = false;
-
-    setState(() {
-      if (_formKey.currentState != null) {
-        isValid = _formKey.currentState!.validate();
-      }
-      isAcceptedPrivacyPolicy = valid();
-    });
-    if (isAcceptedPrivacyPolicy && isValid) {}
-  }
-
-  bool valid() {
-    bool isValid = true;
-
-    if (!acceptPrivacyPolicy) {
-      isValid = false;
-      privacypolicyErrorText = 'You need to take privacy policy';
-    } else {
-      privacypolicyErrorText = '';
-    }
-
-    return isValid;
-  }
-
   // validating
-  bool acceptPrivacyPolicy = false;
   String emailErrorText = '';
   String nameErrorText = '';
   String passwordErrorText = '';
-  String privacypolicyErrorText = '';
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +106,7 @@ class _LogInPageState extends State<LogInPage> {
         iconColor: Theme.of(context).colorScheme.onBackground,
         backgroundColor: Theme.of(context).colorScheme.tertiary,
         onTap: () {
-          _goToBackPage(context);
+          _goToBackPage();
         },
       ),
       body: SafeArea(
@@ -115,7 +123,7 @@ class _LogInPageState extends State<LogInPage> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(
-                        height: 80,
+                        height: 90,
                         alignment: Alignment.bottomLeft,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
@@ -171,10 +179,6 @@ class _LogInPageState extends State<LogInPage> {
                                     },
                                   ),
                                   const SizedBox(height: 16.0),
-                                  if (privacypolicyErrorText.isNotEmpty)
-                                    CustomErrorText(
-                                      errorText: privacypolicyErrorText,
-                                    ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
@@ -185,8 +189,8 @@ class _LogInPageState extends State<LogInPage> {
                                             .titleMedium,
                                       ),
                                       InkWell(
-                                        onTap: (){
-                                          _goToSignUpPage(context);
+                                        onTap: () {
+                                          _goToSignUpPage();
                                         },
                                         child: Text(
                                           'Sign up',
@@ -196,7 +200,8 @@ class _LogInPageState extends State<LogInPage> {
                                                 .colorScheme
                                                 .primary,
                                             fontWeight: FontWeight.w700,
-                                            decoration: TextDecoration.underline,
+                                            decoration:
+                                                TextDecoration.underline,
                                           ),
                                         ),
                                       ),
@@ -239,7 +244,6 @@ class LoginWithOtherServicesButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-
         Row(
           children: [
             const Expanded(
