@@ -1,10 +1,5 @@
-import 'dart:developer';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_in_page/sign_in_page.dart';
-import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/services/auth_service.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
@@ -54,12 +49,12 @@ class HomePage extends StatelessWidget {
       appBar: HomePageAppBar(),
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('HomePage'),
-              Spacer(),
+              const Text('HomePage'),
+              const Spacer(),
               CustomButton(
                 title: 'LogOut',
                 onTap: () {
@@ -77,9 +72,9 @@ class HomePage extends StatelessWidget {
 }
 
 PreferredSizeWidget HomePageAppBar() {
-  return CustomAppBar(
-    title: const Text('HomePage'),
-    action: const Text(
+  return const CustomAppBar(
+    title: Text('HomePage'),
+    action: Text(
       '          ',
       style: TextStyle(color: Colors.white),
     ),
