@@ -1,6 +1,5 @@
-
-import 'package:online_learning_app/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:online_learning_app/utils/constants.dart';
 
 class FadeInAnimation extends StatefulWidget {
   const FadeInAnimation({
@@ -27,8 +26,8 @@ class _FadeInAnimationState extends State<FadeInAnimation>
 
   @override
   void initState() {
-    _setInitialData();
     super.initState();
+    _setInitialData();
   }
 
   @override

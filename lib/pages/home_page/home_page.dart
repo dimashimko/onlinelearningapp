@@ -4,43 +4,31 @@ import 'package:online_learning_app/services/auth_service.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   static const routeName = '/';
+
   // static const routeName = '/home_pages/home_page';
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
 
-  void _navigateToPage({
-    required BuildContext context,
-    required String route,
-    bool isRoot = false,
-    Object? arguments,
-  }) {
-    Navigator.of(
-      context,
-      rootNavigator: isRoot,
-    ).pushNamed(route, arguments: arguments);
-  }
-
-  void _goToBackPage(BuildContext context) {
-    Navigator.of(context).pop();
-  }
-
-  void _goToSignInPage(BuildContext context) async {
-    Navigator.pushNamedAndRemoveUntil(
-      context,
+class _HomePageState extends State<HomePage> {
+  void _goToSignInPage() async {
+    Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(
       SignInPage.routeName,
-          (_) => false,
+      (_) => false,
       arguments: SignInPageArguments(
         isFirst: false,
       ),
     );
   }
 
-   firebaseSignOut(BuildContext context) {
+  firebaseSignOut(BuildContext context) {
     AuthService.signOut();
-    _goToSignInPage(context);
+    _goToSignInPage();
   }
 
   @override

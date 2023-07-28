@@ -1,16 +1,13 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:online_learning_app/database/local_database.dart';
-import 'package:online_learning_app/models/users/user_model.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_in_page/sign_in_page.dart';
 import 'package:online_learning_app/pages/main_page.dart';
 import 'package:online_learning_app/resources/app_colors.dart';
 import 'package:online_learning_app/resources/app_fonts.dart';
-import 'package:online_learning_app/resources/app_images.dart';
 import 'package:online_learning_app/widgets/animations/fade_in_animation.dart';
-import 'package:flutter/material.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
 
 class SplashScreenPage extends StatefulWidget {
   const SplashScreenPage({Key? key}) : super(key: key);
@@ -24,15 +21,15 @@ class SplashScreenPage extends StatefulWidget {
 class _SplashScreenPageState extends State<SplashScreenPage> {
   @override
   void initState() {
-    _setInitialData();
     super.initState();
+    _setInitialData();
   }
 
   void _setInitialData() {
     Timer(
       const Duration(milliseconds: 2000),
       () {
-        final UserModel user = LocalDB.instance.getUser();
+        // final UserModel user = LocalDB.instance.getUser();
 
         bool isFirst = LocalDB.instance.getFlagIsFirst() == null;
         LocalDB.instance.setFlagNoFirst();
@@ -50,8 +47,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
   }
 
   void _goToSignInPage(bool isFirst) async {
-    Navigator.pushNamedAndRemoveUntil(
-      context,
+    Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(
       SignInPage.routeName,
       (_) => false,
       arguments: SignInPageArguments(
@@ -61,8 +57,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
   }
 
   void _goToMainPage() async {
-    Navigator.pushNamedAndRemoveUntil(
-      context,
+    Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(
       MainPage.routeName,
       (_) => false,
     );

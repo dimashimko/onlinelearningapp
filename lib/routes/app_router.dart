@@ -15,16 +15,12 @@ class AppRouter {
     WidgetBuilder builder;
 
     switch (settings.name) {
-      // [START] Auth pages
+    // [START] Auth pages
       case SignInPage.routeName:
         final SignInPageArguments args = arguments as SignInPageArguments;
         builder = (_) => SignInPage(
-              isFirst: args.isFirst,
-            );
-        break;
-
-      case HomePage.routeName:
-        builder = (_) => const HomePage();
+          isFirst: args.isFirst,
+        );
         break;
 
       case SignUpPage.routeName:
@@ -35,27 +31,23 @@ class AppRouter {
         builder = (_) => LogInPage();
         break;
 
-      // [END] Auth pages
+    // [END] Auth pages
 
-      // [START] Profile pages
+    // [START] Profile pages
 
       case ProfilePage.routeName:
         builder = (_) => const ProfilePage();
         break;
 
-      // [END] Profile pages
+    // [END] Profile pages
 
-      // [START] Tickets pages
+    // [START] Tickets pages
 
       case HomePage.routeName:
         builder = (_) => const HomePage();
         break;
 
-      // [END] Tickets pages
-
-      case RootPage.routeName:
-        builder = (_) => const RootPage();
-        break;
+    // [END] Tickets pages
 
       case MainPage.routeName:
         builder = (_) => const MainPage();

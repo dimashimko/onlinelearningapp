@@ -1,8 +1,5 @@
 import 'dart:developer';
 
-import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_up_page/sign_up_page.dart';
@@ -11,11 +8,10 @@ import 'package:online_learning_app/pages/main_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/services/auth_service.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
-import 'package:online_learning_app/widgets/elements/custom_error_text.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
 
 class LogInPage extends StatefulWidget {
-  LogInPage({Key? key}) : super(key: key);
+  const LogInPage({Key? key}) : super(key: key);
 
   static const routeName = '/auth_pages/log_in_page';
 
@@ -24,32 +20,23 @@ class LogInPage extends StatefulWidget {
 }
 
 class _LogInPageState extends State<LogInPage> {
-  void _navigateToPage({
-    required BuildContext context,
-    required String route,
-    bool isRoot = false,
-  }) {
-    Navigator.of(
-      context,
-      rootNavigator: isRoot,
-    ).pushReplacementNamed(route);
-  }
-
   void _goToBackPage() {
     Navigator.of(context).pop();
   }
 
-  void _goToSignUpPage() {
-    _navigateToPage(
-      context: context,
-      route: SignUpPage.routeName,
+  void _goToSignUpPage() async {
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      SignUpPage.routeName,
+          (_) => false,
     );
   }
 
-  void _goToMainPage() {
-    _navigateToPage(
-      context: context,
-      route: MainPage.routeName,
+  void _goToMainPage() async {
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      MainPage.routeName,
+          (_) => false,
     );
   }
 
@@ -268,14 +255,14 @@ class LoginWithOtherServicesButtons extends StatelessWidget {
             InkWell(
               child: SvgPicture.asset(AppIcons.google),
               onTap: () {
-                print('***SignInWith google');
+                log('***SignInWith google');
               },
             ),
             const SizedBox(width: 20.0),
             InkWell(
               child: SvgPicture.asset(AppIcons.facebook),
               onTap: () {
-                print('***SignInWith facebook');
+                log('***SignInWith facebook');
               },
             ),
           ],

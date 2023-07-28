@@ -21,13 +21,13 @@ class _MainPageState extends State<MainPage> {
   ];
 
   static final GlobalKey<NavigatorState> _navigatorKey =
-      GlobalKey<NavigatorState>();
+  GlobalKey<NavigatorState>();
 
   void _onSelectMenu(String route) {
     if (_navigatorKey.currentState != null) {
       _navigatorKey.currentState!.pushNamedAndRemoveUntil(
         route,
-        (_) => false,
+            (_) => false,
       );
     }
   }
@@ -36,7 +36,7 @@ class _MainPageState extends State<MainPage> {
     if (_navigatorKey.currentState != null) {
       _navigatorKey.currentState!.pushNamedAndRemoveUntil(
         route,
-        (route) => false,
+            (route) => false,
       );
     }
   }
@@ -80,11 +80,11 @@ class _MainPageState extends State<MainPage> {
                 onSelect: (int index) {
                   if (state.currentIndex != index) {
                     context.read<NavigationBloc>().add(
-                          NavigateTab(
-                            tabIndex: index,
-                            route: _pages[index],
-                          ),
-                        );
+                      NavigateTab(
+                        tabIndex: index,
+                        route: _pages[index],
+                      ),
+                    );
                   }
                 },
               ),
