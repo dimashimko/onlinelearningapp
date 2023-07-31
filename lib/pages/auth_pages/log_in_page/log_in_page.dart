@@ -1,12 +1,15 @@
 import 'dart:developer';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_up_page/sign_up_page.dart';
+import 'package:online_learning_app/pages/auth_pages/verify_phone_page/verify_phone_page.dart';
 import 'package:online_learning_app/pages/auth_pages/widgets/authFormFields.dart';
 import 'package:online_learning_app/pages/main_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/services/auth_service.dart';
+import 'package:online_learning_app/utils/showCustomSnackBar.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
 
@@ -28,7 +31,7 @@ class _LogInPageState extends State<LogInPage> {
     Navigator.pushNamedAndRemoveUntil(
       context,
       SignUpPage.routeName,
-          (_) => false,
+      (_) => false,
     );
   }
 
@@ -36,10 +39,33 @@ class _LogInPageState extends State<LogInPage> {
     Navigator.pushNamedAndRemoveUntil(
       context,
       MainPage.routeName,
-          (_) => false,
+      (_) => false,
     );
   }
 
+  void _goToVerifyPhonePage({
+    required String verificationId,
+  }) async {
+    Navigator.pushNamed(
+      context,
+      VerifyPhonePage.routeName,
+      arguments: VerifyPhonePageArguments(
+        phoneNumber: _contactController.text.trim().replaceAll(' ', ''),
+        verificationId: verificationId,
+      ),
+    );
+  }
+
+
+  final _contactController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  // for validating
+  String emailErrorText = '';
+  String nameErrorText = '';
+  String passwordErrorText = '';
+
+  // METHODS
   void onTapLogin() async {
     bool isValid = false;
 
@@ -49,18 +75,77 @@ class _LogInPageState extends State<LogInPage> {
       }
     });
     if (isValid) {
-      firebaseSignIn();
+    // if (true) {
+      if(_contactController.text.contains('@')){
+        firebaseSignInWithEmail();
+      } else {
+        firebaseAuthWithPhone();
+      }
+      // _goToVerifyPhonePage();
     }
   }
 
-  Future firebaseSignIn() async {
-    bool isSuccessful = await AuthService.signInWithEmailAndPassword(
-      email: _emailController.text.trim(),
-      password: _passwordController.text.trim(),
+  Future firebaseAuthWithPhone() async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(
+        child: CircularProgressIndicator(),
+      ),
     );
-    log('*** isSuccessful: $isSuccessful');
-    if (isSuccessful) {
-      _goToMainPage();
+    await FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: _contactController.text.trim().replaceAll(' ', ''),
+      verificationCompleted: (PhoneAuthCredential credential) async {
+        log("*** verificationCompleted");
+        await FirebaseAuth.instance.signInWithCredential(credential);
+        if (FirebaseAuth.instance.currentUser != null) {
+          _goToMainPage();
+        }
+      },
+      verificationFailed: (FirebaseAuthException e) {
+        log("*** verificationFailed");
+        Navigator.of(context).pop();
+        log('*** e.code: ${e.code}');
+        log('*** e.message: ${e.message}');
+        showCustomSnackBar(context, e.message);
+      },
+      codeSent: (String verificationId, int? resendToken) async {
+        log("*** codeSent");
+        _goToVerifyPhonePage(verificationId: verificationId);
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {
+        Navigator.of(context).pop();
+        log('*** SMS code handling fails');
+        showCustomSnackBar(context, 'SMS code handling fails');
+      },
+    );
+  }
+
+  Future firebaseSignInWithEmail() async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _contactController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+      if (FirebaseAuth.instance.currentUser != null) {
+        _goToMainPage();
+      }
+    } on FirebaseAuthException catch (e) {
+      Navigator.of(context).pop();
+      log('*** e.code: ${e.code}');
+      log('*** e.message: ${e.message}');
+      showCustomSnackBar(context, e.message);
+    } catch (e) {
+      log('*** Unhandled error: ${e.toString()}');
+      showCustomSnackBar(context, 'SomeError');
     }
   }
 
@@ -75,15 +160,6 @@ class _LogInPageState extends State<LogInPage> {
   void onTapLoginWithFacebook() {
     log('*** onTapLoginWithFacebook');
   }
-
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-
-  // validating
-  String emailErrorText = '';
-  String nameErrorText = '';
-  String passwordErrorText = '';
 
   @override
   Widget build(BuildContext context) {
@@ -150,13 +226,9 @@ class _LogInPageState extends State<LogInPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   AuthFormFields(
-                                    emailController: _emailController,
+                                    contactController: _contactController,
                                     passwordController: _passwordController,
-                                  ),
-                                  ForgetPasswordButton(
-                                    onTapForgetPassword: () {
-                                      onTapForgetPassword();
-                                    },
+                                    onTapForgetPassword: onTapForgetPassword,
                                   ),
                                   const SizedBox(height: 16.0),
                                   CustomButton(
@@ -272,28 +344,6 @@ class LoginWithOtherServicesButtons extends StatelessWidget {
   }
 }
 
-class ForgetPasswordButton extends StatelessWidget {
-  const ForgetPasswordButton({
-    required this.onTapForgetPassword,
-    super.key,
-  });
-
-  final VoidCallback onTapForgetPassword;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTapForgetPassword,
-      child: Container(
-        alignment: Alignment.centerRight,
-        child: Text(
-          'Forget password?',
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-      ),
-    );
-  }
-}
 
 PreferredSizeWidget LogInPageAppBar({
   required Color iconColor,

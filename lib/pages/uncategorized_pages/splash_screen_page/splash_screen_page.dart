@@ -27,7 +27,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
 
   void _setInitialData() {
     Timer(
-      const Duration(milliseconds: 2000),
+      const Duration(milliseconds: 200),
       () {
         // final UserModel user = LocalDB.instance.getUser();
 

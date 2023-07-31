@@ -18,11 +18,11 @@ class BaseRepository {
       PrettyDioLogger(
         requestBody: true,
       ),
-      InterceptorsWrapper(
+/*      InterceptorsWrapper(
         onRequest: (RequestOptions options, handler) async {
           final UserModel user = LocalDB.instance.getUser();
           final String? accessToken = user.accessToken;
-          final String? refreshTokenS = user.refreshToken;
+          final String? refreshTokenS = user.verificationId;
 
           if (accessToken != null && refreshTokenS != null) {
             if (options.headers['Authorization'] == null) {
@@ -54,7 +54,7 @@ class BaseRepository {
         onError: (DioError error, handler) {
           return handler.next(error);
         },
-      ),
+      ),*/
     ]);
   }
 

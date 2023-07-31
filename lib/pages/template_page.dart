@@ -4,7 +4,7 @@ import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
 
 class TemplatePage extends StatelessWidget {
-  const TemplatePage({Key? key}) : super(key: key);
+   TemplatePage({Key? key}) : super(key: key);
 
   static const routeName = '/template_pages/template_page';
 

@@ -1,9 +1,16 @@
+import 'dart:developer';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/pages/auth_pages/log_in_page/log_in_page.dart';
+import 'package:online_learning_app/pages/auth_pages/verify_phone_page/verify_phone_page.dart';
 import 'package:online_learning_app/pages/auth_pages/widgets/authFormFields.dart';
+import 'package:online_learning_app/pages/main_page.dart';
 import 'package:online_learning_app/resources/app_colors.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
+import 'package:online_learning_app/services/auth_service.dart';
+import 'package:online_learning_app/utils/showCustomSnackBar.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/elements/custom_error_text.dart';
 import 'package:online_learning_app/widgets/elements/custom_text_form.dart';
@@ -41,42 +48,129 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  final _emailController = TextEditingController();
+  void _goToVerifyPhonePage({
+    required String verificationId,
+  }) async {
+    Navigator.pushNamed(
+      context,
+      VerifyPhonePage.routeName,
+      arguments: VerifyPhonePageArguments(
+        phoneNumber: _contactController.text.trim().replaceAll(' ', ''),
+        verificationId: verificationId,
+      ),
+    );
+  }
+
+  void _goToMainPage() async {
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      MainPage.routeName,
+      (_) => false,
+    );
+  }
+
+  final _contactController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  void onTapRegister() async {
+  // validating
+  bool acceptPrivacyPolicy = false;
+  String privacyPolicyErrorText = '';
+
+  void onTapCreateAccount() async {
     bool isAcceptedPrivacyPolicy = false;
-    bool isValid = false;
+    bool isFormsValid = false;
 
     setState(() {
       if (_formKey.currentState != null) {
-        isValid = _formKey.currentState!.validate();
+        isFormsValid = _formKey.currentState!.validate();
       }
-      isAcceptedPrivacyPolicy = valid();
+      isAcceptedPrivacyPolicy = validAcceptedPrivacyPolicy();
     });
-    if (isAcceptedPrivacyPolicy && isValid) {}
+    if (isAcceptedPrivacyPolicy && isFormsValid) {
+      if (_contactController.text.contains('@')) {
+        firebaseSignUpWithEmail();
+      } else {
+        firebaseAuthWithPhone();
+      }
+    }
   }
 
-  bool valid() {
+  Future firebaseAuthWithPhone() async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+    await FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: _contactController.text.trim().replaceAll(' ', ''),
+      verificationCompleted: (PhoneAuthCredential credential) async {
+        log("*** verificationCompleted");
+        await FirebaseAuth.instance.signInWithCredential(credential);
+        if (FirebaseAuth.instance.currentUser != null) {
+          _goToMainPage();
+        }
+      },
+      verificationFailed: (FirebaseAuthException e) {
+        log("*** verificationFailed");
+        Navigator.of(context).pop();
+        log('*** e.code: ${e.code}');
+        log('*** e.message: ${e.message}');
+        showCustomSnackBar(context, e.message);
+      },
+      codeSent: (String verificationId, int? resendToken) async {
+        log("*** codeSent");
+        _goToVerifyPhonePage(verificationId: verificationId);
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {
+        Navigator.of(context).pop();
+        log('*** SMS code handling fails');
+        showCustomSnackBar(context, 'SMS code handling fails');
+      },
+    );
+  }
+
+  Future firebaseSignUpWithEmail() async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+
+    try {
+      final UserCredential credential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: _contactController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+      _goToMainPage();
+    } on FirebaseAuthException catch (e) {
+      Navigator.of(context).pop();
+      log('*** e.code: ${e.code}');
+      log('*** e.message: ${e.message}');
+      showCustomSnackBar(context, e.message);
+    } catch (e) {
+      log('*** Unhandled error: ${e.toString()}');
+      showCustomSnackBar(context, 'SomeError');
+    }
+  }
+
+  bool validAcceptedPrivacyPolicy() {
     bool isValid = true;
 
     if (!acceptPrivacyPolicy) {
       isValid = false;
-      privacypolicyErrorText = 'You need to take privacy policy';
+      privacyPolicyErrorText = 'You need to take privacy policy';
     } else {
-      privacypolicyErrorText = '';
+      privacyPolicyErrorText = '';
     }
 
     return isValid;
   }
-
-  // validating
-  bool acceptPrivacyPolicy = false;
-  String emailErrorText = '';
-  String nameErrorText = '';
-  String passwordErrorText = '';
-  String privacypolicyErrorText = '';
 
   @override
   Widget build(BuildContext context) {
@@ -142,14 +236,14 @@ class _SignUpPageState extends State<SignUpPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   AuthFormFields(
-                                    emailController: _emailController,
+                                    contactController: _contactController,
                                     passwordController: _passwordController,
                                   ),
                                   SizedBox(height: 16.0),
                                   CustomButton(
                                     title: 'Create account',
                                     onTap: () {
-                                      onTapRegister();
+                                      onTapCreateAccount();
                                     },
                                   ),
                                   SizedBox(height: 16.0),
@@ -176,9 +270,9 @@ class _SignUpPageState extends State<SignUpPage> {
                                       ),
                                     ],
                                   ),
-                                  if (privacypolicyErrorText.isNotEmpty)
+                                  if (privacyPolicyErrorText.isNotEmpty)
                                     CustomErrorText(
-                                      errorText: privacypolicyErrorText,
+                                      errorText: privacyPolicyErrorText,
                                     ),
                                   SizedBox(height: 32.0),
                                   Row(

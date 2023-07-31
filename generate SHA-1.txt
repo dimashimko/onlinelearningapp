@@ -1,0 +1,9 @@
+@dimashimko 
+
+cd android               
+
+and the following command to get the report:
+
+./gradlew signingReport
+
+then it will show the signingReport which you can retrieve the SHA-1 from it.

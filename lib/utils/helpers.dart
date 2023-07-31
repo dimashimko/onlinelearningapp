@@ -1,10 +1,10 @@
 import 'package:online_learning_app/database/local_database.dart';
 import 'package:online_learning_app/models/users/user_model.dart';
 
-bool isAuthorized() {
+/*bool isAuthorized() {
   final UserModel user = LocalDB.instance.getUser();
   return user.accessToken != null;
-}
+}*/
 
 Future<bool?> localRequest({
   int seconds = 3,

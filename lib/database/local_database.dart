@@ -51,7 +51,7 @@ class LocalDB {
 
     if (isFirst != null) return;
 
-    await saveUser(const UserModel());
+    await saveUser(UserModel());
     await clearStorage.writeLaunch(false);
   }
 

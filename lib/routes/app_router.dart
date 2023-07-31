@@ -1,6 +1,7 @@
 import 'package:online_learning_app/pages/auth_pages/log_in_page/log_in_page.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_in_page/sign_in_page.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_up_page/sign_up_page.dart';
+import 'package:online_learning_app/pages/auth_pages/verify_phone_page/verify_phone_page.dart';
 import 'package:online_learning_app/pages/home_page/home_page.dart';
 import 'package:online_learning_app/pages/main_page.dart';
 import 'package:online_learning_app/pages/profile_pages/profile_page/profile_page.dart';
@@ -15,12 +16,12 @@ class AppRouter {
     WidgetBuilder builder;
 
     switch (settings.name) {
-    // [START] Auth pages
+      // [START] Auth pages
       case SignInPage.routeName:
         final SignInPageArguments args = arguments as SignInPageArguments;
         builder = (_) => SignInPage(
-          isFirst: args.isFirst,
-        );
+              isFirst: args.isFirst,
+            );
         break;
 
       case SignUpPage.routeName:
@@ -28,26 +29,34 @@ class AppRouter {
         break;
 
       case LogInPage.routeName:
-        builder = (_) => LogInPage();
+        builder = (_) => const LogInPage();
         break;
 
-    // [END] Auth pages
+      case VerifyPhonePage.routeName:
+        final VerifyPhonePageArguments args = arguments as VerifyPhonePageArguments;
+        builder = (_) => VerifyPhonePage(
+          phoneNumber: args.phoneNumber,
+          verificationId: args.verificationId,
+        );
+        break;
 
-    // [START] Profile pages
+      // [END] Auth pages
+
+      // [START] Profile pages
 
       case ProfilePage.routeName:
         builder = (_) => const ProfilePage();
         break;
 
-    // [END] Profile pages
+      // [END] Profile pages
 
-    // [START] Tickets pages
+      // [START] Tickets pages
 
       case HomePage.routeName:
         builder = (_) => const HomePage();
         break;
 
-    // [END] Tickets pages
+      // [END] Tickets pages
 
       case MainPage.routeName:
         builder = (_) => const MainPage();
