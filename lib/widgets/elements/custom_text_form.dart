@@ -43,6 +43,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   Widget build(BuildContext context) {
     return TextFormField(
       textAlign: TextAlign.left,
+      key: widget.key,
 
       // textAlign: TextAlign.center, // Set text alignment to center
       inputFormatters: widget.inputFormatters,

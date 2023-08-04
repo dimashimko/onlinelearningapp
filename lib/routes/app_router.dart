@@ -1,11 +1,13 @@
+import 'package:online_learning_app/pages/account_page/account_page.dart';
 import 'package:online_learning_app/pages/auth_pages/log_in_page/log_in_page.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_in_page/sign_in_page.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_up_page/sign_up_page.dart';
 import 'package:online_learning_app/pages/auth_pages/verify_phone_page/verify_phone_page.dart';
+import 'package:online_learning_app/pages/course_page/course_page.dart';
 import 'package:online_learning_app/pages/home_page/home_page.dart';
 import 'package:online_learning_app/pages/main_page.dart';
-import 'package:online_learning_app/pages/profile_pages/profile_page/profile_page.dart';
 import 'package:flutter/material.dart';
+import 'package:online_learning_app/pages/message_page/message_page.dart';
 
 class AppRouter {
   const AppRouter._();
@@ -33,33 +35,34 @@ class AppRouter {
         break;
 
       case VerifyPhonePage.routeName:
-        final VerifyPhonePageArguments args = arguments as VerifyPhonePageArguments;
+        final VerifyPhonePageArguments args =
+            arguments as VerifyPhonePageArguments;
         builder = (_) => VerifyPhonePage(
-          phoneNumber: args.phoneNumber,
-          verificationId: args.verificationId,
-        );
+              phoneNumber: args.phoneNumber,
+              verificationId: args.verificationId,
+            );
         break;
 
       // [END] Auth pages
 
-      // [START] Profile pages
-
-      case ProfilePage.routeName:
-        builder = (_) => const ProfilePage();
+      case MainPage.routeName:
+        builder = (_) => const MainPage();
         break;
-
-      // [END] Profile pages
-
-      // [START] Tickets pages
 
       case HomePage.routeName:
         builder = (_) => const HomePage();
         break;
 
-      // [END] Tickets pages
+      case CoursePage.routeName:
+        builder = (_) => const CoursePage();
+        break;
 
-      case MainPage.routeName:
-        builder = (_) => const MainPage();
+      case MessagePage.routeName:
+        builder = (_) => const MessagePage();
+        break;
+
+      case AccountPage.routeName:
+        builder = (_) => const AccountPage();
         break;
 
       default:

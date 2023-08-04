@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:online_learning_app/models/users/user_model.dart';
 import 'package:online_learning_app/repositories/base_repository.dart';
 import 'package:online_learning_app/repositories/local_repository.dart';
@@ -193,6 +194,7 @@ class AuthService {
   static Future<bool> signOut() async {
     try {
       await FirebaseAuth.instance.signOut();
+      await GoogleSignIn().signOut();
       return true;
     } catch (e) {
       log(e.toString());

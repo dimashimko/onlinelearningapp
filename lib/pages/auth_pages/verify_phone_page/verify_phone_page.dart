@@ -3,9 +3,11 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:online_learning_app/pages/auth_pages/widgets/successfulRegistrationDialog.dart';
 import 'package:online_learning_app/pages/main_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/services/auth_service.dart';
+import 'package:online_learning_app/utils/showCustomSnackBar.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -37,33 +39,6 @@ class VerifyPhonePage extends StatefulWidget {
 }
 
 class _VerifyPhonePageState extends State<VerifyPhonePage> {
-  Future<void> _onTapVerify() async {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => const Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
-    final bool isValid =
-        _pinController.text.length == VerifyPhonePage.pinLength;
-    print('*** isValid: $isValid');
-    if (!isValid) return;
-    PhoneAuthCredential credential = PhoneAuthProvider.credential(
-      verificationId: widget.verificationId,
-      smsCode: _pinController.text.trim(),
-    );
-
-    await FirebaseAuth.instance.signInWithCredential(credential);
-    if (FirebaseAuth.instance.currentUser != null) {
-      _goToMainPage();
-    }
-
-/*    bool isSuccessful =
-        await AuthService.authWithPhoneNumberStep2(_pinController.text.trim());
-    isSuccessful ? _goToMainPage() : () {};*/
-  }
-
   void _goToMainPage() async {
     Navigator.pushNamedAndRemoveUntil(
       context,
@@ -77,6 +52,37 @@ class _VerifyPhonePageState extends State<VerifyPhonePage> {
   }
 
   final TextEditingController _pinController = TextEditingController();
+
+  Future<void> _onTapVerify() async {
+
+    final bool isValid =
+        _pinController.text.length == VerifyPhonePage.pinLength;
+    log('*** isValid: $isValid');
+    if (!isValid) {
+      showCustomSnackBar(context, 'Pin must contain 6 digits');
+      return;
+    }
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+
+    PhoneAuthCredential credential = PhoneAuthProvider.credential(
+      verificationId: widget.verificationId,
+      smsCode: _pinController.text.trim(),
+    );
+
+    await FirebaseAuth.instance.signInWithCredential(credential);
+    if (FirebaseAuth.instance.currentUser != null) {
+      _goToMainPage();
+      // _showCompleteRegistrationDialog();
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {

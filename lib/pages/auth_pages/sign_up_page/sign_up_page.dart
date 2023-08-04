@@ -6,14 +6,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/pages/auth_pages/log_in_page/log_in_page.dart';
 import 'package:online_learning_app/pages/auth_pages/verify_phone_page/verify_phone_page.dart';
 import 'package:online_learning_app/pages/auth_pages/widgets/authFormFields.dart';
+import 'package:online_learning_app/pages/auth_pages/widgets/successfulRegistrationDialog.dart';
 import 'package:online_learning_app/pages/main_page.dart';
-import 'package:online_learning_app/resources/app_colors.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
-import 'package:online_learning_app/services/auth_service.dart';
 import 'package:online_learning_app/utils/showCustomSnackBar.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/elements/custom_error_text.dart';
-import 'package:online_learning_app/widgets/elements/custom_text_form.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -72,12 +70,27 @@ class _SignUpPageState extends State<SignUpPage> {
   final _contactController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  final _contentFormFieldKey = GlobalKey<FormFieldState>();
 
   // validating
   bool acceptPrivacyPolicy = false;
   String privacyPolicyErrorText = '';
 
+  void _showCompleteRegistrationDialog() async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return SuccessRegistrationDialog(
+          onTapDone: () => _goToMainPage(),
+        );
+      },
+    );
+  }
+
   void onTapCreateAccount() async {
+    // return _showCompleteRegistrationDialog();
+
     bool isAcceptedPrivacyPolicy = false;
     bool isFormsValid = false;
 
@@ -110,7 +123,7 @@ class _SignUpPageState extends State<SignUpPage> {
         log("*** verificationCompleted");
         await FirebaseAuth.instance.signInWithCredential(credential);
         if (FirebaseAuth.instance.currentUser != null) {
-          _goToMainPage();
+          _showCompleteRegistrationDialog();
         }
       },
       verificationFailed: (FirebaseAuthException e) {
@@ -147,7 +160,10 @@ class _SignUpPageState extends State<SignUpPage> {
         email: _contactController.text.trim(),
         password: _passwordController.text.trim(),
       );
-      _goToMainPage();
+      if (FirebaseAuth.instance.currentUser != null) {
+        _showCompleteRegistrationDialog();
+      }
+      // _goToMainPage();
     } on FirebaseAuthException catch (e) {
       Navigator.of(context).pop();
       log('*** e.code: ${e.code}');
@@ -238,15 +254,16 @@ class _SignUpPageState extends State<SignUpPage> {
                                   AuthFormFields(
                                     contactController: _contactController,
                                     passwordController: _passwordController,
+                                    contentFormFieldKey: _contentFormFieldKey,
                                   ),
-                                  SizedBox(height: 16.0),
+                                  const SizedBox(height: 16.0),
                                   CustomButton(
                                     title: 'Create account',
                                     onTap: () {
                                       onTapCreateAccount();
                                     },
                                   ),
-                                  SizedBox(height: 16.0),
+                                  const SizedBox(height: 16.0),
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -274,7 +291,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                     CustomErrorText(
                                       errorText: privacyPolicyErrorText,
                                     ),
-                                  SizedBox(height: 32.0),
+                                  const SizedBox(height: 32.0),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
@@ -386,3 +403,4 @@ PreferredSizeWidget SignUpPageAppBar({
     ),
   );
 }
+

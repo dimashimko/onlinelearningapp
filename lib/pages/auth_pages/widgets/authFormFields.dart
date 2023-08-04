@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:online_learning_app/widgets/animations/appear_in_animation.dart';
 import 'package:online_learning_app/widgets/animations/fade_in_animation.dart';
@@ -9,13 +10,16 @@ class AuthFormFields extends StatefulWidget {
   const AuthFormFields({
     required this.contactController,
     required this.passwordController,
+    required this.contentFormFieldKey,
     this.onTapForgetPassword,
     super.key,
   });
 
   final TextEditingController contactController;
   final TextEditingController passwordController;
+  final GlobalKey<FormFieldState> contentFormFieldKey;
   final VoidCallback? onTapForgetPassword;
+
 
   @override
   State<AuthFormFields> createState() => _AuthFormFieldsState();
@@ -53,6 +57,7 @@ class _AuthFormFieldsState extends State<AuthFormFields> {
           style: Theme.of(context).textTheme.titleMedium,
         ),
         CustomTextFormField(
+          // key: widget.contentFormFieldKey,
           controller: widget.contactController,
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.next,
@@ -63,6 +68,8 @@ class _AuthFormFieldsState extends State<AuthFormFields> {
                   if (value == null) return null;
                   if (value.isEmpty) {
                     return 'Enter your email';
+                  } else if (!EmailValidator.validate(value)) {
+                    return 'Email is incorrect';
                   }
                   return null;
                 }
@@ -111,7 +118,7 @@ class _AuthFormFieldsState extends State<AuthFormFields> {
               return null;
             },
           ),
-        if (widget.onTapForgetPassword != null)
+        if (_isEmail && widget.onTapForgetPassword != null)
           ForgetPasswordButton(
             onTapForgetPassword: () {
               widget.onTapForgetPassword!();
@@ -137,10 +144,10 @@ class ForgetPasswordButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTapForgetPassword,
-      child: Container(
-        alignment: Alignment.centerRight,
+    return Container(
+      alignment: Alignment.centerRight,
+      child: InkWell(
+        onTap: onTapForgetPassword,
         child: Text(
           'Forget password?',
           style: Theme.of(context).textTheme.titleMedium,

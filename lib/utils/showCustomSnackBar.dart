@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 
 showCustomSnackBar(
   BuildContext context,
-  String? message,) {
+  String? message, [
+  bool isError = true,
+]) {
   if (message != null && message.isNotEmpty) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        duration: const Duration(seconds: 10),
-        content: Text('Error: $message'),
+        duration: const Duration(seconds: 5),
+        content: Text('${isError ? 'Error: ' : ''} $message'),
         showCloseIcon: true,
       ),
     );

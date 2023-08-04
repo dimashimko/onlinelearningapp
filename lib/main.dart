@@ -19,14 +19,14 @@ import 'package:online_learning_app/widgets/uncategorized/system_overlay.dart';
 void _errorHandler(Object error, StackTrace stack) {
   log(
     '\nError description: $error'
-        '\nStackTrace:\n$stack',
+    '\nStackTrace:\n$stack',
     name: 'Error handler',
   );
 }
 
 Future<void> main() async {
   await runZonedGuarded<Future<void>>(
-        () async {
+    () async {
       WidgetsFlutterBinding.ensureInitialized();
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
@@ -45,7 +45,6 @@ Future<void> main() async {
         ),
       );
       EasyLocalization.logger.enableBuildModes = [];
-
     },
     _errorHandler,
   );

@@ -1,6 +1,10 @@
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/blocs/navigation_bloc/navigation_bloc.dart';
+import 'package:online_learning_app/pages/account_page/account_page.dart';
+import 'package:online_learning_app/pages/course_page/course_page.dart';
 import 'package:online_learning_app/pages/home_page/home_page.dart';
-import 'package:online_learning_app/pages/profile_pages/profile_page/profile_page.dart';
+import 'package:online_learning_app/pages/message_page/message_page.dart';
+import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/routes/app_router.dart';
 import 'package:online_learning_app/widgets/navigation/custom_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -14,20 +18,24 @@ class MainPage extends StatefulWidget {
   @override
   State<MainPage> createState() => _MainPageState();
 }
+
 class _MainPageState extends State<MainPage> {
   static const List<String> _pages = [
     HomePage.routeName,
-    ProfilePage.routeName,
+    CoursePage.routeName,
+    MessagePage.routeName,
+    MessagePage.routeName,
+    AccountPage.routeName,
   ];
 
   static final GlobalKey<NavigatorState> _navigatorKey =
-  GlobalKey<NavigatorState>();
+      GlobalKey<NavigatorState>();
 
   void _onSelectMenu(String route) {
     if (_navigatorKey.currentState != null) {
       _navigatorKey.currentState!.pushNamedAndRemoveUntil(
         route,
-            (_) => false,
+        (_) => false,
       );
     }
   }
@@ -36,7 +44,7 @@ class _MainPageState extends State<MainPage> {
     if (_navigatorKey.currentState != null) {
       _navigatorKey.currentState!.pushNamedAndRemoveUntil(
         route,
-            (route) => false,
+        (route) => false,
       );
     }
   }
@@ -75,16 +83,26 @@ class _MainPageState extends State<MainPage> {
                 onGenerateRoute: AppRouter.generateRoute,
               ),
               drawerEnableOpenDragGesture: false,
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.miniCenterDocked,
+              floatingActionButton: Padding(
+                padding: const EdgeInsets.only(top: 32.0),
+                child: SvgPicture.asset(
+                  Theme.of(context).brightness == Brightness.dark
+                      ? AppIcons.search_dark
+                      : AppIcons.search_light,
+                ),
+              ),
               bottomNavigationBar: CustomBottomNavigationBar(
                 currentTab: state.currentIndex,
                 onSelect: (int index) {
                   if (state.currentIndex != index) {
                     context.read<NavigationBloc>().add(
-                      NavigateTab(
-                        tabIndex: index,
-                        route: _pages[index],
-                      ),
-                    );
+                          NavigateTab(
+                            tabIndex: index,
+                            route: _pages[index],
+                          ),
+                        );
                   }
                 },
               ),

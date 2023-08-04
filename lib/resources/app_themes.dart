@@ -27,8 +27,19 @@ class AppThemes {
           fontWeight: FontWeight.w700,
           color: Color(0xFF1F1F39),
         ),
+        displaySmall: TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.w700,
+          color: Color(0xFF1F1F39),
+        ),
 
         // title
+        titleLarge: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+          color: Color(0xFF858597),
+          // color: AppColors.gray,
+        ),
         titleMedium: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w400,
@@ -43,6 +54,11 @@ class AppThemes {
         ),
 
         // label
+        labelLarge: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+          color: Color(0xFF1F1F39), // text in button1
+        ),
         labelMedium: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w500,
@@ -73,6 +89,7 @@ class AppThemes {
         outlineVariant: const Color(0xFFB8B8D2), // 4 outlineBorder
         surface: const Color(0xFFFFFFFF), // substrate in SignUpPage...
         surfaceVariant: const Color(0xFFFFFFFF), // color in TextForm
+        scrim: const Color(0xFFF4F3FD), // color in TextForm
       ),
     );
   }
@@ -92,6 +109,7 @@ class AppThemes {
         outlineVariant: const Color(0xFFB8B8D2), // 4 outlineBorder
         surface: const Color(0xFF2F2F42), // substrate in SignUpPage...
         surfaceVariant: const Color(0xFF3E3E55), // color in TextForm
+        scrim: const Color(0xFFB8B8D2), // color in TextForm
       ),
       useMaterial3: true,
         textSelectionTheme: const TextSelectionThemeData(
@@ -111,8 +129,18 @@ class AppThemes {
             fontWeight: FontWeight.w700,
             color: Color(0xFFEAEAFF),
           ),
+          displaySmall: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.w700,
+            color: Color(0xFFF4F3FD),
+          ),
 
           // title
+          labelLarge: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            color: Color(0xFFFFFFFF), // text in button1
+          ),
           titleMedium: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w400,
@@ -127,6 +155,12 @@ class AppThemes {
           ),
 
           // label
+          titleLarge: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
+            color: Color(0xFFB8B8D2),
+            // color: AppColors.gray,
+          ),
           labelMedium: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,

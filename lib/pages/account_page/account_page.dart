@@ -3,10 +3,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
 
-class TemplatePage extends StatelessWidget {
-  const TemplatePage({Key? key}) : super(key: key);
+class AccountPage extends StatelessWidget {
+  const AccountPage({Key? key}) : super(key: key);
 
-  static const routeName = '/template_pages/template_page';
+  static const routeName = '/account_page/account_page';
 
   void _navigateToPage({
     required BuildContext context,
@@ -27,16 +27,17 @@ class TemplatePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TemplatePageAppBar(onTap: () {
+      appBar: MessagePageAppBar(onTap: () {
         _goToBackPage(context);
       }),
-      body: SafeArea(
+      body: const SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: EdgeInsets.all(20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('TemplatePage'),
+              Placeholder(),
+              Text('AccountPage'),
             ],
           ),
         ),
@@ -45,14 +46,14 @@ class TemplatePage extends StatelessWidget {
   }
 }
 
-PreferredSizeWidget TemplatePageAppBar({
+PreferredSizeWidget MessagePageAppBar({
   required VoidCallback onTap,
 }) {
   return CustomAppBar(
     leading: SvgPicture.asset(AppIcons.arrow_back),
-    onLeading: onTap,
-    title: Text('title'),
-    action: Text(
+    onLeading: (){},
+    title: const Text('AccountPage'),
+    action: const Text(
       '          ',
       style: TextStyle(color: Colors.white),
     ),

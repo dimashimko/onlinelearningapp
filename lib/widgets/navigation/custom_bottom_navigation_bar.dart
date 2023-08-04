@@ -15,18 +15,31 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
   static const List<_BottomNavigationBarItem> _items = [
     _BottomNavigationBarItem(
-      iconPath: AppIcons.ticket,
-      title: 'Билеты',
+      iconPath: AppIcons.home,
+      title: 'Home',
     ),
     _BottomNavigationBarItem(
-      iconPath: AppIcons.profile,
-      title: 'Профиль',
+      iconPath: AppIcons.course,
+      title: 'Course',
+    ),
+    _BottomNavigationBarItem(
+      iconPath: AppIcons.search,
+      title: 'Search',
+    ),
+    _BottomNavigationBarItem(
+      iconPath: AppIcons.message,
+      title: 'Message',
+    ),
+    _BottomNavigationBarItem(
+      iconPath: AppIcons.account,
+      title: 'Account',
     ),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Colors.transparent,
       width: double.infinity,
       constraints: const BoxConstraints(
         minHeight: kBottomNavigationBarHeight,
@@ -34,41 +47,56 @@ class CustomBottomNavigationBar extends StatelessWidget {
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewPadding.bottom / 2,
       ),
-      decoration: BoxDecoration(
+/*      decoration: BoxDecoration(
         border: Border(
           top: BorderSide(
             width: 1.0,
             color: AppColors.secondary.withOpacity(0.1),
           ),
         ),
-      ),
+      ),*/
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: _items.map((e) {
           final int i = _items.indexOf(e);
 
           return Flexible(
             child: SizedBox(
               width: double.infinity,
-              height: kBottomNavigationBarHeight,
+              // height: kBottomNavigationBarHeight,
+              height: 72.0,
               child: Material(
-                color: AppColors.scaffold,
+                // color: Theme.of(context).colorScheme.background,
+                // color: Colors.transparent,
+                color: Colors.transparent,
                 child: InkWell(
                   onTap: () => onSelect(i),
-                  highlightColor: Colors.transparent,
+                  // highlightColor: Colors.transparent,
+                  // highlightColor: Colors.red,
+                  // highlightColor: Colors.white,
+                  // splashColor: Colors.white,
+                  highlightColor: Theme.of(context).colorScheme.background,
+                  splashColor: Theme.of(context).colorScheme.background,
+                  // highlightColor: Theme.of(context).colorScheme.background,
+
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SvgPicture.asset(
+                        AppIcons.rectangle2,
+                        color: i == currentTab
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context).colorScheme.background,
+                      ),
+                      const SizedBox(height: 12.0),
+                      SvgPicture.asset(
                         e.iconPath,
                         color: i == currentTab
-                            ? AppColors.textSecondary
-                            : AppColors.textPrimary,
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context).colorScheme.scrim,
                       ),
-                      const SizedBox(
-                        height: 3.0,
-                      ),
+                      const SizedBox(height: 12.0),
                       Text(
                         e.title,
                         style: TextStyle(

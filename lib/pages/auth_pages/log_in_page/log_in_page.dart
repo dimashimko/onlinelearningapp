@@ -1,8 +1,11 @@
 import 'dart:developer';
 
+import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_up_page/sign_up_page.dart';
 import 'package:online_learning_app/pages/auth_pages/verify_phone_page/verify_phone_page.dart';
 import 'package:online_learning_app/pages/auth_pages/widgets/authFormFields.dart';
@@ -56,10 +59,11 @@ class _LogInPageState extends State<LogInPage> {
     );
   }
 
-
   final _contactController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  final _contentFormFieldKey = GlobalKey<FormFieldState>();
+
   // for validating
   String emailErrorText = '';
   String nameErrorText = '';
@@ -75,8 +79,8 @@ class _LogInPageState extends State<LogInPage> {
       }
     });
     if (isValid) {
-    // if (true) {
-      if(_contactController.text.contains('@')){
+      // if (true) {
+      if (_contactController.text.contains('@')) {
         firebaseSignInWithEmail();
       } else {
         firebaseAuthWithPhone();
@@ -94,6 +98,7 @@ class _LogInPageState extends State<LogInPage> {
       ),
     );
     await FirebaseAuth.instance.verifyPhoneNumber(
+      timeout: Duration(seconds: 3),
       phoneNumber: _contactController.text.trim().replaceAll(' ', ''),
       verificationCompleted: (PhoneAuthCredential credential) async {
         log("*** verificationCompleted");
@@ -114,9 +119,9 @@ class _LogInPageState extends State<LogInPage> {
         _goToVerifyPhonePage(verificationId: verificationId);
       },
       codeAutoRetrievalTimeout: (String verificationId) {
-        Navigator.of(context).pop();
-        log('*** SMS code handling fails');
-        showCustomSnackBar(context, 'SMS code handling fails');
+        // Navigator.of(context).pop();
+        // log('*** SMS code handling fails');
+        // showCustomSnackBar(context, 'SMS code handling fails');
       },
     );
   }
@@ -149,16 +154,137 @@ class _LogInPageState extends State<LogInPage> {
     }
   }
 
-  void onTapForgetPassword() {
+  Future<void> onTapForgetPassword() async {
     log('*** onTapForgetPassword');
+
+/*    bool isValid = false;
+
+    setState(() {
+      log('*** _contentFormFieldKey.currentState: ${_contentFormFieldKey.currentState}');
+      if (_contentFormFieldKey.currentState != null) {
+        isValid = _contentFormFieldKey.currentState!.validate();
+        log('*** isValid: $isValid');
+
+      }
+    });*/
+    // if (isValid) {
+    if (EmailValidator.validate(_contactController.text)) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+
+      try {
+        await FirebaseAuth.instance.sendPasswordResetEmail(
+          email: _contactController.text.trim(),
+        );
+        if (mounted) {
+          showCustomSnackBar(
+            context,
+            'Link to reset your password was sent',
+            false,
+          );
+          Navigator.of(context).pop();
+        }
+      } on FirebaseAuthException catch (e) {
+        Navigator.of(context).pop();
+        log('*** e.code: ${e.code}');
+        log('*** e.message: ${e.message}');
+        showCustomSnackBar(context, e.message);
+      } catch (e) {
+        Navigator.of(context).pop();
+        log('*** Unhandled error: ${e.toString()}');
+        showCustomSnackBar(context, 'SomeError');
+      }
+    } else {
+      showCustomSnackBar(context, 'Email is incorrect');
+    }
   }
 
-  void onTapLoginWithGoogle() {
-    log('*** onTapLoginWithGoogle');
+  Future<void> signInWithGoogle() async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+    try {
+      // Trigger the authentication flow
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      // Once signed in, return the UserCredential
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      if (FirebaseAuth.instance.currentUser != null) {
+        return _goToMainPage();
+      }
+    } on FirebaseAuthException catch (e) {
+      Navigator.of(context).pop();
+      log('*** e.code: ${e.code}');
+      log('*** e.message: ${e.message}');
+      showCustomSnackBar(context, e.message);
+    } catch (e) {
+      log('*** Unhandled error: ${e.toString()}');
+      Navigator.of(context).pop();
+      showCustomSnackBar(context, 'SomeError');
+    }
   }
 
-  void onTapLoginWithFacebook() {
-    log('*** onTapLoginWithFacebook');
+  Future<void> signInWithFacebook() async {
+    log('*** signInWithFacebook');
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+    try {
+      // Trigger the sign-in flow
+      final LoginResult loginResult = await FacebookAuth.instance.login();
+      log('*** loginResult: $loginResult');
+/*      final LoginResult loginResult = await FacebookAuth.instance.login(
+          permissions: const ['email', 'public_profile', 'user_birthday']
+      );*/
+      // Create a credential from the access token
+      final OAuthCredential facebookAuthCredential =
+          await FacebookAuthProvider.credential(loginResult.accessToken!.token);
+      log('*** facebookAuthCredential: $facebookAuthCredential');
+
+      // Once signed in, return the UserCredential
+      UserCredential userCredential = await
+          FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+
+      log('*** userCredential${userCredential}');
+      log('*** userCredential${userCredential.toString()}');
+      log('*** FirebaseAuth.instance.currentUser: ${FirebaseAuth.instance.currentUser}');
+
+      if (FirebaseAuth.instance.currentUser != null) {
+        return _goToMainPage();
+      }
+    } on FirebaseAuthException catch (e) {
+      Navigator.of(context).pop();
+      log('*** e.code: ${e.code}');
+      log('*** e.message: ${e.message}');
+      showCustomSnackBar(context, e.message);
+    } catch (e) {
+      log('*** Unhandled error: ${e.toString()}');
+      Navigator.of(context).pop();
+      showCustomSnackBar(context, 'SomeError');
+    }
   }
 
   @override
@@ -228,6 +354,7 @@ class _LogInPageState extends State<LogInPage> {
                                   AuthFormFields(
                                     contactController: _contactController,
                                     passwordController: _passwordController,
+                                    contentFormFieldKey: _contentFormFieldKey,
                                     onTapForgetPassword: onTapForgetPassword,
                                   ),
                                   const SizedBox(height: 16.0),
@@ -268,8 +395,8 @@ class _LogInPageState extends State<LogInPage> {
                                   ),
                                   const SizedBox(height: 16.0),
                                   LoginWithOtherServicesButtons(
-                                    onGoogle: () => onTapLoginWithGoogle(),
-                                    onFacebook: () => onTapLoginWithFacebook(),
+                                    onGoogle: () => signInWithGoogle(),
+                                    onFacebook: () => signInWithFacebook(),
                                   ),
                                 ],
                               ),
@@ -327,14 +454,14 @@ class LoginWithOtherServicesButtons extends StatelessWidget {
             InkWell(
               child: SvgPicture.asset(AppIcons.google),
               onTap: () {
-                log('***SignInWith google');
+                onGoogle();
               },
             ),
             const SizedBox(width: 20.0),
             InkWell(
               child: SvgPicture.asset(AppIcons.facebook),
               onTap: () {
-                log('***SignInWith facebook');
+                onFacebook();
               },
             ),
           ],
@@ -343,7 +470,6 @@ class LoginWithOtherServicesButtons extends StatelessWidget {
     );
   }
 }
-
 
 PreferredSizeWidget LogInPageAppBar({
   required Color iconColor,

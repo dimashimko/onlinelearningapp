@@ -1,11 +1,7 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.online_learning_app">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission
-        android:name="com.google.android.gms.permission.AD_ID"
-        tools:node="remove" />
+    <!--    <uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove"/>-->
 
     <application
         android:name="${applicationName}"
@@ -62,4 +58,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>
