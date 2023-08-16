@@ -1,4 +1,5 @@
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
 import 'package:online_learning_app/blocs/navigation_bloc/navigation_bloc.dart';
 import 'package:online_learning_app/pages/account_page/account_page.dart';
 import 'package:online_learning_app/pages/course_page/course_page.dart';
@@ -61,6 +62,9 @@ class _MainPageState extends State<MainPage> {
       providers: [
         BlocProvider<NavigationBloc>(
           create: (_) => NavigationBloc(),
+        ),
+        BlocProvider<CoursesBloc>(
+          create: (_) => CoursesBloc()/*..add(CourseBlocInit())*/,
         ),
       ],
       child: BlocConsumer<NavigationBloc, NavigationState>(

@@ -1,7 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.online_learning_app">
-
+    package="com.dimashimko.online_learning_app">
+    <queries>
+        <provider android:authorities="com.facebook.katana.provider.PlatformProvider" />
+    </queries>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission
         android:name="com.google.android.gms.permission.AD_ID"

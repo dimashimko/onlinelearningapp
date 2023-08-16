@@ -101,8 +101,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
                         e.title,
                         style: TextStyle(
                           color: i == currentTab
-                              ? AppColors.textSecondary
-                              : AppColors.textPrimary,
+                              ? Theme.of(context).colorScheme.primary
+                              : Theme.of(context).colorScheme.outlineVariant,
                           fontSize: 11.0,
                           height: 1.18,
                         ),

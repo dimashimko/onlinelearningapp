@@ -33,6 +33,12 @@ class AppThemes {
           color: Color(0xFF1F1F39),
         ),
 
+        headlineMedium: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w700,
+          color: Color(0xFF3D5CFF),
+        ),
+
         // title
         titleLarge: TextStyle(
           fontSize: 14,
@@ -55,7 +61,7 @@ class AppThemes {
 
         // label
         labelLarge: TextStyle(
-          fontSize: 16,
+          fontSize: 18,
           fontWeight: FontWeight.w500,
           color: Color(0xFF1F1F39), // text in button1
         ),
@@ -64,6 +70,7 @@ class AppThemes {
           fontWeight: FontWeight.w500,
           color: Color(0xFFFFFFFF), // text in button1
         ),
+
         labelSmall: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w500,
@@ -71,6 +78,11 @@ class AppThemes {
         ),
 
         // body
+        bodySmall: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+          color: Color(0xFFFFFFFF), // text in button1
+        ),
         bodyMedium: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w400,
@@ -90,6 +102,7 @@ class AppThemes {
         surface: const Color(0xFFFFFFFF), // substrate in SignUpPage...
         surfaceVariant: const Color(0xFFFFFFFF), // color in TextForm
         scrim: const Color(0xFFF4F3FD), // color in TextForm
+        inverseSurface: const Color(0xFFF4F3FD), // color in TextForm
       ),
     );
   }
@@ -110,6 +123,7 @@ class AppThemes {
         surface: const Color(0xFF2F2F42), // substrate in SignUpPage...
         surfaceVariant: const Color(0xFF3E3E55), // color in TextForm
         scrim: const Color(0xFFB8B8D2), // color in TextForm
+        inverseSurface: const Color(0xFF3E3E55), // color in TextForm
       ),
       useMaterial3: true,
         textSelectionTheme: const TextSelectionThemeData(
@@ -133,6 +147,12 @@ class AppThemes {
             fontSize: 24,
             fontWeight: FontWeight.w700,
             color: Color(0xFFF4F3FD),
+          ),
+
+          headlineMedium: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+            color: Color(0xFF3D5CFF),
           ),
 
           // title
@@ -173,6 +193,11 @@ class AppThemes {
           ),
 
           // body
+          bodySmall: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
+            color: Color(0xFFFFFFFF), // text in button1
+          ),
           bodyMedium: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w400,

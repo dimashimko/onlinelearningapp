@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:email_validator/email_validator.dart';
@@ -12,7 +13,7 @@ import 'package:online_learning_app/pages/auth_pages/widgets/authFormFields.dart
 import 'package:online_learning_app/pages/main_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/services/auth_service.dart';
-import 'package:online_learning_app/utils/showCustomSnackBar.dart';
+import 'package:online_learning_app/utils/show_custom_snack_bar.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
 
@@ -243,6 +244,22 @@ class _LogInPageState extends State<LogInPage> {
     }
   }
 
+  AccessToken? _accessToken;
+
+  String prettyPrint(Map json) {
+    JsonEncoder encoder = const JsonEncoder.withIndent('  ');
+    String pretty = encoder.convert(json);
+    return pretty;
+  }
+
+  void _printCredentials() {
+    print(
+      prettyPrint(_accessToken!.toJson()),
+    );
+  }
+
+  Map<String, dynamic>? _userData;
+
   Future<void> signInWithFacebook() async {
     log('*** signInWithFacebook');
     showDialog(
@@ -252,38 +269,59 @@ class _LogInPageState extends State<LogInPage> {
         child: CircularProgressIndicator(),
       ),
     );
-    try {
-      // Trigger the sign-in flow
-      final LoginResult loginResult = await FacebookAuth.instance.login();
-      log('*** loginResult: $loginResult');
-/*      final LoginResult loginResult = await FacebookAuth.instance.login(
-          permissions: const ['email', 'public_profile', 'user_birthday']
-      );*/
-      // Create a credential from the access token
-      final OAuthCredential facebookAuthCredential =
-          await FacebookAuthProvider.credential(loginResult.accessToken!.token);
-      log('*** facebookAuthCredential: $facebookAuthCredential');
+    final LoginResult result = await FacebookAuth.instance
+        .login(); // by default we request the email and the public profile
 
-      // Once signed in, return the UserCredential
-      UserCredential userCredential = await
-          FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+    // loginBehavior is only supported for Android devices, for ios it will be ignored
+    // final result = await FacebookAuth.instance.login(
+    //   permissions: ['email', 'public_profile', 'user_birthday', 'user_friends', 'user_gender', 'user_link'],
+    //   loginBehavior: LoginBehavior
+    //       .DIALOG_ONLY, // (only android) show an authentication dialog instead of redirecting to facebook app
+    // );
 
-      log('*** userCredential${userCredential}');
-      log('*** userCredential${userCredential.toString()}');
-      log('*** FirebaseAuth.instance.currentUser: ${FirebaseAuth.instance.currentUser}');
+    if (result.status == LoginStatus.success) {
+      try {
+        _accessToken = result.accessToken;
+        log('*** _printCredentials:');
+        _printCredentials(); // result.accessToken
+        // get the user data
+        // by default we get the userId, email,name and picture
+        final userData = await FacebookAuth.instance.getUserData();
+        // final userData = await FacebookAuth.instance.getUserData(fields: "email,birthday,friends,gender,link");
+        _userData = userData;
+        log('*** _userData: ');
+        log(prettyPrint(_userData!));
 
-      if (FirebaseAuth.instance.currentUser != null) {
-        return _goToMainPage();
+        // Create a credential from the access token
+        final OAuthCredential facebookAuthCredential =
+            await FacebookAuthProvider.credential(result.accessToken!.token);
+        log('*** facebookAuthCredential: $facebookAuthCredential');
+
+        // Once signed in, return the UserCredential
+        UserCredential userCredential = await FirebaseAuth.instance
+            .signInWithCredential(facebookAuthCredential);
+
+        log('*** userCredential${userCredential}');
+        log('*** userCredential${userCredential.toString()}');
+        log('*** FirebaseAuth.instance.currentUser: ${FirebaseAuth.instance.currentUser}');
+
+        if (FirebaseAuth.instance.currentUser != null) {
+          return _goToMainPage();
+        }
+      } on FirebaseAuthException catch (e) {
+        Navigator.of(context).pop();
+        log('*** e.code: ${e.code}');
+        log('*** e.message: ${e.message}');
+        showCustomSnackBar(context, e.message);
+      } catch (e) {
+        log('*** Unhandled error: ${e.toString()}');
+        Navigator.of(context).pop();
+        showCustomSnackBar(context, 'SomeError');
       }
-    } on FirebaseAuthException catch (e) {
+    } else {
       Navigator.of(context).pop();
-      log('*** e.code: ${e.code}');
-      log('*** e.message: ${e.message}');
-      showCustomSnackBar(context, e.message);
-    } catch (e) {
-      log('*** Unhandled error: ${e.toString()}');
-      Navigator.of(context).pop();
-      showCustomSnackBar(context, 'SomeError');
+      print(result.status);
+      print(result.message);
     }
   }
 

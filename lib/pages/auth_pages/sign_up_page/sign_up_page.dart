@@ -9,7 +9,7 @@ import 'package:online_learning_app/pages/auth_pages/widgets/authFormFields.dart
 import 'package:online_learning_app/pages/auth_pages/widgets/successfulRegistrationDialog.dart';
 import 'package:online_learning_app/pages/main_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
-import 'package:online_learning_app/utils/showCustomSnackBar.dart';
+import 'package:online_learning_app/utils/show_custom_snack_bar.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/elements/custom_error_text.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';

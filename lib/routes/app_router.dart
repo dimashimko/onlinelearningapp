@@ -54,7 +54,7 @@ class AppRouter {
         break;
 
       case CoursePage.routeName:
-        builder = (_) => const CoursePage();
+        builder = (_) =>  CoursePage();
         break;
 
       case MessagePage.routeName:

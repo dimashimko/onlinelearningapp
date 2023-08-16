@@ -1,6 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
+import 'package:online_learning_app/models/course/course_model.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_in_page/sign_in_page.dart';
 import 'package:online_learning_app/services/auth_service.dart';
+import 'package:online_learning_app/services/firestore_service.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
 
@@ -32,26 +38,52 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    context.read<CoursesBloc>().add(CourseBlocInit());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: HomePageAppBar(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text('HomePage'),
-              const Spacer(),
-              CustomButton(
-                title: 'LogOut',
-                onTap: () {
-                  firebaseSignOut(context);
-                  // log('*** name: ${ModalRoute.of(context)?.settings.name}');
-                  // Navigator.of(context).
-                },
-              ),
-            ],
+          child: BlocListener<CoursesBloc, CoursesState>(
+            listenWhen: (previous, current) {
+              return previous.coursesList != current.coursesList;
+            },
+            listener: (context, state) {
+              log('*** BlocListener in HomePage');
+              for (CourseModel course in state.coursesList) {
+                precacheImage(NetworkImage(course.title ?? ''), context);
+                // log('*** course.title: ${course.title ?? ''}');
+              }
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('HomePage'),
+                const Spacer(),
+                CustomButton(
+                  title: 'FillCourses',
+                  onTap: () {
+                    MyFirestoreService fireStoreService = MyFirestoreService();
+                    fireStoreService.fillCourses();
+                  },
+                ),
+                const SizedBox(height: 32.0),
+                CustomButton(
+                  title: 'LogOut',
+                  onTap: () {
+                    firebaseSignOut(context);
+                    // log('*** name: ${ModalRoute.of(context)?.settings.name}');
+                    // Navigator.of(context).
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

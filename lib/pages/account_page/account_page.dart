@@ -30,15 +30,24 @@ class AccountPage extends StatelessWidget {
       appBar: MessagePageAppBar(onTap: () {
         _goToBackPage(context);
       }),
-      body: const SafeArea(
+      body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Placeholder(),
-              Text('AccountPage'),
-            ],
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Placeholder(),
+                SvgPicture.asset(AppIcons.rectangle),
+                // SvgPicture.asset(AppIcons.rectangle),
+                SvgPicture.asset(AppIcons.rectangle2),
+                SvgPicture.asset(AppIcons.rectangle),
+                SvgPicture.asset(AppIcons.rectangle),
+                SvgPicture.asset(AppIcons.rectangle2),
+                SvgPicture.asset(AppIcons.rectangle),
+                Text('AccountPage'),
+              ],
+            ),
           ),
         ),
       ),
@@ -51,7 +60,7 @@ PreferredSizeWidget MessagePageAppBar({
 }) {
   return CustomAppBar(
     leading: SvgPicture.asset(AppIcons.arrow_back),
-    onLeading: (){},
+    onLeading: () {},
     title: const Text('AccountPage'),
     action: const Text(
       '          ',

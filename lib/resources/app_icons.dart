@@ -24,18 +24,19 @@ class AppIcons {
   static const String message = '$_path/message.svg';
   static const String account = '$_path/account.svg';
   static const String search = '$_path/search.svg';
-  static const String search2 = '$_path/search2.svg';
-  static const String search4 = '$_path/search4.svg';
-  static const String search5 = '$_path/search5.svg';
-  static const String search6 = '$_path/search6.svg';
-  static const String search7 = '$_path/search7.svg';
-  static const String search8 = '$_path/search8.svg';
+  static const String search_grey = '$_path/search_grey.svg';
   static const String search_light = '$_path/search_light.svg';
   static const String search_dark = '$_path/search_dark.svg';
   static const String ellipse = '$_path/ellipse.svg';
   static const String rectangle = '$_path/rectangle.svg';
   static const String rectangle2 = '$_path/rectangle2.svg';
   static const String bg = '$_path/bg.svg';
+  static const String avatar = '$_path/avatar.svg';
+  static const String filter = '$_path/filter.svg';
+  static const String clear_text = '$_path/clear_text.svg';
+  static const String ads_language = '$_path/ads_language.svg';
+  static const String ads_painting = '$_path/ads_painting.svg';
+  static const String human = '$_path/human.svg';
 
 
 

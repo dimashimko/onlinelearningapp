@@ -1,0 +1,57 @@
+https://facebook.meedu.app/docs/5.x.x/example
+https://developers.facebook.com/docs/facebook-login/android/?locale=en
+https://www.youtube.com/watch?v=zJafRhMhyjM&ab_channel=awaitANTHONY
+https://www.youtube.com/watch?v=Ai3QWQ_1pJM&ab_channel=LazyTechNo
+https://www.youtube.com/watch?v=AG_hO03Vyto&ab_channel=ProglabsOfficial
+https://emn178.github.io/online-tools/base64_encode.html
+
+
++444444444444
++555555555555
++380971991684
+
+
+johnlarson405@gmail.com
+osvita2zn@gmail.com
+
+
+42b2f823b46d7ed8e9bd270880624d26 // Секрет приложения // Set in firebase
+80fac50352e66f48345d7259beef0dea // facebook_client_token // Маркер клиента // Set in string.xml
+
+You must provide an app access token, or a user access token that is an owner or developer of the app","type":"OAuthException","code":100,"fbtrace_id":"AJkJlcdb63hdYZ2qB9myID2"
+
+
+
+
+https://s3.privyr.com/privacy/privacy-policy.html?d=eyJlbWFpbCI6ImRpbWFzaGlta283QGdtYWlsLmNvbSIsImNvbXBhbnkiOiJvbmxpbmVfbGVhcm5pbmdfYXBwIiwiZ2VuX2F0IjoiMjAyMy0wOC0wMlQwNzoxMjo0My40MDlaIn0%3D
+
+flutter pub run change_app_package_name:main com.new.package.name
+flutter pub run change_app_package_name:main com.dimashimko.learning.app
+
+com.dimashimko.online_learning_app
+com.dimashimko.online_learning_app_flutter
+online_learning_app
+
+
+
+
+https://proglabs.co
+tSryCzHP5cHMFV9Sxg1VtZo6yro=
+tSryCzHP5cHMFV9Sxg1VtZo6yro=
+
+
+1456357ab3feca74c89d137d93da1e08
+a4eb51938f2974880ab0d79d4ef1d157
+
+
++444444444444
++555555555555
++380971991684
+
+
+johnlarson405@gmail.com
+osvita2zn@gmail.com
+
+
+
+
