@@ -1,33 +1,47 @@
 part of 'courses_bloc.dart';
 
-enum CoursesStateStatus { initial, menu, tab }
+enum FilterBottomSheetStatus { enable, disable }
 
 @immutable
 class CoursesState {
   const CoursesState({
-    this.status = CoursesStateStatus.initial,
+    this.filterStatus = FilterBottomSheetStatus.disable,
     this.currentIndex = 0,
     this.coursesList = const [],
     this.categoryList = const [],
+    this.categoryFilter = const {},
+    this.durationItems = const [
+      DurationRange(min: 3, max: 8, isEnable: false),
+      DurationRange(min: 8, max: 14, isEnable: false),
+      DurationRange(min: 14, max: 20, isEnable: false),
+      DurationRange(min: 20, max: 24, isEnable: false),
+      DurationRange(min: 24, max: 30, isEnable: false),
+    ],
   });
 
-  final CoursesStateStatus status;
+  final FilterBottomSheetStatus filterStatus;
   final int currentIndex;
   final List<CourseModel> coursesList;
   final List<CategoryModel> categoryList;
+  final Set<String> categoryFilter;
+  final List<DurationRange> durationItems;
 
   CoursesState copyWith({
-    CoursesStateStatus? status,
+    FilterBottomSheetStatus? filterStatus,
     int? currentIndex,
     String? route,
     List<CourseModel>? coursesList,
     List<CategoryModel>? categoryList,
+    Set<String>? categoryFilter,
+    List<DurationRange>? durationItems,
   }) {
     return CoursesState(
-      status: status ?? this.status,
+      filterStatus: filterStatus ?? this.filterStatus,
       currentIndex: currentIndex ?? this.currentIndex,
       coursesList: coursesList ?? this.coursesList,
       categoryList: categoryList ?? this.categoryList,
+      categoryFilter: categoryFilter ?? this.categoryFilter,
+      durationItems: durationItems ?? this.durationItems,
     );
   }
 }

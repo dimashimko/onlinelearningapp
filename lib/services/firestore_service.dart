@@ -49,11 +49,12 @@ class MyFirestoreService {
       } else {
         await db
             .collection('courses')
-            // .where('openLesson', isEqualTo: 1)
-            .orderBy(orderBy)
+            .orderBy('orderBy')
+            // .orderBy('openLesson')
+            .where('openLesson', isEqualTo: 2)
             .get()
             .then(
-          (snapshot) {
+          (QuerySnapshot<Map<String, dynamic>> snapshot) {
             for (var doc in snapshot.docs) {
               listOfCoursesModel.add(
                 CourseModel.fromJson(

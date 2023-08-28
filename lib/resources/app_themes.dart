@@ -4,6 +4,15 @@ import 'package:online_learning_app/resources/app_fonts.dart';
 class AppThemes {
   const AppThemes._();
 
+  static ThemeData light2() {
+    return ThemeData(
+      primarySwatch: Colors.blue,
+      bottomSheetTheme: BottomSheetThemeData(
+        backgroundColor: Colors.black.withOpacity(0),
+      ),
+    );
+  }
+
   static ThemeData light() {
     return ThemeData(
       fontFamily: AppFonts.fontFamily,
@@ -15,6 +24,13 @@ class AppThemes {
       ),
       // display LMS(3), title LMS(3), label LMS(3), body LMS+T1T2(5)
       // button → label
+
+      // scaffoldBackgroundColor: Colors.transparent,
+      canvasColor: Colors.transparent,
+      // bottomSheetTheme: const BottomSheetThemeData(
+      //   backgroundColor: Colors.transparent,
+      //   elevation: 0.0,
+      // ),
       textTheme: const TextTheme(
         // display
         displayLarge: TextStyle(
@@ -50,12 +66,13 @@ class AppThemes {
           fontSize: 14,
           fontWeight: FontWeight.w400,
           color: Color(0xFF858597),
+          wordSpacing: 1.0
           // color: AppColors.gray,
         ),
         titleSmall: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w400,
-          color: Color(0xFFB8B8D2),  // title under SignUp
+          color: Color(0xFFB8B8D2), // title under SignUp
           // color: AppColors.gray,
         ),
 
@@ -78,10 +95,22 @@ class AppThemes {
         ),
 
         // body
+        bodyLarge: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+          color: Color(0xFF858597),
+          letterSpacing: 0.1,
+          height: 1.5,
+
+          // color: AppColors.gray,
+        ),
         bodySmall: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w400,
           color: Color(0xFFFFFFFF), // text in button1
+          letterSpacing: 0.1,
+          height: 1.5,
+
         ),
         bodyMedium: TextStyle(
           fontSize: 14,
@@ -89,43 +118,72 @@ class AppThemes {
           color: Color(0xFF1F1F39),
         ),
       ),
-      scaffoldBackgroundColor: const Color(0xFFFFFFFF),
+      // scaffoldBackgroundColor: Colors.transparent,
+      // scaffoldBackgroundColor: Colors.red,
       colorScheme: const ColorScheme.light().copyWith(
+        // onSecondary: const Color(0xFFFFFFFF),
+        // secondaryContainer: const Color(0xFFFFFFFF),
+        // onSecondaryContainer: const Color(0xFFFFFFFF),
+        // tertiary: const Color(0xFFFFFFFF),
+        // onTertiary: const Color(0xFFFFFFFF),
+        // tertiaryContainer: const Color(0xFFFFFFFF),
+        // onTertiaryContainer: const Color(0xFFFFFFFF),
+        // error: const Color(0xFFFFFFFF),
+        // onError: const Color(0xFFFFFFFF),
+        // errorContainer: const Color(0xFFFFFFFF),
+        // onErrorContainer: const Color(0xFFFFFFFF),
+        // background: const Color(0xFFFFFFFF),
+        // onBackground: const Color(0xFFFFFFFF),
+        // surface: const Color(0xFFFFFFFF),
+        // onSurface: const Color(0xFFFFFFFF),
+        // surfaceVariant: const Color(0xFFFFFFFF),
+        // onSurfaceVariant: const Color(0xFFFFFFFF),
+        // outline: const Color(0xFFFFFFFF),
+        // outlineVariant: const Color(0xFFFFFFFF),
+        // shadow: const Color(0xFFFFFFFF),
+        // scrim: const Color(0xFFFFFFFF),
+        // inverseSurface: const Color(0xFFFFFFFF),
+        // onInverseSurface: const Color(0xFFFFFFFF),
+        // inversePrimary: const Color(0xFFFFFFFF),
+        // surfaceTint: const Color(0xFFFFFFFF),
+        // primaryVariant: const Color(0xFFFFFFFF),
+        // secondaryVariant: const Color(0xFFFFFFFF),
         background: const Color(0xFFFFFFFF),
         onBackground: const Color(0xFF1F1F39),
-        primary: const Color(0xFF3D5CFF), // buttotn1
-        onPrimary: const Color(0xFFFFFFFF), // buttotn2
+        primary: const Color(0xFF3D5CFF),
+        onPrimary: const Color(0xFFFFFFFF),
         secondary: const Color(0xFF858597),
         tertiary: const Color(0xFFF0F0F2),
-        outline: const Color(0xFFB8B8D2), // 4 outlineBorder
-        outlineVariant: const Color(0xFFB8B8D2), // 4 outlineBorder
-        surface: const Color(0xFFFFFFFF), // substrate in SignUpPage...
-        surfaceVariant: const Color(0xFFFFFFFF), // color in TextForm
-        scrim: const Color(0xFFF4F3FD), // color in TextForm
-        inverseSurface: const Color(0xFFF4F3FD), // color in TextForm
+        outline: const Color(0xFFB8B8D2),
+        outlineVariant: const Color(0xFFB8B8D2),
+        surface: const Color(0xFFFFFFFF),
+        surfaceVariant: const Color(0xFFFFFFFF),
+        scrim: const Color(0xFFF4F3FD),
+        inverseSurface: const Color(0xFFF4F3FD),
+        surfaceTint: const Color(0xFFFFFFFF),
       ),
     );
   }
 
   static ThemeData dark() {
     return ThemeData(
-      fontFamily: AppFonts.fontFamily,
-      scaffoldBackgroundColor: const Color(0xFF1F1F39),
-      colorScheme: const ColorScheme.dark().copyWith(
-        background: const Color(0xFF1F1F39),
-        onBackground: const Color(0xFFEAEAFF),
-        primary: const Color(0xFF3D5CFF), // button1
-        onPrimary: const Color(0xFF858597), // button2
-        secondary: const Color(0xFFEAEAFF),
-        tertiary: const Color(0xFF1F1F39),
-        outline: const Color(0xFF3E3E55), // 4 outlineBorder
-        outlineVariant: const Color(0xFFB8B8D2), // 4 outlineBorder
-        surface: const Color(0xFF2F2F42), // substrate in SignUpPage...
-        surfaceVariant: const Color(0xFF3E3E55), // color in TextForm
-        scrim: const Color(0xFFB8B8D2), // color in TextForm
-        inverseSurface: const Color(0xFF3E3E55), // color in TextForm
-      ),
-      useMaterial3: true,
+        fontFamily: AppFonts.fontFamily,
+        scaffoldBackgroundColor: const Color(0xFF1F1F39),
+        colorScheme: const ColorScheme.dark().copyWith(
+          background: const Color(0xFF1F1F39),
+          onBackground: const Color(0xFFEAEAFF),
+          primary: const Color(0xFF3D5CFF),
+          onPrimary: const Color(0xFF858597),
+          secondary: const Color(0xFFEAEAFF),
+          tertiary: const Color(0xFF1F1F39),
+          outline: const Color(0xFF3E3E55),
+          outlineVariant: const Color(0xFFB8B8D2),
+          surface: const Color(0xFF2F2F42),
+          surfaceVariant: const Color(0xFF3E3E55),
+          scrim: const Color(0xFFB8B8D2),
+          inverseSurface: const Color(0xFF3E3E55), // color in TextForm
+        ),
+        useMaterial3: true,
         textSelectionTheme: const TextSelectionThemeData(
           cursorColor: Color(0xFFFFFFFF),
           selectionColor: Color(0xFFB8B8D2),
@@ -157,9 +215,10 @@ class AppThemes {
 
           // title
           labelLarge: TextStyle(
-            fontSize: 16,
+            fontSize: 18,
             fontWeight: FontWeight.w500,
             color: Color(0xFFFFFFFF), // text in button1
+
           ),
           titleMedium: TextStyle(
             fontSize: 14,
@@ -193,17 +252,54 @@ class AppThemes {
           ),
 
           // body
+          bodyLarge: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
+            color: Color(0xFFF4F3FD),
+            letterSpacing: 0.1,
+            height: 1.5,
+            // color: AppColors.gray,
+          ),
           bodySmall: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w400,
             color: Color(0xFFFFFFFF), // text in button1
+            letterSpacing: 0.1,
+            height: 1.5,
           ),
           bodyMedium: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w400,
             color: Color(0xFF1F1F39),
           ),
-        )
-    );
+        ));
   }
 }
+
+// onSecondary: const Color(0xFFFFFFFF),
+// secondaryContainer: const Color(0xFFFFFFFF),
+// onSecondaryContainer: const Color(0xFFFFFFFF),
+// tertiary: const Color(0xFFFFFFFF),
+// onTertiary: const Color(0xFFFFFFFF),
+// tertiaryContainer: const Color(0xFFFFFFFF),
+// onTertiaryContainer: const Color(0xFFFFFFFF),
+// error: const Color(0xFFFFFFFF),
+// onError: const Color(0xFFFFFFFF),
+// errorContainer: const Color(0xFFFFFFFF),
+// onErrorContainer: const Color(0xFFFFFFFF),
+// background: const Color(0xFFFFFFFF),
+// onBackground: const Color(0xFFFFFFFF),
+// surface: const Color(0xFFFFFFFF),
+// onSurface: const Color(0xFFFFFFFF),
+// surfaceVariant: const Color(0xFFFFFFFF),
+// onSurfaceVariant: const Color(0xFFFFFFFF),
+// outline: const Color(0xFFFFFFFF),
+// outlineVariant: const Color(0xFFFFFFFF),
+// shadow: const Color(0xFFFFFFFF),
+// scrim: const Color(0xFFFFFFFF),
+// inverseSurface: const Color(0xFFFFFFFF),
+// onInverseSurface: const Color(0xFFFFFFFF),
+// inversePrimary: const Color(0xFFFFFFFF),
+// surfaceTint: const Color(0xFFFFFFFF),
+// primaryVariant: const Color(0xFFFFFFFF),
+// secondaryVariant: const Color(0xFFFFFFFF),

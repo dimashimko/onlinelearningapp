@@ -3,9 +3,29 @@ part of 'courses_bloc.dart';
 @immutable
 abstract class CoursesEvent {}
 
-/*class GetAllCourses extends CoursesEvent {
-  GetAllCourses();
-}*/
+class InverseDurationRangeItem extends CoursesEvent {
+  InverseDurationRangeItem({
+    required this.durationRange,
+  });
+
+  final DurationRange durationRange;
+}
+
+class ChangeCategoryFilter extends CoursesEvent {
+  ChangeCategoryFilter({
+    this.add,
+    this.remove,
+    this.clear,
+  });
+
+  final String? add;
+  final String? remove;
+  final bool? clear;
+}
+
+class FilterBottomSheetDisable extends CoursesEvent {}
+
+class FilterBottomSheetEnable extends CoursesEvent {}
 
 class GetAllCourses extends CoursesEvent {
   GetAllCourses({
@@ -15,17 +35,11 @@ class GetAllCourses extends CoursesEvent {
   final String orderBy;
 }
 
-class GetAllCoursesSortDuration extends CoursesEvent {
-  GetAllCoursesSortDuration();
-}
+class GetAllCoursesSortDuration extends CoursesEvent {}
 
-class GetCategories extends CoursesEvent {
-  GetCategories();
-}
+class GetCategories extends CoursesEvent {}
 
-class CourseBlocInit extends CoursesEvent {
-  CourseBlocInit();
-}
+class CourseBlocInit extends CoursesEvent {}
 
 /*
 class GetAllCourses extends CoursesEvent {
@@ -36,4 +50,3 @@ class GetAllCourses extends CoursesEvent {
   final int menuIndex;
 }
 */
-

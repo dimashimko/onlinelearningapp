@@ -685,6 +685,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.1"
+  range_slider_flutter:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "3749172eaafa131681f93b88fd321fec0cd977aa"
+      url: "https://github.com/haptome/flutter_range_slide"
+    source: git
+    version: "0.0.2"
   shared_preferences:
     dependency: transitive
     description:

@@ -8,7 +8,6 @@ import 'package:online_learning_app/models/course/course_model.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/resources/app_images.dart';
 import 'package:online_learning_app/utils/time_converter.dart';
-import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/elements/customImageViewer.dart';
 
 class CoursePage extends StatefulWidget {
@@ -61,6 +60,7 @@ class _CoursePageState extends State<CoursePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -401,7 +401,7 @@ class _FindTextFieldState extends State<FindTextField> {
       controller: widget.searchController,
       readOnly: widget.isReadOnly,
       onTap: () {
-        widget.onTap;
+        widget.onTap();
       },
       decoration: InputDecoration(
         filled: true,
