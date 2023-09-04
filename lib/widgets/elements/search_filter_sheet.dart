@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
 import 'package:online_learning_app/models/duration_range/duration_range.dart';
+import 'package:online_learning_app/pages/search_page/search_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/test/test08.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
@@ -21,10 +24,38 @@ class SearchFilterSheet extends StatefulWidget {
 }
 
 class _SearchFilterSheetState extends State<SearchFilterSheet> {
+  void _navigateToPage({
+    required BuildContext context,
+    required String route,
+    bool isRoot = false,
+    Object? arguments,
+  }) {
+    Navigator.of(
+      context,
+      rootNavigator: isRoot,
+    ).pushNamed(
+      route,
+      arguments: arguments,
+    );
+/*    Navigator.pushNamedAndRemoveUntil(
+      context,
+      route,
+      (_) => false,
+    );*/
+  }
+
   void _goToSearchPage() async {
-    // log('*** _goToStopRecordPage');
-    // Navigator.of(context).pop();
-    // _navigateToPage(context, StopRecordPage.routeName);
+    log('*** _goToSearchPage');
+    context.read<CoursesBloc>().add(
+          FilterBottomSheetDisable(),
+        );
+    context.read<CoursesBloc>().add(
+          FilterBottomSheetDisable(),
+        );
+    _navigateToPage(
+      context: context,
+      route: SearchPage.routeName,
+    );
   }
 
   @override
@@ -59,40 +90,16 @@ class _SearchFilterSheetState extends State<SearchFilterSheet> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            InkWell(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: SvgPicture.asset(
-                                  AppIcons.close,
-                                  colorFilter: ColorFilter.mode(
-                                    Theme.of(context).colorScheme.onBackground,
-                                    BlendMode.srcIn,
-                                  ),
-                                ),
-                              ),
-                              onTap: () {
-                                context
-                                    .read<CoursesBloc>()
-                                    .add(FilterBottomSheetDisable());
-                              },
-                            ),
-                            Text(
-                              'Search Filter',
-                              style: Theme.of(context).textTheme.labelLarge,
-                            ),
-                            const SizedBox(height: 8.0),
-                          ],
-                        ),
-                      ),
+                      const TopPanelOfBottomSheet(),
                       const FilterTitle(text: 'Categories'),
                       const CategoriesElementsFilter(),
                       const FilterTitle(text: 'Price'),
-                      const PriceFilterSlider(),
+                      PriceFilterSlider(
+                        initRangeValues: context
+                            .read<CoursesBloc>()
+                            .state
+                            .priceFilterRangeValues,
+                      ),
                       // const PriceFilterSliderFromGit(),
                       const FilterTitle(text: 'Duration'),
                       const DurationElementsFilter(),
@@ -111,7 +118,9 @@ class _SearchFilterSheetState extends State<SearchFilterSheet> {
                             child: CustomButton(
                               title: 'Apply Filter',
                               padding: 4.0,
-                              onTap: () {},
+                              onTap: () {
+                                _goToSearchPage();
+                              },
                             ),
                           )
                         ],
@@ -125,6 +134,42 @@ class _SearchFilterSheetState extends State<SearchFilterSheet> {
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class TopPanelOfBottomSheet extends StatelessWidget {
+  const TopPanelOfBottomSheet({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          InkWell(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SvgPicture.asset(
+                AppIcons.close,
+                colorFilter: ColorFilter.mode(
+                  Theme.of(context).colorScheme.onBackground,
+                  BlendMode.srcIn,
+                ),
+              ),
+            ),
+            onTap: () {
+              context.read<CoursesBloc>().add(FilterBottomSheetDisable());
+            },
+          ),
+          Text(
+            'Search Filter',
+            style: Theme.of(context).textTheme.labelLarge,
+          ),
+          const SizedBox(height: 8.0),
+        ],
       ),
     );
   }
@@ -183,7 +228,7 @@ class DurationElementsFilterItem extends StatelessWidget {
         decoration: BoxDecoration(
           color: isEnable
               ? Theme.of(context).colorScheme.primary
-              : Theme.of(context).colorScheme.scrim,
+              : Theme.of(context).colorScheme.surfaceTint,
           borderRadius: BorderRadius.circular(8.0),
         ),
         child: Padding(
@@ -201,47 +246,47 @@ class DurationElementsFilterItem extends StatelessWidget {
   }
 }
 
-class PriceFilterSlider extends StatefulWidget {
-  const PriceFilterSlider({super.key});
-
-  @override
-  State<PriceFilterSlider> createState() => _PriceFilterSliderState();
-}
-
-class _PriceFilterSliderState extends State<PriceFilterSlider> {
-  RangeValues _currentRangeValues = const RangeValues(40, 80);
-
-  @override
-  Widget build(BuildContext context) {
-    return SliderTheme(
-      data: SliderThemeData(
-        trackHeight: 2,
-        activeTrackColor: Theme.of(context).colorScheme.primary,
-        inactiveTrackColor: Theme.of(context).colorScheme.outlineVariant,
-        overlayColor: Colors.black12,
-        valueIndicatorColor: Theme.of(context).colorScheme.primary,
-        thumbColor: Theme.of(context).colorScheme.primary,
-        // thumbColor: Colors.red,
-        // rangeThumbShape: CustomRangeThumbShape(),
-        showValueIndicator: ShowValueIndicator.always,
-      ),
-      child: RangeSlider(
-        values: _currentRangeValues,
-        max: 100,
-        // divisions: 20,
-        labels: RangeLabels(
-          _currentRangeValues.start.round().toString(),
-          _currentRangeValues.end.round().toString(),
-        ),
-        onChanged: (RangeValues values) {
-          setState(() {
-            _currentRangeValues = values;
-          });
-        },
-      ),
-    );
-  }
-}
+// class PriceFilterSlider extends StatefulWidget {
+//   const PriceFilterSlider({super.key});
+//
+//   @override
+//   State<PriceFilterSlider> createState() => _PriceFilterSliderState();
+// }
+//
+// class _PriceFilterSliderState extends State<PriceFilterSlider> {
+//   RangeValues _currentRangeValues = const RangeValues(40, 80);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return SliderTheme(
+//       data: SliderThemeData(
+//         trackHeight: 2,
+//         activeTrackColor: Theme.of(context).colorScheme.primary,
+//         inactiveTrackColor: Theme.of(context).colorScheme.outlineVariant,
+//         overlayColor: Colors.black12,
+//         valueIndicatorColor: Theme.of(context).colorScheme.primary,
+//         thumbColor: Theme.of(context).colorScheme.primary,
+//         // thumbColor: Colors.red,
+//         // rangeThumbShape: CustomRangeThumbShape(),
+//         showValueIndicator: ShowValueIndicator.always,
+//       ),
+//       child: RangeSlider(
+//         values: _currentRangeValues,
+//         max: 100,
+//         // divisions: 20,
+//         labels: RangeLabels(
+//           _currentRangeValues.start.round().toString(),
+//           _currentRangeValues.end.round().toString(),
+//         ),
+//         onChanged: (RangeValues values) {
+//           setState(() {
+//             _currentRangeValues = values;
+//           });
+//         },
+//       ),
+//     );
+//   }
+// }
 
 class FilterTitle extends StatelessWidget {
   const FilterTitle({
@@ -311,7 +356,7 @@ class CategoriesElementFilterItem extends StatelessWidget {
         decoration: BoxDecoration(
           color: isEnable
               ? Theme.of(context).colorScheme.primary
-              : Theme.of(context).colorScheme.scrim,
+              : Theme.of(context).colorScheme.surfaceTint,
           borderRadius: BorderRadius.circular(8.0),
         ),
         child: Padding(

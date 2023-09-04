@@ -16,6 +16,26 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
   CoursesBloc() : super(const CoursesState()) {
     MyFirestoreService fireStoreService = MyFirestoreService();
 
+
+    on<GetFilteredCourses>((event, emit) async {
+      List<CourseModel> filteredCoursesList =
+      await fireStoreService.getFilteredCoursesList();
+      // log('*** filteredCoursesList: $filteredCoursesList');
+      emit(
+        state.copyWith(
+          filteredCoursesList: filteredCoursesList,
+        ),
+      );
+    });
+
+    on<ChangePriceFilter>((event, emit) async {
+      emit(
+        state.copyWith(
+          priceFilterRangeValues: event.currentRangeValues,
+        ),
+      );
+    });
+
     on<InverseDurationRangeItem>((event, emit) async {
       List<DurationRange> durationItems = [];
       for (DurationRange durationItem in state.durationItems) {
@@ -73,11 +93,11 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     });
 
 /*    on<GetAllCoursesSortDuration>((event, emit) async {
-      List<CourseModel> coursesList = await fireStoreService.getAllCoursesListSortDuration();
-      // log('*** coursesList: $coursesList');
+      List<CourseModel> filteredCoursesList = await fireStoreService.getAllCoursesListSortDuration();
+      // log('*** filteredCoursesList: $filteredCoursesList');
       emit(
         state.copyWith(
-          coursesList: coursesList,
+          filteredCoursesList: filteredCoursesList,
         ),
       );
     });*/

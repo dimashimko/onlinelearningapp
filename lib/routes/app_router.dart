@@ -8,6 +8,7 @@ import 'package:online_learning_app/pages/home_page/home_page.dart';
 import 'package:online_learning_app/pages/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:online_learning_app/pages/message_page/message_page.dart';
+import 'package:online_learning_app/pages/search_page/search_page.dart';
 
 class AppRouter {
   const AppRouter._();
@@ -54,7 +55,7 @@ class AppRouter {
         break;
 
       case CoursePage.routeName:
-        builder = (_) =>  CoursePage();
+        builder = (_) => CoursePage();
         break;
 
       case MessagePage.routeName:
@@ -63,6 +64,10 @@ class AppRouter {
 
       case AccountPage.routeName:
         builder = (_) => const AccountPage();
+        break;
+
+      case SearchPage.routeName:
+        builder = (_) =>  SearchPage();
         break;
 
       default:

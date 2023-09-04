@@ -57,7 +57,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
 
       decoration: InputDecoration(
         filled: true,
-        fillColor: Theme.of(context).colorScheme.surfaceVariant,
+        fillColor: Theme.of(context).colorScheme.onSurface,
         errorStyle: const TextStyle(
           height: 1.0,
           fontSize: 12,

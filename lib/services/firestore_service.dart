@@ -38,7 +38,7 @@ class MyFirestoreService {
   //   return listOfCoursesModel;
   // }
 
-  Future<List<CourseModel>> getAllCoursesList(String orderBy) async {
+  Future<List<CourseModel>> getFilteredCoursesList() async {
     String? uid = FirebaseAuth.instance.currentUser?.uid;
     List<CourseModel> listOfCoursesModel = [];
     if (uid == null) {
@@ -47,13 +47,55 @@ class MyFirestoreService {
       if (uid == '0') {
         log('*** courses not update from firestore: uid == \'0\'');
       } else {
-        await db
-            .collection('courses')
-            .orderBy('orderBy')
-            // .orderBy('openLesson')
-            .where('openLesson', isEqualTo: 2)
-            .get()
-            .then(
+        Query<Map<String, dynamic>> filteredCourses =
+            db.collection('courses')/*.orderBy('duration')*/;
+
+        // await db
+        //     .collection('courses')
+        //     .orderBy(orderBy)
+        // .orderBy('openLesson')
+        if (true) {
+        // if (false) {
+          filteredCourses = filteredCourses.where('duration', isGreaterThan: 5);
+        }
+/*        if (true) {
+          filteredCourses.where('openLesson', arrayContainsAny: [2]);
+          // filteredCourses.where('openLesson', whereIn: [2]);
+        }*/
+        // if (true) {
+        //   filteredCourses.where('openLesson', isEqualTo: 2);
+        // }
+        // .where('openLesson', isEqualTo: 2)
+        // .where('openLesson', isEqualTo: 2)
+        await filteredCourses.get().then(
+          (QuerySnapshot<Map<String, dynamic>> snapshot) {
+            for (var doc in snapshot.docs) {
+              listOfCoursesModel.add(
+                CourseModel.fromJson(
+                  doc.data()..addAll({'uid': doc.id.toString()}),
+                ),
+              );
+            }
+          },
+        );
+      }
+    }
+    return listOfCoursesModel;
+  }
+
+  Future<List<CourseModel>> getAllCoursesList(String orderBy) async {
+    String? uid = FirebaseAuth.instance.currentUser?.uid;
+    List<CourseModel> listOfCoursesModel = [];
+    if (uid == null) {
+      log('*** !!! coursesCollection not update from firestore: uid == null');
+    } else {
+      if (uid == '0') {
+        log('*** coursesCollection not update from firestore: uid == \'0\'');
+      } else {
+        Query<Map<String, dynamic>> coursesCollection =
+            db.collection('courses').orderBy(orderBy);
+
+        await coursesCollection.get().then(
           (QuerySnapshot<Map<String, dynamic>> snapshot) {
             for (var doc in snapshot.docs) {
               listOfCoursesModel.add(

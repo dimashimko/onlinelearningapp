@@ -157,10 +157,13 @@ class AppThemes {
         outline: const Color(0xFFB8B8D2),
         outlineVariant: const Color(0xFFB8B8D2),
         surface: const Color(0xFFFFFFFF),
-        surfaceVariant: const Color(0xFFFFFFFF),
+        onSurface: const Color(0xFFFFFFFF),
         scrim: const Color(0xFFF4F3FD),
         inverseSurface: const Color(0xFFF4F3FD),
-        surfaceTint: const Color(0xFFFFFFFF),
+        surfaceVariant: const Color(0xFF3D5CFF),
+        onSurfaceVariant: const Color(0xFFFFFFFF),
+        surfaceTint: const Color(0xFFF4F3FD),
+        // surfaceTint: const Color(0xFFFF0000),
       ),
     );
   }
@@ -174,14 +177,19 @@ class AppThemes {
           onBackground: const Color(0xFFEAEAFF),
           primary: const Color(0xFF3D5CFF),
           onPrimary: const Color(0xFF858597),
+          // onPrimary: const Color(0xFFFF0000),
           secondary: const Color(0xFFEAEAFF),
           tertiary: const Color(0xFF1F1F39),
           outline: const Color(0xFF3E3E55),
           outlineVariant: const Color(0xFFB8B8D2),
           surface: const Color(0xFF2F2F42),
-          surfaceVariant: const Color(0xFF3E3E55),
+          onSurface: const Color(0xFF3E3E55),
           scrim: const Color(0xFFB8B8D2),
           inverseSurface: const Color(0xFF3E3E55), // color in TextForm
+          surfaceVariant: const Color(0xFFFFFFFF),
+          onSurfaceVariant: const Color(0xFF3D5CFF),
+          surfaceTint: const Color(0xFF858597),
+
         ),
         useMaterial3: true,
         textSelectionTheme: const TextSelectionThemeData(

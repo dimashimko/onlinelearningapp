@@ -105,9 +105,6 @@ class _MainPageState extends State<MainPage> {
         BlocProvider<NavigationBloc>(
           create: (_) => NavigationBloc(),
         ),
-        BlocProvider<CoursesBloc>(
-          create: (_) => CoursesBloc(),
-        ),
       ],
       child: BlocConsumer<NavigationBloc, NavigationState>(
         listener: (_, state) {

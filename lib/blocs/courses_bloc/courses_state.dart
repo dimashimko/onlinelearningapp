@@ -17,6 +17,9 @@ class CoursesState {
       DurationRange(min: 20, max: 24, isEnable: false),
       DurationRange(min: 24, max: 30, isEnable: false),
     ],
+    this.priceFilterRangeValues = const RangeValues(0.0, 1.0),
+    this.filteredCoursesList = const [],
+
   });
 
   final FilterBottomSheetStatus filterStatus;
@@ -25,6 +28,8 @@ class CoursesState {
   final List<CategoryModel> categoryList;
   final Set<String> categoryFilter;
   final List<DurationRange> durationItems;
+  final RangeValues priceFilterRangeValues;
+  final List<CourseModel> filteredCoursesList;
 
   CoursesState copyWith({
     FilterBottomSheetStatus? filterStatus,
@@ -34,6 +39,8 @@ class CoursesState {
     List<CategoryModel>? categoryList,
     Set<String>? categoryFilter,
     List<DurationRange>? durationItems,
+    RangeValues? priceFilterRangeValues,
+    List<CourseModel>? filteredCoursesList,
   }) {
     return CoursesState(
       filterStatus: filterStatus ?? this.filterStatus,
@@ -42,6 +49,8 @@ class CoursesState {
       categoryList: categoryList ?? this.categoryList,
       categoryFilter: categoryFilter ?? this.categoryFilter,
       durationItems: durationItems ?? this.durationItems,
+      priceFilterRangeValues: priceFilterRangeValues ?? this.priceFilterRangeValues,
+      filteredCoursesList: filteredCoursesList ?? this.filteredCoursesList,
     );
   }
 }

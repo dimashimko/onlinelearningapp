@@ -3,6 +3,14 @@ part of 'courses_bloc.dart';
 @immutable
 abstract class CoursesEvent {}
 
+class ChangePriceFilter extends CoursesEvent {
+  ChangePriceFilter({
+    required this.currentRangeValues,
+  });
+
+  final RangeValues currentRangeValues;
+}
+
 class InverseDurationRangeItem extends CoursesEvent {
   InverseDurationRangeItem({
     required this.durationRange,
@@ -26,6 +34,8 @@ class ChangeCategoryFilter extends CoursesEvent {
 class FilterBottomSheetDisable extends CoursesEvent {}
 
 class FilterBottomSheetEnable extends CoursesEvent {}
+
+class GetFilteredCourses extends CoursesEvent {}
 
 class GetAllCourses extends CoursesEvent {
   GetAllCourses({
