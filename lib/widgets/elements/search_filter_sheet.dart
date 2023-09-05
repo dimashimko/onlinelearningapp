@@ -31,6 +31,7 @@ class _SearchFilterSheetState extends State<SearchFilterSheet> {
     bool isRoot = false,
     Object? arguments,
   }) {
+    log('*** _navigateToPage $route');
     Navigator.of(
       context,
       rootNavigator: isRoot,
@@ -47,100 +48,96 @@ class _SearchFilterSheetState extends State<SearchFilterSheet> {
 
   void _goToSearchPage() async {
     log('*** _goToSearchPage');
-    context.read<CoursesBloc>().add(
+/*    context.read<CoursesBloc>().add(
           FilterBottomSheetDisable(),
-        );
+        );*/
+    Navigator.of(context).pop();
 
-    context.read<NavigationBloc>().add(
+/*    context.read<NavigationBloc>().add(
           NavigateTab(
             tabIndex: 2,
             route: SearchPage.routeName,
           ),
-        );
-/*    _navigateToPage(
+        );*/
+    _navigateToPage(
       context: context,
       route: SearchPage.routeName,
-    );*/
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: SizedBox(
-        height: MediaQuery.sizeOf(context).height * 0.75,
-        width: MediaQuery.sizeOf(context).width,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(32),
-                ),
-                color: Theme.of(context).colorScheme.surface,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.15),
-                    spreadRadius: 0,
-                    blurRadius: 24,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.vertical(
+              top: Radius.circular(32),
+            ),
+            color: Theme.of(context).colorScheme.surface,
+            // color: Colors.red,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.15),
+                spreadRadius: 0,
+                blurRadius: 24,
+              ),
+            ],
+          ),
+          child: SizedBox(
+            width: double.infinity,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  const TopPanelOfBottomSheet(),
+                  const FilterTitle(text: 'Categories'),
+                  const CategoriesElementsFilter(),
+                  const FilterTitle(text: 'Price'),
+                  PriceFilterSlider(
+                    initRangeValues: context
+                        .read<CoursesBloc>()
+                        .state
+                        .filterPriceRangeValues,
                   ),
+                  const SizedBox(height: 16.0),
+                  // const PriceFilterSliderFromGit(),
+                  const FilterTitle(text: 'Duration'),
+                  const DurationElementsFilter(),
+                  Row(
+                    children: [
+                      Flexible(
+                        flex: 4,
+                        child: CustomButtonLight(
+                          title: 'Clear',
+                          padding: 4.0,
+                          onTap: () {},
+                        ),
+                      ),
+                      Flexible(
+                        flex: 7,
+                        child: CustomButton(
+                          title: 'Apply Filter',
+                          padding: 4.0,
+                          onTap: () {
+                            _goToSearchPage();
+                          },
+                        ),
+                      )
+                    ],
+                  )
+
+                  // DurationRange
                 ],
               ),
-              child: SizedBox(
-                width: double.infinity,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      const TopPanelOfBottomSheet(),
-                      const FilterTitle(text: 'Categories'),
-                      const CategoriesElementsFilter(),
-                      const FilterTitle(text: 'Price'),
-                      PriceFilterSlider(
-                        initRangeValues: context
-                            .read<CoursesBloc>()
-                            .state
-                            .filterPriceRangeValues,
-                      ),
-                      const SizedBox(height: 16.0),
-                      // const PriceFilterSliderFromGit(),
-                      const FilterTitle(text: 'Duration'),
-                      const DurationElementsFilter(),
-                      Row(
-                        children: [
-                          Flexible(
-                            flex: 4,
-                            child: CustomButtonLight(
-                              title: 'Clear',
-                              padding: 4.0,
-                              onTap: () {},
-                            ),
-                          ),
-                          Flexible(
-                            flex: 7,
-                            child: CustomButton(
-                              title: 'Apply Filter',
-                              padding: 4.0,
-                              onTap: () {
-                                _goToSearchPage();
-                              },
-                            ),
-                          )
-                        ],
-                      )
-
-                      // DurationRange
-                    ],
-                  ),
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
+            ),
+          ),
+        )
+      ],
     );
   }
 }

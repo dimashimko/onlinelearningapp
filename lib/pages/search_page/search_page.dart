@@ -67,7 +67,8 @@ class _SearchPageState extends State<SearchPage> {
             children: [
               InkWell(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 24.0),
+                  padding: const EdgeInsets.symmetric(vertical: 32.0).copyWith(right: 32.0),
+                  // padding: const EdgeInsets.all(16.0),
                   child: SvgPicture.asset(
                     AppIcons.arrow_back,
                   ),
@@ -77,6 +78,7 @@ class _SearchPageState extends State<SearchPage> {
 
                 },
               ),
+              SizedBox(height: 16.0),
               FindTextField(
                 searchController: _searchController,
                 onTapSetting: () {

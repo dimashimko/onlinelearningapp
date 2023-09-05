@@ -51,8 +51,8 @@ class _CoursePageState extends State<CoursePage> {
     _navigateToPage(
       context: context,
       route: SearchPage.routeName,
-      // isRoot: true,
-      isRoot: false,
+      isRoot: true,
+      // isRoot: false,
     );
   }
 

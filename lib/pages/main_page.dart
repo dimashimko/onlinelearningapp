@@ -59,6 +59,32 @@ class _MainPageState extends State<MainPage> {
     return !maybePop;
   }
 
+  bool modalBottomSheetEnabled = false;
+
+  void _showModalBottomSheet(BuildContext context, Widget content) {
+    modalBottomSheetEnabled = true;
+    showModalBottomSheet<void>(
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      context: context,
+      builder: (BuildContext context) {
+        return content;
+      },
+    ).whenComplete(() {
+      log('*** close ModalBottomSheet');
+      context.read<CoursesBloc>().add(FilterBottomSheetDisable());
+      modalBottomSheetEnabled = false;
+    });
+  }
+
+  void _hideModalBottomSheet(BuildContext context) {
+    log('*** _hideModalBottomSheet');
+    if (modalBottomSheetEnabled) {
+      Navigator.of(context).pop();
+      bottomSheetEnabled = false;
+    }
+  }
+
   late PersistentBottomSheetController _sheetController;
 
   // final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -77,6 +103,7 @@ class _MainPageState extends State<MainPage> {
         );
       },
     );*/
+
     _sheetController = Scaffold.of(context).showBottomSheet(
       elevation: 0.0,
       backgroundColor: Colors.transparent,
@@ -100,92 +127,90 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<NavigationBloc>(
-          create: (_) => NavigationBloc(),
-        ),
-      ],
-      child: BlocConsumer<NavigationBloc, NavigationState>(
-        listener: (_, state) {
-          if (state.status == NavigationStateStatus.menu) {
-            _onSelectMenu(state.route);
-          }
+    return BlocConsumer<NavigationBloc, NavigationState>(
+      listener: (_, state) {
+        if (state.status == NavigationStateStatus.menu) {
+          _onSelectMenu(state.route);
+        }
 
-          if (state.status == NavigationStateStatus.tab) {
-            _onSelectTab(state.route);
-          }
-        },
-        builder: (context, state) {
-          return WillPopScope(
-            onWillPop: _onWillPop,
-            child: Scaffold(
-              // backgroundColor: Colors.transparent,
-              // backgroundColor: Colors.orange,
+        if (state.status == NavigationStateStatus.tab) {
+          _onSelectTab(state.route);
+        }
+      },
+      builder: (context, state) {
+        return WillPopScope(
+          onWillPop: _onWillPop,
+          child: Scaffold(
+            // backgroundColor: Colors.transparent,
+            // backgroundColor: Colors.orange,
 
-              body: BlocListener<CoursesBloc, CoursesState>(
-                listenWhen: (p, c) {
-                  return p.filterStatus != c.filterStatus;
-                },
-                listener: (context, state) {
-                  if (state.filterStatus == FilterBottomSheetStatus.enable) {
-                    // context.read<CoursesBloc>().add(FilterBottomSheetEnable());
-                    _showBottomSheet(
-                      context,
-                      const SearchFilterSheet(),
-                    );
-                  }
-                  if (state.filterStatus == FilterBottomSheetStatus.disable) {
-                    // context.read<CoursesBloc>().add(FilterBottomSheetDisable());
-                    _hideBottomSheet(
-                      context,
-                    );
-                  }
-                },
-                child: Scaffold(
-                  // backgroundColor: Colors.indigo,
-                  body: Navigator(
-                    key: _navigatorKey,
-                    initialRoute: HomePage.routeName,
-                    onGenerateRoute: AppRouter.generateRoute,
-                  ),
-                  drawerEnableOpenDragGesture: false,
-                  floatingActionButtonLocation:
-                      FloatingActionButtonLocation.miniCenterDocked,
-                  floatingActionButton: Padding(
-                    padding: const EdgeInsets.only(top: 32.0),
-                    child: InkWell(
-                      child: SvgPicture.asset(
-                        Theme.of(context).brightness == Brightness.dark
-                            ? AppIcons.search_dark
-                            : AppIcons.search_light,
-                      ),
-                      onTap: () {
-                        context
-                            .read<CoursesBloc>()
-                            .add(FilterBottomSheetEnable());
-                      },
+            body: BlocListener<CoursesBloc, CoursesState>(
+              listenWhen: (p, c) {
+                return p.filterStatus != c.filterStatus;
+              },
+              listener: (context, state) {
+                if (state.filterStatus == FilterBottomSheetStatus.enable) {
+/*                    _showBottomSheet(
+                    context,
+                    const SearchFilterSheet(),
+                  );*/
+                  _showModalBottomSheet(
+                    context,
+                    const SearchFilterSheet(),
+                  );
+                }
+                if (state.filterStatus == FilterBottomSheetStatus.disable) {
+/*                    _hideBottomSheet(
+                    context,
+                  );*/
+                  _hideModalBottomSheet(
+                    context,
+                  );
+                }
+              },
+              child: Scaffold(
+                // backgroundColor: Colors.indigo,
+                body: Navigator(
+                  key: _navigatorKey,
+                  initialRoute: HomePage.routeName,
+                  onGenerateRoute: AppRouter.generateRoute,
+                ),
+                drawerEnableOpenDragGesture: false,
+                floatingActionButtonLocation:
+                    FloatingActionButtonLocation.miniCenterDocked,
+                floatingActionButton: Padding(
+                  padding: const EdgeInsets.only(top: 32.0),
+                  child: InkWell(
+                    child: SvgPicture.asset(
+                      Theme.of(context).brightness == Brightness.dark
+                          ? AppIcons.search_dark
+                          : AppIcons.search_light,
                     ),
-                  ),
-                  bottomNavigationBar: CustomBottomNavigationBar(
-                    currentTab: state.currentIndex,
-                    onSelect: (int index) {
-                      if (state.currentIndex != index) {
-                        context.read<NavigationBloc>().add(
-                              NavigateTab(
-                                tabIndex: index,
-                                route: _pages[index],
-                              ),
-                            );
-                      }
+                    onTap: () {
+                      context
+                          .read<CoursesBloc>()
+                          .add(FilterBottomSheetEnable());
                     },
                   ),
                 ),
+                bottomNavigationBar: CustomBottomNavigationBar(
+                  currentTab: state.currentIndex,
+                  onSelect: (int index) {
+                    if (state.currentIndex != index) {
+                      context.read<NavigationBloc>().add(
+                            NavigateTab(
+                              tabIndex: index,
+                              route: _pages[index],
+                            ),
+                          );
+                    }
+                  },
+                ),
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }
