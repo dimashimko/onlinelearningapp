@@ -7,6 +7,7 @@ import 'package:online_learning_app/models/category/category_model.dart';
 import 'package:online_learning_app/models/course/course_model.dart';
 import 'package:online_learning_app/models/duration_range/duration_range.dart';
 import 'package:online_learning_app/services/firestore_service.dart';
+import 'package:online_learning_app/utils/get_uisd_catogories.dart';
 
 part 'courses_event.dart';
 
@@ -16,10 +17,28 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
   CoursesBloc() : super(const CoursesState()) {
     MyFirestoreService fireStoreService = MyFirestoreService();
 
+    on<ChangeFilterText>((event, emit) async {
+      emit(
+        state.copyWith(
+          filterText: event.newFilterText,
+        ),
+      );
+      add(GetFilteredCourses());
+    });
 
     on<GetFilteredCourses>((event, emit) async {
+      // convert list names category to uid of this categories
+      List<String> uidsSelectedCategories =
+          getUidsCategories(state.categoryFilter, state.categoryList);
+
       List<CourseModel> filteredCoursesList =
-      await fireStoreService.getFilteredCoursesList();
+          await fireStoreService.getFilteredCoursesList(
+        uidsSelectedCategories: uidsSelectedCategories,
+        minPrice: state.priceFilterRangeValues.start,
+        maxPrice: state.priceFilterRangeValues.end,
+        durationFilterItems: state.durationFilterItems,
+        filterText: state.filterText,
+      );
       // log('*** filteredCoursesList: $filteredCoursesList');
       emit(
         state.copyWith(
@@ -31,26 +50,38 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     on<ChangePriceFilter>((event, emit) async {
       emit(
         state.copyWith(
-          priceFilterRangeValues: event.currentRangeValues,
+          priceFilterRangeValues: RangeValues(
+            event.currentRangeValues.start.round().toDouble(),
+            event.currentRangeValues.end.round().toDouble(),
+          ),
         ),
       );
+      add(GetFilteredCourses());
     });
 
     on<InverseDurationRangeItem>((event, emit) async {
-      List<DurationRange> durationItems = [];
-      for (DurationRange durationItem in state.durationItems) {
+      // print('@@@ InverseDurationRangeItem');
+      List<DurationRange> durationFilterItems = [];
+      for (DurationRange durationItem in state.durationFilterItems) {
         if (durationItem.min == event.durationRange.min) {
           durationItem = durationItem.copyWith(
             isEnable: !durationItem.isEnable,
+            // isEnable: true,
+          );
+        } else {
+          durationItem = durationItem.copyWith(
+            // isEnable: !durationItem.isEnable,
+            isEnable: false,
           );
         }
-        durationItems.add(durationItem);
+        durationFilterItems.add(durationItem);
       }
       emit(
         state.copyWith(
-          durationItems: durationItems,
+          durationFilterItems: durationFilterItems,
         ),
       );
+      add(GetFilteredCourses());
     });
 
     on<ChangeCategoryFilter>((event, emit) async {
@@ -63,6 +94,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
           categoryFilter: categoryFilter,
         ),
       );
+      add(GetFilteredCourses());
     });
 
     on<FilterBottomSheetDisable>((event, emit) async {
@@ -84,10 +116,20 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     on<GetAllCourses>((event, emit) async {
       List<CourseModel> coursesList =
           await fireStoreService.getAllCoursesList(event.orderBy);
+      double maxPricePerCourse = 1;
+      for (var course in coursesList) {
+        if (course.price != null) {
+          if (course.price! > maxPricePerCourse) {
+            maxPricePerCourse = course.price!;
+          }
+        }
+      }
       // log('*** coursesList: $coursesList');
       emit(
         state.copyWith(
           coursesList: coursesList,
+          maxPricePerCourse: maxPricePerCourse,
+          priceFilterRangeValues: RangeValues(0, maxPricePerCourse),
         ),
       );
     });

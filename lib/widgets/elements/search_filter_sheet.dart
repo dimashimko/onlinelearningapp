@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
+import 'package:online_learning_app/blocs/navigation_bloc/navigation_bloc.dart';
 import 'package:online_learning_app/models/duration_range/duration_range.dart';
 import 'package:online_learning_app/pages/search_page/search_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
@@ -49,13 +50,17 @@ class _SearchFilterSheetState extends State<SearchFilterSheet> {
     context.read<CoursesBloc>().add(
           FilterBottomSheetDisable(),
         );
-    context.read<CoursesBloc>().add(
-          FilterBottomSheetDisable(),
+
+    context.read<NavigationBloc>().add(
+          NavigateTab(
+            tabIndex: 2,
+            route: SearchPage.routeName,
+          ),
         );
-    _navigateToPage(
+/*    _navigateToPage(
       context: context,
       route: SearchPage.routeName,
-    );
+    );*/
   }
 
   @override
@@ -100,6 +105,7 @@ class _SearchFilterSheetState extends State<SearchFilterSheet> {
                             .state
                             .priceFilterRangeValues,
                       ),
+                      const SizedBox(height: 16.0),
                       // const PriceFilterSliderFromGit(),
                       const FilterTitle(text: 'Duration'),
                       const DurationElementsFilter(),
@@ -187,7 +193,7 @@ class DurationElementsFilter extends StatelessWidget {
           return Wrap(
             runSpacing: 12.0,
             spacing: 12.0,
-            children: state.durationItems.map((durationItem) {
+            children: state.durationFilterItems.map((durationItem) {
               return DurationElementsFilterItem(
                 durationRange: durationItem,
                 isEnable: durationItem.isEnable,
@@ -214,9 +220,11 @@ class DurationElementsFilterItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        context.read<CoursesBloc>().add(InverseDurationRangeItem(
-              durationRange: durationRange,
-            ));
+        context.read<CoursesBloc>().add(
+              InverseDurationRangeItem(
+                durationRange: durationRange,
+              ),
+            );
         // isEnable
         //     ? context
         //     .read<CoursesBloc>()

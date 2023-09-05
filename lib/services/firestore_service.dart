@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:online_learning_app/models/category/category_model.dart';
 import 'package:online_learning_app/models/course/course_model.dart';
+import 'package:online_learning_app/models/duration_range/duration_range.dart';
 
 class MyFirestoreService {
   FirebaseFirestore db = FirebaseFirestore.instance;
@@ -38,7 +39,14 @@ class MyFirestoreService {
   //   return listOfCoursesModel;
   // }
 
-  Future<List<CourseModel>> getFilteredCoursesList() async {
+  Future<List<CourseModel>> getFilteredCoursesList({
+    required List<String> uidsSelectedCategories,
+    required double minPrice,
+    required double maxPrice,
+    required List<DurationRange> durationFilterItems,
+    required String filterText,
+  }) async {
+    // print('*** getFilteredCoursesList');
     String? uid = FirebaseAuth.instance.currentUser?.uid;
     List<CourseModel> listOfCoursesModel = [];
     if (uid == null) {
@@ -47,26 +55,44 @@ class MyFirestoreService {
       if (uid == '0') {
         log('*** courses not update from firestore: uid == \'0\'');
       } else {
-        Query<Map<String, dynamic>> filteredCourses =
-            db.collection('courses')/*.orderBy('duration')*/;
+        Query<Map<String, dynamic>> filteredCourses = db.collection('courses');
 
-        // await db
-        //     .collection('courses')
-        //     .orderBy(orderBy)
-        // .orderBy('openLesson')
-        if (true) {
-        // if (false) {
-          filteredCourses = filteredCourses.where('duration', isGreaterThan: 5);
+/*        // Filtered by Name
+        filteredCourses =
+            filteredCourses.startAt(filterText);*/
+
+
+        // Filtered by category
+        if (uidsSelectedCategories.isNotEmpty) {
+          filteredCourses = filteredCourses.where(
+            'category',
+            whereIn: uidsSelectedCategories,
+          );
         }
-/*        if (true) {
-          filteredCourses.where('openLesson', arrayContainsAny: [2]);
-          // filteredCourses.where('openLesson', whereIn: [2]);
-        }*/
-        // if (true) {
-        //   filteredCourses.where('openLesson', isEqualTo: 2);
-        // }
-        // .where('openLesson', isEqualTo: 2)
-        // .where('openLesson', isEqualTo: 2)
+
+        // Filtered by Price
+        filteredCourses =
+            filteredCourses.where('price', isGreaterThan: minPrice);
+        filteredCourses =
+            filteredCourses.where('price', isLessThan: maxPrice + 0.5);
+
+
+
+        // Filtered by duration
+        for (DurationRange durationFilter in durationFilterItems) {
+          if (durationFilter.isEnable) {
+            log('*** durationFilter: $durationFilter');
+            filteredCourses = filteredCourses.where(
+              'duration',
+              isGreaterThan: durationFilter.min * 3600,
+            );
+            filteredCourses = filteredCourses.where(
+              'duration',
+              isLessThan: durationFilter.max * 3600,
+            );
+          }
+        }
+
         await filteredCourses.get().then(
           (QuerySnapshot<Map<String, dynamic>> snapshot) {
             for (var doc in snapshot.docs) {
@@ -80,6 +106,7 @@ class MyFirestoreService {
         );
       }
     }
+    // log('*** listOfCoursesModel: ${listOfCoursesModel}');
     return listOfCoursesModel;
   }
 

@@ -10,11 +10,16 @@ import 'package:online_learning_app/widgets/elements/course_item.dart';
 import 'package:online_learning_app/widgets/elements/custom_search_text_field.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
 
-class SearchPage extends StatelessWidget {
+class SearchPage extends StatefulWidget {
   SearchPage({Key? key}) : super(key: key);
 
   static const routeName = '/search_pages/search_page';
 
+  @override
+  State<SearchPage> createState() => _SearchPageState();
+}
+
+class _SearchPageState extends State<SearchPage> {
   void _navigateToPage({
     required BuildContext context,
     required String route,
@@ -34,11 +39,25 @@ class SearchPage extends StatelessWidget {
   final _searchController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    context.read<CoursesBloc>().add(
+          GetFilteredCourses(),
+        );
+    _searchController.addListener(() {
+      context.read<CoursesBloc>().add(
+        ChangeFilterText(newFilterText: _searchController.text),
+      );
+      // log('*** _searchController text ${_searchController.text}');
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: SearchPageAppBar(onTap: () {
+/*      appBar: SearchPageAppBar(onTap: () {
         _goToBackPage(context);
-      }),
+      }),*/
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -46,6 +65,18 @@ class SearchPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              InkWell(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 24.0),
+                  child: SvgPicture.asset(
+                    AppIcons.arrow_back,
+                  ),
+                ),
+                onTap: (){
+                  _goToBackPage(context);
+
+                },
+              ),
               FindTextField(
                 searchController: _searchController,
                 onTapSetting: () {
@@ -84,9 +115,9 @@ class CoursesListView extends StatelessWidget {
           return ListView.separated(
             scrollDirection: Axis.vertical,
             separatorBuilder: (context, index) => const SizedBox(height: 16.0),
-            itemCount: state.coursesList.length,
+            itemCount: state.filteredCoursesList.length,
             itemBuilder: (context, index) => CourseItem(
-              courseModel: state.coursesList[index],
+              courseModel: state.filteredCoursesList[index],
             ),
           );
         },

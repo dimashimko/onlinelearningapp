@@ -17,7 +17,7 @@ class PriceFilterSlider extends StatefulWidget {
 }
 
 class _PriceFilterSliderState extends State<PriceFilterSlider> {
-  RangeValues _currentRangeValues = const RangeValues(0, 1);
+  RangeValues _currentRangeValues = RangeValues(0, 10);
 
   @override
   void initState() {
@@ -38,29 +38,26 @@ class _PriceFilterSliderState extends State<PriceFilterSlider> {
             Theme.of(context).colorScheme.surfaceVariant,
         //
         //
-/*        rangeThumbShape: CustomRangeThumbShape3(),
-        showValueIndicator: ShowValueIndicator.always,
-        valueIndicatorTextStyle: TextStyle(
-          color: Theme.of(context).colorScheme.onBackground,
-        ),
-        rangeValueIndicatorShape: const CustomValueIndicatorShape2(),*/
+        // rangeThumbShape: CustomRangeThumbShape3(),
+        // showValueIndicator: ShowValueIndicator.always,
+        // valueIndicatorTextStyle: TextStyle(
+        //   color: Theme.of(context).colorScheme.onBackground,
+        // ),
+        // rangeValueIndicatorShape: const CustomValueIndicatorShape2(),
+
 
         rangeThumbShape: CustomRangeThumbShape5(
           textStyle: TextStyle(
             color: Theme.of(context).colorScheme.onBackground,
+            fontSize: 16.0,
+            fontWeight: FontWeight.w500,
           ),
           currentRangeValues: _currentRangeValues,
         ),
-
-
       ),
       child: RangeSlider(
         values: _currentRangeValues,
-        max: 100,
-        labels: RangeLabels(
-          _currentRangeValues.start.round().toString(),
-          _currentRangeValues.end.round().toString(),
-        ),
+        max: context.read<CoursesBloc>().state.maxPricePerCourse,
         onChanged: (RangeValues values) {
           setState(() {
             _currentRangeValues = values;
@@ -71,6 +68,10 @@ class _PriceFilterSliderState extends State<PriceFilterSlider> {
                 );
           });
         },
+        labels: RangeLabels(
+          _currentRangeValues.start.round().toDouble().toString(),
+          _currentRangeValues.end.round().toDouble().toString(),
+        ),
       ),
     );
   }
@@ -119,10 +120,10 @@ class CustomRangeThumbShape5 extends RangeSliderThumbShape {
     String text = '';
     switch (thumb!) {
       case Thumb.start:
-        text = currentRangeValues.start.round().toString();
+        text = '\$${currentRangeValues.start.round()}';
         break;
       case Thumb.end:
-        text = currentRangeValues.end.round().toString();
+        text = '\$${currentRangeValues.end.round()}';
         break;
     }
 

@@ -10,7 +10,7 @@ class CoursesState {
     this.coursesList = const [],
     this.categoryList = const [],
     this.categoryFilter = const {},
-    this.durationItems = const [
+    this.durationFilterItems = const [
       DurationRange(min: 3, max: 8, isEnable: false),
       DurationRange(min: 8, max: 14, isEnable: false),
       DurationRange(min: 14, max: 20, isEnable: false),
@@ -19,6 +19,8 @@ class CoursesState {
     ],
     this.priceFilterRangeValues = const RangeValues(0.0, 1.0),
     this.filteredCoursesList = const [],
+    this.maxPricePerCourse = 1,
+    this.filterText = '',
 
   });
 
@@ -27,9 +29,11 @@ class CoursesState {
   final List<CourseModel> coursesList;
   final List<CategoryModel> categoryList;
   final Set<String> categoryFilter;
-  final List<DurationRange> durationItems;
+  final List<DurationRange> durationFilterItems;
   final RangeValues priceFilterRangeValues;
   final List<CourseModel> filteredCoursesList;
+  final double maxPricePerCourse;
+  final String filterText;
 
   CoursesState copyWith({
     FilterBottomSheetStatus? filterStatus,
@@ -38,9 +42,11 @@ class CoursesState {
     List<CourseModel>? coursesList,
     List<CategoryModel>? categoryList,
     Set<String>? categoryFilter,
-    List<DurationRange>? durationItems,
+    List<DurationRange>? durationFilterItems,
     RangeValues? priceFilterRangeValues,
     List<CourseModel>? filteredCoursesList,
+    double? maxPricePerCourse,
+    String? filterText,
   }) {
     return CoursesState(
       filterStatus: filterStatus ?? this.filterStatus,
@@ -48,9 +54,11 @@ class CoursesState {
       coursesList: coursesList ?? this.coursesList,
       categoryList: categoryList ?? this.categoryList,
       categoryFilter: categoryFilter ?? this.categoryFilter,
-      durationItems: durationItems ?? this.durationItems,
+      durationFilterItems: durationFilterItems ?? this.durationFilterItems,
       priceFilterRangeValues: priceFilterRangeValues ?? this.priceFilterRangeValues,
       filteredCoursesList: filteredCoursesList ?? this.filteredCoursesList,
+      maxPricePerCourse: maxPricePerCourse ?? this.maxPricePerCourse,
+      filterText: filterText ?? this.filterText,
     );
   }
 }

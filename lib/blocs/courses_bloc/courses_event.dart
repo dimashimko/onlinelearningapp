@@ -3,6 +3,14 @@ part of 'courses_bloc.dart';
 @immutable
 abstract class CoursesEvent {}
 
+class ChangeFilterText extends CoursesEvent {
+  ChangeFilterText({
+    required this.newFilterText,
+  });
+
+  final String newFilterText;
+}
+
 class ChangePriceFilter extends CoursesEvent {
   ChangePriceFilter({
     required this.currentRangeValues,
