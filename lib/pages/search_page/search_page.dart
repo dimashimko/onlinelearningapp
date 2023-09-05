@@ -147,7 +147,7 @@ class CategoriesListView extends StatelessWidget {
                       // width: 240,
                       child: CategoriesElementFilterItem(
                         name: state.categoryList[index].name ?? ' ',
-                        isEnable: state.categoryFilter
+                        isEnable: state.filterCategory
                             .contains(state.categoryList[index].name),
                       ),
                     )
@@ -177,8 +177,8 @@ class CategoriesElementFilterItem extends StatelessWidget {
         isEnable
             ? context
                 .read<CoursesBloc>()
-                .add(ChangeCategoryFilter(remove: name))
-            : context.read<CoursesBloc>().add(ChangeCategoryFilter(add: name));
+                .add(ChangefilterCategory(remove: name))
+            : context.read<CoursesBloc>().add(ChangefilterCategory(add: name));
       },
       child: Container(
         decoration: BoxDecoration(

@@ -27,8 +27,8 @@ class InverseDurationRangeItem extends CoursesEvent {
   final DurationRange durationRange;
 }
 
-class ChangeCategoryFilter extends CoursesEvent {
-  ChangeCategoryFilter({
+class ChangefilterCategory extends CoursesEvent {
+  ChangefilterCategory({
     this.add,
     this.remove,
     this.clear,

@@ -103,7 +103,7 @@ class _SearchFilterSheetState extends State<SearchFilterSheet> {
                         initRangeValues: context
                             .read<CoursesBloc>()
                             .state
-                            .priceFilterRangeValues,
+                            .filterPriceRangeValues,
                       ),
                       const SizedBox(height: 16.0),
                       // const PriceFilterSliderFromGit(),
@@ -193,7 +193,7 @@ class DurationElementsFilter extends StatelessWidget {
           return Wrap(
             runSpacing: 12.0,
             spacing: 12.0,
-            children: state.durationFilterItems.map((durationItem) {
+            children: state.filterDurationItems.map((durationItem) {
               return DurationElementsFilterItem(
                 durationRange: durationItem,
                 isEnable: durationItem.isEnable,
@@ -228,9 +228,9 @@ class DurationElementsFilterItem extends StatelessWidget {
         // isEnable
         //     ? context
         //     .read<CoursesBloc>()
-        //     .add(ChangeCategoryFilter(remove: durationRange))
+        //     .add(ChangefilterCategory(remove: durationRange))
         //     : context.read<CoursesBloc>().add(
-        //     ChangeCategoryFilter(add: durationRange));
+        //     ChangefilterCategory(add: durationRange));
       },
       child: Container(
         decoration: BoxDecoration(
@@ -330,7 +330,7 @@ class CategoriesElementsFilter extends StatelessWidget {
             children: state.categoryList.map((category) {
               return CategoriesElementFilterItem(
                 name: category.name ?? ' ',
-                isEnable: state.categoryFilter.contains(category.name),
+                isEnable: state.filterCategory.contains(category.name),
               );
             }).toList(),
           );
@@ -357,8 +357,8 @@ class CategoriesElementFilterItem extends StatelessWidget {
         isEnable
             ? context
                 .read<CoursesBloc>()
-                .add(ChangeCategoryFilter(remove: name))
-            : context.read<CoursesBloc>().add(ChangeCategoryFilter(add: name));
+                .add(ChangefilterCategory(remove: name))
+            : context.read<CoursesBloc>().add(ChangefilterCategory(add: name));
       },
       child: Container(
         decoration: BoxDecoration(

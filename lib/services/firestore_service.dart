@@ -43,7 +43,7 @@ class MyFirestoreService {
     required List<String> uidsSelectedCategories,
     required double minPrice,
     required double maxPrice,
-    required List<DurationRange> durationFilterItems,
+    required List<DurationRange> filterDurationItems,
     required String filterText,
   }) async {
     // print('*** getFilteredCoursesList');
@@ -79,7 +79,7 @@ class MyFirestoreService {
 
 
         // Filtered by duration
-        for (DurationRange durationFilter in durationFilterItems) {
+        for (DurationRange durationFilter in filterDurationItems) {
           if (durationFilter.isEnable) {
             log('*** durationFilter: $durationFilter');
             filteredCourses = filteredCourses.where(
