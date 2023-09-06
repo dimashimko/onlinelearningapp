@@ -48,7 +48,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
 
 
     on<GetFilteredCourses>((event, emit) async {
-      log('@@@ GetFilteredCourses');
+      // log('@@@ GetFilteredCourses');
       // convert list names category to uid of this categories
       List<String> uidsSelectedCategories =
           getUidsCategories(state.filterCategory, state.categoryList);
@@ -135,8 +135,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       add(GetFilteredCourses());
     });
 
-    on<ChangefilterCategory>((event, emit) async {
-      // FilterEnabledType newFilterEnabledType = FilterEnabledType.categories;
+    on<ChangeFilterCategory>((event, emit) async {
 
       Set<String> filterCategory = {...state.filterCategory};
       if (event.add != null) filterCategory.add(event.add!);

@@ -415,8 +415,8 @@ class CategoriesElementFilterItem extends StatelessWidget {
         isEnable
             ? context
                 .read<CoursesBloc>()
-                .add(ChangefilterCategory(remove: name))
-            : context.read<CoursesBloc>().add(ChangefilterCategory(add: name));
+                .add(ChangeFilterCategory(remove: name))
+            : context.read<CoursesBloc>().add(ChangeFilterCategory(add: name));
       },
       child: Container(
         decoration: BoxDecoration(

@@ -56,6 +56,23 @@ class _CoursePageState extends State<CoursePage> {
     );
   }
 
+  void _goToSearchPageWithFilter(BuildContext context, String? category) async {
+    context.read<CoursesBloc>().add(
+          ClearFilters(),
+        );
+    context.read<CoursesBloc>().add(
+          ChangeFilterCategory(
+            add: category,
+          ),
+        );
+    _navigateToPage(
+      context: context,
+      route: SearchPage.routeName,
+      isRoot: true,
+      // isRoot: false,
+    );
+  }
+
   final _searchController = TextEditingController();
 
   @override
@@ -102,7 +119,11 @@ class _CoursePageState extends State<CoursePage> {
                       isReadOnly: true,
                       // isReadOnly: false,
                     ),
-                    CategoriesListView(),
+                    CategoriesListView(
+                      onTapCategory: (String? category) {
+                        _goToSearchPageWithFilter(context, category);
+                      },
+                    ),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
@@ -200,7 +221,12 @@ class _CustomToggleButtonsState extends State<CustomToggleButtons> {
 }
 
 class CategoriesListView extends StatelessWidget {
-  CategoriesListView({super.key});
+  CategoriesListView({
+    required this.onTapCategory,
+    super.key,
+  });
+
+  final Function(String?) onTapCategory;
 
   @override
   Widget build(BuildContext context) {
@@ -216,11 +242,16 @@ class CategoriesListView extends StatelessWidget {
                     const SizedBox(width: 8.0),
                 // itemCount: categories.length,
                 itemCount: state.categoryList.length,
-                itemBuilder: (context, index) => SizedBox(
-                      width: 240,
-                      child: CustomImageViewer(
-                        link: state.categoryList[index].categoryTitle,
-                        alternativePhoto: AppImages.empty_title,
+                itemBuilder: (context, index) => InkWell(
+                      onTap: () {
+                        onTapCategory(state.categoryList[index].name);
+                      },
+                      child: SizedBox(
+                        width: 240,
+                        child: CustomImageViewer(
+                          link: state.categoryList[index].categoryTitle,
+                          alternativePhoto: AppImages.empty_title,
+                        ),
                       ),
                     )
                 // SvgPicture.asset(state.categoryList[index].categoryTitle),
