@@ -4,16 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
-import 'package:online_learning_app/blocs/navigation_bloc/navigation_bloc.dart';
 import 'package:online_learning_app/models/duration_range/duration_range.dart';
 import 'package:online_learning_app/pages/search_page/search_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
-import 'package:online_learning_app/test/test08.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button_light.dart';
 import 'package:online_learning_app/widgets/elements/custom_range_slider/custom_range_slider_v1.dart';
-import 'package:online_learning_app/widgets/elements/custom_range_slider/custom_range_slider_v2.dart';
-import 'package:range_slider_flutter/range_slider_flutter.dart';
+import 'package:online_learning_app/widgets/uncategorized/custom_widget_switcher.dart';
+import 'package:online_learning_app/widgets/uncategorized/splash_box.dart';
 
 class SearchFilterSheet extends StatefulWidget {
   const SearchFilterSheet({Key? key}) : super(key: key);
@@ -39,30 +37,20 @@ class _SearchFilterSheetState extends State<SearchFilterSheet> {
       route,
       arguments: arguments,
     );
-/*    Navigator.pushNamedAndRemoveUntil(
-      context,
-      route,
-      (_) => false,
-    );*/
   }
 
   void _goToSearchPage() async {
-    log('*** _goToSearchPage');
+    // log('*** _goToSearchPage');
 /*    context.read<CoursesBloc>().add(
           FilterBottomSheetDisable(),
         );*/
     Navigator.of(context).pop();
-
-/*    context.read<NavigationBloc>().add(
-          NavigateTab(
-            tabIndex: 2,
-            route: SearchPage.routeName,
-          ),
-        );*/
-    _navigateToPage(
-      context: context,
-      route: SearchPage.routeName,
-    );
+    if (context.read<CoursesBloc>().state.isFilterNavToSearchPage) {
+      _navigateToPage(
+        context: context,
+        route: SearchPage.routeName,
+      );
+    }
   }
 
   @override
@@ -90,54 +78,153 @@ class _SearchFilterSheetState extends State<SearchFilterSheet> {
             width: double.infinity,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  const TopPanelOfBottomSheet(),
-                  const FilterTitle(text: 'Categories'),
-                  const CategoriesElementsFilter(),
-                  const FilterTitle(text: 'Price'),
-                  PriceFilterSlider(
-                    initRangeValues: context
-                        .read<CoursesBloc>()
-                        .state
-                        .filterPriceRangeValues,
-                  ),
-                  const SizedBox(height: 16.0),
-                  // const PriceFilterSliderFromGit(),
-                  const FilterTitle(text: 'Duration'),
-                  const DurationElementsFilter(),
-                  Row(
+              child: BlocBuilder<CoursesBloc, CoursesState>(
+                builder: (context, state) {
+                  FilterEnabledType filterEnabledType = state.filterEnabledType;
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Flexible(
-                        flex: 4,
-                        child: CustomButtonLight(
-                          title: 'Clear',
-                          padding: 4.0,
-                          onTap: () {},
-                        ),
+                      const TopPanelOfBottomSheet(),
+                      const FilterCategories(
+                        isEnable: true,
                       ),
-                      Flexible(
-                        flex: 7,
-                        child: CustomButton(
-                          title: 'Apply Filter',
-                          padding: 4.0,
-                          onTap: () {
-                            _goToSearchPage();
-                          },
-                        ),
+                      FilterPrice(
+                        isEnable:
+                            filterEnabledType == FilterEnabledType.price ||
+                                filterEnabledType == FilterEnabledType.all,
+                      ),
+                      FilterDuration(
+                        isEnable:
+                            filterEnabledType == FilterEnabledType.duration ||
+                                filterEnabledType == FilterEnabledType.all,
+                      ),
+                      const NoteFilterByOneParameter(),
+                      FilterButtons(
+                        onTapClear: () {
+                          context.read<CoursesBloc>().add(ClearFilters());
+                        },
+                        goToSearchPage: () => _goToSearchPage(),
                       )
+                      // DurationRange
                     ],
-                  )
-
-                  // DurationRange
-                ],
+                  );
+                },
               ),
             ),
           ),
         )
       ],
+    );
+  }
+}
+
+class FilterButtons extends StatelessWidget {
+  const FilterButtons({
+    required this.onTapClear,
+    required this.goToSearchPage,
+    super.key,
+  });
+
+  final VoidCallback onTapClear;
+  final VoidCallback goToSearchPage;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Flexible(
+          flex: 4,
+          child: CustomButtonLight(
+            title: 'Clear',
+            padding: 4.0,
+            onTap: () => onTapClear(),
+          ),
+        ),
+        Flexible(
+          flex: 7,
+          child: CustomButton(
+            title: 'Apply Filter',
+            padding: 4.0,
+            onTap: () => goToSearchPage(),
+          ),
+        )
+      ],
+    );
+  }
+}
+
+
+
+class FilterDuration extends StatelessWidget {
+  const FilterDuration({
+    required this.isEnable,
+    super.key,
+  });
+
+  final bool isEnable;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomWidgetSwitcher(
+      isEnable: isEnable,
+      child: const Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          FilterTitle(text: 'Duration'),
+          DurationElementsFilter(),
+        ],
+      ),
+    );
+  }
+}
+
+class FilterPrice extends StatelessWidget {
+  const FilterPrice({
+    required this.isEnable,
+    super.key,
+  });
+
+  final bool isEnable;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomWidgetSwitcher(
+      isEnable: isEnable,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const FilterTitle(text: 'Price'),
+          PriceFilterSlider(
+            initRangeValues:
+                context.read<CoursesBloc>().state.filterPriceRangeValues,
+          ),
+          const SizedBox(height: 16.0),
+        ],
+      ),
+    );
+  }
+}
+
+class FilterCategories extends StatelessWidget {
+  const FilterCategories({
+    required this.isEnable,
+    super.key,
+  });
+
+  final bool isEnable;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomWidgetSwitcher(
+      isEnable: isEnable,
+      child: const Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          FilterTitle(text: 'Categories'),
+          CategoriesElementsFilter(),
+        ],
+      ),
     );
   }
 }
@@ -251,47 +338,21 @@ class DurationElementsFilterItem extends StatelessWidget {
   }
 }
 
-// class PriceFilterSlider extends StatefulWidget {
-//   const PriceFilterSlider({super.key});
-//
-//   @override
-//   State<PriceFilterSlider> createState() => _PriceFilterSliderState();
-// }
-//
-// class _PriceFilterSliderState extends State<PriceFilterSlider> {
-//   RangeValues _currentRangeValues = const RangeValues(40, 80);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return SliderTheme(
-//       data: SliderThemeData(
-//         trackHeight: 2,
-//         activeTrackColor: Theme.of(context).colorScheme.primary,
-//         inactiveTrackColor: Theme.of(context).colorScheme.outlineVariant,
-//         overlayColor: Colors.black12,
-//         valueIndicatorColor: Theme.of(context).colorScheme.primary,
-//         thumbColor: Theme.of(context).colorScheme.primary,
-//         // thumbColor: Colors.red,
-//         // rangeThumbShape: CustomRangeThumbShape(),
-//         showValueIndicator: ShowValueIndicator.always,
-//       ),
-//       child: RangeSlider(
-//         values: _currentRangeValues,
-//         max: 100,
-//         // divisions: 20,
-//         labels: RangeLabels(
-//           _currentRangeValues.start.round().toString(),
-//           _currentRangeValues.end.round().toString(),
-//         ),
-//         onChanged: (RangeValues values) {
-//           setState(() {
-//             _currentRangeValues = values;
-//           });
-//         },
-//       ),
-//     );
-//   }
-// }
+class NoteFilterByOneParameter extends StatelessWidget {
+  const NoteFilterByOneParameter({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      'Note: Filtering is available only by one parameter',
+      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+            fontSize: 14.0,
+            fontWeight: FontWeight.w400,
+            color: Colors.orange,
+          ),
+    );
+  }
+}
 
 class FilterTitle extends StatelessWidget {
   const FilterTitle({

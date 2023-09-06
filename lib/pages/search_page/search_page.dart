@@ -9,6 +9,7 @@ import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/widgets/elements/course_item.dart';
 import 'package:online_learning_app/widgets/elements/custom_search_text_field.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
+import 'package:online_learning_app/widgets/uncategorized/custom_widget_switcher.dart';
 
 class SearchPage extends StatefulWidget {
   SearchPage({Key? key}) : super(key: key);
@@ -36,6 +37,15 @@ class _SearchPageState extends State<SearchPage> {
     Navigator.of(context).pop();
   }
 
+  void _onTapFilterSetting(BuildContext context) {
+    // log('*** FilterBottomSheetEnable');
+    context.read<CoursesBloc>().add(
+          FilterBottomSheetEnable(
+            isFilterNavToSearchPage: false,
+          ),
+        );
+  }
+
   final _searchController = TextEditingController();
 
   @override
@@ -46,8 +56,8 @@ class _SearchPageState extends State<SearchPage> {
         );
     _searchController.addListener(() {
       context.read<CoursesBloc>().add(
-        ChangeFilterText(newFilterText: _searchController.text),
-      );
+            ChangeFilterText(newFilterText: _searchController.text),
+          );
       // log('*** _searchController text ${_searchController.text}');
     });
   }
@@ -67,30 +77,44 @@ class _SearchPageState extends State<SearchPage> {
             children: [
               InkWell(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 32.0).copyWith(right: 32.0),
+                  padding: const EdgeInsets.symmetric(vertical: 32.0)
+                      .copyWith(right: 32.0),
                   // padding: const EdgeInsets.all(16.0),
                   child: SvgPicture.asset(
                     AppIcons.arrow_back,
                   ),
                 ),
-                onTap: (){
+                onTap: () {
                   _goToBackPage(context);
-
                 },
               ),
-              SizedBox(height: 16.0),
-              FindTextField(
-                searchController: _searchController,
-                onTapSetting: () {
-                  log('*** FilterBottomSheetEnable');
-                  context.read<CoursesBloc>().add(FilterBottomSheetEnable());
+              const SizedBox(height: 16.0),
+              BlocListener<CoursesBloc, CoursesState>(
+                listenWhen: (p, c) {
+                  return p.filterText != c.filterText && c.filterText.isEmpty;
                 },
-                onTap: () {
-                  context.read<CoursesBloc>().add(FilterBottomSheetDisable());
-                  log('*** onTap FindTextField');
+                listener: (context, state) {
+                  _searchController.clear();
                 },
-                // isReadOnly: true,
-                isReadOnly: false,
+                child: BlocBuilder<CoursesBloc, CoursesState>(
+                  builder: (context, state) {
+                    bool isReadOnly = state.filterEnabledType ==
+                            FilterEnabledType.price ||
+                        state.filterEnabledType == FilterEnabledType.duration;
+                    log('*** isReadOnly: $isReadOnly');
+                    return FindTextField(
+                      searchController: _searchController,
+                      onTapSetting: () => _onTapFilterSetting(context),
+                      // onTap: () {},
+                      onTap: () => null,
+
+                      // isReadOnly: true,
+                      // isReadOnly: false,
+                      isReadOnly: isReadOnly,
+                      // enabled: !isReadOnly,
+                    );
+                  },
+                ),
               ),
               CategoriesListView(),
               Text(
@@ -210,8 +234,8 @@ PreferredSizeWidget SearchPageAppBar({
   return CustomAppBar(
     leading: SvgPicture.asset(AppIcons.arrow_back),
     onLeading: onTap,
-    title: Text(''),
-    action: Text(
+    title: const Text(''),
+    action: const Text(
       '          ',
       style: TextStyle(color: Colors.white),
     ),

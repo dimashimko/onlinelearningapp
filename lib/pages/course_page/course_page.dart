@@ -44,9 +44,9 @@ class _CoursePageState extends State<CoursePage> {
   }*/
 
   void _goToSearchPage(BuildContext context) async {
-    log('*** _goToSearchPage');
+    // log('*** _goToSearchPage');
     context.read<CoursesBloc>().add(
-          FilterBottomSheetDisable(),
+          ClearFilters(),
         );
     _navigateToPage(
       context: context,
@@ -253,7 +253,6 @@ class CoursesListView extends StatelessWidget {
     );
   }
 }
-
 
 /*PreferredSizeWidget CoursePageAppBar({
   required VoidCallback onTap,

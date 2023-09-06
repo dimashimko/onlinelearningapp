@@ -71,14 +71,14 @@ class _MainPageState extends State<MainPage> {
         return content;
       },
     ).whenComplete(() {
-      log('*** close ModalBottomSheet');
+      // log('*** close ModalBottomSheet');
       context.read<CoursesBloc>().add(FilterBottomSheetDisable());
       modalBottomSheetEnabled = false;
     });
   }
 
   void _hideModalBottomSheet(BuildContext context) {
-    log('*** _hideModalBottomSheet');
+    // log('*** _hideModalBottomSheet');
     if (modalBottomSheetEnabled) {
       Navigator.of(context).pop();
       bottomSheetEnabled = false;
@@ -141,7 +141,11 @@ class _MainPageState extends State<MainPage> {
                       : AppIcons.search_light,
                 ),
                 onTap: () {
-                  context.read<CoursesBloc>().add(FilterBottomSheetEnable());
+                  context.read<CoursesBloc>().add(
+                        FilterBottomSheetEnable(
+                          isFilterNavToSearchPage: true,
+                        ),
+                      );
                 },
               ),
             ),

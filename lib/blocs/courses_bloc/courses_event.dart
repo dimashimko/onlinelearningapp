@@ -3,6 +3,18 @@ part of 'courses_bloc.dart';
 @immutable
 abstract class CoursesEvent {}
 
+
+class ChangeEnabledFilter extends CoursesEvent {
+  ChangeEnabledFilter({
+    required this.newFilterEnabledType,
+  });
+
+  final FilterEnabledType newFilterEnabledType;
+}
+
+
+class ClearFilters extends CoursesEvent {}
+
 class ChangeFilterText extends CoursesEvent {
   ChangeFilterText({
     required this.newFilterText,
@@ -41,7 +53,13 @@ class ChangefilterCategory extends CoursesEvent {
 
 class FilterBottomSheetDisable extends CoursesEvent {}
 
-class FilterBottomSheetEnable extends CoursesEvent {}
+class FilterBottomSheetEnable extends CoursesEvent {
+  FilterBottomSheetEnable({
+    required this.isFilterNavToSearchPage,
+  });
+
+  final bool isFilterNavToSearchPage;
+}
 
 class GetFilteredCourses extends CoursesEvent {}
 

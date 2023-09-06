@@ -55,6 +55,12 @@ class AppThemes {
           color: Color(0xFF3D5CFF),
         ),
 
+        headlineSmall: TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w400,
+          color: Color(0xFFFF6905),
+        ),
+
         // title
         titleLarge: TextStyle(
           fontSize: 14,
@@ -160,10 +166,10 @@ class AppThemes {
         onSurface: const Color(0xFFFFFFFF),
         scrim: const Color(0xFFF4F3FD),
         inverseSurface: const Color(0xFFF4F3FD),
+        onInverseSurface: const Color(0xFFFFEBF0),
         surfaceVariant: const Color(0xFF3D5CFF),
         onSurfaceVariant: const Color(0xFFFFFFFF),
         surfaceTint: const Color(0xFFF4F3FD),
-        // surfaceTint: const Color(0xFFFF0000),
       ),
     );
   }
@@ -186,6 +192,7 @@ class AppThemes {
           onSurface: const Color(0xFF3E3E55),
           scrim: const Color(0xFFB8B8D2),
           inverseSurface: const Color(0xFF3E3E55), // color in TextForm
+          onInverseSurface: const Color(0xFF2F2F42),
           surfaceVariant: const Color(0xFFFFFFFF),
           onSurfaceVariant: const Color(0xFF3D5CFF),
           surfaceTint: const Color(0xFF858597),

@@ -17,16 +17,38 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
   CoursesBloc() : super(const CoursesState()) {
     MyFirestoreService fireStoreService = MyFirestoreService();
 
-    on<ChangeFilterText>((event, emit) async {
+    on<ChangeEnabledFilter>((event, emit) async {
       emit(
         state.copyWith(
-          filterText: event.newFilterText,
+          filterEnabledType: event.newFilterEnabledType,
         ),
       );
       add(GetFilteredCourses());
     });
 
+    on<ClearFilters>((event, emit) async {
+      List<DurationRange> newFilterDurationItems = [];
+      for (DurationRange durationItem in state.filterDurationItems) {
+        newFilterDurationItems.add(durationItem.copyWith(isEnable: false));
+      }
+      // this.filterPriceRangeValues = const RangeValues(0.0, 1.0),
+
+      emit(
+        state.copyWith(
+          filterCategory: {},
+          filterDurationItems: newFilterDurationItems,
+          filterPriceRangeValues: RangeValues(0.0, state.maxPricePerCourse),
+          filterText: '',
+          filterEnabledType: FilterEnabledType.all,
+        ),
+      );
+      add(GetFilteredCourses());
+    });
+
+
+
     on<GetFilteredCourses>((event, emit) async {
+      log('@@@ GetFilteredCourses');
       // convert list names category to uid of this categories
       List<String> uidsSelectedCategories =
           getUidsCategories(state.filterCategory, state.categoryList);
@@ -37,7 +59,8 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
         minPrice: state.filterPriceRangeValues.start,
         maxPrice: state.filterPriceRangeValues.end,
         filterDurationItems: state.filterDurationItems,
-        filterText: state.filterText,
+        searchKey: state.filterText,
+        filterEnabledType: state.filterEnabledType,
       );
       // log('*** filteredCoursesList: $filteredCoursesList');
       emit(
@@ -47,13 +70,36 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       );
     });
 
+    on<ChangeFilterText>((event, emit) async {
+      log('@@@ ChangeFilterText');
+      log('event.newFilterText: ${event.newFilterText}');
+      if (state.filterText != event.newFilterText) {
+        FilterEnabledType newFilterEnabledType = FilterEnabledType.text;
+        if(event.newFilterText.isEmpty) newFilterEnabledType = FilterEnabledType.all;
+        emit(
+          state.copyWith(
+            filterText: event.newFilterText,
+            filterEnabledType: newFilterEnabledType,
+
+          ),
+        );
+        add(GetFilteredCourses());
+      }
+    });
+
     on<ChangePriceFilter>((event, emit) async {
+      FilterEnabledType newFilterEnabledType = FilterEnabledType.price;
+      if (state.filterPriceRangeValues.start == 0.0 &&
+          state.filterPriceRangeValues.end == state.maxPricePerCourse) {
+        newFilterEnabledType = FilterEnabledType.all;
+      }
       emit(
         state.copyWith(
           filterPriceRangeValues: RangeValues(
             event.currentRangeValues.start.round().toDouble(),
             event.currentRangeValues.end.round().toDouble(),
           ),
+          filterEnabledType: newFilterEnabledType,
         ),
       );
       add(GetFilteredCourses());
@@ -61,6 +107,8 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
 
     on<InverseDurationRangeItem>((event, emit) async {
       // print('@@@ InverseDurationRangeItem');
+      FilterEnabledType newFilterEnabledType = FilterEnabledType.duration;
+
       List<DurationRange> filterDurationItems = [];
       for (DurationRange durationItem in state.filterDurationItems) {
         if (durationItem.min == event.durationRange.min) {
@@ -68,9 +116,11 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
             isEnable: !durationItem.isEnable,
             // isEnable: true,
           );
+          if (!durationItem.isEnable) {
+            newFilterEnabledType = FilterEnabledType.all;
+          }
         } else {
           durationItem = durationItem.copyWith(
-            // isEnable: !durationItem.isEnable,
             isEnable: false,
           );
         }
@@ -79,19 +129,24 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       emit(
         state.copyWith(
           filterDurationItems: filterDurationItems,
+          filterEnabledType: newFilterEnabledType,
         ),
       );
       add(GetFilteredCourses());
     });
 
     on<ChangefilterCategory>((event, emit) async {
+      // FilterEnabledType newFilterEnabledType = FilterEnabledType.categories;
+
       Set<String> filterCategory = {...state.filterCategory};
       if (event.add != null) filterCategory.add(event.add!);
       if (event.remove != null) filterCategory.remove(event.remove!);
       if (event.clear != null && event.clear == true) filterCategory = {};
+      // if (filterCategory.isEmpty) newFilterEnabledType = FilterEnabledType.all;
       emit(
         state.copyWith(
           filterCategory: filterCategory,
+          // filterEnabledType: newFilterEnabledType,
         ),
       );
       add(GetFilteredCourses());
@@ -108,8 +163,8 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     on<FilterBottomSheetEnable>((event, emit) async {
       emit(
         state.copyWith(
-          filterStatus: FilterBottomSheetStatus.enable,
-        ),
+            filterStatus: FilterBottomSheetStatus.enable,
+            isFilterNavToSearchPage: event.isFilterNavToSearchPage),
       );
     });
 

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
 import 'package:online_learning_app/models/category/category_model.dart';
 import 'package:online_learning_app/models/course/course_model.dart';
 import 'package:online_learning_app/models/duration_range/duration_range.dart';
@@ -44,7 +45,8 @@ class MyFirestoreService {
     required double minPrice,
     required double maxPrice,
     required List<DurationRange> filterDurationItems,
-    required String filterText,
+    required String searchKey,
+    required FilterEnabledType filterEnabledType,
   }) async {
     // print('*** getFilteredCoursesList');
     String? uid = FirebaseAuth.instance.currentUser?.uid;
@@ -56,42 +58,63 @@ class MyFirestoreService {
         log('*** courses not update from firestore: uid == \'0\'');
       } else {
         Query<Map<String, dynamic>> filteredCourses = db.collection('courses');
+        log('*** filterEnabledType: $filterEnabledType');
+/*        // Filtered by Name v1
+        filteredCourses = filteredCourses
+            .where('name', isGreaterThanOrEqualTo: searchKey)
+            .where('name', isLessThan: searchKey + 'z');*/
 
-/*        // Filtered by Name
-        filteredCourses =
-            filteredCourses.startAt(filterText);*/
-
-
-        // Filtered by category
-        if (uidsSelectedCategories.isNotEmpty) {
-          filteredCourses = filteredCourses.where(
-            'category',
-            whereIn: uidsSelectedCategories,
-          );
+        // Filtered by Name v2
+        if (filterEnabledType == FilterEnabledType.text) {
+          log('*** searchKey: $searchKey');
+          if (true) {
+                    filteredCourses = filteredCourses
+                        .orderBy('name')
+                        .startAt([searchKey]).endAt([searchKey + '\uf8ff']);
+                  }
         }
 
-        // Filtered by Price
-        filteredCourses =
-            filteredCourses.where('price', isGreaterThan: minPrice);
-        filteredCourses =
-            filteredCourses.where('price', isLessThan: maxPrice + 0.5);
-
-
-
-        // Filtered by duration
-        for (DurationRange durationFilter in filterDurationItems) {
-          if (durationFilter.isEnable) {
-            log('*** durationFilter: $durationFilter');
+        // Filtered by category
+        // if (filterEnabledType == FilterEnabledType.categories) {
+        if (true) {
+          if (uidsSelectedCategories.isNotEmpty) {
             filteredCourses = filteredCourses.where(
-              'duration',
-              isGreaterThan: durationFilter.min * 3600,
-            );
-            filteredCourses = filteredCourses.where(
-              'duration',
-              isLessThan: durationFilter.max * 3600,
+              'category',
+              whereIn: uidsSelectedCategories,
             );
           }
         }
+
+        // Filtered by Price
+        if (filterEnabledType == FilterEnabledType.price) {
+        // if (true) {
+          filteredCourses =
+              filteredCourses.where('price', isGreaterThan: minPrice);
+          filteredCourses =
+              filteredCourses.where('price', isLessThan: maxPrice + 0.5);
+        }
+
+        // Filtered by duration
+        if (filterEnabledType == FilterEnabledType.duration) {
+        // if (true) {
+          for (DurationRange durationFilter in filterDurationItems) {
+            if (durationFilter.isEnable) {
+              log('*** durationFilter: $durationFilter');
+              filteredCourses = filteredCourses
+                  .where(
+                    'duration',
+                    isGreaterThan: durationFilter.min * 3600,
+                  )
+                  .orderBy('duration');
+              filteredCourses = filteredCourses
+                  .where(
+                    'duration',
+                    isLessThan: durationFilter.max * 3600,
+                  );
+            }
+          }
+        }
+
 
         await filteredCourses.get().then(
           (QuerySnapshot<Map<String, dynamic>> snapshot) {

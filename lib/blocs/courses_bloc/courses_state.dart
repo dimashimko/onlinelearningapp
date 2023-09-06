@@ -1,6 +1,7 @@
 part of 'courses_bloc.dart';
 
 enum FilterBottomSheetStatus { enable, disable }
+enum FilterEnabledType { text, price, duration, all}
 
 @immutable
 class CoursesState {
@@ -11,6 +12,7 @@ class CoursesState {
     this.categoryList = const [],
     this.filterCategory = const {},
     this.filterDurationItems = const [
+      DurationRange(min: 0, max: 3, isEnable: false),
       DurationRange(min: 3, max: 8, isEnable: false),
       DurationRange(min: 8, max: 14, isEnable: false),
       DurationRange(min: 14, max: 20, isEnable: false),
@@ -21,6 +23,8 @@ class CoursesState {
     this.filteredCoursesList = const [],
     this.maxPricePerCourse = 1,
     this.filterText = '',
+    this.isFilterNavToSearchPage = true,
+    this.filterEnabledType = FilterEnabledType.all,
 
   });
 
@@ -34,6 +38,8 @@ class CoursesState {
   final List<CourseModel> filteredCoursesList;
   final double maxPricePerCourse;
   final String filterText;
+  final bool isFilterNavToSearchPage;
+  final FilterEnabledType filterEnabledType;
 
   CoursesState copyWith({
     FilterBottomSheetStatus? filterStatus,
@@ -48,6 +54,8 @@ class CoursesState {
     List<CourseModel>? filteredCoursesList,
     double? maxPricePerCourse,
     String? filterText,
+    bool? isFilterNavToSearchPage,
+    FilterEnabledType? filterEnabledType,
   }) {
     return CoursesState(
       filterStatus: filterStatus ?? this.filterStatus,
@@ -60,6 +68,8 @@ class CoursesState {
       filteredCoursesList: filteredCoursesList ?? this.filteredCoursesList,
       maxPricePerCourse: maxPricePerCourse ?? this.maxPricePerCourse,
       filterText: filterText ?? this.filterText,
+      isFilterNavToSearchPage: isFilterNavToSearchPage ?? this.isFilterNavToSearchPage,
+      filterEnabledType: filterEnabledType ?? this.filterEnabledType,
     );
   }
 }
