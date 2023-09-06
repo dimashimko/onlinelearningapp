@@ -37,31 +37,6 @@ class _SearchPageState extends State<SearchPage> {
     Navigator.of(context).pop();
   }
 
-  void _onTapFilterSetting(BuildContext context) {
-    // log('*** FilterBottomSheetEnable');
-    context.read<CoursesBloc>().add(
-          FilterBottomSheetEnable(
-            isFilterNavToSearchPage: false,
-          ),
-        );
-  }
-
-  final _searchController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    context.read<CoursesBloc>().add(
-          GetFilteredCourses(),
-        );
-    _searchController.addListener(() {
-      context.read<CoursesBloc>().add(
-            ChangeFilterText(newFilterText: _searchController.text),
-          );
-      // log('*** _searchController text ${_searchController.text}');
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,63 +44,116 @@ class _SearchPageState extends State<SearchPage> {
         _goToBackPage(context);
       }),*/
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              InkWell(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 32.0)
-                      .copyWith(right: 32.0),
-                  // padding: const EdgeInsets.all(16.0),
-                  child: SvgPicture.asset(
-                    AppIcons.arrow_back,
-                  ),
-                ),
-                onTap: () {
-                  _goToBackPage(context);
-                },
-              ),
-              const SizedBox(height: 16.0),
-              BlocListener<CoursesBloc, CoursesState>(
-                listenWhen: (p, c) {
-                  return p.filterText != c.filterText && c.filterText.isEmpty;
-                },
-                listener: (context, state) {
-                  _searchController.clear();
-                },
-                child: BlocBuilder<CoursesBloc, CoursesState>(
-                  builder: (context, state) {
-                    bool isReadOnly = state.filterEnabledType ==
-                            FilterEnabledType.price ||
-                        state.filterEnabledType == FilterEnabledType.duration;
-                    log('*** isReadOnly: $isReadOnly');
-                    return FindTextField(
-                      searchController: _searchController,
-                      onTapSetting: () => _onTapFilterSetting(context),
-                      // onTap: () {},
-                      onTap: () => null,
-
-                      // isReadOnly: true,
-                      // isReadOnly: false,
-                      isReadOnly: isReadOnly,
-                      // enabled: !isReadOnly,
-                    );
-                  },
-                ),
-              ),
-              CategoriesListView(),
-              Text(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            ButtonBack(
+              goToBackPage: () => _goToBackPage(context),
+            ),
+            const SizedBox(height: 16.0),
+            CustomSearchTextField(),
+            CategoriesListView(),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 4.0),
+              child: Text(
                 'Results',
                 style: Theme.of(context).textTheme.labelLarge,
               ),
-              CoursesListView(),
-            ],
-          ),
+            ),
+            CoursesListView(),
+          ],
         ),
       ),
+    );
+  }
+}
+
+class CustomSearchTextField extends StatefulWidget {
+  const CustomSearchTextField({super.key});
+
+  @override
+  State<CustomSearchTextField> createState() => _CustomSearchTextFieldState();
+}
+
+class _CustomSearchTextFieldState extends State<CustomSearchTextField> {
+  final _searchController = TextEditingController();
+
+  void _onTapOpenFilterSetting(BuildContext context) {
+    context.read<CoursesBloc>().add(
+      FilterBottomSheetEnable(
+        isFilterNavToSearchPage: false,
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<CoursesBloc>().add(
+      GetFilteredCourses(),
+    );
+    _searchController.addListener(() {
+      context.read<CoursesBloc>().add(
+        ChangeFilterText(newFilterText: _searchController.text),
+      );
+      // log('*** _searchController text ${_searchController.text}');
+    });
+  }
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<CoursesBloc, CoursesState>(
+      listenWhen: (p, c) {
+        return p.filterText != c.filterText && c.filterText.isEmpty;
+      },
+      listener: (context, state) {
+        _searchController.clear();
+      },
+      child: BlocBuilder<CoursesBloc, CoursesState>(
+        builder: (context, state) {
+          bool isReadOnly =
+              state.filterEnabledType == FilterEnabledType.price ||
+                  state.filterEnabledType == FilterEnabledType.duration;
+          log('*** isReadOnly: $isReadOnly');
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: FindTextField(
+              searchController: _searchController,
+              onTapSetting: () => _onTapOpenFilterSetting(context),
+              onTap: () {},
+
+              // isReadOnly: true,
+              // isReadOnly: false,
+              isReadOnly: isReadOnly,
+              // enabled: !isReadOnly,
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class ButtonBack extends StatelessWidget {
+  const ButtonBack({
+    required this.goToBackPage,
+    super.key,
+  });
+
+  final VoidCallback goToBackPage;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        // padding: const EdgeInsets.all(16.0),
+        child: SvgPicture.asset(
+          AppIcons.arrow_back,
+        ),
+      ),
+      onTap: () => goToBackPage(),
     );
   }
 }
@@ -139,6 +167,7 @@ class CoursesListView extends StatelessWidget {
       child: BlocBuilder<CoursesBloc, CoursesState>(
         builder: (context, state) {
           return ListView.separated(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
             scrollDirection: Axis.vertical,
             separatorBuilder: (context, index) => const SizedBox(height: 16.0),
             itemCount: state.filteredCoursesList.length,
@@ -158,7 +187,7 @@ class CategoriesListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 32.0),
+      padding: const EdgeInsets.symmetric(vertical: 32.0).copyWith(left: 20.0),
       child: SizedBox(
         height: 36,
         child: BlocBuilder<CoursesBloc, CoursesState>(
