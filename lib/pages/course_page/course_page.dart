@@ -1,20 +1,17 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
-import 'package:online_learning_app/models/course/course_model.dart';
+import 'package:online_learning_app/pages/one_course_pages/one_course_page/one_course_page.dart';
 import 'package:online_learning_app/pages/search_page/search_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/resources/app_images.dart';
-import 'package:online_learning_app/utils/time_converter.dart';
 import 'package:online_learning_app/widgets/elements/course_item.dart';
 import 'package:online_learning_app/widgets/elements/customImageViewer.dart';
 import 'package:online_learning_app/widgets/elements/custom_search_text_field.dart';
 
 class CoursePage extends StatefulWidget {
-  CoursePage({Key? key}) : super(key: key);
+  const CoursePage({Key? key}) : super(key: key);
 
   static const routeName = '/course_pages/course_page';
 
@@ -34,14 +31,6 @@ class _CoursePageState extends State<CoursePage> {
       rootNavigator: isRoot,
     ).pushNamed(route, arguments: arguments);
   }
-
-  void _goToBackPage(BuildContext context) {
-    Navigator.of(context).pop();
-  }
-
-/*  void _goToSearchPage(BuildContext context) {
-    log('*** _goToSearchPage');
-  }*/
 
   void _goToSearchPage(BuildContext context) async {
     // log('*** _goToSearchPage');
@@ -70,6 +59,19 @@ class _CoursePageState extends State<CoursePage> {
       route: SearchPage.routeName,
       isRoot: true,
       // isRoot: false,
+    );
+  }
+
+  void _goToOneCoursePage({
+    required String uidCourse,
+  }) async {
+    _navigateToPage(
+      context: context,
+      route: OneCoursePage.routeName,
+      arguments: OneCoursePageArguments(
+        uidCourse: uidCourse,
+      ),
+      isRoot: true,
     );
   }
 
@@ -131,16 +133,14 @@ class _CoursePageState extends State<CoursePage> {
                         style: Theme.of(context).textTheme.labelLarge,
                       ),
                     ),
-/*                    CustomButton(
-                      title: 'GetAllCourses',
-                      onTap: () {
-                        context.read<CoursesBloc>().add(GetAllCourses());
-                      },
-                    ),*/
                     const SizedBox(height: 8.0),
-                    CustomToggleButtons(),
+                    const CustomToggleButtons(),
                     const SizedBox(height: 16.0),
-                    CoursesListView(),
+                    CoursesListView(
+                      onTapCourse: (String uidCourse) {
+                        _goToOneCoursePage(uidCourse: uidCourse);
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -153,7 +153,7 @@ class _CoursePageState extends State<CoursePage> {
 }
 
 class CustomToggleButtons extends StatefulWidget {
-  CustomToggleButtons({super.key});
+  const CustomToggleButtons({super.key});
 
   @override
   State<CustomToggleButtons> createState() => _CustomToggleButtonsState();
@@ -221,7 +221,7 @@ class _CustomToggleButtonsState extends State<CustomToggleButtons> {
 }
 
 class CategoriesListView extends StatelessWidget {
-  CategoriesListView({
+  const CategoriesListView({
     required this.onTapCategory,
     super.key,
   });
@@ -264,7 +264,12 @@ class CategoriesListView extends StatelessWidget {
 }
 
 class CoursesListView extends StatelessWidget {
-  CoursesListView({super.key});
+  const CoursesListView({
+    required this.onTapCourse,
+    super.key,
+  });
+
+  final Function(String) onTapCourse;
 
   @override
   Widget build(BuildContext context) {
@@ -275,8 +280,15 @@ class CoursesListView extends StatelessWidget {
             scrollDirection: Axis.vertical,
             separatorBuilder: (context, index) => const SizedBox(height: 16.0),
             itemCount: state.coursesList.length,
-            itemBuilder: (context, index) => CourseItem(
-              courseModel: state.coursesList[index],
+            itemBuilder: (context, index) => InkWell(
+              onTap: () {
+                if (state.coursesList[index].uid != null) {
+                  onTapCourse(state.coursesList[index].uid!);
+                }
+              },
+              child: CourseItem(
+                courseModel: state.coursesList[index],
+              ),
             ),
           );
         },

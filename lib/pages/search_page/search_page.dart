@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
+import 'package:online_learning_app/pages/one_course_pages/one_course_page/one_course_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/widgets/elements/course_item.dart';
 import 'package:online_learning_app/widgets/elements/custom_search_text_field.dart';
-import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
 
 class SearchPage extends StatefulWidget {
-  SearchPage({Key? key}) : super(key: key);
+  const SearchPage({Key? key}) : super(key: key);
 
   static const routeName = '/search_pages/search_page';
 
@@ -19,9 +19,33 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-
   void _goToBackPage(BuildContext context) {
     Navigator.of(context).pop();
+  }
+
+  void _navigateToPage({
+    required BuildContext context,
+    required String route,
+    bool isRoot = false,
+    Object? arguments,
+  }) {
+    Navigator.of(
+      context,
+      rootNavigator: isRoot,
+    ).pushNamed(route, arguments: arguments);
+  }
+
+  void _goToOneCoursePage({
+    required String uidCourse,
+  }) async {
+    _navigateToPage(
+      context: context,
+      route: OneCoursePage.routeName,
+      arguments: OneCoursePageArguments(
+        uidCourse: uidCourse,
+      ),
+      isRoot: true,
+    );
   }
 
   @override
@@ -39,8 +63,8 @@ class _SearchPageState extends State<SearchPage> {
               goToBackPage: () => _goToBackPage(context),
             ),
             const SizedBox(height: 16.0),
-            CustomSearchTextField(),
-            CategoriesListView(),
+            const CustomSearchTextField(),
+            const CategoriesListView(),
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 20.0, vertical: 4.0),
@@ -49,7 +73,11 @@ class _SearchPageState extends State<SearchPage> {
                 style: Theme.of(context).textTheme.labelLarge,
               ),
             ),
-            CoursesListView(),
+            CoursesListView(
+              onTapCourse: (String uidCourse) {
+                _goToOneCoursePage(uidCourse: uidCourse);
+              },
+            ),
           ],
         ),
       ),
@@ -69,25 +97,26 @@ class _CustomSearchTextFieldState extends State<CustomSearchTextField> {
 
   void _onTapOpenFilterSetting(BuildContext context) {
     context.read<CoursesBloc>().add(
-      FilterBottomSheetEnable(
-        isFilterNavToSearchPage: false,
-      ),
-    );
+          FilterBottomSheetEnable(
+            isFilterNavToSearchPage: false,
+          ),
+        );
   }
 
   @override
   void initState() {
     super.initState();
     context.read<CoursesBloc>().add(
-      GetFilteredCourses(),
-    );
+          GetFilteredCourses(),
+        );
     _searchController.addListener(() {
       context.read<CoursesBloc>().add(
-        ChangeFilterText(newFilterText: _searchController.text),
-      );
+            ChangeFilterText(newFilterText: _searchController.text),
+          );
       // log('*** _searchController text ${_searchController.text}');
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<CoursesBloc, CoursesState>(
@@ -146,7 +175,12 @@ class ButtonBack extends StatelessWidget {
 }
 
 class CoursesListView extends StatelessWidget {
-  CoursesListView({super.key});
+  const CoursesListView({
+    required this.onTapCourse,
+    super.key,
+  });
+
+  final Function(String) onTapCourse;
 
   @override
   Widget build(BuildContext context) {
@@ -158,8 +192,15 @@ class CoursesListView extends StatelessWidget {
             scrollDirection: Axis.vertical,
             separatorBuilder: (context, index) => const SizedBox(height: 16.0),
             itemCount: state.filteredCoursesList.length,
-            itemBuilder: (context, index) => CourseItem(
-              courseModel: state.filteredCoursesList[index],
+            itemBuilder: (context, index) => InkWell(
+              onTap: () {
+                if (state.coursesList[index].uid != null) {
+                  onTapCourse(state.coursesList[index].uid!);
+                }
+              },
+              child: CourseItem(
+                courseModel: state.filteredCoursesList[index],
+              ),
             ),
           );
         },
@@ -169,7 +210,7 @@ class CoursesListView extends StatelessWidget {
 }
 
 class CategoriesListView extends StatelessWidget {
-  CategoriesListView({super.key});
+  const CategoriesListView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -242,18 +283,4 @@ class CategoriesElementFilterItem extends StatelessWidget {
       ),
     );
   }
-}
-
-PreferredSizeWidget SearchPageAppBar({
-  required VoidCallback onTap,
-}) {
-  return CustomAppBar(
-    leading: SvgPicture.asset(AppIcons.arrow_back),
-    onLeading: onTap,
-    title: const Text(''),
-    action: const Text(
-      '          ',
-      style: TextStyle(color: Colors.white),
-    ),
-  );
 }
