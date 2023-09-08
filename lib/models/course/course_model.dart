@@ -96,6 +96,7 @@ class CourseModel {
     List<LessonModel> listLessons = [];
 
     for (Map<String, dynamic> lessonRaw in listLesson) {
+      // log('*** lessonRaw: $lessonRaw');
       listLessons.add(
         LessonModel.fromJson(
           lessonRaw,

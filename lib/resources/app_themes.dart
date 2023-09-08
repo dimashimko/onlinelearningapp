@@ -49,6 +49,11 @@ class AppThemes {
           color: Color(0xFF1F1F39),
         ),
 
+        headlineLarge: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+          color: Color(0xFF1F1F39),
+        ),
         headlineMedium: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w700,
@@ -222,10 +227,20 @@ class AppThemes {
             color: Color(0xFFF4F3FD),
           ),
 
+          headlineLarge: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            color: Color(0xFFDADAF7),
+          ),
           headlineMedium: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w700,
             color: Color(0xFF3D5CFF),
+          ),
+          headlineSmall: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w400,
+            color: Color(0xFFFF6905),
           ),
 
           // title

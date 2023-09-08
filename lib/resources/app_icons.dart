@@ -37,6 +37,11 @@ class AppIcons {
   static const String ads_language = '$_path/ads_language.svg';
   static const String ads_painting = '$_path/ads_painting.svg';
   static const String human = '$_path/human.svg';
+  static const String Illustration_no_video = '$_path/Illustration_no_video.svg';
+  static const String arrow_down = '$_path/arrow_down.svg';
+  static const String arrow_up = '$_path/arrow_up.svg';
+  static const String star_empty = '$_path/star_empty.svg';
+  static const String star_filled = '$_path/star_filled.svg';
 
 
 
