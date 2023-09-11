@@ -42,6 +42,7 @@ class AppIcons {
   static const String arrow_up = '$_path/arrow_up.svg';
   static const String star_empty = '$_path/star_empty.svg';
   static const String star_filled = '$_path/star_filled.svg';
+  static const String play = '$_path/play.svg';
 
 
 

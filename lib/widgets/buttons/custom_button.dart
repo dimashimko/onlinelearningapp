@@ -9,13 +9,13 @@ class CustomButton extends StatelessWidget {
   const CustomButton({
     Key? key,
     required this.title,
-    this.radius = 12.0,
+    this.borderRadius = 12.0,
     this.padding = 0.0,
     required this.onTap,
   }) : super(key: key);
 
   final String title;
-  final double radius;
+  final double borderRadius;
   final double padding;
   final VoidCallback onTap;
 
@@ -30,7 +30,7 @@ class CustomButton extends StatelessWidget {
             height: 50.0,
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primary,
-              borderRadius: BorderRadius.circular(radius),
+              borderRadius: BorderRadius.circular(borderRadius),
             ),
             alignment: Alignment.center,
             child: Text(
@@ -41,7 +41,7 @@ class CustomButton extends StatelessWidget {
           ),
         ),
         SplashBox(
-          borderRadius: BorderRadius.circular(radius),
+          borderRadius: BorderRadius.circular(borderRadius),
           onTap: onTap,
         ),
       ],

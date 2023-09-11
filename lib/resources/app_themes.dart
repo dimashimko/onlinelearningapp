@@ -175,6 +175,7 @@ class AppThemes {
         surfaceVariant: const Color(0xFF3D5CFF),
         onSurfaceVariant: const Color(0xFFFFFFFF),
         surfaceTint: const Color(0xFFF4F3FD),
+        inversePrimary: const Color(0xFFFFEBF0),
       ),
     );
   }
@@ -201,7 +202,7 @@ class AppThemes {
           surfaceVariant: const Color(0xFFFFFFFF),
           onSurfaceVariant: const Color(0xFF3D5CFF),
           surfaceTint: const Color(0xFF858597),
-
+          inversePrimary: const Color(0xFFFFEBF0),
         ),
         useMaterial3: true,
         textSelectionTheme: const TextSelectionThemeData(

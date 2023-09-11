@@ -185,29 +185,42 @@ class MyFirestoreService {
   }
 
   Future<void> fillCourses() async {
-    db.collection("users").doc("eLC2uAmaA8VUvslkqNiqY1K8F6l2").set({
-      "courses": {
-        "course1": {
-          "bought": true,
-          "favorites": false,
-          "lessons": [true, true, true, true, false],
-        },
-        "course2": {
-          "bought": true,
-          "favorites": true,
-          "lessons": [true, false, false, false, false],
+    db.collection("progress").doc("eLC2uAmaA8VUvslkqNiqY1K8F6l2").set({
+      "course1": {
+        "bought": false,
+        "favorites": false,
+        "completed": false,
+        "progress": {
+          "1": [true, true, true, true, true],
+          "2": [true, true, true, false, false],
         },
       },
+/*      "course2": {
+        "bought": true,
+        "favorites": true,
+        "completed": false,
+        "progress": {
+          "1": [true, true, true, true, true],
+          "2": [true, true, true, false, false],
+        },
+      },*/
+    });
+    //
+/*    db.collection("users").doc("eLC2uAmaA8VUvslkqNiqY1K8F6l2").set({
+      "learned_today": 360,
+      "today": '2023_09_08',
       "courses": {
         "course1": {
           "bought": true,
           "favorites": false,
-          "lessons": [true, true, true, true, false],
+          "completed": false,
+          "progress": [true, true, true, true, false],
         },
         "course2": {
           "bought": true,
           "favorites": true,
-          "lessons": [true, false, false, false, false],
+          "completed": false,
+          "progress": [true, false, false, false, false],
         },
       },
     });
@@ -224,7 +237,7 @@ class MyFirestoreService {
           "lessons": [true, false, false, false, false],
         },
       },
-    });
+    });*/
     // db.collection("users").doc("6rKzQ5xAInd7dodC9bR2Fy7EbBI2").set({
     //   "uid": "6rKzQ5xAInd7dodC9bR2Fy7EbBI2",
     //   "created": 0,
