@@ -83,7 +83,7 @@ class CourseItem extends StatelessWidget {
                           padding: const EdgeInsets.all(4.0),
                           child: Text(
                             durationToString(
-                              second: courseModel.duration ?? 0,
+                              second: courseModel.duration?.toInt() ?? 0,
                             ),
                             style: Theme.of(context).textTheme.headlineSmall,
 

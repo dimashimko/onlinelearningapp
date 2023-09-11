@@ -20,7 +20,8 @@ class VideoBloc extends Bloc<VideoEvent, VideoState> {
         log('*** @ChangeCurrentLesson ');
         emit(
           state.copyWith(
-            currentLessonIndex: event.newCurrentLessonIndex,
+            // currentLessonIndex: event.newCurrentLessonIndex,
+            currentLessonIndex: () => event.newCurrentLessonIndex,
           ),
         );
         // add(GetFilteredCourses());
@@ -33,8 +34,7 @@ class VideoBloc extends Bloc<VideoEvent, VideoState> {
         emit(
           state.copyWith(
             currentCourse: event.uidCourse,
-            currentLessonIndex: null,
-
+            currentLessonIndex: () => null,
           ),
         );
         // add(GetFilteredCourses());

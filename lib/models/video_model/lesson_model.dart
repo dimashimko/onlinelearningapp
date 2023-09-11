@@ -1,7 +1,7 @@
 class LessonModel {
   String? link;
   String? name;
-  int? duration;
+  double? duration;
 
   LessonModel({
     this.link,
@@ -23,7 +23,7 @@ class LessonModel {
   LessonModel copyWith({
     String? link,
     String? name,
-    int? duration,
+    double? duration,
   }) {
     return LessonModel(
       link: link ?? this.link,

@@ -11,15 +11,18 @@ class VideoState {
   final String? currentCourse;
   final int? currentLessonIndex;
 
-  VideoState copyWith({
-    int? totalDuration,
-    String? currentCourse,
-    int? currentLessonIndex,
-  }) {
+  VideoState copyWith(
+      {int? totalDuration,
+      String? currentCourse,
+      // int? currentLessonIndex,
+      int? Function()? currentLessonIndex}) {
     return VideoState(
       totalDuration: totalDuration ?? this.totalDuration,
       currentCourse: currentCourse ?? this.currentCourse,
-      currentLessonIndex: currentLessonIndex ?? this.currentLessonIndex,
+      // currentLessonIndex: currentLessonIndex ?? this.currentLessonIndex,
+      currentLessonIndex: currentLessonIndex != null
+          ? currentLessonIndex()
+          : this.currentLessonIndex,
     );
   }
 }

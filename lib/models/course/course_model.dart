@@ -10,7 +10,7 @@ class CourseModel {
   String? author;
   String? category;
   double? price;
-  int? duration;
+  double? duration;
   String? about;
   int? openLesson;
   String? title;
@@ -53,7 +53,7 @@ class CourseModel {
     String? author,
     String? category,
     double? price,
-    int? duration,
+    double? duration,
     String? about,
     int? openLesson,
     String? title,

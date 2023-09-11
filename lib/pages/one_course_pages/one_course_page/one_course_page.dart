@@ -42,13 +42,6 @@ class _OneCoursePageState extends State<OneCoursePage> {
 
   // late VideoPlayerController dataSourceController;
   // late CustomVideoPlayerController _customVideoPlayerController;
-  late VideoPlayerController dataSourceController =
-      VideoPlayerController.networkUrl(Uri.parse(''));
-  late CustomVideoPlayerController _customVideoPlayerController =
-      CustomVideoPlayerController(
-    context: context,
-    videoPlayerController: dataSourceController,
-  );
 
   void _navigateToPage({
     required BuildContext context,
@@ -99,6 +92,57 @@ class _OneCoursePageState extends State<OneCoursePage> {
   }
 
   @override
+  Widget build(BuildContext context) {
+    return currentCourse == null
+        ? const NoVideosPage()
+        : Scaffold(
+            body: SafeArea(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Flexible(
+                    flex: 1,
+                    fit: FlexFit.tight,
+                    child: CourseVideoPlayer(
+                      currentCourse: currentCourse!,
+                    ),
+                  ),
+                  Flexible(
+                    flex: 2,
+                    fit: FlexFit.tight,
+                    child: CoursePanel(
+                      currentCourse: currentCourse!,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+  }
+}
+
+class CourseVideoPlayer extends StatefulWidget {
+  const CourseVideoPlayer({
+    required this.currentCourse,
+    super.key,
+  });
+
+  final CourseModel currentCourse;
+
+  @override
+  State<CourseVideoPlayer> createState() => _CourseVideoPlayerState();
+}
+
+class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
+  late VideoPlayerController dataSourceController =
+      VideoPlayerController.networkUrl(Uri.parse(''));
+  late CustomVideoPlayerController _customVideoPlayerController =
+      CustomVideoPlayerController(
+    context: context,
+    videoPlayerController: dataSourceController,
+  );
+
+  @override
   void dispose() {
     super.dispose();
     log('*** OneCoursePage dispose');
@@ -123,64 +167,40 @@ class _OneCoursePageState extends State<OneCoursePage> {
 
   @override
   Widget build(BuildContext context) {
-    return currentCourse == null
-        ? const NoVideosPage()
-        : Scaffold(
-            body: SafeArea(
-              child: BlocListener<VideoBloc, VideoState>(
-                listenWhen: (p, c) {
-                  return p.currentLessonIndex != c.currentLessonIndex;
-                },
-                listener: (context, state) {
-                  dataSourceController.pause();
-                  String? url = currentCourse
-                      ?.lessons?[state.currentLessonIndex ?? 0].link;
-                  final uri = Uri.parse(url ?? '');
-                  // log('*** uri: $uri');
-                  dataSourceController = VideoPlayerController.networkUrl(uri)
-                    ..initialize().then((value) => setState(() {
-                          _customVideoPlayerController =
-                              getCustomVideoPlayerController(
-                            dataSourceController: dataSourceController,
-                          );
-                        }));
-                  dataSourceController.play();
-                },
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Flexible(
-                      flex: 1,
-                      fit: FlexFit.tight,
-                      child: CustomVideoPlayer(
-                        customVideoPlayerController:
-                            _customVideoPlayerController,
-                      ),
-                    ),
-                    Flexible(
-                      flex: 2,
-                      fit: FlexFit.tight,
-                      child: CoursePanel(
-                        courseModel: currentCourse!,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
+    return BlocListener<VideoBloc, VideoState>(
+      listenWhen: (p, c) {
+        return p.currentLessonIndex != c.currentLessonIndex;
+      },
+      listener: (context, state) {
+        if (state.currentLessonIndex != null) {
+          dataSourceController.pause();
+          String? url =
+              widget.currentCourse.lessons?[state.currentLessonIndex!].link;
+          final uri = Uri.parse(url ?? '');
+          // log('*** uri: $uri');
+          dataSourceController = VideoPlayerController.networkUrl(uri)
+            ..initialize().then((value) => setState(() {
+                  _customVideoPlayerController = getCustomVideoPlayerController(
+                    dataSourceController: dataSourceController,
+                  );
+                }));
+          dataSourceController.play();
+        }
+      },
+      child: CustomVideoPlayer(
+        customVideoPlayerController: _customVideoPlayerController,
+      ),
+    );
   }
 }
 
-
-
 class CoursePanel extends StatelessWidget {
   const CoursePanel({
-    required this.courseModel,
+    required this.currentCourse,
     super.key,
   });
 
-  final CourseModel courseModel;
+  final CourseModel currentCourse;
 
   @override
   Widget build(BuildContext context) {
@@ -206,7 +226,7 @@ class CoursePanel extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  courseModel.name ?? '',
+                  currentCourse.name ?? '',
                   style: Theme.of(context)
                       .textTheme
                       .displayLarge
@@ -215,7 +235,7 @@ class CoursePanel extends StatelessWidget {
                 ),
               ),
               Text(
-                '\$${courseModel.price}' ?? '',
+                '\$${currentCourse.price}' ?? '',
                 style: Theme.of(context)
                     .textTheme
                     .headlineMedium
@@ -227,14 +247,14 @@ class CoursePanel extends StatelessWidget {
           Text(
             '${formatTimeToHour(
               Duration(
-                seconds: courseModel.duration ?? 0,
+                seconds: currentCourse.duration?.toInt() ?? 0,
               ),
-            )} · ${courseModel.lessons?.length} Lessons',
+            )} · ${currentCourse.lessons?.length} Lessons',
             style: Theme.of(context).textTheme.titleLarge,
           ),
           const SizedBox(height: 16.0),
           AboutCourse(
-            description: courseModel.about ?? '',
+            description: currentCourse.about ?? '',
           ),
 /*          Container(
             width: double.infinity,
@@ -243,7 +263,7 @@ class CoursePanel extends StatelessWidget {
           ),*/
           Expanded(
             child: LessonList(
-              lessons: courseModel.lessons ?? [],
+              lessons: currentCourse.lessons ?? [],
             ),
           ),
           Container(
@@ -354,7 +374,7 @@ class LessonItem extends StatelessWidget {
                 Text(
                   formatTimeToMinutes(
                     Duration(
-                      seconds: lesson.duration ?? 0,
+                      seconds: lesson.duration?.toInt() ?? 0,
                     ),
                   ),
                   style: Theme.of(context).textTheme.displayLarge?.copyWith(
