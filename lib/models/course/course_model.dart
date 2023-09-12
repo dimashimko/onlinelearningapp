@@ -116,9 +116,8 @@ class CourseModel {
     name = json['name'];
     author = json['author'];
     category = json['category'];
-    author = json['author'];
     price = json['price'].toDouble();
-    duration = json['duration'];
+    duration = json['duration'].toDouble();
     about = json['about'];
     openLesson = json['openLesson'];
     title = json['titleImage'];

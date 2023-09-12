@@ -35,7 +35,7 @@ class LessonModel {
   LessonModel.fromJson(Map<String, dynamic> json) {
     link = json['link'];
     name = json['name'];
-    duration = json['duration'];
+    duration = json['duration'].toDouble();
   }
 
   Map<String, dynamic> toJson() {

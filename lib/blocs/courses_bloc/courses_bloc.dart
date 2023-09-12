@@ -45,8 +45,6 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       add(GetFilteredCourses());
     });
 
-
-
     on<GetFilteredCourses>((event, emit) async {
       // log('@@@ GetFilteredCourses');
       // convert list names category to uid of this categories
@@ -75,12 +73,12 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       log('event.newFilterText: ${event.newFilterText}');
       if (state.filterText != event.newFilterText) {
         FilterEnabledType newFilterEnabledType = FilterEnabledType.text;
-        if(event.newFilterText.isEmpty) newFilterEnabledType = FilterEnabledType.all;
+        if (event.newFilterText.isEmpty)
+          newFilterEnabledType = FilterEnabledType.all;
         emit(
           state.copyWith(
             filterText: event.newFilterText,
             filterEnabledType: newFilterEnabledType,
-
           ),
         );
         add(GetFilteredCourses());
@@ -136,7 +134,6 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     });
 
     on<ChangeFilterCategory>((event, emit) async {
-
       Set<String> filterCategory = {...state.filterCategory};
       if (event.add != null) filterCategory.add(event.add!);
       if (event.remove != null) filterCategory.remove(event.remove!);
@@ -170,6 +167,9 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     on<GetAllCourses>((event, emit) async {
       List<CourseModel> coursesList =
           await fireStoreService.getAllCoursesList(event.orderBy);
+      if (event.orderBy == 'created') {
+        coursesList = coursesList.reversed.toList();
+      }
       double maxPricePerCourse = 1;
       for (var course in coursesList) {
         if (course.price != null) {

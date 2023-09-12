@@ -131,7 +131,7 @@ class _CustomSearchTextFieldState extends State<CustomSearchTextField> {
           bool isReadOnly =
               state.filterEnabledType == FilterEnabledType.price ||
                   state.filterEnabledType == FilterEnabledType.duration;
-          log('*** isReadOnly: $isReadOnly');
+          // log('*** isReadOnly: $isReadOnly');
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: FindTextField(
@@ -194,8 +194,8 @@ class CoursesListView extends StatelessWidget {
             itemCount: state.filteredCoursesList.length,
             itemBuilder: (context, index) => InkWell(
               onTap: () {
-                if (state.coursesList[index].uid != null) {
-                  onTapCourse(state.coursesList[index].uid!);
+                if (state.filteredCoursesList[index].uid != null) {
+                  onTapCourse(state.filteredCoursesList[index].uid!);
                 }
               },
               child: CourseItem(

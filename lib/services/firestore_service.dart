@@ -58,7 +58,7 @@ class MyFirestoreService {
         log('*** courses not update from firestore: uid == \'0\'');
       } else {
         Query<Map<String, dynamic>> filteredCourses = db.collection('courses');
-        log('*** filterEnabledType: $filterEnabledType');
+        // log('*** filterEnabledType: $filterEnabledType');
 /*        // Filtered by Name v1
         filteredCourses = filteredCourses
             .where('name', isGreaterThanOrEqualTo: searchKey)
@@ -146,6 +146,8 @@ class MyFirestoreService {
         await coursesCollection.get().then(
           (QuerySnapshot<Map<String, dynamic>> snapshot) {
             for (var doc in snapshot.docs) {
+              // log('*** doc.data(): ${doc.data()}');
+
               listOfCoursesModel.add(
                 CourseModel.fromJson(
                   doc.data()..addAll({'uid': doc.id.toString()}),
@@ -262,9 +264,10 @@ class MyFirestoreService {
     db.collection("courses").doc('1691069119').set({
       "name": "Повний курс математики в тестах",
       "author": "Zakhariychenko",
-      "category": Categories.math.name,
+      "category": 'GEPNu5sLLWQkdlNTbrxZ',
       "price": 50.0,
-      "duration": 2188.0, // (60*7+7)+(60*7+29)+(60*8+56)+(60*5+24)+(60*7+32)
+      "created": '2023-09-10T05:54:08.957Z',
+      "duration": 1000.0, // (60*7+7)+(60*7+29)+(60*8+56)+(60*5+24)+(60*7+32)
       "about":
           'Канал для всіх хто хоче опанувати складну, але цікаву науку математику. Ми допоможемо краще зрозуміти теми, теореми та визначення з алгебри та геометрії, покажемо розвязки типових задач, та допоможемо підготуватися до ЗНО та ДПА. Ще більше інформації для учнів та вчителів шукайте на нашому сайті',
       "openLesson": 2,
@@ -307,9 +310,10 @@ class MyFirestoreService {
     db.collection("courses").doc('1691069121').set({
       "name": "Dart (Flutter)",
       "author": "VideoSmile",
-      "category": Categories.programming.name,
+      "category": 'eG6sxmNL1W4SZI20cdRz',
       "price": 70.0,
-      "duration": 2564.0, // 14.47 + 8.13 + 11.15 + 4.11 + 4.18
+      "created": '2023-09-09T05:54:08.957Z',
+      "duration": 20000.0, // 14.47 + 8.13 + 11.15 + 4.11 + 4.18
       "about": 'Основы языка программирования Dart максимально простым языком',
       "openLesson": 2,
       "titleImage":
@@ -351,9 +355,10 @@ class MyFirestoreService {
     db.collection("courses").doc('1691376811').set({
       "name": "Азбука Рисования",
       "author": "Andrey Markov",
-      "category": Categories.painting.name,
+      "category": 'WT5Y6BT80VHtFxPpLbIZ',
       "price": 30.0,
-      "duration": 1787.0, // (6+17+5)*60+41+53+13
+      "created": '2023-09-08T05:54:08.957Z',
+      "duration": 50000.0, // (6+17+5)*60+41+53+13
       "about":
           'Все уроки по рисованию в одном месте. Разбираю теорию и практику по теме в каждом видео.',
       "openLesson": 1,
@@ -384,11 +389,12 @@ class MyFirestoreService {
     db.collection("courses").doc('1691378133').set({
       "name": "Бесплатный репетитор золотой плейлист",
       "author": "Bebris",
-      "category": Categories.language.name,
+      "category": 'SWOGZvEvJJOJnOFtV7U2',
       "price": 120.0,
-      "duration": 5889.0, // (6+17+5)*60+41+53+13
+      "created": '2023-09-11T05:54:08.957Z',
+      "duration": 100000.0, // (6+17+5)*60+41+53+13
       "about":
-          'Английский язык с нуля. Бесплатный репетитор. Фнглийский с нуля. Золотой плейлист. Полный курс. Уроки английского языка с нуля.',
+          'Английский язык с нуля. Бесплатный репетитор. Английский с нуля. Золотой плейлист. Полный курс. Уроки английского языка с нуля.',
       "openLesson": 1,
       "titleImage":
           'https://firebasestorage.googleapis.com/v0/b/onlinelearningapp-616fe.appspot.com/o/titles%2Flanguage.png?alt=media&token=362ff66d-5bbe-436b-bf18-e24f3be75e41',
