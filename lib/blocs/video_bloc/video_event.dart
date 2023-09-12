@@ -5,6 +5,22 @@ abstract class VideoEvent {
   const VideoEvent();
 }
 
+class ChangeViewProgress extends VideoEvent {
+  const ChangeViewProgress({
+    required this.newViewProgress,
+  });
+
+  final double newViewProgress;
+}
+
+class ChangePlaybackStatus extends VideoEvent {
+  const ChangePlaybackStatus({
+    required this.newPlaybackStatus,
+  });
+
+  final PlaybackStatus newPlaybackStatus;
+}
+
 class ChangeCurrentLesson extends VideoEvent {
   const ChangeCurrentLesson({
     required this.newCurrentLessonIndex,

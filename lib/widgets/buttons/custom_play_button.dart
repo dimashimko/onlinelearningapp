@@ -5,8 +5,8 @@ import 'package:online_learning_app/widgets/uncategorized/splash_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class CustomCircleButton extends StatelessWidget {
-  const CustomCircleButton({
+class CustomPlayButton extends StatelessWidget {
+  const CustomPlayButton({
     Key? key,
     this.padding = 0.0,
     this.buttonRadius = 44.0,

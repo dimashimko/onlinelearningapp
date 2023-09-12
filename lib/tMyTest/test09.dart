@@ -1,93 +1,75 @@
-// main.dart
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
+class RoundedButtonWithArch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      // Remove the debug banner
-      debugShowCheckedModeBanner: false,
-      title: 'Kindacode.com',
-      home: HomePage(),
-    );
-  }
-}
-
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  // This controller is connected to the text field
-  late TextEditingController _controller;
-
-  // Whether the textfield is read-only or not
-  bool _isReadonly = false;
-
-  // Whether the text field is disabled or enabled
-  bool _isDisabled = false;
-
-  @override
-  void initState() {
-    _controller = TextEditingController(text: 'Default Text');
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Kindacode.com'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 30),
-        child: Column(
+    return Center(
+      child: Container(
+        width: 150,
+        height: 150,
+        child: Stack(
           children: [
-            TextField(
-              readOnly: _isReadonly,
-              enabled: !_isDisabled,
-              // _isDisabled = false -> enbalbe = true
-              // _isDisabled = true -> enable = false
-
-              controller: _controller,
-              decoration: const InputDecoration(
-                labelText: 'Label',
-                border: OutlineInputBorder(),
+            ClipOval(
+              child: Container(
+                color: Colors.blue, // Change the color as needed
               ),
             ),
-            const SizedBox(
-              height: 30,
-            ),
-            SwitchListTile(
-              value: _isReadonly,
-              onChanged: (value) {
-                setState(() {
-                  _isReadonly = value;
-                });
-              },
-              title: const Text('TextField is read-only'),
-            ),
-            SwitchListTile(
-              value: _isDisabled,
-              onChanged: (value) {
-                setState(() {
-                  _isDisabled = value;
-                });
-              },
-              title: const Text('TextField is disabled'),
+            CustomPaint(
+              size: Size(150, 150),
+              painter: ArchPainter(),
             ),
           ],
         ),
       ),
     );
   }
+}
+
+class ArchPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint = Paint()
+      ..color = Colors.orange // Change the color as needed
+      ..style = PaintingStyle.fill
+      ..strokeWidth = 2.0;
+
+    double centerX = size.width / 2;
+    double centerY = size.height / 2;
+    double radius = size.width / 2;
+
+/*    Path path = Path();
+    path.moveTo(centerX - radius, centerY);
+    path.quadraticBezierTo(
+        centerX, centerY - radius * 2, centerX + radius, centerY);*/
+
+    canvas.drawArc(
+      Rect.fromCircle(
+          center: Offset(centerX, centerY),
+          radius: size.width / 3),
+      3.14,
+      3.14,
+      true,
+      paint,
+    );
+
+    // canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return false;
+  }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: Scaffold(
+      appBar: AppBar(
+        title: Text('Rounded Button with Arch'),
+      ),
+      body: Center(
+        child: RoundedButtonWithArch(),
+      ),
+    ),
+  ));
 }

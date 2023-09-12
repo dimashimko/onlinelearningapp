@@ -15,6 +15,30 @@ class VideoBloc extends Bloc<VideoEvent, VideoState> {
   VideoBloc() : super(const VideoState()) {
     // MyFirestoreService fireStoreService = MyFirestoreService();
 
+    on<ChangeViewProgress>(
+      (event, emit) async {
+        log('*** @ChangeViewProgress ');
+        emit(
+          state.copyWith(
+            currentViewProgress: event.newViewProgress,
+          ),
+        );
+        // add(GetFilteredCourses());
+      },
+    );
+
+    on<ChangePlaybackStatus>(
+      (event, emit) async {
+        log('*** @ChangePlaybackStatus ');
+        emit(
+          state.copyWith(
+            playbackStatus: event.newPlaybackStatus,
+          ),
+        );
+        // add(GetFilteredCourses());
+      },
+    );
+
     on<ChangeCurrentLesson>(
       (event, emit) async {
         log('*** @ChangeCurrentLesson ');

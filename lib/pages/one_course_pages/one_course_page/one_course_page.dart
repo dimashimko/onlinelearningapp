@@ -10,11 +10,15 @@ import 'package:online_learning_app/models/course/course_model.dart';
 import 'package:online_learning_app/models/video_model/lesson_model.dart';
 import 'package:online_learning_app/pages/one_course_pages/no_videos_page/no_videos_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
+import 'package:online_learning_app/resources/app_images.dart';
 import 'package:online_learning_app/utils/formatTime.dart';
 import 'package:online_learning_app/utils/get_course_model_by_uid.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button_star.dart';
-import 'package:online_learning_app/widgets/buttons/custom_circle_button.dart';
+import 'package:online_learning_app/widgets/buttons/custom_pause_button_with_progress.dart';
+import 'package:online_learning_app/widgets/buttons/custom_play_button.dart';
+import 'package:online_learning_app/widgets/buttons/custom_pause_button.dart';
+import 'package:online_learning_app/widgets/elements/customImageViewer.dart';
 
 class OneCoursePageArguments {
   OneCoursePageArguments({
@@ -56,6 +60,7 @@ class _OneCoursePageState extends State<OneCoursePage> {
   }
 
   void _goToBackPage(BuildContext context) {
+    log('*** go to back page');
     Navigator.of(context).pop();
   }
 
@@ -103,8 +108,18 @@ class _OneCoursePageState extends State<OneCoursePage> {
                   Flexible(
                     flex: 1,
                     fit: FlexFit.tight,
-                    child: CourseVideoPlayer(
-                      currentCourse: currentCourse!,
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Stack(
+                        children: [
+                          CourseVideoPlayer(
+                            currentCourse: currentCourse!,
+                          ),
+                          ButtonBack(
+                            onTapButtonBack: () => _goToBackPage(context),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   Flexible(
@@ -118,6 +133,26 @@ class _OneCoursePageState extends State<OneCoursePage> {
               ),
             ),
           );
+  }
+}
+
+class ButtonBack extends StatelessWidget {
+  const ButtonBack({
+    required this.onTapButtonBack,
+    super.key,
+  });
+
+  final VoidCallback onTapButtonBack;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () => onTapButtonBack(),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SvgPicture.asset(AppIcons.arrow_back),
+      ),
+    );
   }
 }
 
@@ -141,6 +176,8 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
     context: context,
     videoPlayerController: dataSourceController,
   );
+  bool isPlaying = false;
+  int currentProgress = 0;
 
   @override
   void dispose() {
@@ -149,6 +186,7 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
     dataSourceController.dispose();
   }
 
+  // build UI of Player
   CustomVideoPlayerController getCustomVideoPlayerController({
     required VideoPlayerController dataSourceController,
   }) {
@@ -168,27 +206,97 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<VideoBloc, VideoState>(
+      // if lesson has changed
       listenWhen: (p, c) {
         return p.currentLessonIndex != c.currentLessonIndex;
       },
       listener: (context, state) {
+        // reload new video
         if (state.currentLessonIndex != null) {
           dataSourceController.pause();
           String? url =
               widget.currentCourse.lessons?[state.currentLessonIndex!].link;
           final uri = Uri.parse(url ?? '');
-          // log('*** uri: $uri');
           dataSourceController = VideoPlayerController.networkUrl(uri)
             ..initialize().then((value) => setState(() {
                   _customVideoPlayerController = getCustomVideoPlayerController(
                     dataSourceController: dataSourceController,
                   );
+                  dataSourceController.play();
                 }));
-          dataSourceController.play();
+
+          // add Listener
+          dataSourceController.addListener(() {
+            // push progress to Bloc. (each second)
+            if (currentProgress !=
+                dataSourceController.value.position.inSeconds) {
+              currentProgress = dataSourceController.value.position.inSeconds;
+
+              Duration currentPosition = dataSourceController.value.position;
+              Duration totalDuration = dataSourceController.value.duration;
+              double? newViewProgress = (currentPosition.inMilliseconds /
+                      totalDuration.inMilliseconds) *
+                  100;
+              log('*** newViewProgress ${newViewProgress}');
+              context.read<VideoBloc>().add(
+                    ChangeViewProgress(
+                      newViewProgress: newViewProgress,
+                    ),
+                  );
+            }
+
+            // push Play/Pause status to Bloc
+            if (dataSourceController.value.isPlaying != isPlaying) {
+              isPlaying = dataSourceController.value.isPlaying;
+              context.read<VideoBloc>().add(
+                    ChangePlaybackStatus(
+                      // newPlaybackStatus: dataSourceController.value.isPlaying
+                      newPlaybackStatus: isPlaying
+                          ? PlaybackStatus.play
+                          : PlaybackStatus.pause,
+                    ),
+                  );
+            }
+          });
         }
       },
-      child: CustomVideoPlayer(
-        customVideoPlayerController: _customVideoPlayerController,
+      child: BlocListener<VideoBloc, VideoState>(
+        // manipulate with controller when tap custom play/pause
+        listenWhen: (p, c) {
+          return p.playbackStatus != c.playbackStatus;
+        },
+        listener: (context, state) {
+          if (state.playbackStatus == PlaybackStatus.pause) {
+            if (dataSourceController.value.isPlaying) {
+              _customVideoPlayerController.videoPlayerController.pause();
+            }
+          } else {
+            _customVideoPlayerController.videoPlayerController.play();
+          }
+        },
+        child: _customVideoPlayerController
+                .videoPlayerController.dataSource.isEmpty
+            ? CustomImageViewer(
+                link: widget.currentCourse.title,
+                alternativePhoto: AppImages.empty_title,
+              )
+            : dataSourceController.value.isInitialized
+                ? Center(
+                  child: AspectRatio(
+                      aspectRatio: dataSourceController.value.aspectRatio,
+                      child: CustomVideoPlayer(
+                        customVideoPlayerController: _customVideoPlayerController,
+                      ),
+                    ),
+                )
+                : const SizedBox(
+                    height: 250,
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.red,
+                      ),
+                    ),
+                  ),
       ),
     );
   }
@@ -204,103 +312,123 @@ class CoursePanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          BlocBuilder<VideoBloc, VideoState>(
-            builder: (context, state) {
-              return Text(
-                state.currentLessonIndex.toString() ?? '',
-                style: Theme.of(context)
-                    .textTheme
-                    .displayLarge
-                    ?.copyWith(fontSize: 20.0),
-                overflow: TextOverflow.fade,
-              );
-            },
-          ),
-          const SizedBox(height: 16.0),
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  currentCourse.name ?? '',
-                  style: Theme.of(context)
-                      .textTheme
-                      .displayLarge
-                      ?.copyWith(fontSize: 20.0),
-                  overflow: TextOverflow.fade,
+    return Column(
+      children: [
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // BlocBuilder<VideoBloc, VideoState>(
+                //   builder: (context, state) {
+                //     return Text(
+                //       state.currentLessonIndex.toString() ?? '',
+                //       style: Theme.of(context)
+                //           .textTheme
+                //           .displayLarge
+                //           ?.copyWith(fontSize: 20.0),
+                //       overflow: TextOverflow.fade,
+                //     );
+                //   },
+                // ),
+                const SizedBox(height: 16.0),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        currentCourse.name ?? '',
+                        style: Theme.of(context)
+                            .textTheme
+                            .displayLarge
+                            ?.copyWith(fontSize: 20.0),
+                        overflow: TextOverflow.fade,
+                      ),
+                    ),
+                    Text(
+                      '\$${currentCourse.price}' ?? '',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineMedium
+                          ?.copyWith(fontSize: 20.0),
+                    ),
+                  ],
                 ),
-              ),
-              Text(
-                '\$${currentCourse.price}' ?? '',
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineMedium
-                    ?.copyWith(fontSize: 20.0),
+                const SizedBox(height: 4.0),
+                Text(
+                  '${formatTimeToHour(
+                    Duration(
+                      seconds: currentCourse.duration?.toInt() ?? 0,
+                    ),
+                  )} · ${currentCourse.lessons?.length} Lessons',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                const SizedBox(height: 16.0),
+                AboutCourse(
+                  description: currentCourse.about ?? '',
+                ),
+/*          Container(
+                  width: double.infinity,
+                  height: 150.0,
+                  color: Colors.black12,
+                ),*/
+                Expanded(
+                  child: LessonList(
+                    lessons: currentCourse.lessons ?? [],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Container(
+          height: 98.0,
+          // width: double.infinity,
+          // alignment: Alignment.topCenter,
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surface,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.2),
+                blurRadius: 4,
+                offset: const Offset(0, -4), // Shadow position
               ),
             ],
-          ),
-          const SizedBox(height: 4.0),
-          Text(
-            '${formatTimeToHour(
-              Duration(
-                seconds: currentCourse.duration?.toInt() ?? 0,
-              ),
-            )} · ${currentCourse.lessons?.length} Lessons',
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          const SizedBox(height: 16.0),
-          AboutCourse(
-            description: currentCourse.about ?? '',
-          ),
-/*          Container(
-            width: double.infinity,
-            height: 150.0,
-            color: Colors.black12,
-          ),*/
-          Expanded(
-            child: LessonList(
-              lessons: currentCourse.lessons ?? [],
+            borderRadius: const BorderRadius.vertical(
+              top: Radius.circular(8.0),
             ),
           ),
-          Container(
-            height: 98.0,
-            width: double.infinity,
-            alignment: Alignment.topCenter,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: Row(
-                children: [
-                  Flexible(
-                    flex: 2,
-                    fit: FlexFit.tight,
-                    child: StarButton(
-                      isEnable: false,
-                      onTap: () {
-                        log('*** ${DateTime.now().year}');
-                      },
-                    ),
+          child: Padding(
+            padding:
+                const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+            child: Row(
+              children: [
+                Flexible(
+                  flex: 2,
+                  fit: FlexFit.tight,
+                  child: StarButton(
+                    isEnable: false,
+                    onTap: () {
+                      log('*** ${DateTime.now().year}');
+                    },
                   ),
-                  const SizedBox(width: 12.0),
-                  Flexible(
-                    flex: 4,
-                    fit: FlexFit.tight,
-                    child: CustomButton(
-                      title: 'Buy Now',
-                      onTap: () {
-                        log('*** ${DateTime.now().year}');
-                      },
-                    ),
+                ),
+                const SizedBox(width: 12.0),
+                Flexible(
+                  flex: 4,
+                  fit: FlexFit.tight,
+                  child: CustomButton(
+                    title: 'Buy Now',
+                    onTap: () {
+                      log('*** ${DateTime.now().year}');
+                    },
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          )
-        ],
-      ),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -316,7 +444,8 @@ class LessonList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      padding:
+          const EdgeInsets.symmetric(horizontal: 20.0).copyWith(bottom: 16.0),
       scrollDirection: Axis.vertical,
       separatorBuilder: (context, index) => const SizedBox(height: 16.0),
       itemCount: lessons.length,
@@ -338,10 +467,26 @@ class LessonItem extends StatelessWidget {
   final LessonModel lesson;
   final int index;
 
-  void onTapPlay(BuildContext context, int pos) {
+  void onTapPlay(BuildContext context) {
     context.read<VideoBloc>().add(
           ChangeCurrentLesson(
             newCurrentLessonIndex: index,
+          ),
+        );
+  }
+
+  void onTapPause(BuildContext context) {
+    context.read<VideoBloc>().add(
+          const ChangePlaybackStatus(
+            newPlaybackStatus: PlaybackStatus.pause,
+          ),
+        );
+  }
+
+  void onTapResume(BuildContext context) {
+    context.read<VideoBloc>().add(
+          const ChangePlaybackStatus(
+            newPlaybackStatus: PlaybackStatus.play,
           ),
         );
   }
@@ -385,9 +530,38 @@ class LessonItem extends StatelessWidget {
               ],
             ),
           ),
-          CustomCircleButton(
-            onTap: () {
-              onTapPlay(context, index);
+          BlocBuilder<VideoBloc, VideoState>(
+            builder: (context, state) {
+              if (index == state.currentLessonIndex) {
+                if (state.playbackStatus == PlaybackStatus.pause) {
+                  return CustomPlayButton(
+                    onTap: () {
+                      onTapResume(context);
+                    },
+                  );
+                } else {
+                  return BlocBuilder<VideoBloc, VideoState>(
+                    builder: (context, state) {
+                      return CustomPauseButtonWithProgress(
+                        onTap: () {
+                          onTapPause(context);
+                        },
+                      );
+                    },
+                  );
+/*                  return CustomPauseButton(
+                    onTap: () {
+                      onTapPause(context);
+                    },
+                  );*/
+                }
+              } else {
+                return CustomPlayButton(
+                  onTap: () {
+                    onTapPlay(context);
+                  },
+                );
+              }
             },
           ),
         ],
