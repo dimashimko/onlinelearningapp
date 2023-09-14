@@ -8,14 +8,16 @@ class VideoState {
     this.currentCourse,
     this.currentLessonIndex,
     this.playbackStatus = PlaybackStatus.pause,
-    this.currentViewProgress = 0.0,
+    this.currentProgressInPercent = 0.0,
+    this.lastProgressValue = 0,
   });
 
   final int totalDuration;
   final String? currentCourse;
   final int? currentLessonIndex;
   final PlaybackStatus playbackStatus;
-  final double currentViewProgress;
+  final double currentProgressInPercent;
+  final double lastProgressValue;
 
   VideoState copyWith({
     int? totalDuration,
@@ -23,7 +25,8 @@ class VideoState {
     // int? currentLessonIndex,
     int? Function()? currentLessonIndex,
     PlaybackStatus? playbackStatus,
-    double? currentViewProgress,
+    double? currentProgressInPercent,
+    double? lastProgressValue,
   }) {
     return VideoState(
       totalDuration: totalDuration ?? this.totalDuration,
@@ -33,7 +36,8 @@ class VideoState {
           ? currentLessonIndex()
           : this.currentLessonIndex,
       playbackStatus: playbackStatus ?? this.playbackStatus,
-      currentViewProgress: currentViewProgress ?? this.currentViewProgress,
+      currentProgressInPercent: currentProgressInPercent ?? this.currentProgressInPercent,
+      lastProgressValue: lastProgressValue ?? this.lastProgressValue,
     );
   }
 }

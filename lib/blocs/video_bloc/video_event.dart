@@ -5,32 +5,44 @@ abstract class VideoEvent {
   const VideoEvent();
 }
 
-class ChangeViewProgress extends VideoEvent {
-  const ChangeViewProgress({
-    required this.newViewProgress,
+class PushProgressEvent extends VideoEvent {
+  const PushProgressEvent({
+    required this.newProgressValue,
   });
 
-  final double newViewProgress;
+  final int newProgressValue;
 }
 
-class ChangePlaybackStatus extends VideoEvent {
-  const ChangePlaybackStatus({
+class VideoFinishEvent extends VideoEvent {}
+
+class ChangeProgressEvent extends VideoEvent {
+  const ChangeProgressEvent({
+    required this.newViewProgressInPercent,
+    required this.newProgressValue,
+  });
+
+  final double newViewProgressInPercent;
+  final double newProgressValue;
+}
+
+class ChangePlaybackStatusEvent extends VideoEvent {
+  const ChangePlaybackStatusEvent({
     required this.newPlaybackStatus,
   });
 
   final PlaybackStatus newPlaybackStatus;
 }
 
-class ChangeCurrentLesson extends VideoEvent {
-  const ChangeCurrentLesson({
+class ChangeCurrentLessonEvent extends VideoEvent {
+  const ChangeCurrentLessonEvent({
     required this.newCurrentLessonIndex,
   });
 
   final int newCurrentLessonIndex;
 }
 
-class ChangeCurrentCourse extends VideoEvent {
-  const ChangeCurrentCourse({
+class ChangeCurrentCourseEvent extends VideoEvent {
+  const ChangeCurrentCourseEvent({
     required this.uidCourse,
   });
 

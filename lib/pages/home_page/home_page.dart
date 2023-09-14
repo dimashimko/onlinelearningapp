@@ -6,6 +6,7 @@ import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
 import 'package:online_learning_app/models/course/course_model.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_in_page/sign_in_page.dart';
 import 'package:online_learning_app/services/auth_service.dart';
+import 'package:online_learning_app/services/firestore_progress_service.dart';
 import 'package:online_learning_app/services/firestore_service.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
@@ -67,13 +68,21 @@ class _HomePageState extends State<HomePage> {
                 const Text('HomePage'),
                 const Spacer(),
                 CustomButton(
+                  title: 'Get Progress',
+                  onTap: () {
+                    MyFirestoreProgressService firestoreProgressService = MyFirestoreProgressService();
+                    firestoreProgressService.getUserProgress();
+                  },
+                ),
+                const SizedBox(height: 16.0),
+                CustomButton(
                   title: 'FillCourses',
                   onTap: () {
                     MyFirestoreService fireStoreService = MyFirestoreService();
                     fireStoreService.fillCourses();
                   },
                 ),
-                const SizedBox(height: 32.0),
+                const SizedBox(height: 16.0),
                 CustomButton(
                   title: 'LogOut',
                   onTap: () {

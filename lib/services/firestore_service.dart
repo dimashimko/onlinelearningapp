@@ -187,26 +187,28 @@ class MyFirestoreService {
   }
 
   Future<void> fillCourses() async {
-    db.collection("progress").doc("eLC2uAmaA8VUvslkqNiqY1K8F6l2").set({
-      "course1": {
+/*    db.collection("progress").doc("eLC2uAmaA8VUvslkqNiqY1K8F6l2").set({
+      "1691069121": {
         "bought": false,
         "favorites": false,
         "completed": false,
-        "progress": {
+        "lessons": {
           "1": [true, true, true, true, true],
           "2": [true, true, true, false, false],
         },
       },
-/*      "course2": {
-        "bought": true,
-        "favorites": true,
+    });
+    db.collection("progress").doc("eLC2uAmaA8VUvslkqNiqY1K8F6l2").set({
+      "1691069121": {
+        "bought": false,
+        "favorites": false,
         "completed": false,
-        "progress": {
+        "lessons": {
           "1": [true, true, true, true, true],
           "2": [true, true, true, false, false],
         },
-      },*/
-    });
+      },
+    });*/
     //
 /*    db.collection("users").doc("eLC2uAmaA8VUvslkqNiqY1K8F6l2").set({
       "learned_today": 360,
@@ -260,6 +262,7 @@ class MyFirestoreService {
     //     .set({"name": Categories.programming.name});
     // db.collection("categories").doc().set({"name": Categories.math.name});
     // db.collection("categories").doc().set({"name": Categories.other.name});
+/*
 
     db.collection("courses").doc('1691069119').set({
       "name": "Повний курс математики в тестах",
@@ -425,6 +428,7 @@ class MyFirestoreService {
         },
       ],
     }).onError((e, _) => log("Error writing document: $e"));
+*/
 
     // db
     //     .collection("courses")

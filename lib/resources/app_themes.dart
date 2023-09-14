@@ -132,17 +132,16 @@ class AppThemes {
       // scaffoldBackgroundColor: Colors.transparent,
       // scaffoldBackgroundColor: Colors.red,
       colorScheme: const ColorScheme.light().copyWith(
-        // onSecondary: const Color(0xFFFFFFFF),
-        // secondaryContainer: const Color(0xFFFFFFFF),
-        // onSecondaryContainer: const Color(0xFFFFFFFF),
+        // onSecondary: const Color(0xFFFFFFFF),          // free
+        // secondaryContainer: const Color(0xFFFFFFFF),   // free
+        // onSecondaryContainer: const Color(0xFFFFFFFF), // free
         // tertiary: const Color(0xFFFFFFFF),
-        // onTertiary: const Color(0xFFFFFFFF),
-        // tertiaryContainer: const Color(0xFFFFFFFF),
-        // onTertiaryContainer: const Color(0xFFFFFFFF),
-        // error: const Color(0xFFFFFFFF),
-        // onError: const Color(0xFFFFFFFF),
-        // errorContainer: const Color(0xFFFFFFFF),
-        // onErrorContainer: const Color(0xFFFFFFFF),
+        // tertiaryContainer: const Color(0xFFFFFFFF),   // free
+        // onTertiaryContainer: const Color(0xFFFFFFFF), // free
+        // error: const Color(0xFFFFFFFF),               // free
+        // onError: const Color(0xFFFFFFFF),             // free
+        // errorContainer: const Color(0xFFFFFFFF),      // free
+        // onErrorContainer: const Color(0xFFFFFFFF),    // free
         // background: const Color(0xFFFFFFFF),
         // onBackground: const Color(0xFFFFFFFF),
         // surface: const Color(0xFFFFFFFF),
@@ -151,14 +150,15 @@ class AppThemes {
         // onSurfaceVariant: const Color(0xFFFFFFFF),
         // outline: const Color(0xFFFFFFFF),
         // outlineVariant: const Color(0xFFFFFFFF),
-        // shadow: const Color(0xFFFFFFFF),
+        // shadow: const Color(0xFFFFFFFF),           // free
         // scrim: const Color(0xFFFFFFFF),
         // inverseSurface: const Color(0xFFFFFFFF),
         // onInverseSurface: const Color(0xFFFFFFFF),
         // inversePrimary: const Color(0xFFFFFFFF),
         // surfaceTint: const Color(0xFFFFFFFF),
-        // primaryVariant: const Color(0xFFFFFFFF),
-        // secondaryVariant: const Color(0xFFFFFFFF),
+        // primaryVariant: const Color(0xFFFFFFFF),   // deprecated
+        // secondaryVariant: const Color(0xFFFFFFFF), // deprecated
+        onSecondary: const Color(0xFFFFFFFF),
         background: const Color(0xFFFFFFFF),
         onBackground: const Color(0xFF1F1F39),
         primary: const Color(0xFF3D5CFF),
@@ -185,6 +185,7 @@ class AppThemes {
         fontFamily: AppFonts.fontFamily,
         scaffoldBackgroundColor: const Color(0xFF1F1F39),
         colorScheme: const ColorScheme.dark().copyWith(
+          onSecondary: const Color(0xFFFFFFFF).withOpacity(0.3),
           background: const Color(0xFF1F1F39),
           onBackground: const Color(0xFFEAEAFF),
           primary: const Color(0xFF3D5CFF),

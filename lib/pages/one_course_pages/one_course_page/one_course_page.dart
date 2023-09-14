@@ -15,6 +15,7 @@ import 'package:online_learning_app/utils/formatTime.dart';
 import 'package:online_learning_app/utils/get_course_model_by_uid.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button_star.dart';
+import 'package:online_learning_app/widgets/buttons/custom_lock_button.dart';
 import 'package:online_learning_app/widgets/buttons/custom_pause_button_with_progress.dart';
 import 'package:online_learning_app/widgets/buttons/custom_play_button.dart';
 import 'package:online_learning_app/widgets/buttons/custom_pause_button.dart';
@@ -72,7 +73,7 @@ class _OneCoursePageState extends State<OneCoursePage> {
       context.read<CoursesBloc>().state.coursesList,
     );
     context.read<VideoBloc>().add(
-          ChangeCurrentCourse(
+          ChangeCurrentCourseEvent(
             uidCourse: widget.uidCourse,
           ),
         );
@@ -228,19 +229,30 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
           // add Listener
           dataSourceController.addListener(() {
             // push progress to Bloc. (each second)
+            if (dataSourceController.value.position == dataSourceController.value.duration) {
+              // The video has finished playing
+              log('*** Video finished playing');
+/*              context.read<VideoBloc>().add(
+                ChangeProgressEvent(
+                  newViewProgressInPercent: newViewProgressInPercent,
+                  newProgressValue: dataSourceController.value.position.inMicroseconds/1000000,
+                ),
+              );*/
+            }
             if (currentProgress !=
                 dataSourceController.value.position.inSeconds) {
               currentProgress = dataSourceController.value.position.inSeconds;
 
               Duration currentPosition = dataSourceController.value.position;
               Duration totalDuration = dataSourceController.value.duration;
-              double? newViewProgress = (currentPosition.inMilliseconds /
+              double? newViewProgressInPercent = (currentPosition.inMilliseconds /
                       totalDuration.inMilliseconds) *
                   100;
-              log('*** newViewProgress ${newViewProgress}');
+              // log('*** newViewProgressInPercent $newViewProgressInPercent');
               context.read<VideoBloc>().add(
-                    ChangeViewProgress(
-                      newViewProgress: newViewProgress,
+                    ChangeProgressEvent(
+                      newViewProgressInPercent: newViewProgressInPercent,
+                      newProgressValue: dataSourceController.value.position.inMicroseconds/1000000,
                     ),
                   );
             }
@@ -249,7 +261,7 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
             if (dataSourceController.value.isPlaying != isPlaying) {
               isPlaying = dataSourceController.value.isPlaying;
               context.read<VideoBloc>().add(
-                    ChangePlaybackStatus(
+                    ChangePlaybackStatusEvent(
                       // newPlaybackStatus: dataSourceController.value.isPlaying
                       newPlaybackStatus: isPlaying
                           ? PlaybackStatus.play
@@ -282,13 +294,14 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
               )
             : dataSourceController.value.isInitialized
                 ? Center(
-                  child: AspectRatio(
+                    child: AspectRatio(
                       aspectRatio: dataSourceController.value.aspectRatio,
                       child: CustomVideoPlayer(
-                        customVideoPlayerController: _customVideoPlayerController,
+                        customVideoPlayerController:
+                            _customVideoPlayerController,
                       ),
                     ),
-                )
+                  )
                 : const SizedBox(
                     height: 250,
                     child: Center(
@@ -375,6 +388,7 @@ class CoursePanel extends StatelessWidget {
                 Expanded(
                   child: LessonList(
                     lessons: currentCourse.lessons ?? [],
+                    openLesson: currentCourse.openLesson ?? 1000000,
                   ),
                 ),
               ],
@@ -436,10 +450,12 @@ class CoursePanel extends StatelessWidget {
 class LessonList extends StatelessWidget {
   const LessonList({
     required this.lessons,
+    required this.openLesson,
     super.key,
   });
 
   final List<LessonModel> lessons;
+  final int openLesson;
 
   @override
   Widget build(BuildContext context) {
@@ -452,6 +468,7 @@ class LessonList extends StatelessWidget {
       itemBuilder: (context, index) => LessonItem(
         lesson: lessons[index],
         index: index,
+        openLesson: openLesson,
       ),
     );
   }
@@ -461,15 +478,17 @@ class LessonItem extends StatelessWidget {
   const LessonItem({
     required this.lesson,
     required this.index,
+    required this.openLesson,
     super.key,
   });
 
   final LessonModel lesson;
   final int index;
+  final int openLesson;
 
   void onTapPlay(BuildContext context) {
     context.read<VideoBloc>().add(
-          ChangeCurrentLesson(
+          ChangeCurrentLessonEvent(
             newCurrentLessonIndex: index,
           ),
         );
@@ -477,7 +496,7 @@ class LessonItem extends StatelessWidget {
 
   void onTapPause(BuildContext context) {
     context.read<VideoBloc>().add(
-          const ChangePlaybackStatus(
+          const ChangePlaybackStatusEvent(
             newPlaybackStatus: PlaybackStatus.pause,
           ),
         );
@@ -485,7 +504,7 @@ class LessonItem extends StatelessWidget {
 
   void onTapResume(BuildContext context) {
     context.read<VideoBloc>().add(
-          const ChangePlaybackStatus(
+          const ChangePlaybackStatusEvent(
             newPlaybackStatus: PlaybackStatus.play,
           ),
         );
@@ -532,34 +551,36 @@ class LessonItem extends StatelessWidget {
           ),
           BlocBuilder<VideoBloc, VideoState>(
             builder: (context, state) {
-              if (index == state.currentLessonIndex) {
-                if (state.playbackStatus == PlaybackStatus.pause) {
+              if (index < openLesson) {
+                if (index == state.currentLessonIndex) {
+                  if (state.playbackStatus == PlaybackStatus.pause) {
+                    return CustomPlayButton(
+                      onTap: () {
+                        onTapResume(context);
+                      },
+                    );
+                  } else {
+                    return BlocBuilder<VideoBloc, VideoState>(
+                      builder: (context, state) {
+                        return CustomPauseButtonWithProgress(
+                          angle: state.currentProgressInPercent,
+                          onTap: () {
+                            onTapPause(context);
+                          },
+                        );
+                      },
+                    );
+                  }
+                } else {
                   return CustomPlayButton(
                     onTap: () {
-                      onTapResume(context);
+                      onTapPlay(context);
                     },
                   );
-                } else {
-                  return BlocBuilder<VideoBloc, VideoState>(
-                    builder: (context, state) {
-                      return CustomPauseButtonWithProgress(
-                        onTap: () {
-                          onTapPause(context);
-                        },
-                      );
-                    },
-                  );
-/*                  return CustomPauseButton(
-                    onTap: () {
-                      onTapPause(context);
-                    },
-                  );*/
                 }
               } else {
-                return CustomPlayButton(
-                  onTap: () {
-                    onTapPlay(context);
-                  },
+                return CustomLockButton(
+                  onTap: () {},
                 );
               }
             },
@@ -588,6 +609,7 @@ class _AboutCourseState extends State<AboutCourse> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           'About this course',
@@ -597,24 +619,30 @@ class _AboutCourseState extends State<AboutCourse> {
               ?.copyWith(fontSize: 16.0),
           overflow: TextOverflow.ellipsis,
         ),
+        const SizedBox(height: 4.0),
         Text(
           widget.description,
           maxLines: isFullText ? 100 : 1,
           style: Theme.of(context).textTheme.titleLarge,
         ),
-        InkWell(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SvgPicture.asset(
-              isFullText ? AppIcons.arrow_up : AppIcons.arrow_down,
+        Center(
+          child: InkWell(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: SvgPicture.asset(
+                isFullText ? AppIcons.arrow_up : AppIcons.arrow_down,
+              ),
             ),
+            onTap: () {
+              setState(() {
+                isFullText = !isFullText;
+              });
+            },
           ),
-          onTap: () {
-            setState(() {
-              isFullText = !isFullText;
-            });
-          },
-        )
+        ),
+        const SizedBox(
+          width: double.infinity,
+        ),
       ],
     );
   }
