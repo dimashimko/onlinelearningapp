@@ -3,16 +3,13 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
-import 'package:online_learning_app/models/category/category_model.dart';
-import 'package:online_learning_app/models/course/course_model.dart';
-import 'package:online_learning_app/models/duration_range/duration_range.dart';
 import 'package:online_learning_app/models/progress/progress_model.dart';
 import 'package:online_learning_app/models/user_cativity/user_activity_model.dart';
+import 'package:online_learning_app/utils/constants.dart';
 
 class MyFirestoreProgressService {
   FirebaseFirestore db = FirebaseFirestore.instance;
-  static const int number_of_part_of_lesson = 5;
+  static const int numberOfPartOfLesson = 5;
 
   // *****************************
   // **** ShowStatistic ******
@@ -53,7 +50,7 @@ class MyFirestoreProgressService {
   void changeActivityTime({
     required double difference,
   }) async {
-    // difference = difference*10000;
+    difference = difference * pushActivityCoef;
     UserActivityModel? userActivityModel = await getActivityTime(); // get
     // log('*** userActivityModel: $userActivityModel');
 
@@ -75,8 +72,7 @@ class MyFirestoreProgressService {
 
     // timePerDay
     String oldDayOfYear = userActivityModel.dayOfYear ?? '';
-    // Jiffy now = Jiffy.now().add(days: 1);
-    Jiffy now = Jiffy.now().add(days: -3);
+    Jiffy now = Jiffy.now().add(days: shiftDay);
     String nowDayOfYear = '${now.year}-${now.month}-${now.date}';
     double timePerDay = userActivityModel.timePerDay ?? 0.0;
     if (nowDayOfYear == oldDayOfYear) {
@@ -182,14 +178,14 @@ class MyFirestoreProgressService {
     // log('*** courseModel: $courseModel');
     List<bool> partsOfLesson =
         courseModel.lessonsProgress!['$currentLessonIndex'] ??
-            List.generate(number_of_part_of_lesson, (index) => false);
+            List.generate(numberOfPartOfLesson, (index) => false);
     // log('*** partsOfLesson: $partsOfLesson');
 
     // do copy and mark the current part of the video as watched
     List<bool> newPartsOfLesson = partsOfLesson.isEmpty
-        ? List.generate(number_of_part_of_lesson, (index) => false)
+        ? List.generate(numberOfPartOfLesson, (index) => false)
         : [...partsOfLesson];
-    int part = newViewProgressInPercent * number_of_part_of_lesson ~/ 100;
+    int part = newViewProgressInPercent * numberOfPartOfLesson ~/ 100;
     newPartsOfLesson[part] = true;
 
     // if something has changed, send it to the server

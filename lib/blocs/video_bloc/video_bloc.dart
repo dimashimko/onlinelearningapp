@@ -1,21 +1,16 @@
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:bloc/bloc.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
-import 'package:online_learning_app/models/progress/progress_model.dart';
 import 'package:online_learning_app/services/firestore_progress_service.dart';
-import 'package:online_learning_app/services/firestore_service.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:online_learning_app/utils/constants.dart';
 
 part 'video_event.dart';
-
 part 'video_state.dart';
 
 class VideoBloc extends Bloc<VideoEvent, VideoState> {
-  static const int updateInterval = 4;
+  static const int updateInterval = pushActivityUpdateInterval;
   double lastProgressValue = 0;
 
   VideoBloc() : super(const VideoState()) {
