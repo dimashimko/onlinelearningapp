@@ -14,6 +14,42 @@ class MyFirestoreProgressService {
   FirebaseFirestore db = FirebaseFirestore.instance;
   static const int number_of_part_of_lesson = 5;
 
+  // *****************************
+  // **** ShowStatistic ******
+  // *****************************
+  Future<bool> checkNeedShowStatistic() async {
+    UserActivityModel? userActivityModel = await getActivityTime(); // get
+    // log('*** userActivityModel: $userActivityModel');
+
+    if (userActivityModel == null) {
+      log('*** Failed to get UserActivityModel');
+      userActivityModel = UserActivityModel.empty();
+    }
+    UserActivityModel? newUserActivityModel =
+        checkLastDay(userActivityModel); // change
+    if (newUserActivityModel != null) {
+      pushActivityTime(userActivityModel: newUserActivityModel); // push
+    }
+    return newUserActivityModel != null;
+  }
+
+  UserActivityModel? checkLastDay(UserActivityModel userActivityModel) {
+    Jiffy now = Jiffy.now().add(days: 3);
+    String nowDayOfYear = '${now.year}-${now.month}-${now.date}';
+    if ((userActivityModel.lastDayShowStatistic ?? '') == nowDayOfYear) {
+      return null;
+    } else {
+      userActivityModel = userActivityModel.copyWith(
+        lastDayShowStatistic: nowDayOfYear,
+      );
+      return userActivityModel;
+    }
+  }
+
+  // *****************************
+  // **** ActivityTime ******
+  // *****************************
+
   void changeActivityTime({
     required double difference,
   }) async {
@@ -38,7 +74,7 @@ class MyFirestoreProgressService {
 
     // timePerDay
     String oldDayOfYear = userActivityModel.dayOfYear ?? '';
-    Jiffy now = Jiffy.now().add(days: 20);
+    Jiffy now = Jiffy.now().add(days: 0);
     String nowDayOfYear = '${now.year}-${now.month}-${now.date}';
     double timePerDay = userActivityModel.timePerDay ?? 0.0;
     if (nowDayOfYear == oldDayOfYear) {
@@ -62,7 +98,7 @@ class MyFirestoreProgressService {
     if (oldWeekOfYear != nowWeekOfYear) {
       recordOfThisWeek = List.generate(7, (index) => false);
     }
-    recordOfThisWeek[now.dayOfWeek-1] = true;
+    recordOfThisWeek[now.dayOfWeek - 1] = true;
 
     return userActivityModel.copyWith(
       dayOfYear: nowDayOfYear,
@@ -128,6 +164,9 @@ class MyFirestoreProgressService {
     // return null;
   }
 
+  // *****************************
+  // **** Progress ******
+  // *****************************
   void changeProgressValue({
     required double newViewProgressInPercent,
     required String currentCourse,
@@ -135,7 +174,6 @@ class MyFirestoreProgressService {
   }) async {
     // get last version of current model
     Map<String, CourseProgressModel> userProgress = await getUserProgress();
-    log('');
     // log('*** userProgress: $userProgress');
     CourseProgressModel courseModel =
         userProgress[currentCourse] ?? CourseProgressModel.empty();
@@ -144,8 +182,6 @@ class MyFirestoreProgressService {
         courseModel.lessonsProgress!['$currentLessonIndex'] ??
             List.generate(number_of_part_of_lesson, (index) => false);
     // log('*** partsOfLesson: $partsOfLesson');
-
-
 
     // do copy and mark the current part of the video as watched
     List<bool> newPartsOfLesson = partsOfLesson.isEmpty

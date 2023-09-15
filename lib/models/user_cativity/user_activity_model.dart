@@ -6,6 +6,7 @@ class UserActivityModel {
   double? totallyHours;
   int? totallyDays;
   String? weekOfYear;
+  String? lastDayShowStatistic;
   List<bool>? recordOfThisWeek;
 
   UserActivityModel({
@@ -14,6 +15,7 @@ class UserActivityModel {
     this.totallyHours,
     this.totallyDays,
     this.weekOfYear,
+    this.lastDayShowStatistic,
     this.recordOfThisWeek,
   });
 
@@ -23,12 +25,13 @@ class UserActivityModel {
     this.totallyHours = 0,
     this.totallyDays = 0,
     this.weekOfYear = '',
+    this.lastDayShowStatistic = '',
     this.recordOfThisWeek = const [false, false, false, false, false, false, false],
   });
 
   @override
   String toString() {
-    return 'dayOfYear: $dayOfYear, timePerDay: $timePerDay, totallyHours: $totallyHours, totallyDays: $totallyDays, weekOfYear: $weekOfYear, lessons: $recordOfThisWeek';
+    return 'dayOfYear: $dayOfYear, timePerDay: $timePerDay, totallyHours: $totallyHours, totallyDays: $totallyDays, weekOfYear: $weekOfYear, lastDayShowStatistic: $lastDayShowStatistic, lessons: $recordOfThisWeek';
   }
 
   UserActivityModel copyWith({
@@ -37,6 +40,7 @@ class UserActivityModel {
     double? totallyHours,
     int? totallyDays,
     String? weekOfYear,
+    String? lastDayShowStatistic,
     List<bool>? recordOfThisWeek,
   }) {
     return UserActivityModel(
@@ -45,6 +49,7 @@ class UserActivityModel {
       totallyHours: totallyHours ?? this.totallyHours,
       totallyDays: totallyDays ?? this.totallyDays,
       weekOfYear: weekOfYear ?? this.weekOfYear,
+      lastDayShowStatistic: lastDayShowStatistic ?? this.lastDayShowStatistic,
       recordOfThisWeek: recordOfThisWeek ?? this.recordOfThisWeek,
     );
   }
@@ -57,6 +62,7 @@ class UserActivityModel {
     totallyHours = json['totallyHours'];
     totallyDays = json['totallyDays'];
     weekOfYear = json['weekOfYear'];
+    lastDayShowStatistic = json['lastDayShowStatistic'];
     recordOfThisWeek = List<bool>.from(json['recordOfThisWeek']);
     // recordOfThisWeek = recordOfThisWeekMap;
   }
@@ -68,6 +74,7 @@ class UserActivityModel {
       'totallyHours': this.totallyHours,
       'totallyDays': this.totallyDays,
       'weekOfYear': this.weekOfYear,
+      'lastDayShowStatistic': this.lastDayShowStatistic,
       // 'recordOfThisWeek': json.encode(recordOfThisWeek),
       'recordOfThisWeek': List<dynamic>.from(recordOfThisWeek??[]),
     };

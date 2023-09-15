@@ -25,10 +25,18 @@ class VideoBloc extends Bloc<VideoEvent, VideoState> {
     on<VideoFinishEvent>(
       (event, emit) async {
         log('*** @VideoFinishEvent ');
-
-        emit(
-          state.copyWith(),
-        );
+        bool isNeedShowStatistic =
+            await fireStoreProgressService.checkNeedShowStatistic();
+        log('*** isNeedShowStatistic: $isNeedShowStatistic');
+        int showStatisticValue = state.showStatistic;
+        showStatisticValue = showStatisticValue + 1;
+        if (isNeedShowStatistic) {
+          emit(
+            state.copyWith(
+              showStatistic: showStatisticValue,
+            ),
+          );
+        }
         // add(GetFilteredCourses());
       },
     );

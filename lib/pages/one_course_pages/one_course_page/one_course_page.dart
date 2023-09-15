@@ -9,6 +9,7 @@ import 'package:online_learning_app/blocs/video_bloc/video_bloc.dart';
 import 'package:online_learning_app/models/course/course_model.dart';
 import 'package:online_learning_app/models/video_model/lesson_model.dart';
 import 'package:online_learning_app/pages/one_course_pages/no_videos_page/no_videos_page.dart';
+import 'package:online_learning_app/pages/one_course_pages/one_course_page/statistic_alert_dialog.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/resources/app_images.dart';
 import 'package:online_learning_app/utils/formatTime.dart';
@@ -65,6 +66,16 @@ class _OneCoursePageState extends State<OneCoursePage> {
     Navigator.of(context).pop();
   }
 
+  showAlertDialog(BuildContext context) {
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return const CustomAlertDialog();
+      },
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -77,24 +88,6 @@ class _OneCoursePageState extends State<OneCoursePage> {
             uidCourse: widget.uidCourse,
           ),
         );
-/*    String? url = currentCourse?.lessons?[0].link;
-    // String? url = currentCourse?.title;
-    // log('*** url: $url');
-    final uri = Uri.parse(url ?? '');
-    log('*** uri: $uri');
-
-    dataSourceController = VideoPlayerController.networkUrl(uri)
-      ..initialize().then((value) => setState(() {}));
-    dataSourceController.addListener(() {
-      // log('*** event of videoPlayerController');
-      // log('*** position ${videoPlayerController.value.position.inSeconds}');
-      // log('*** videoPlayerOptions ${videoPlayerController.videoPlayerOptions}');
-      // log('*** dataSource ${videoPlayerController.dataSource}');
-    });
-
-    _customVideoPlayerController = getCustomVideoPlayerController(
-      dataSourceController: dataSourceController,
-    );*/
   }
 
   @override
@@ -103,34 +96,43 @@ class _OneCoursePageState extends State<OneCoursePage> {
         ? const NoVideosPage()
         : Scaffold(
             body: SafeArea(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Flexible(
-                    flex: 1,
-                    fit: FlexFit.tight,
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Stack(
-                        children: [
-                          CourseVideoPlayer(
-                            currentCourse: currentCourse!,
-                          ),
-                          ButtonBack(
-                            onTapButtonBack: () => _goToBackPage(context),
-                          )
-                        ],
+              child: BlocListener<VideoBloc, VideoState>(
+                listenWhen: (p, c) {
+                  return p.showStatistic != c.showStatistic;
+                },
+                listener: (context, state) {
+                  log('*** showAlertDialog');
+                  showAlertDialog(context);
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Flexible(
+                      flex: 1,
+                      fit: FlexFit.tight,
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Stack(
+                          children: [
+                            CourseVideoPlayer(
+                              currentCourse: currentCourse!,
+                            ),
+                            ButtonBack(
+                              onTapButtonBack: () => _goToBackPage(context),
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  Flexible(
-                    flex: 2,
-                    fit: FlexFit.tight,
-                    child: CoursePanel(
-                      currentCourse: currentCourse!,
+                    Flexible(
+                      flex: 2,
+                      fit: FlexFit.tight,
+                      child: CoursePanel(
+                        currentCourse: currentCourse!,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           );
@@ -229,15 +231,11 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
           // add Listener
           dataSourceController.addListener(() {
             // push progress to Bloc. (each second)
-            if (dataSourceController.value.position == dataSourceController.value.duration) {
+            if (dataSourceController.value.position ==
+                dataSourceController.value.duration) {
               // The video has finished playing
               log('*** Video finished playing');
-/*              context.read<VideoBloc>().add(
-                ChangeProgressEvent(
-                  newViewProgressInPercent: newViewProgressInPercent,
-                  newProgressValue: dataSourceController.value.position.inMicroseconds/1000000,
-                ),
-              );*/
+              context.read<VideoBloc>().add(VideoFinishEvent());
             }
             if (currentProgress !=
                 dataSourceController.value.position.inSeconds) {
@@ -245,14 +243,17 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
 
               Duration currentPosition = dataSourceController.value.position;
               Duration totalDuration = dataSourceController.value.duration;
-              double? newViewProgressInPercent = (currentPosition.inMilliseconds /
-                      totalDuration.inMilliseconds) *
-                  100;
+              double? newViewProgressInPercent =
+                  (currentPosition.inMilliseconds /
+                          totalDuration.inMilliseconds) *
+                      100;
               // log('*** newViewProgressInPercent $newViewProgressInPercent');
               context.read<VideoBloc>().add(
                     ChangeProgressEvent(
                       newViewProgressInPercent: newViewProgressInPercent,
-                      newProgressValue: dataSourceController.value.position.inMicroseconds/1000000,
+                      newProgressValue:
+                          dataSourceController.value.position.inMicroseconds /
+                              1000000,
                     ),
                   );
             }
