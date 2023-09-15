@@ -53,6 +53,7 @@ class MyFirestoreProgressService {
   void changeActivityTime({
     required double difference,
   }) async {
+    // difference = difference*10000;
     UserActivityModel? userActivityModel = await getActivityTime(); // get
     // log('*** userActivityModel: $userActivityModel');
 
@@ -74,7 +75,8 @@ class MyFirestoreProgressService {
 
     // timePerDay
     String oldDayOfYear = userActivityModel.dayOfYear ?? '';
-    Jiffy now = Jiffy.now().add(days: 0);
+    // Jiffy now = Jiffy.now().add(days: 1);
+    Jiffy now = Jiffy.now().add(days: -3);
     String nowDayOfYear = '${now.year}-${now.month}-${now.date}';
     double timePerDay = userActivityModel.timePerDay ?? 0.0;
     if (nowDayOfYear == oldDayOfYear) {

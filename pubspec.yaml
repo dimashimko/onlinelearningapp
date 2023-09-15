@@ -40,6 +40,8 @@ dependencies:
   appinio_video_player: ^1.2.2
   jiffy: ^6.2.1
   equatable: ^2.0.5
+  share: ^2.0.4
+#  share_plus: ^7.1.0
 
 flutter_icons:
   image_path: "assets/images/app_icon.png"

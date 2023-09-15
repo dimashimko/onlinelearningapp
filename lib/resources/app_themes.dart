@@ -133,7 +133,6 @@ class AppThemes {
       // scaffoldBackgroundColor: Colors.red,
       colorScheme: const ColorScheme.light().copyWith(
         // onSecondary: const Color(0xFFFFFFFF),          // free
-        // secondaryContainer: const Color(0xFFFFFFFF),   // free
         // onSecondaryContainer: const Color(0xFFFFFFFF), // free
         // tertiary: const Color(0xFFFFFFFF),
         // tertiaryContainer: const Color(0xFFFFFFFF),   // free
@@ -164,6 +163,7 @@ class AppThemes {
         primary: const Color(0xFF3D5CFF),
         onPrimary: const Color(0xFFFFFFFF),
         secondary: const Color(0xFF858597),
+        secondaryContainer: const Color(0xFFEAEAFF),
         tertiary: const Color(0xFFF0F0F2),
         outline: const Color(0xFFB8B8D2),
         outlineVariant: const Color(0xFFB8B8D2),
@@ -192,6 +192,7 @@ class AppThemes {
           onPrimary: const Color(0xFF858597),
           // onPrimary: const Color(0xFFFF0000),
           secondary: const Color(0xFFEAEAFF),
+          secondaryContainer: const Color(0xFFEAEAFF),
           tertiary: const Color(0xFF1F1F39),
           outline: const Color(0xFF3E3E55),
           outlineVariant: const Color(0xFFB8B8D2),
