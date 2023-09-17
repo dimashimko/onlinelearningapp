@@ -8,6 +8,7 @@ import 'package:online_learning_app/pages/home_page/home_page.dart';
 import 'package:online_learning_app/pages/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:online_learning_app/pages/message_page/message_page.dart';
+import 'package:online_learning_app/pages/my_courses_page/my_courses_page.dart';
 import 'package:online_learning_app/pages/one_course_pages/one_course_page/one_course_page.dart';
 import 'package:online_learning_app/pages/search_page/search_page.dart';
 
@@ -68,20 +69,22 @@ class AppRouter {
         break;
 
       case SearchPage.routeName:
-        builder = (_) =>  SearchPage();
+        builder = (_) => SearchPage();
         break;
 
+      case MyCoursesPage.routeName:
+        builder = (_) => MyCoursesPage();
+        break;
 
       // case OneCoursePage.routeName:
       //   builder = (_) =>  OneCoursePage();
       //   break;
 
       case OneCoursePage.routeName:
-        final OneCoursePageArguments args =
-        arguments as OneCoursePageArguments;
+        final OneCoursePageArguments args = arguments as OneCoursePageArguments;
         builder = (_) => OneCoursePage(
-          uidCourse: args.uidCourse,
-        );
+              uidCourse: args.uidCourse,
+            );
         break;
 
       default:
