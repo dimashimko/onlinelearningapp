@@ -10,36 +10,6 @@ import 'package:online_learning_app/models/duration_range/duration_range.dart';
 class MyFirestoreService {
   FirebaseFirestore db = FirebaseFirestore.instance;
 
-  // Future<List<CourseModel>> getAllCoursesListSortDuration() async {
-  //   String? uid = FirebaseAuth.instance.currentUser?.uid;
-  //   List<CourseModel> listOfCoursesModel = [];
-  //   if (uid == null) {
-  //     log('*** !!! courses not update from firestore: uid == null');
-  //   } else {
-  //     if (uid == '0') {
-  //       log('*** courses not update from firestore: uid == \'0\'');
-  //     } else {
-  //       await db
-  //           .collection('courses')
-  //           // .where('openLesson', isEqualTo: 1)
-  //           .orderBy('duration')
-  //           .get()
-  //           .then(
-  //         (snapshot) {
-  //           for (var doc in snapshot.docs) {
-  //             listOfCoursesModel.add(
-  //               CourseModel.fromJson(
-  //                 doc.data()..addAll({'uid': doc.id.toString()}),
-  //               ),
-  //             );
-  //           }
-  //         },
-  //       );
-  //     }
-  //   }
-  //   return listOfCoursesModel;
-  // }
-
   Future<List<CourseModel>> getFilteredCoursesList({
     required List<String> uidsSelectedCategories,
     required double minPrice,
@@ -51,138 +21,110 @@ class MyFirestoreService {
     // print('*** getFilteredCoursesList');
     String? uid = FirebaseAuth.instance.currentUser?.uid;
     List<CourseModel> listOfCoursesModel = [];
-    if (uid == null) {
-      log('*** !!! courses not update from firestore: uid == null');
-    } else {
-      if (uid == '0') {
-        log('*** courses not update from firestore: uid == \'0\'');
-      } else {
-        Query<Map<String, dynamic>> filteredCourses = db.collection('courses');
-        // log('*** filterEnabledType: $filterEnabledType');
+    Query<Map<String, dynamic>> filteredCourses = db.collection('courses');
 /*        // Filtered by Name v1
         filteredCourses = filteredCourses
             .where('name', isGreaterThanOrEqualTo: searchKey)
             .where('name', isLessThan: searchKey + 'z');*/
 
-        // Filtered by Name v2
-        if (filterEnabledType == FilterEnabledType.text) {
-          log('*** searchKey: $searchKey');
-          if (true) {
-            filteredCourses = filteredCourses
-                .orderBy('name')
-                .startAt([searchKey]).endAt([searchKey + '\uf8ff']);
-          }
-        }
+    // Filtered by Name v2
+    if (filterEnabledType == FilterEnabledType.text) {
+      log('*** searchKey: $searchKey');
+      if (true) {
+        filteredCourses = filteredCourses
+            .orderBy('name')
+            .startAt([searchKey]).endAt([searchKey + '\uf8ff']);
+      }
+    }
 
-        // Filtered by category
-        // if (filterEnabledType == FilterEnabledType.categories) {
-        if (true) {
-          if (uidsSelectedCategories.isNotEmpty) {
-            filteredCourses = filteredCourses.where(
-              'category',
-              whereIn: uidsSelectedCategories,
-            );
-          }
-        }
-
-        // Filtered by Price
-        if (filterEnabledType == FilterEnabledType.price) {
-          // if (true) {
-          filteredCourses =
-              filteredCourses.where('price', isGreaterThan: minPrice);
-          filteredCourses =
-              filteredCourses.where('price', isLessThan: maxPrice + 0.5);
-        }
-
-        // Filtered by duration
-        if (filterEnabledType == FilterEnabledType.duration) {
-          // if (true) {
-          for (DurationRange durationFilter in filterDurationItems) {
-            if (durationFilter.isEnable) {
-              log('*** durationFilter: $durationFilter');
-              filteredCourses = filteredCourses
-                  .where(
-                    'duration',
-                    isGreaterThan: durationFilter.min * 3600,
-                  )
-                  .orderBy('duration');
-              filteredCourses = filteredCourses.where(
-                'duration',
-                isLessThan: durationFilter.max * 3600,
-              );
-            }
-          }
-        }
-
-        await filteredCourses.get().then(
-          (QuerySnapshot<Map<String, dynamic>> snapshot) {
-            for (var doc in snapshot.docs) {
-              listOfCoursesModel.add(
-                CourseModel.fromJson(
-                  doc.data()..addAll({'uid': doc.id.toString()}),
-                ),
-              );
-            }
-          },
+    // Filtered by category
+    // if (filterEnabledType == FilterEnabledType.categories) {
+    if (true) {
+      if (uidsSelectedCategories.isNotEmpty) {
+        filteredCourses = filteredCourses.where(
+          'category',
+          whereIn: uidsSelectedCategories,
         );
       }
     }
+
+    // Filtered by Price
+    if (filterEnabledType == FilterEnabledType.price) {
+      // if (true) {
+      filteredCourses = filteredCourses.where('price', isGreaterThan: minPrice);
+      filteredCourses =
+          filteredCourses.where('price', isLessThan: maxPrice + 0.5);
+    }
+
+    // Filtered by duration
+    if (filterEnabledType == FilterEnabledType.duration) {
+      // if (true) {
+      for (DurationRange durationFilter in filterDurationItems) {
+        if (durationFilter.isEnable) {
+          log('*** durationFilter: $durationFilter');
+          filteredCourses = filteredCourses
+              .where(
+                'duration',
+                isGreaterThan: durationFilter.min * 3600,
+              )
+              .orderBy('duration');
+          filteredCourses = filteredCourses.where(
+            'duration',
+            isLessThan: durationFilter.max * 3600,
+          );
+        }
+      }
+    }
+
+    await filteredCourses.get().then(
+      (QuerySnapshot<Map<String, dynamic>> snapshot) {
+        for (var doc in snapshot.docs) {
+          listOfCoursesModel.add(
+            CourseModel.fromJson(
+              doc.data()..addAll({'uid': doc.id.toString()}),
+            ),
+          );
+        }
+      },
+    );
     // log('*** listOfCoursesModel: ${listOfCoursesModel}');
     return listOfCoursesModel;
   }
 
   Future<List<CourseModel>> getAllCoursesList(String orderBy) async {
-    String? uid = FirebaseAuth.instance.currentUser?.uid;
     List<CourseModel> listOfCoursesModel = [];
-    if (uid == null) {
-      log('*** !!! coursesCollection not update from firestore: uid == null');
-    } else {
-      if (uid == '0') {
-        log('*** coursesCollection not update from firestore: uid == \'0\'');
-      } else {
-        Query<Map<String, dynamic>> coursesCollection =
-            db.collection('courses').orderBy(orderBy);
+    Query<Map<String, dynamic>> coursesCollection =
+        db.collection('courses').orderBy(orderBy);
 
-        await coursesCollection.get().then(
-          (QuerySnapshot<Map<String, dynamic>> snapshot) {
-            for (var doc in snapshot.docs) {
-              // log('*** doc.data(): ${doc.data()}');
+    await coursesCollection.get().then(
+      (QuerySnapshot<Map<String, dynamic>> snapshot) {
+        for (var doc in snapshot.docs) {
+          // log('*** doc.data(): ${doc.data()}');
 
-              listOfCoursesModel.add(
-                CourseModel.fromJson(
-                  doc.data()..addAll({'uid': doc.id.toString()}),
-                ),
-              );
-            }
-          },
-        );
-      }
-    }
+          listOfCoursesModel.add(
+            CourseModel.fromJson(
+              doc.data()..addAll({'uid': doc.id.toString()}),
+            ),
+          );
+        }
+      },
+    );
     return listOfCoursesModel;
   }
 
   Future<List<CategoryModel>> getCategories() async {
-    String? uid = FirebaseAuth.instance.currentUser?.uid;
     List<CategoryModel> listOfCategoryModel = [];
-    if (uid == null) {
-      log('*** !!! courses not update from firestore: uid == null');
-    } else {
-      if (uid == '0') {
-        log('*** courses not update from firestore: uid == \'0\'');
-      } else {
-        await db.collection('categories').get().then(
-          (snapshot) {
-            for (var doc in snapshot.docs) {
-              listOfCategoryModel.add(
-                CategoryModel.fromJson(
-                  doc.data()..addAll({'uid': doc.id.toString()}),
-                ),
-              );
-            }
-          },
-        );
-      }
-    }
+    await db.collection('categories').get().then(
+      (snapshot) {
+        for (var doc in snapshot.docs) {
+          listOfCategoryModel.add(
+            CategoryModel.fromJson(
+              doc.data()..addAll({'uid': doc.id.toString()}),
+            ),
+          );
+        }
+      },
+    );
     return listOfCategoryModel;
   }
 

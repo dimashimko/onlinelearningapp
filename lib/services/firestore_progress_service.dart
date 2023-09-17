@@ -116,16 +116,10 @@ class MyFirestoreProgressService {
     // log('*** updateActivityTime');
     String? uid = FirebaseAuth.instance.currentUser?.uid;
     Map<String, CourseProgressModel> userProgress = {};
-    if (uid == null) {
-      log('*** !!! progress not update from firestore: uid == null');
-    } else {
-      if (uid == '0') {
-        log('*** progress not update from firestore: uid == \'0\'');
-      } else {
-        db.collection("activity").doc(uid).set(
-              userActivityModel.toJson(),
-            );
-      }
+    if (checkUserUid(uid)) {
+      db.collection("activity").doc(uid).set(
+            userActivityModel.toJson(),
+          );
     }
     return userProgress;
   }
@@ -133,21 +127,15 @@ class MyFirestoreProgressService {
   Future<UserActivityModel?> getActivityTime() async {
     String? uid = FirebaseAuth.instance.currentUser?.uid;
     UserActivityModel? userActivityModel;
-    if (uid == null) {
-      log('*** !!! progress not update from firestore: uid == null');
-    } else {
-      if (uid == '0') {
-        log('*** progress not update from firestore: uid == \'0\'');
-      } else {
-        DocumentSnapshot<Map<String, dynamic>> value =
-            await db.collection("activity").doc(uid).get();
+    if (checkUserUid(uid)) {
+      DocumentSnapshot<Map<String, dynamic>> value =
+          await db.collection("activity").doc(uid).get();
 
-        if (value.data() == null) {
-          log('*** value.data() == null');
-          db.collection("activity").doc(uid).set({});
-        } else {
-          userActivityModel = UserActivityModel.fromJson(value.data()!);
-        }
+      if (value.data() == null) {
+        log('*** value.data() == null');
+        db.collection("activity").doc(uid).set({});
+      } else {
+        userActivityModel = UserActivityModel.fromJson(value.data()!);
       }
     }
     return userActivityModel;
@@ -205,25 +193,10 @@ class MyFirestoreProgressService {
   ) async {
     String? uid = FirebaseAuth.instance.currentUser?.uid;
     Map<String, CourseProgressModel> userProgress = {};
-    if (uid == null) {
-      log('*** !!! progress not update from firestore: uid == null');
-    } else {
-      if (uid == '0') {
-        log('*** progress not update from firestore: uid == \'0\'');
-      } else {
-        db.collection("progress").doc(uid).update({
-          uidOfCourse: progressModel.toJson(),
-/*          uidOfCourse: {
-            "bought": false,
-            "favorites": false,
-            "completed": false,
-            "lessons": {
-              "1": [false, false, false, false, false],
-              "2": [false, false, false, false, false],
-            },
-          },*/
-        });
-      }
+    if (checkUserUid(uid)) {
+      db.collection("progress").doc(uid).update({
+        uidOfCourse: progressModel.toJson(),
+      });
     }
     // userProgress.forEach((key, value) {log('*** $key : $value');});
     return userProgress;
@@ -232,31 +205,37 @@ class MyFirestoreProgressService {
   Future<Map<String, CourseProgressModel>> getUserProgress() async {
     String? uid = FirebaseAuth.instance.currentUser?.uid;
     Map<String, CourseProgressModel> userProgress = {};
-    if (uid == null) {
-      log('*** !!! progress not update from firestore: uid == null');
-    } else {
-      if (uid == '0') {
-        log('*** progress not update from firestore: uid == \'0\'');
+    if (checkUserUid(uid)) {
+      DocumentSnapshot<Map<String, dynamic>> value =
+          await db.collection("progress").doc(uid).get();
+
+      if (value.data() == null) {
+        log('*** value.data() == null');
+        db.collection("progress").doc(uid).set({});
       } else {
-        await db.collection("progress").doc(uid).get().then(
-          (value) {
-            if (value.data() == null) {
-              log('*** value.data() == null');
-              db.collection("progress").doc(uid).set({});
-            } else {
-              for (var jsonModel in value.data()!.entries) {
-                userProgress.addAll({
-                  jsonModel.key: CourseProgressModel.fromJson(
-                    jsonModel.value,
-                  )
-                });
-              }
-            }
-          },
-        );
+        for (var jsonModel in value.data()!.entries) {
+          userProgress.addAll({
+            jsonModel.key: CourseProgressModel.fromJson(
+              jsonModel.value,
+            )
+          });
+        }
       }
     }
     // userProgress.forEach((key, value) {log('*** $key : $value');});
     return userProgress;
   }
+}
+
+bool checkUserUid(String? uid) {
+  if (uid == null) {
+    log('*** !!! courses not update from firestore: uid == null');
+    return false;
+  } else {
+    if (uid == '0') {
+      log('*** courses not update from firestore: uid == \'0\'');
+      return false;
+    }
+  }
+  return true;
 }

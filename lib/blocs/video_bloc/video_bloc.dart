@@ -103,7 +103,7 @@ class VideoBloc extends Bloc<VideoEvent, VideoState> {
 
     on<ChangePlaybackStatusEvent>(
       (event, emit) async {
-        log('*** @ChangePlaybackStatus ');
+        // log('*** @ChangePlaybackStatus ');
         emit(
           state.copyWith(
             playbackStatus: event.newPlaybackStatus,
