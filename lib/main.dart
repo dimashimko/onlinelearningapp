@@ -69,7 +69,10 @@ class _App extends StatelessWidget {
           create: (_) => CoursesBloc(),
         ),
         BlocProvider<VideoBloc>(
-          create: (_) => VideoBloc(),
+          create: (_) => VideoBloc()
+            ..add(
+              UpdateUserActivityTimeEvent(),
+            ),
         ),
         BlocProvider<NavigationBloc>(
           create: (_) => NavigationBloc(),

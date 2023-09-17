@@ -47,7 +47,7 @@ class MyFirestoreProgressService {
   // **** ActivityTime ******
   // *****************************
 
-  void changeActivityTime({
+  Future<UserActivityModel?> changeActivityTime({
     required double difference,
   }) async {
     difference = difference * pushActivityCoef;
@@ -61,6 +61,8 @@ class MyFirestoreProgressService {
     userActivityModel =
         changeUserActivityModel(userActivityModel, difference); // change
     pushActivityTime(userActivityModel: userActivityModel); // push
+
+    return userActivityModel;
   }
 
   UserActivityModel changeUserActivityModel(
@@ -137,24 +139,15 @@ class MyFirestoreProgressService {
       if (uid == '0') {
         log('*** progress not update from firestore: uid == \'0\'');
       } else {
-        await db.collection("activity").doc(uid).get().then(
-          (value) {
-            if (value.data() == null) {
-              log('*** value.data() == null');
-              db.collection("activity").doc(uid).set({});
-            } else {
-              // log('*** value.data(): ${value.data()}');
-              userActivityModel = UserActivityModel.fromJson(value.data()!);
-/*              for (var jsonModel in value.data()!.entries) {
-                userProgress.addAll({
-                  jsonModel.key: CourseProgressModel.fromJson(
-                    jsonModel.value,
-                  )
-                });
-              }*/
-            }
-          },
-        );
+        DocumentSnapshot<Map<String, dynamic>> value =
+            await db.collection("activity").doc(uid).get();
+
+        if (value.data() == null) {
+          log('*** value.data() == null');
+          db.collection("activity").doc(uid).set({});
+        } else {
+          userActivityModel = UserActivityModel.fromJson(value.data()!);
+        }
       }
     }
     return userActivityModel;
@@ -165,16 +158,16 @@ class MyFirestoreProgressService {
   // *****************************
   // **** Progress ******
   // *****************************
-  void changeProgressValue({
+  Future<Map<String, CourseProgressModel>> changeProgressValue({
     required double newViewProgressInPercent,
-    required String currentCourse,
+    required String uidOfCurrentCourse,
     required int? currentLessonIndex,
   }) async {
     // get last version of current model
     Map<String, CourseProgressModel> userProgress = await getUserProgress();
     // log('*** userProgress: $userProgress');
     CourseProgressModel courseModel =
-        userProgress[currentCourse] ?? CourseProgressModel.empty();
+        userProgress[uidOfCurrentCourse] ?? CourseProgressModel.empty();
     // log('*** courseModel: $courseModel');
     List<bool> partsOfLesson =
         courseModel.lessonsProgress!['$currentLessonIndex'] ??
@@ -200,8 +193,10 @@ class MyFirestoreProgressService {
       );
 
       // push new model to the server
-      updateUserProgress(currentCourse, courseModel);
+      updateUserProgress(uidOfCurrentCourse, courseModel);
     }
+    userProgress[uidOfCurrentCourse] = courseModel;
+    return userProgress;
   }
 
   Future<Map<String, CourseProgressModel>> updateUserProgress(

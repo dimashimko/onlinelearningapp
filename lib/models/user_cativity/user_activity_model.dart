@@ -1,13 +1,13 @@
-import 'dart:convert';
+import 'package:equatable/equatable.dart';
 
-class UserActivityModel {
-  String? dayOfYear;
-  double? timePerDay;
-  double? totallyHours;
-  int? totallyDays;
-  String? weekOfYear;
-  String? lastDayShowStatistic;
-  List<bool>? recordOfThisWeek;
+class UserActivityModel extends Equatable {
+  final String? dayOfYear;
+  final double? timePerDay;
+  final double? totallyHours;
+  final int? totallyDays;
+  final String? weekOfYear;
+  final String? lastDayShowStatistic;
+  final List<bool>? recordOfThisWeek;
 
   UserActivityModel({
     this.dayOfYear,
@@ -26,8 +26,28 @@ class UserActivityModel {
     this.totallyDays = 0,
     this.weekOfYear = '',
     this.lastDayShowStatistic = '',
-    this.recordOfThisWeek = const [false, false, false, false, false, false, false],
+    this.recordOfThisWeek = const [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
   });
+
+  //
+  @override
+  List<Object?> get props => [
+        dayOfYear,
+        timePerDay,
+        totallyHours,
+        totallyDays,
+        weekOfYear,
+        lastDayShowStatistic,
+        recordOfThisWeek
+      ];
 
   @override
   String toString() {
@@ -54,17 +74,16 @@ class UserActivityModel {
     );
   }
 
-
-
-  UserActivityModel.fromJson(Map<String, dynamic> json) {
-    dayOfYear = json['dayOfYear'];
-    timePerDay = json['timePerDay'];
-    totallyHours = json['totallyHours'];
-    totallyDays = json['totallyDays'];
-    weekOfYear = json['weekOfYear'];
-    lastDayShowStatistic = json['lastDayShowStatistic'];
-    recordOfThisWeek = List<bool>.from(json['recordOfThisWeek']);
-    // recordOfThisWeek = recordOfThisWeekMap;
+  factory UserActivityModel.fromJson(Map<String, dynamic> json) {
+    return UserActivityModel(
+      dayOfYear: json['dayOfYear'],
+      timePerDay: json['timePerDay'],
+      totallyHours: json['totallyHours'],
+      totallyDays: json['totallyDays'],
+      weekOfYear: json['weekOfYear'],
+      lastDayShowStatistic: json['lastDayShowStatistic'],
+      recordOfThisWeek: List<bool>.from(json['recordOfThisWeek']),
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -76,7 +95,7 @@ class UserActivityModel {
       'weekOfYear': this.weekOfYear,
       'lastDayShowStatistic': this.lastDayShowStatistic,
       // 'recordOfThisWeek': json.encode(recordOfThisWeek),
-      'recordOfThisWeek': List<dynamic>.from(recordOfThisWeek??[]),
+      'recordOfThisWeek': List<dynamic>.from(recordOfThisWeek ?? []),
     };
     return outputJson;
   }

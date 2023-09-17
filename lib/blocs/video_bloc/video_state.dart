@@ -11,6 +11,8 @@ class VideoState {
     this.currentProgressInPercent = 0.0,
     this.lastProgressValue = 0,
     this.showStatistic = 0,
+    this.userActivityModel,
+    this.userProgress,
   });
 
   final int totalDuration;
@@ -20,6 +22,8 @@ class VideoState {
   final double currentProgressInPercent;
   final double lastProgressValue;
   final int showStatistic;
+  final UserActivityModel? userActivityModel;
+  final Map<String, CourseProgressModel>? userProgress;
 
   VideoState copyWith({
     int? totalDuration,
@@ -30,6 +34,8 @@ class VideoState {
     double? currentProgressInPercent,
     double? lastProgressValue,
     int? showStatistic,
+    UserActivityModel? userActivityModel,
+    Map<String, CourseProgressModel>? userProgress,
   }) {
     return VideoState(
       totalDuration: totalDuration ?? this.totalDuration,
@@ -42,6 +48,8 @@ class VideoState {
       currentProgressInPercent: currentProgressInPercent ?? this.currentProgressInPercent,
       lastProgressValue: lastProgressValue ?? this.lastProgressValue,
       showStatistic: showStatistic ?? this.showStatistic,
+      userActivityModel: userActivityModel ?? this.userActivityModel,
+      userProgress: userProgress ?? this.userProgress,
     );
   }
 }

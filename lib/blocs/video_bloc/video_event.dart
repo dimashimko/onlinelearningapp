@@ -13,6 +13,8 @@ class PushProgressEvent extends VideoEvent {
   final int newProgressValue;
 }
 
+class UpdateUserActivityTimeEvent extends VideoEvent {}
+
 class VideoFinishEvent extends VideoEvent {}
 
 class ChangeProgressEvent extends VideoEvent {

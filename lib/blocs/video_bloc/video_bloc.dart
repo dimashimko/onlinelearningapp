@@ -3,10 +3,13 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
+import 'package:online_learning_app/models/progress/progress_model.dart';
+import 'package:online_learning_app/models/user_cativity/user_activity_model.dart';
 import 'package:online_learning_app/services/firestore_progress_service.dart';
 import 'package:online_learning_app/utils/constants.dart';
 
 part 'video_event.dart';
+
 part 'video_state.dart';
 
 class VideoBloc extends Bloc<VideoEvent, VideoState> {
@@ -16,6 +19,19 @@ class VideoBloc extends Bloc<VideoEvent, VideoState> {
   VideoBloc() : super(const VideoState()) {
     MyFirestoreProgressService fireStoreProgressService =
         MyFirestoreProgressService();
+
+    on<UpdateUserActivityTimeEvent>(
+      (event, emit) async {
+        log('*** @UpdateUserActivityTimeEvent ');
+        UserActivityModel? userActivityModel =
+            await fireStoreProgressService.getActivityTime();
+        emit(
+          state.copyWith(
+            userActivityModel: userActivityModel,
+          ),
+        );
+      },
+    );
 
     on<VideoFinishEvent>(
       (event, emit) async {
@@ -32,7 +48,6 @@ class VideoBloc extends Bloc<VideoEvent, VideoState> {
             ),
           );
         }
-        // add(GetFilteredCourses());
       },
     );
 
@@ -54,14 +69,23 @@ class VideoBloc extends Bloc<VideoEvent, VideoState> {
         if (difference > updateInterval) {
           // log('*** push accessed');
           if (state.currentCourse != null) {
-            fireStoreProgressService.changeActivityTime(
+            UserActivityModel? userActivityModel =
+                await fireStoreProgressService.changeActivityTime(
               difference: difference,
             );
-            fireStoreProgressService.changeProgressValue(
+            Map<String, CourseProgressModel> userProgress =
+                await fireStoreProgressService.changeProgressValue(
               newViewProgressInPercent: event.newViewProgressInPercent,
-              currentCourse: state.currentCourse!,
+              uidOfCurrentCourse: state.currentCourse!,
               currentLessonIndex: state.currentLessonIndex,
             );
+            emit(
+              state.copyWith(
+                userActivityModel: userActivityModel,
+                userProgress: userProgress,
+              ),
+            );
+
             // log('*** event.newProgressValue: ${event.newProgressValue}');
             // log('*** lastProgressValue: ${lastProgressValue}');
             lastProgressValue = event.newProgressValue;

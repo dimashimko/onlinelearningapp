@@ -135,7 +135,7 @@ class AppThemes {
         // onSecondary: const Color(0xFFFFFFFF),          // free
         // onSecondaryContainer: const Color(0xFFFFFFFF), // free
         // tertiary: const Color(0xFFFFFFFF),
-        // tertiaryContainer: const Color(0xFFFFFFFF),   // free
+        // tertiaryContainer: const Color(0xFFFFFFFF),
         // onTertiaryContainer: const Color(0xFFFFFFFF), // free
         // error: const Color(0xFFFFFFFF),               // free
         // onError: const Color(0xFFFFFFFF),             // free
@@ -165,6 +165,7 @@ class AppThemes {
         secondary: const Color(0xFF858597),
         secondaryContainer: const Color(0xFFEAEAFF),
         tertiary: const Color(0xFFF0F0F2),
+        tertiaryContainer: const Color(0xFFFF5106),
         outline: const Color(0xFFB8B8D2),
         outlineVariant: const Color(0xFFB8B8D2),
         surface: const Color(0xFFFFFFFF),
@@ -194,6 +195,7 @@ class AppThemes {
           secondary: const Color(0xFFEAEAFF),
           secondaryContainer: const Color(0xFFEAEAFF),
           tertiary: const Color(0xFF1F1F39),
+          tertiaryContainer: const Color(0xFFFF5106),
           outline: const Color(0xFF3E3E55),
           outlineVariant: const Color(0xFFB8B8D2),
           surface: const Color(0xFF2F2F42),
