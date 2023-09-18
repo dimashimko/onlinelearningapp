@@ -15,7 +15,7 @@ class MyFirestoreProgressService {
   // **** ShowStatistic ******
   // *****************************
   Future<bool> checkNeedShowStatistic() async {
-    UserActivityModel? userActivityModel = await getActivityTime(); // get
+    UserActivityModel? userActivityModel = await getActivityModel(); // get
     // log('*** userActivityModel: $userActivityModel');
 
     if (userActivityModel == null) {
@@ -25,7 +25,9 @@ class MyFirestoreProgressService {
     UserActivityModel? newUserActivityModel =
         checkLastDay(userActivityModel); // change
     if (newUserActivityModel != null) {
-      pushActivityTime(userActivityModel: newUserActivityModel); // push
+      pushActivityTime(
+        userActivityModel: newUserActivityModel,
+      ); // push
     }
     return newUserActivityModel != null;
   }
@@ -51,7 +53,7 @@ class MyFirestoreProgressService {
     required double difference,
   }) async {
     difference = difference * pushActivityCoef;
-    UserActivityModel? userActivityModel = await getActivityTime(); // get
+    UserActivityModel? userActivityModel = await getActivityModel(); // get
     // log('*** userActivityModel: $userActivityModel');
 
     if (userActivityModel == null) {
@@ -110,21 +112,19 @@ class MyFirestoreProgressService {
     );
   }
 
-  Future<Map<String, CourseProgressModel>> pushActivityTime({
+  void pushActivityTime({
     required UserActivityModel userActivityModel,
   }) async {
-    // log('*** updateActivityTime');
+    // log('*** pushActivityTime');
     String? uid = FirebaseAuth.instance.currentUser?.uid;
-    Map<String, CourseProgressModel> userProgress = {};
     if (checkUserUid(uid)) {
       db.collection("activity").doc(uid).set(
             userActivityModel.toJson(),
           );
     }
-    return userProgress;
   }
 
-  Future<UserActivityModel?> getActivityTime() async {
+  Future<UserActivityModel?> getActivityModel() async {
     String? uid = FirebaseAuth.instance.currentUser?.uid;
     UserActivityModel? userActivityModel;
     if (checkUserUid(uid)) {

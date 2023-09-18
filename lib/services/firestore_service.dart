@@ -10,6 +10,7 @@ import 'package:online_learning_app/models/duration_range/duration_range.dart';
 class MyFirestoreService {
   FirebaseFirestore db = FirebaseFirestore.instance;
 
+
   Future<List<CourseModel>> getFilteredCoursesList({
     required List<String> uidsSelectedCategories,
     required double minPrice,
@@ -19,7 +20,6 @@ class MyFirestoreService {
     required FilterEnabledType filterEnabledType,
   }) async {
     // print('*** getFilteredCoursesList');
-    String? uid = FirebaseAuth.instance.currentUser?.uid;
     List<CourseModel> listOfCoursesModel = [];
     Query<Map<String, dynamic>> filteredCourses = db.collection('courses');
 /*        // Filtered by Name v1
