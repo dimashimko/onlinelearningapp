@@ -5,7 +5,7 @@ enum PlaybackStatus { play, pause }
 class ProgressState extends Equatable {
   const ProgressState({
     this.totalDuration = 0,
-    this.currentCourse,
+    this.currentCourseUid,
     this.currentLessonIndex,
     this.playbackStatus = PlaybackStatus.pause,
     this.currentProgressInPercent = 0.0,
@@ -19,7 +19,7 @@ class ProgressState extends Equatable {
   @override
   List<Object?> get props => [
         totalDuration,
-        currentCourse,
+        currentCourseUid,
         currentLessonIndex,
         playbackStatus,
         currentProgressInPercent,
@@ -30,7 +30,7 @@ class ProgressState extends Equatable {
       ];
 
   final int totalDuration;
-  final String? currentCourse;
+  final String? currentCourseUid;
   final int? currentLessonIndex;
   final PlaybackStatus playbackStatus;
   final double currentProgressInPercent;
@@ -41,7 +41,7 @@ class ProgressState extends Equatable {
 
   ProgressState copyWith({
     int? totalDuration,
-    String? currentCourse,
+    String? currentCourseUid,
     // int? currentLessonIndex,
     int? Function()? currentLessonIndex,
     PlaybackStatus? playbackStatus,
@@ -53,7 +53,7 @@ class ProgressState extends Equatable {
   }) {
     return ProgressState(
       totalDuration: totalDuration ?? this.totalDuration,
-      currentCourse: currentCourse ?? this.currentCourse,
+      currentCourseUid: currentCourseUid ?? this.currentCourseUid,
       // currentLessonIndex: currentLessonIndex ?? this.currentLessonIndex,
       currentLessonIndex: currentLessonIndex != null
           ? currentLessonIndex()

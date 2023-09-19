@@ -126,13 +126,13 @@ class _MainPageState extends State<MainPage> {
               },
               child: BlocListener<ProgressBloc, ProgressState>(
                 listenWhen: (p, c) {
-                  print(
-                      '*** p.userProgress != c.userProgress: ${p.userProgress != c.userProgress}');
+                  // print(
+                  //     '*** p.userProgress != c.userProgress: ${p.userProgress != c.userProgress}');
                   return p.userProgress != c.userProgress;
                 },
                 listener: (context, state) {
                   // userProgress = context.read<ProgressBloc>().state.userProgress;
-                  print('*** state.userProgress: ${state.userProgress}');
+                  // print('*** state.userProgress: ${state.userProgress}');
                   context.read<CoursesBloc>().add(
                         FilterUserCourses(
                           userProgress: state.userProgress,

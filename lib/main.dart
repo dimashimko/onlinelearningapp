@@ -79,7 +79,7 @@ class _App extends StatelessWidget {
               UpdateUserActivityTimeEvent(),
             )
             ..add(
-              UpdateUserProgressEvent(),
+              GetUserProgressEvent(),
             ),
         ),
         BlocProvider<NavigationBloc>(

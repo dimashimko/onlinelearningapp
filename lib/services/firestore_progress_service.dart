@@ -187,25 +187,25 @@ class MyFirestoreProgressService {
       );
 
       // push new model to the server
-      updateUserProgress(uidOfCurrentCourse, courseModel);
+      pushUserProgress(uidOfCurrentCourse, courseModel);
     }
     userProgress[uidOfCurrentCourse] = courseModel;
     return userProgress;
   }
 
-  Future<Map<String, CourseProgressModel>> updateUserProgress(
+  void pushUserProgress(
     String uidOfCourse,
     CourseProgressModel progressModel,
   ) async {
     String? uid = FirebaseAuth.instance.currentUser?.uid;
-    Map<String, CourseProgressModel> userProgress = {};
+    // Map<String, CourseProgressModel> userProgress = {};
     if (checkUserUid(uid)) {
       db.collection("progress").doc(uid).update({
         uidOfCourse: progressModel.toJson(),
       });
     }
     // userProgress.forEach((key, value) {log('*** $key : $value');});
-    return userProgress;
+    // return userProgress;
   }
 
   Future<Map<String, CourseProgressModel>> getUserProgress() async {

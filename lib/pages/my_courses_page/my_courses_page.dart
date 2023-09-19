@@ -67,7 +67,7 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
     //
     log('*** initState MyCoursesPage');
     context.read<ProgressBloc>().add(
-          UpdateUserProgressEvent(),
+          GetUserProgressEvent(),
         );
 /*    userProgress = context.read<ProgressBloc>().state.userProgress;
     context.read<CoursesBloc>().add(

@@ -20,7 +20,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     MyFirestoreService fireStoreService = MyFirestoreService();
 
     on<FilterUserCourses>((event, emit) async {
-      log('@@@ FilterUserCourses');
+      // log('@@@ FilterUserCourses');
       // log('*** event.userProgress: ${event.userProgress}');
       Map<String, CourseProgressModel> userProgress = event.userProgress ?? {};
 
@@ -33,9 +33,9 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
         }
         return false;
       }).toList();
-      log('@@@ FilterUserCourses state.coursesList: ${state.coursesList}');
-      log('@@@ FilterUserCourses event.userProgress: ${event.userProgress}');
-      log('@@@ FilterUserCourses userCoursesList: $userCoursesList');
+      // log('@@@ FilterUserCourses state.coursesList: ${state.coursesList}');
+      // log('@@@ FilterUserCourses event.userProgress: ${event.userProgress}');
+      // log('@@@ FilterUserCourses userCoursesList: $userCoursesList');
 
       emit(
         state.copyWith(
