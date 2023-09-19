@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
               return previous.coursesList != current.coursesList;
             },
             listener: (context, state) {
-              log('*** precacheImage in HomePage');
+              // log('*** precacheImage in HomePage');
               for (CourseModel course in state.coursesList) {
                 precacheImage(NetworkImage(course.title ?? ''), context);
                 // log('*** course.title: ${course.title ?? ''}');

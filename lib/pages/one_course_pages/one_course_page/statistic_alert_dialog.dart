@@ -21,7 +21,7 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
 
     MyFirestoreProgressService fireStoreProgressService =
         MyFirestoreProgressService();
-    cafeListFuture = fireStoreProgressService.getActivityTime();
+    cafeListFuture = fireStoreProgressService.getActivityModel();
   }
 
   void onTapShare(UserActivityModel userActivityModel) {

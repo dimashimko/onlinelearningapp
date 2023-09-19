@@ -33,7 +33,7 @@ class MyFirestoreProgressService {
   }
 
   UserActivityModel? checkLastDay(UserActivityModel userActivityModel) {
-    Jiffy now = Jiffy.now().add(days: 3);
+    Jiffy now = Jiffy.now().add(days: shiftDay);
     String nowDayOfYear = '${now.year}-${now.month}-${now.date}';
     if ((userActivityModel.lastDayShowStatistic ?? '') == nowDayOfYear) {
       return null;
@@ -49,20 +49,26 @@ class MyFirestoreProgressService {
   // **** ActivityTime ******
   // *****************************
 
-  Future<UserActivityModel?> changeActivityTime({
+  Future<UserActivityModel?> updateActivityTime({
     required double difference,
   }) async {
     difference = difference * pushActivityCoef;
-    UserActivityModel? userActivityModel = await getActivityModel(); // get
-    // log('*** userActivityModel: $userActivityModel');
 
+    // get
+    UserActivityModel? userActivityModel = await getActivityModel();
     if (userActivityModel == null) {
       log('*** Failed to get UserActivityModel');
       userActivityModel = UserActivityModel.empty();
     }
-    userActivityModel =
-        changeUserActivityModel(userActivityModel, difference); // change
-    pushActivityTime(userActivityModel: userActivityModel); // push
+
+    // change
+    userActivityModel = changeUserActivityModel(
+      userActivityModel,
+      difference,
+    );
+
+    // push
+    pushActivityTime(userActivityModel: userActivityModel);
 
     return userActivityModel;
   }

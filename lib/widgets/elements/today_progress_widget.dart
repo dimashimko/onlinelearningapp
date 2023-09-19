@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_learning_app/blocs/video_bloc/video_bloc.dart';
@@ -88,7 +90,7 @@ class TodayProgress extends StatelessWidget {
                   const SizedBox(height: 8.0),
                   CustomLinearGradientLine(
                     // min: 10,
-                    min: state.userActivityModel != null
+                    sec: state.userActivityModel != null
                         ? (state.userActivityModel!.timePerDay ?? 0.0).toInt()
                         : 0,
                   ),
@@ -104,15 +106,15 @@ class TodayProgress extends StatelessWidget {
 
 class CustomLinearGradientLine extends StatelessWidget {
   const CustomLinearGradientLine({
-    required this.min,
+    required this.sec,
     super.key,
   });
 
-  final int min;
+  final int sec;
 
   @override
   Widget build(BuildContext context) {
-    int minRounded = min > 60 ? 60 : min;
+    int minRounded = sec > 3600 ? 60 : sec~/60;
     return Stack(
       children: [
         Container(
@@ -131,8 +133,10 @@ class CustomLinearGradientLine extends StatelessWidget {
               begin: Alignment.centerLeft,
               // end: Alignment.centerRight,
               end: Alignment(((minRounded * 2) / 60) - 1, 0.0),
+              // end: Alignment(-0.5, 0.0),
               colors: <Color>[
                 Theme.of(context).colorScheme.onSecondary,
+                // Colors.white,
                 Theme.of(context).colorScheme.tertiaryContainer,
               ],
               tileMode: TileMode.decal,

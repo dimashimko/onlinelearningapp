@@ -297,7 +297,7 @@ class DurationElementsFilterItem extends StatelessWidget {
     super.key,
   });
 
-  final DurationRange durationRange;
+  final DurationRangeModel durationRange;
   final bool isEnable;
 
   @override

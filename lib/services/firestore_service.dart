@@ -15,7 +15,7 @@ class MyFirestoreService {
     required List<String> uidsSelectedCategories,
     required double minPrice,
     required double maxPrice,
-    required List<DurationRange> filterDurationItems,
+    required List<DurationRangeModel> filterDurationItems,
     required String searchKey,
     required FilterEnabledType filterEnabledType,
   }) async {
@@ -59,7 +59,7 @@ class MyFirestoreService {
     // Filtered by duration
     if (filterEnabledType == FilterEnabledType.duration) {
       // if (true) {
-      for (DurationRange durationFilter in filterDurationItems) {
+      for (DurationRangeModel durationFilter in filterDurationItems) {
         if (durationFilter.isEnable) {
           log('*** durationFilter: $durationFilter');
           filteredCourses = filteredCourses

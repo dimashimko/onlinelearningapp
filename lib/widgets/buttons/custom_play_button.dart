@@ -10,12 +10,14 @@ class CustomPlayButton extends StatelessWidget {
     Key? key,
     this.padding = 0.0,
     this.buttonRadius = 44.0,
+    this.color,
     required this.onTap,
   }) : super(key: key);
 
   final double padding;
   final double buttonRadius;
   final VoidCallback onTap;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -27,15 +29,15 @@ class CustomPlayButton extends StatelessWidget {
             width: buttonRadius,
             height: buttonRadius,
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
-              borderRadius: BorderRadius.circular(buttonRadius/2),
+              color: color ?? Theme.of(context).colorScheme.primary,
+              borderRadius: BorderRadius.circular(buttonRadius / 2),
             ),
             alignment: Alignment.center,
-            child:  SvgPicture.asset(AppIcons.play),
+            child: SvgPicture.asset(AppIcons.play),
           ),
         ),
         SplashBox(
-          borderRadius: BorderRadius.circular(buttonRadius/2),
+          borderRadius: BorderRadius.circular(buttonRadius / 2),
           onTap: onTap,
         ),
       ],

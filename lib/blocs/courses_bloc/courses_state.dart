@@ -12,12 +12,12 @@ class CoursesState extends Equatable {
     this.categoryList = const [],
     this.filterCategory = const {},
     this.filterDurationItems = const [
-      DurationRange(min: 0, max: 3, isEnable: false),
-      DurationRange(min: 3, max: 8, isEnable: false),
-      DurationRange(min: 8, max: 14, isEnable: false),
-      DurationRange(min: 14, max: 20, isEnable: false),
-      DurationRange(min: 20, max: 24, isEnable: false),
-      DurationRange(min: 24, max: 30, isEnable: false),
+      DurationRangeModel(min: 0, max: 3, isEnable: false),
+      DurationRangeModel(min: 3, max: 8, isEnable: false),
+      DurationRangeModel(min: 8, max: 14, isEnable: false),
+      DurationRangeModel(min: 14, max: 20, isEnable: false),
+      DurationRangeModel(min: 20, max: 24, isEnable: false),
+      DurationRangeModel(min: 24, max: 30, isEnable: false),
     ],
     this.filterPriceRangeValues = const RangeValues(0.0, 1.0),
     this.filteredCoursesList = const [],
@@ -52,7 +52,7 @@ class CoursesState extends Equatable {
   final List<CourseModel> coursesList;
   final List<CategoryModel> categoryList;
   final Set<String> filterCategory;
-  final List<DurationRange> filterDurationItems;
+  final List<DurationRangeModel> filterDurationItems;
   final RangeValues filterPriceRangeValues;
   final List<CourseModel> filteredCoursesList;
   final double maxPricePerCourse;
@@ -69,7 +69,7 @@ class CoursesState extends Equatable {
     List<CategoryModel>? categoryList,
     // filter
     Set<String>? filterCategory,
-    List<DurationRange>? filterDurationItems,
+    List<DurationRangeModel>? filterDurationItems,
     RangeValues? filterPriceRangeValues,
     List<CourseModel>? filteredCoursesList,
     double? maxPricePerCourse,
