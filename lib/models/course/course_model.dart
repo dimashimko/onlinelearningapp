@@ -1,22 +1,21 @@
-import 'dart:developer';
-
+import 'package:equatable/equatable.dart';
 import 'package:online_learning_app/models/video_model/lesson_model.dart';
 
 enum Categories { programming, math, painting, language, other }
 
-class CourseModel {
-  String? uid;
-  String? name;
-  String? author;
-  String? category;
-  double? price;
-  double? duration;
-  String? about;
-  int? openLesson;
-  String? title;
-  List<LessonModel>? lessons;
+class CourseModel extends Equatable  {
+  final String? uid;
+  final String? name;
+  final String? author;
+  final String? category;
+  final double? price;
+  final double? duration;
+  final String? about;
+  final int? openLesson;
+  final String? title;
+  final List<LessonModel>? lessons;
 
-  CourseModel({
+  const CourseModel({
     this.uid,
     this.name,
     this.author,
@@ -29,12 +28,27 @@ class CourseModel {
     this.lessons,
   });
 
+  //
+  @override
+  List<Object?> get props => [
+    uid,
+    name,
+    author,
+    category,
+    price,
+    duration,
+    about,
+    openLesson,
+    title,
+    lessons,
+  ];
+
   @override
   String toString() {
     return ' uid: $uid, name: $name, author: $author, category: $category, price: $price, duration: $duration, openLesson: $openLesson, lessonsLength: ${lessons?.length}';
   }
 
-  CourseModel.empty({
+  const CourseModel.empty({
     this.uid,
     this.name,
     this.author,
@@ -73,7 +87,7 @@ class CourseModel {
     );
   }
 
-  CourseModel.fromJson(Map<String, dynamic> json) {
+  factory CourseModel.fromJson(Map<String, dynamic> json) {
     // parse category
 /*    Categories? category;
     log('*** json[category]: ${json['category']}');
@@ -112,7 +126,19 @@ class CourseModel {
     }*/
 
     // log('json: $json');
-    uid = json['uid'];
+    return CourseModel(
+      uid: json['uid'],
+      name: json['name'],
+      author: json['author'],
+      category: json['category'],
+      price: json['price'].toDouble(),
+      about: json['about'],
+      openLesson: json['openLesson'],
+      title: json['titleImage'],
+      lessons: listLessons,
+    );
+
+/*    uid = json['uid'];
     name = json['name'];
     author = json['author'];
     category = json['category'];
@@ -121,21 +147,21 @@ class CourseModel {
     about = json['about'];
     openLesson = json['openLesson'];
     title = json['titleImage'];
-    lessons = listLessons;
+    lessons = listLessons;*/
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['uid'] = this.uid;
-    data['name'] = this.name;
-    data['author'] = this.author;
-    data['category'] = this.category;
-    data['price'] = this.price;
-    data['duration'] = this.duration;
-    data['about'] = this.about;
-    data['openLesson'] = this.openLesson;
-    data['title'] = this.title;
-    data['lessons'] = this.lessons;
+    data['uid'] = uid;
+    data['name'] = name;
+    data['author'] = author;
+    data['category'] = category;
+    data['price'] = price;
+    data['duration'] = duration;
+    data['about'] = about;
+    data['openLesson'] = openLesson;
+    data['title'] = title;
+    data['lessons'] = lessons;
     return data;
   }
 }

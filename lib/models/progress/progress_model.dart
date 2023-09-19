@@ -6,14 +6,14 @@ class CourseProgressModel extends Equatable {
   final bool? completed;
   final Map<String, List<bool>>? lessonsProgress;
 
-  CourseProgressModel({
+  const CourseProgressModel({
     this.bought,
     this.favorites,
     this.completed,
     this.lessonsProgress,
   });
 
-  CourseProgressModel.empty({
+  const CourseProgressModel.empty({
     this.bought = false,
     this.favorites = false,
     this.completed = false,
@@ -22,7 +22,12 @@ class CourseProgressModel extends Equatable {
 
   //
   @override
-  List<Object?> get props => [bought, favorites, completed, lessonsProgress];
+  List<Object?> get props => [
+        bought,
+        favorites,
+        completed,
+        lessonsProgress,
+      ];
 
   @override
   String toString() {
@@ -62,10 +67,10 @@ class CourseProgressModel extends Equatable {
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> json = {
-      'bought': this.bought,
-      'favorites': this.favorites,
-      'completed': this.completed,
-      'lessons': this.lessonsProgress?.map((key, value) {
+      'bought': bought,
+      'favorites': favorites,
+      'completed': completed,
+      'lessons': lessonsProgress?.map((key, value) {
         return MapEntry(key, List<dynamic>.from(value));
       }),
     };

@@ -1,20 +1,30 @@
-class CategoryModel {
-  String? name;
-  String? categoryTitle;
-  String? uid;
+import 'package:equatable/equatable.dart';
 
-  CategoryModel({
+class CategoryModel extends Equatable {
+  final String? name;
+  final String? categoryTitle;
+  final String? uid;
+
+  const CategoryModel({
     this.name,
     this.categoryTitle,
     this.uid,
   });
+
+  //
+  @override
+  List<Object?> get props => [
+        name,
+        categoryTitle,
+        uid,
+      ];
 
   @override
   String toString() {
     return ' name: $name, categoryTitle: $categoryTitle, uid: $uid,';
   }
 
-  CategoryModel.empty({
+  const CategoryModel.empty({
     this.name,
     this.categoryTitle,
     this.uid,
@@ -32,10 +42,15 @@ class CategoryModel {
     );
   }
 
-  CategoryModel.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    categoryTitle = json['categoryTitle'];
-    uid = json['uid'];
+  factory CategoryModel.fromJson(Map<String, dynamic> json) {
+    return CategoryModel(
+      name: json['name'],
+      categoryTitle: json['categoryTitle'],
+      uid: json['uid'],
+    );
+    // name = json['name'];
+    // categoryTitle = json['categoryTitle'];
+    // uid = json['uid'];
   }
 
   Map<String, dynamic> toJson() {
