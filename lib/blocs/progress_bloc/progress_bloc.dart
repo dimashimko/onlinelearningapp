@@ -21,6 +21,27 @@ class ProgressBloc extends Bloc<ProgressEvent, ProgressState> {
     MyFirestoreProgressService fireStoreProgressService =
         MyFirestoreProgressService();
 
+    on<TapButtonFavorite>(
+      (event, emit) async {
+        log('*** @TapButtonFavorite ');
+
+        CourseProgressModel? currentCourseProgress =
+            state.userProgress?[state.currentCourseUid] ??
+                const CourseProgressModel.empty();
+
+        log('*** @TapButtonFavorite currentCourseProgress: $currentCourseProgress');
+        currentCourseProgress = currentCourseProgress.copyWith(
+          favorites: !(currentCourseProgress.favorites ?? true),
+        );
+        if (state.currentCourseUid != null) {
+          fireStoreProgressService.pushUserProgress(
+              state.currentCourseUid!, currentCourseProgress);
+        }
+        log('*** @TapButtonFavorite currentCourseProgress: $currentCourseProgress');
+        add(GetUserProgressEvent());
+      },
+    );
+
     on<UpdateUserActivityTimeEvent>(
       (event, emit) async {
         log('*** @UpdateUserActivityTimeEvent ');
@@ -54,12 +75,12 @@ class ProgressBloc extends Bloc<ProgressEvent, ProgressState> {
       },
     );
 
-    on<UpdateUserProgressEvent>(
+    on<GetUserProgressEvent>(
       (event, emit) async {
-        // log('*** @UpdateUserProgressEvent ');
+        // log('*** @GetUserProgressEvent ');
         Map<String, CourseProgressModel> userProgress =
             await fireStoreProgressService.getUserProgress();
-        // log('*** @UpdateUserProgressEvent userProgress: $userProgress');
+        // log('*** @GetUserProgressEvent userProgress: $userProgress');
         emit(
           state.copyWith(
             userProgress: userProgress,
@@ -85,7 +106,7 @@ class ProgressBloc extends Bloc<ProgressEvent, ProgressState> {
 
         if (difference > updateInterval) {
           // log('*** push accessed');
-          if (state.currentCourse != null) {
+          if (state.currentCourseUid != null) {
             // change
             UserActivityModel? userActivityModel =
                 await fireStoreProgressService.updateActivityTime(
@@ -94,7 +115,7 @@ class ProgressBloc extends Bloc<ProgressEvent, ProgressState> {
             Map<String, CourseProgressModel> userProgress =
                 await fireStoreProgressService.changeProgressValue(
               newViewProgressInPercent: event.newViewProgressInPercent,
-              uidOfCurrentCourse: state.currentCourse!,
+              uidOfCurrentCourse: state.currentCourseUid!,
               currentLessonIndex: state.currentLessonIndex,
             );
             emit(
@@ -151,7 +172,7 @@ class ProgressBloc extends Bloc<ProgressEvent, ProgressState> {
         log('*** @ChangeCurrentCourse ');
         emit(
           state.copyWith(
-            currentCourse: event.uidCourse,
+            currentCourseUid: event.uidCourse,
             currentLessonIndex: () => null,
             currentProgressInPercent: 0.0,
             lastProgressValue: 0,

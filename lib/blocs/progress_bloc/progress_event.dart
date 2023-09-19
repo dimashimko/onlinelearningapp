@@ -6,7 +6,9 @@ abstract class ProgressEvent {
 }
 
 
-class UpdateUserProgressEvent extends ProgressEvent {}
+
+class TapButtonFavorite extends ProgressEvent {}
+class GetUserProgressEvent extends ProgressEvent {}
 class UpdateUserActivityTimeEvent extends ProgressEvent {}
 
 class VideoFinishEvent extends ProgressEvent {}

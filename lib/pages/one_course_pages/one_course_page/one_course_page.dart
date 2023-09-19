@@ -7,11 +7,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
 import 'package:online_learning_app/blocs/progress_bloc/progress_bloc.dart';
 import 'package:online_learning_app/models/course/course_model.dart';
+import 'package:online_learning_app/models/progress/progress_model.dart';
 import 'package:online_learning_app/models/video_model/lesson_model.dart';
 import 'package:online_learning_app/pages/one_course_pages/no_videos_page/no_videos_page.dart';
 import 'package:online_learning_app/pages/one_course_pages/one_course_page/statistic_alert_dialog.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/resources/app_images.dart';
+import 'package:online_learning_app/resources/app_themes.dart';
 import 'package:online_learning_app/utils/formatTime.dart';
 import 'package:online_learning_app/utils/get_course_model_by_uid.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
@@ -76,6 +78,13 @@ class _OneCoursePageState extends State<OneCoursePage> {
     );
   }
 
+  void onTapFavoriteButton() {
+    log('*** onTapFavoriteButton');
+    context.read<ProgressBloc>().add(
+          TapButtonFavorite(),
+        );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -107,6 +116,7 @@ class _OneCoursePageState extends State<OneCoursePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    // Text(currentCourseProgressModel.toString()),
                     Flexible(
                       flex: 1,
                       fit: FlexFit.tight,
@@ -129,6 +139,7 @@ class _OneCoursePageState extends State<OneCoursePage> {
                       fit: FlexFit.tight,
                       child: CoursePanel(
                         currentCourse: currentCourse!,
+                        onTapFavoriteButton: onTapFavoriteButton,
                       ),
                     ),
                   ],
@@ -319,10 +330,12 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
 class CoursePanel extends StatelessWidget {
   const CoursePanel({
     required this.currentCourse,
+    required this.onTapFavoriteButton,
     super.key,
   });
 
   final CourseModel currentCourse;
+  final VoidCallback onTapFavoriteButton;
 
   @override
   Widget build(BuildContext context) {
@@ -334,18 +347,6 @@ class CoursePanel extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // BlocBuilder<ProgressBloc, ProgressState>(
-                //   builder: (context, state) {
-                //     return Text(
-                //       state.currentLessonIndex.toString() ?? '',
-                //       style: Theme.of(context)
-                //           .textTheme
-                //           .displayLarge
-                //           ?.copyWith(fontSize: 20.0),
-                //       overflow: TextOverflow.fade,
-                //     );
-                //   },
-                // ),
                 const SizedBox(height: 16.0),
                 Row(
                   children: [
@@ -396,35 +397,56 @@ class CoursePanel extends StatelessWidget {
             ),
           ),
         ),
-        Container(
-          height: 98.0,
-          // width: double.infinity,
-          // alignment: Alignment.topCenter,
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.2),
-                blurRadius: 4,
-                offset: const Offset(0, -4), // Shadow position
-              ),
-            ],
-            borderRadius: const BorderRadius.vertical(
-              top: Radius.circular(8.0),
-            ),
+        BottomPanelButtons(
+          onTapFavoriteButton: onTapFavoriteButton,
+        ),
+      ],
+    );
+  }
+}
+
+class BottomPanelButtons extends StatelessWidget {
+  const BottomPanelButtons({
+    required this.onTapFavoriteButton,
+    super.key,
+  });
+
+  final VoidCallback onTapFavoriteButton;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 98.0,
+      // width: double.infinity,
+      // alignment: Alignment.topCenter,
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2),
+            blurRadius: 4,
+            offset: const Offset(0, -4), // Shadow position
           ),
-          child: Padding(
-            padding:
-                const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
-            child: Row(
+        ],
+        borderRadius: const BorderRadius.vertical(
+          top: Radius.circular(8.0),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+        child: BlocBuilder<ProgressBloc, ProgressState>(
+          builder: (context, state) {
+            CourseProgressModel? courseProgressModel =
+                state.userProgress?[state.currentCourseUid];
+            return Row(
               children: [
                 Flexible(
                   flex: 2,
                   fit: FlexFit.tight,
                   child: StarButton(
-                    isEnable: false,
+                    isEnable: (courseProgressModel?.favorites) ?? false,
                     onTap: () {
-                      log('*** ${DateTime.now().year}');
+                      onTapFavoriteButton();
                     },
                   ),
                 ),
@@ -440,10 +462,10 @@ class CoursePanel extends StatelessWidget {
                   ),
                 ),
               ],
-            ),
-          ),
+            );
+          },
         ),
-      ],
+      ),
     );
   }
 }
@@ -460,17 +482,25 @@ class LessonList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      padding:
-          const EdgeInsets.symmetric(horizontal: 20.0).copyWith(bottom: 16.0),
-      scrollDirection: Axis.vertical,
-      separatorBuilder: (context, index) => const SizedBox(height: 16.0),
-      itemCount: lessons.length,
-      itemBuilder: (context, index) => LessonItem(
-        lesson: lessons[index],
-        index: index,
-        openLesson: openLesson,
-      ),
+    return BlocBuilder<ProgressBloc, ProgressState>(
+      builder: (context, state) {
+        CourseProgressModel? currentCourseProgressModel =
+            state.userProgress?[state.currentCourseUid];
+        return ListView.separated(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0)
+              .copyWith(bottom: 16.0),
+          scrollDirection: Axis.vertical,
+          separatorBuilder: (context, index) => const SizedBox(height: 16.0),
+          itemCount: lessons.length,
+          itemBuilder: (context, index) => LessonItem(
+            lesson: lessons[index],
+            lessonProgress:
+                currentCourseProgressModel?.lessonsProgress?['$index'],
+            index: index,
+            openLesson: openLesson,
+          ),
+        );
+      },
     );
   }
 }
@@ -478,12 +508,14 @@ class LessonList extends StatelessWidget {
 class LessonItem extends StatelessWidget {
   const LessonItem({
     required this.lesson,
+    required this.lessonProgress,
     required this.index,
     required this.openLesson,
     super.key,
   });
 
   final LessonModel lesson;
+  final List<bool>? lessonProgress;
   final int index;
   final int openLesson;
 
@@ -530,22 +562,16 @@ class LessonItem extends StatelessWidget {
               children: [
                 Text(
                   lesson.name ?? '',
+                  // lessonProgress.toString(),
                   style: Theme.of(context).textTheme.displayLarge?.copyWith(
                         fontSize: 14.0,
                         fontWeight: FontWeight.w400,
                       ),
                 ),
                 const SizedBox(height: 6.0),
-                Text(
-                  formatTimeToMinutes(
-                    Duration(
-                      seconds: lesson.duration?.toInt() ?? 0,
-                    ),
-                  ),
-                  style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w400,
-                      ),
+                TextLessonDurationWithCheckBox(
+                  lesson: lesson,
+                  lessonProgress: lessonProgress,
                 ),
               ],
             ),
@@ -590,6 +616,75 @@ class LessonItem extends StatelessWidget {
       ),
     );
   }
+}
+
+class TextLessonDurationWithCheckBox extends StatelessWidget {
+  const TextLessonDurationWithCheckBox({
+    required this.lesson,
+    required this.lessonProgress,
+    super.key,
+  });
+
+  final LessonModel lesson;
+  final List<bool>? lessonProgress;
+
+  @override
+  Widget build(BuildContext context) {
+    WatchStatus watchStatus = getWatchStatus(lessonProgress);
+    return Row(
+      children: [
+        Text(
+          formatTimeToMinutes(
+            Duration(
+              seconds: lesson.duration?.toInt() ?? 0,
+            ),
+          ),
+          style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                fontSize: 14.0,
+                fontWeight: FontWeight.w500,
+                color: getColorByWatchStatus(
+                  context,
+                  watchStatus,
+                ),
+              ),
+        ),
+        const SizedBox(width: 8.0),
+        watchStatus == WatchStatus.not_viewed
+            ? const SizedBox()
+            : watchStatus == WatchStatus.in_progress
+                ? SvgPicture.asset(AppIcons.icon_done_orange)
+                : SvgPicture.asset(AppIcons.icon_done_blue),
+      ],
+    );
+  }
+}
+
+enum WatchStatus { not_viewed, in_progress, viewed }
+
+WatchStatus getWatchStatus(List<bool>? lessonProgress) {
+  // log('*** lessonProgress: $lessonProgress');
+  if (lessonProgress == null) {
+    return WatchStatus.not_viewed;
+  }
+
+  int counter = 0;
+  for (var part in lessonProgress) {
+    if (part) counter++;
+  }
+  if (counter == lessonProgress.length) {
+    return WatchStatus.viewed;
+  } else {
+    return WatchStatus.in_progress;
+  }
+}
+
+Color getColorByWatchStatus(BuildContext context, WatchStatus watchStatus) {
+  Color resultColor = watchStatus == WatchStatus.not_viewed
+      ? Theme.of(context).colorScheme.outlineVariant
+      : watchStatus == WatchStatus.in_progress
+          ? colors(context).orange ?? Colors.orange
+          : colors(context).blue ?? Colors.blue;
+  return resultColor;
 }
 
 class AboutCourse extends StatefulWidget {

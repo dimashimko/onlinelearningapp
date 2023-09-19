@@ -45,6 +45,8 @@ class AppIcons {
   static const String play = '$_path/play.svg';
   static const String pause = '$_path/pause.svg';
   static const String lock = '$_path/lock.svg';
+  static const String icon_done_blue = '$_path/icon_done_blue.svg';
+  static const String icon_done_orange = '$_path/icon_done_orange.svg';
 
 
 
