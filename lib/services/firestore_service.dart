@@ -10,7 +10,6 @@ import 'package:online_learning_app/models/duration_range/duration_range.dart';
 class MyFirestoreService {
   FirebaseFirestore db = FirebaseFirestore.instance;
 
-
   Future<List<CourseModel>> getFilteredCoursesList({
     required List<String> uidsSelectedCategories,
     required double minPrice,
@@ -32,7 +31,7 @@ class MyFirestoreService {
       log('*** searchKey: $searchKey');
       if (true) {
         filteredCourses = filteredCourses
-            .orderBy('name')
+            .orderBy(OrderBy.name.name)
             .startAt([searchKey]).endAt([searchKey + '\uf8ff']);
       }
     }
@@ -64,12 +63,12 @@ class MyFirestoreService {
           log('*** durationFilter: $durationFilter');
           filteredCourses = filteredCourses
               .where(
-                'duration',
+                OrderBy.duration.name,
                 isGreaterThan: durationFilter.min * 3600,
               )
-              .orderBy('duration');
+              .orderBy(OrderBy.duration.name);
           filteredCourses = filteredCourses.where(
-            'duration',
+            OrderBy.duration.name,
             isLessThan: durationFilter.max * 3600,
           );
         }

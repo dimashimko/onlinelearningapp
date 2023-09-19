@@ -33,6 +33,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
         }
         return false;
       }).toList();
+      log('@@@ FilterUserCourses state.coursesList: ${state.coursesList}');
       log('@@@ FilterUserCourses event.userProgress: ${event.userProgress}');
       log('@@@ FilterUserCourses userCoursesList: $userCoursesList');
 
@@ -193,7 +194,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     on<GetAllCourses>((event, emit) async {
       List<CourseModel> coursesList =
           await fireStoreService.getAllCoursesList(event.orderBy);
-      if (event.orderBy == 'created') {
+      if (event.orderBy == OrderBy.created.name) {
         coursesList = coursesList.reversed.toList();
       }
       double maxPricePerCourse = 1;
@@ -238,7 +239,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     on<CourseBlocInit>((event, emit) async {
       log('@@@ CourseBlocInit');
       add(GetCategories());
-      add(GetAllCourses(orderBy: 'name'));
+      add(GetAllCourses(orderBy: OrderBy.name.name));
     });
   }
 }

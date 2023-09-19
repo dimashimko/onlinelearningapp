@@ -80,7 +80,7 @@ class _CoursePageState extends State<CoursePage> {
   @override
   void initState() {
     super.initState();
-    context.read<CoursesBloc>().add(GetAllCourses(orderBy: 'name'));
+    context.read<CoursesBloc>().add(GetAllCourses(orderBy: OrderBy.name.name));
   }
 
   // @override
@@ -167,14 +167,14 @@ class _CustomToggleButtonsState extends State<CustomToggleButtons> {
     setState(() {
       if (_current != newCurrent) {
         if (newCurrent == 0) {
-          context.read<CoursesBloc>().add(GetAllCourses(orderBy: 'name'));
+          context.read<CoursesBloc>().add(GetAllCourses(orderBy: OrderBy.name.name));
         }
         if (newCurrent == 1) {
-          context.read<CoursesBloc>().add(GetAllCourses(orderBy: 'duration'));
+          context.read<CoursesBloc>().add(GetAllCourses(orderBy: OrderBy.duration.name));
           // context.read<CoursesBloc>().add(GetAllCoursesSortDuration());
         }
         if (newCurrent == 2) {
-          context.read<CoursesBloc>().add(GetAllCourses(orderBy: 'created'));
+          context.read<CoursesBloc>().add(GetAllCourses(orderBy: OrderBy.created.name));
         }
       }
       _current = newCurrent;

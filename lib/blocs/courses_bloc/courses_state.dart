@@ -2,6 +2,7 @@ part of 'courses_bloc.dart';
 
 enum FilterBottomSheetStatus { enable, disable }
 enum FilterEnabledType { text, price, duration, all}
+enum OrderBy { name, duration, created}
 
 @immutable
 class CoursesState extends Equatable {
