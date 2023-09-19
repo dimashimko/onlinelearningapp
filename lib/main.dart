@@ -66,7 +66,12 @@ class _App extends StatelessWidget {
           create: (_) => _authRepository,
         ),
         BlocProvider<CoursesBloc>(
-          create: (_) => CoursesBloc(),
+          create: (_) => CoursesBloc()
+            ..add(
+              GetAllCourses(
+                orderBy: OrderBy.name.name,
+              ),
+            ),
         ),
         BlocProvider<VideoBloc>(
           create: (_) => VideoBloc()

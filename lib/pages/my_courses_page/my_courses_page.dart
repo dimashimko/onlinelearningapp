@@ -113,10 +113,16 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
               BlocBuilder<CoursesBloc, CoursesState>(
                 buildWhen: (p, c) {
                   log('*** p.userCoursesList != c.userCoursesList: ${p.userCoursesList != c.userCoursesList}');
-                  return true;
+                  // return true;
                   return p.userCoursesList != c.userCoursesList;
                 },
                 builder: (context, stateCoursesBloc) {
+                  userProgress = context.read<VideoBloc>().state.userProgress;
+                  context.read<CoursesBloc>().add(
+                        FilterUserCourses(
+                          userProgress: userProgress,
+                        ),
+                      );
                   log('*** BlocBuilder<CoursesBloc');
                   return Expanded(
                     child: GridView.builder(
