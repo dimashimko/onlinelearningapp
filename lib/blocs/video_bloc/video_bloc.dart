@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
 import 'package:online_learning_app/models/progress/progress_model.dart';
@@ -24,7 +25,9 @@ class VideoBloc extends Bloc<VideoEvent, VideoState> {
       (event, emit) async {
         log('*** @UpdateUserActivityTimeEvent ');
         UserActivityModel? userActivityModel =
-            await fireStoreProgressService.getActivityTime();
+            await fireStoreProgressService.updateActivityTime(
+          difference: 0,
+        );
         emit(
           state.copyWith(
             userActivityModel: userActivityModel,
@@ -51,6 +54,20 @@ class VideoBloc extends Bloc<VideoEvent, VideoState> {
       },
     );
 
+    on<UpdateUserProgressEvent>(
+      (event, emit) async {
+        log('*** @UpdateUserProgressEvent ');
+        Map<String, CourseProgressModel> userProgress =
+            await fireStoreProgressService.getUserProgress();
+        log('*** @UpdateUserProgressEvent userProgress: $userProgress');
+        emit(
+          state.copyWith(
+            userProgress: userProgress,
+          ),
+        );
+      },
+    );
+
     on<ChangeProgressEvent>(
       (event, emit) async {
         // log('*** @ChangeViewProgress ');
@@ -69,8 +86,9 @@ class VideoBloc extends Bloc<VideoEvent, VideoState> {
         if (difference > updateInterval) {
           // log('*** push accessed');
           if (state.currentCourse != null) {
+            // change
             UserActivityModel? userActivityModel =
-                await fireStoreProgressService.changeActivityTime(
+                await fireStoreProgressService.updateActivityTime(
               difference: difference,
             );
             Map<String, CourseProgressModel> userProgress =

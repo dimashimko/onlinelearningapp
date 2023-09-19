@@ -72,6 +72,9 @@ class _App extends StatelessWidget {
           create: (_) => VideoBloc()
             ..add(
               UpdateUserActivityTimeEvent(),
+            )
+            ..add(
+              UpdateUserProgressEvent(),
             ),
         ),
         BlocProvider<NavigationBloc>(

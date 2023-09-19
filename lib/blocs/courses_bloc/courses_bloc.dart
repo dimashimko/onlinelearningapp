@@ -1,11 +1,13 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:online_learning_app/models/category/category_model.dart';
 import 'package:online_learning_app/models/course/course_model.dart';
 import 'package:online_learning_app/models/duration_range/duration_range.dart';
+import 'package:online_learning_app/models/progress/progress_model.dart';
 import 'package:online_learning_app/services/firestore_service.dart';
 import 'package:online_learning_app/utils/get_uisd_catogories.dart';
 
@@ -17,6 +19,30 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
   CoursesBloc() : super(const CoursesState()) {
     MyFirestoreService fireStoreService = MyFirestoreService();
 
+    on<FilterUserCourses>((event, emit) async {
+      log('@@@ FilterUserCourses');
+      // log('*** event.userProgress: ${event.userProgress}');
+      Map<String, CourseProgressModel> userProgress = event.userProgress ?? {};
+
+      List<CourseModel> userCoursesList = state.coursesList.where((course) {
+        CourseProgressModel? progress = userProgress[course.uid];
+        if (progress != null) {
+          if ((progress.favorites ?? false) || (progress.bought ?? false)) {
+            return true;
+          }
+        }
+        return false;
+      }).toList();
+      log('@@@ FilterUserCourses event.userProgress: ${event.userProgress}');
+      log('@@@ FilterUserCourses userCoursesList: $userCoursesList');
+
+      emit(
+        state.copyWith(
+          userCoursesList: userCoursesList,
+        ),
+      );
+    });
+
     on<ChangeEnabledFilter>((event, emit) async {
       emit(
         state.copyWith(
@@ -27,8 +53,8 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     });
 
     on<ClearFilters>((event, emit) async {
-      List<DurationRange> newFilterDurationItems = [];
-      for (DurationRange durationItem in state.filterDurationItems) {
+      List<DurationRangeModel> newFilterDurationItems = [];
+      for (DurationRangeModel durationItem in state.filterDurationItems) {
         newFilterDurationItems.add(durationItem.copyWith(isEnable: false));
       }
       // this.filterPriceRangeValues = const RangeValues(0.0, 1.0),
@@ -107,8 +133,8 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       // print('@@@ InverseDurationRangeItem');
       FilterEnabledType newFilterEnabledType = FilterEnabledType.duration;
 
-      List<DurationRange> filterDurationItems = [];
-      for (DurationRange durationItem in state.filterDurationItems) {
+      List<DurationRangeModel> filterDurationItems = [];
+      for (DurationRangeModel durationItem in state.filterDurationItems) {
         if (durationItem.min == event.durationRange.min) {
           durationItem = durationItem.copyWith(
             isEnable: !durationItem.isEnable,

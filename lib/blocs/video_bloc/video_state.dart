@@ -2,7 +2,7 @@ part of 'video_bloc.dart';
 
 enum PlaybackStatus { play, pause }
 
-class VideoState {
+class VideoState extends Equatable {
   const VideoState({
     this.totalDuration = 0,
     this.currentCourse,
@@ -14,6 +14,20 @@ class VideoState {
     this.userActivityModel,
     this.userProgress,
   });
+
+  //
+  @override
+  List<Object?> get props => [
+        totalDuration,
+        currentCourse,
+        currentLessonIndex,
+        playbackStatus,
+        currentProgressInPercent,
+        lastProgressValue,
+        showStatistic,
+        userActivityModel,
+        userProgress,
+      ];
 
   final int totalDuration;
   final String? currentCourse;
@@ -45,7 +59,8 @@ class VideoState {
           ? currentLessonIndex()
           : this.currentLessonIndex,
       playbackStatus: playbackStatus ?? this.playbackStatus,
-      currentProgressInPercent: currentProgressInPercent ?? this.currentProgressInPercent,
+      currentProgressInPercent:
+          currentProgressInPercent ?? this.currentProgressInPercent,
       lastProgressValue: lastProgressValue ?? this.lastProgressValue,
       showStatistic: showStatistic ?? this.showStatistic,
       userActivityModel: userActivityModel ?? this.userActivityModel,
@@ -53,18 +68,3 @@ class VideoState {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

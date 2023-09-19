@@ -1,6 +1,66 @@
 import 'package:flutter/material.dart';
 import 'package:online_learning_app/resources/app_fonts.dart';
 
+AppColors colors(context) => Theme.of(context).extension<AppColors>()!;
+
+@immutable
+class AppColors extends ThemeExtension<AppColors> {
+  final Color? red_light;
+  final Color? red;
+  final Color? blue_light;
+  final Color? blue;
+  final Color? green_light;
+  final Color? green;
+  final Color? white;
+
+  const AppColors({
+    required this.red_light,
+    required this.red,
+    required this.blue_light,
+    required this.blue,
+    required this.green_light,
+    required this.green,
+    required this.white,
+  });
+
+  @override
+  AppColors copyWith({
+    Color? red_light,
+    Color? red,
+    Color? blue_light,
+    Color? blue,
+    Color? green_light,
+    Color? green,
+    Color? white,
+  }) {
+    return AppColors(
+      red_light: red_light ?? this.red_light,
+      red: red ?? this.red,
+      blue_light: blue_light ?? this.blue_light,
+      blue: blue ?? this.blue,
+      green_light: green_light ?? this.green_light,
+      green: green ?? this.green,
+      white: white ?? this.white,
+    );
+  }
+
+  @override
+  AppColors lerp(ThemeExtension<AppColors>? other, double t) {
+    if (other is! AppColors) {
+      return this;
+    }
+    return AppColors(
+      red_light: Color.lerp(red_light, other.red_light, t),
+      red: Color.lerp(red, other.red, t),
+      blue_light: Color.lerp(blue_light, other.blue_light, t),
+      blue: Color.lerp(blue, other.blue, t),
+      green_light: Color.lerp(green_light, other.green_light, t),
+      green: Color.lerp(green, other.green, t),
+      white: Color.lerp(white, other.white, t),
+    );
+  }
+}
+
 class AppThemes {
   const AppThemes._();
 
@@ -22,9 +82,6 @@ class AppThemes {
         selectionColor: Color(0xFF858597),
         selectionHandleColor: Color(0xFF858597),
       ),
-      // display LMS(3), title LMS(3), label LMS(3), body LMS+T1T2(5)
-      // button → label
-
       // scaffoldBackgroundColor: Colors.transparent,
       canvasColor: Colors.transparent,
       // bottomSheetTheme: const BottomSheetThemeData(
@@ -74,12 +131,12 @@ class AppThemes {
           // color: AppColors.gray,
         ),
         titleMedium: TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w400,
-          color: Color(0xFF858597),
-          wordSpacing: 1.0
-          // color: AppColors.gray,
-        ),
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
+            color: Color(0xFF858597),
+            wordSpacing: 1.0
+            // color: AppColors.gray,
+            ),
         titleSmall: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w400,
@@ -118,10 +175,10 @@ class AppThemes {
         bodySmall: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w400,
-          color: Color(0xFFFFFFFF), // text in button1
+          color: Color(0xFFFFFFFF),
+          // text in button1
           letterSpacing: 0.1,
           height: 1.5,
-
         ),
         bodyMedium: TextStyle(
           fontSize: 14,
@@ -132,8 +189,7 @@ class AppThemes {
       // scaffoldBackgroundColor: Colors.transparent,
       // scaffoldBackgroundColor: Colors.red,
       colorScheme: const ColorScheme.light().copyWith(
-        // onSecondary: const Color(0xFFFFFFFF),          // free
-        // onSecondaryContainer: const Color(0xFFFFFFFF), // free
+        // onSecondaryContainer: const Color(0xFFFFFFFF),
         // tertiary: const Color(0xFFFFFFFF),
         // tertiaryContainer: const Color(0xFFFFFFFF),
         // onTertiaryContainer: const Color(0xFFFFFFFF), // free
@@ -158,6 +214,7 @@ class AppThemes {
         // primaryVariant: const Color(0xFFFFFFFF),   // deprecated
         // secondaryVariant: const Color(0xFFFFFFFF), // deprecated
         onSecondary: const Color(0xFFFFFFFF),
+        onSecondaryContainer: const Color(0xFF1F1F39),
         background: const Color(0xFFFFFFFF),
         onBackground: const Color(0xFF1F1F39),
         primary: const Color(0xFF3D5CFF),
@@ -178,15 +235,40 @@ class AppThemes {
         surfaceTint: const Color(0xFFF4F3FD),
         inversePrimary: const Color(0xFFFFEBF0),
       ),
+      extensions: <ThemeExtension<AppColors>>[
+        AppColors(
+          red_light: Color(0xFFFFE7EE),
+          blue_light: Color(0xFFBAD6FF),
+          green_light: Color(0xFFBAE0DB),
+          red: Color(0xFFEC7B9C),
+          blue: Color(0xFF3D5CFF),
+          green: Color(0xFF398A80),
+          white: Color(0xFFFFFFFF),
+          // green_light: isDarkTheme ? Colors.yellow : Colors.red,
+        ),
+      ],
     );
   }
 
   static ThemeData dark() {
     return ThemeData(
+        extensions: <ThemeExtension<AppColors>>[
+          AppColors(
+            red_light: Color(0xFF2F2F42),
+            blue_light: Color(0xFF2F2F42),
+            green_light: Color(0xFF2F2F42),
+            red: Color(0xFFEC7B9C),
+            blue: Color(0xFF3D5CFF),
+            green: Color(0xFF398A80),
+            white: Color(0xFFFFFFFF),
+            // green_light: isDarkTheme ? Colors.yellow : Colors.red,
+          ),
+        ],
         fontFamily: AppFonts.fontFamily,
         scaffoldBackgroundColor: const Color(0xFF1F1F39),
         colorScheme: const ColorScheme.dark().copyWith(
           onSecondary: const Color(0xFFFFFFFF).withOpacity(0.3),
+          onSecondaryContainer: const Color(0xFFB8B8D2),
           background: const Color(0xFF1F1F39),
           onBackground: const Color(0xFFEAEAFF),
           primary: const Color(0xFF3D5CFF),
@@ -201,7 +283,8 @@ class AppThemes {
           surface: const Color(0xFF2F2F42),
           onSurface: const Color(0xFF3E3E55),
           scrim: const Color(0xFFB8B8D2),
-          inverseSurface: const Color(0xFF3E3E55), // color in TextForm
+          inverseSurface: const Color(0xFF3E3E55),
+          // color in TextForm
           onInverseSurface: const Color(0xFF2F2F42),
           surfaceVariant: const Color(0xFFFFFFFF),
           onSurfaceVariant: const Color(0xFF3D5CFF),
@@ -253,7 +336,6 @@ class AppThemes {
             fontSize: 18,
             fontWeight: FontWeight.w500,
             color: Color(0xFFFFFFFF), // text in button1
-
           ),
           titleMedium: TextStyle(
             fontSize: 14,
@@ -298,7 +380,8 @@ class AppThemes {
           bodySmall: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w400,
-            color: Color(0xFFFFFFFF), // text in button1
+            color: Color(0xFFFFFFFF),
+            // text in button1
             letterSpacing: 0.1,
             height: 1.5,
           ),

@@ -3,6 +3,14 @@ part of 'courses_bloc.dart';
 @immutable
 abstract class CoursesEvent {}
 
+class FilterUserCourses extends CoursesEvent {
+  FilterUserCourses({
+    required this.userProgress,
+  });
+
+  final Map<String, CourseProgressModel>? userProgress;
+}
+
 
 class ChangeEnabledFilter extends CoursesEvent {
   ChangeEnabledFilter({
@@ -36,7 +44,7 @@ class InverseDurationRangeItem extends CoursesEvent {
     required this.durationRange,
   });
 
-  final DurationRange durationRange;
+  final DurationRangeModel durationRange;
 }
 
 class ChangeFilterCategory extends CoursesEvent {

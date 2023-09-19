@@ -5,14 +5,8 @@ abstract class VideoEvent {
   const VideoEvent();
 }
 
-class PushProgressEvent extends VideoEvent {
-  const PushProgressEvent({
-    required this.newProgressValue,
-  });
 
-  final int newProgressValue;
-}
-
+class UpdateUserProgressEvent extends VideoEvent {}
 class UpdateUserActivityTimeEvent extends VideoEvent {}
 
 class VideoFinishEvent extends VideoEvent {}
