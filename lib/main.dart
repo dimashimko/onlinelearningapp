@@ -9,7 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
 import 'package:online_learning_app/blocs/navigation_bloc/navigation_bloc.dart';
-import 'package:online_learning_app/blocs/video_bloc/video_bloc.dart';
+import 'package:online_learning_app/blocs/progress_bloc/progress_bloc.dart';
 import 'package:online_learning_app/database/local_database.dart';
 import 'package:online_learning_app/firebase_options.dart';
 import 'package:online_learning_app/pages/uncategorized_pages/splash_screen_page/splash_screen_page.dart';
@@ -73,8 +73,8 @@ class _App extends StatelessWidget {
               ),
             ),
         ),
-        BlocProvider<VideoBloc>(
-          create: (_) => VideoBloc()
+        BlocProvider<ProgressBloc>(
+          create: (_) => ProgressBloc()
             ..add(
               UpdateUserActivityTimeEvent(),
             )

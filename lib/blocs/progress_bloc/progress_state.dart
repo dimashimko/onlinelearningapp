@@ -1,9 +1,9 @@
-part of 'video_bloc.dart';
+part of 'progress_bloc.dart';
 
 enum PlaybackStatus { play, pause }
 
-class VideoState extends Equatable {
-  const VideoState({
+class ProgressState extends Equatable {
+  const ProgressState({
     this.totalDuration = 0,
     this.currentCourse,
     this.currentLessonIndex,
@@ -39,7 +39,7 @@ class VideoState extends Equatable {
   final UserActivityModel? userActivityModel;
   final Map<String, CourseProgressModel>? userProgress;
 
-  VideoState copyWith({
+  ProgressState copyWith({
     int? totalDuration,
     String? currentCourse,
     // int? currentLessonIndex,
@@ -51,7 +51,7 @@ class VideoState extends Equatable {
     UserActivityModel? userActivityModel,
     Map<String, CourseProgressModel>? userProgress,
   }) {
-    return VideoState(
+    return ProgressState(
       totalDuration: totalDuration ?? this.totalDuration,
       currentCourse: currentCourse ?? this.currentCourse,
       // currentLessonIndex: currentLessonIndex ?? this.currentLessonIndex,

@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
 import 'package:online_learning_app/blocs/navigation_bloc/navigation_bloc.dart';
-import 'package:online_learning_app/blocs/video_bloc/video_bloc.dart';
+import 'package:online_learning_app/blocs/progress_bloc/progress_bloc.dart';
 import 'package:online_learning_app/pages/account_page/account_page.dart';
 import 'package:online_learning_app/pages/course_page/course_page.dart';
 import 'package:online_learning_app/pages/home_page/home_page.dart';
@@ -124,14 +124,14 @@ class _MainPageState extends State<MainPage> {
                   );
                 }
               },
-              child: BlocListener<VideoBloc, VideoState>(
+              child: BlocListener<ProgressBloc, ProgressState>(
                 listenWhen: (p, c) {
                   print(
                       '*** p.userProgress != c.userProgress: ${p.userProgress != c.userProgress}');
                   return p.userProgress != c.userProgress;
                 },
                 listener: (context, state) {
-                  // userProgress = context.read<VideoBloc>().state.userProgress;
+                  // userProgress = context.read<ProgressBloc>().state.userProgress;
                   print('*** state.userProgress: ${state.userProgress}');
                   context.read<CoursesBloc>().add(
                         FilterUserCourses(

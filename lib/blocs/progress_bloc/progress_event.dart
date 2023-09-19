@@ -1,17 +1,17 @@
-part of 'video_bloc.dart';
+part of 'progress_bloc.dart';
 
 @immutable
-abstract class VideoEvent {
-  const VideoEvent();
+abstract class ProgressEvent {
+  const ProgressEvent();
 }
 
 
-class UpdateUserProgressEvent extends VideoEvent {}
-class UpdateUserActivityTimeEvent extends VideoEvent {}
+class UpdateUserProgressEvent extends ProgressEvent {}
+class UpdateUserActivityTimeEvent extends ProgressEvent {}
 
-class VideoFinishEvent extends VideoEvent {}
+class VideoFinishEvent extends ProgressEvent {}
 
-class ChangeProgressEvent extends VideoEvent {
+class ChangeProgressEvent extends ProgressEvent {
   const ChangeProgressEvent({
     required this.newViewProgressInPercent,
     required this.newProgressValue,
@@ -21,7 +21,7 @@ class ChangeProgressEvent extends VideoEvent {
   final double newProgressValue;
 }
 
-class ChangePlaybackStatusEvent extends VideoEvent {
+class ChangePlaybackStatusEvent extends ProgressEvent {
   const ChangePlaybackStatusEvent({
     required this.newPlaybackStatus,
   });
@@ -29,7 +29,7 @@ class ChangePlaybackStatusEvent extends VideoEvent {
   final PlaybackStatus newPlaybackStatus;
 }
 
-class ChangeCurrentLessonEvent extends VideoEvent {
+class ChangeCurrentLessonEvent extends ProgressEvent {
   const ChangeCurrentLessonEvent({
     required this.newCurrentLessonIndex,
   });
@@ -37,7 +37,7 @@ class ChangeCurrentLessonEvent extends VideoEvent {
   final int newCurrentLessonIndex;
 }
 
-class ChangeCurrentCourseEvent extends VideoEvent {
+class ChangeCurrentCourseEvent extends ProgressEvent {
   const ChangeCurrentCourseEvent({
     required this.uidCourse,
   });
@@ -45,9 +45,9 @@ class ChangeCurrentCourseEvent extends VideoEvent {
   final String uidCourse;
 }
 
-class GetProgressEvent extends VideoEvent {}
+class GetProgressEvent extends ProgressEvent {}
 
-class NewProgressEvent extends VideoEvent {
+class NewProgressEvent extends ProgressEvent {
   const NewProgressEvent({
     this.uidCourse,
     this.numLesson,
@@ -59,4 +59,4 @@ class NewProgressEvent extends VideoEvent {
   final int? timePoint;
 }
 
-class VideoBlocInitEvent extends VideoEvent {}
+class ProgressBlocInitEvent extends ProgressEvent {}

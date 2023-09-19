@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:online_learning_app/blocs/video_bloc/video_bloc.dart';
+import 'package:online_learning_app/blocs/progress_bloc/progress_bloc.dart';
 
 class TodayProgress extends StatelessWidget {
   const TodayProgress({
@@ -58,7 +58,7 @@ class TodayProgress extends StatelessWidget {
                 ),
             ],
           ),
-          BlocBuilder<VideoBloc, VideoState>(
+          BlocBuilder<ProgressBloc, ProgressState>(
             buildWhen: (p, c) {
               return p.userActivityModel != c.userActivityModel;
             },

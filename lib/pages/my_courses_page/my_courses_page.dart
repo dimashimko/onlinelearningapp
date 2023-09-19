@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
-import 'package:online_learning_app/blocs/video_bloc/video_bloc.dart';
+import 'package:online_learning_app/blocs/progress_bloc/progress_bloc.dart';
 import 'package:online_learning_app/models/course/course_model.dart';
 import 'package:online_learning_app/models/progress/progress_model.dart';
 import 'package:online_learning_app/pages/one_course_pages/one_course_page/one_course_page.dart';
@@ -66,10 +66,10 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
 
     //
     log('*** initState MyCoursesPage');
-    context.read<VideoBloc>().add(
+    context.read<ProgressBloc>().add(
           UpdateUserProgressEvent(),
         );
-/*    userProgress = context.read<VideoBloc>().state.userProgress;
+/*    userProgress = context.read<ProgressBloc>().state.userProgress;
     context.read<CoursesBloc>().add(
           FilterUserCourses(
             userProgress: userProgress,
@@ -117,7 +117,7 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
                   return p.userCoursesList != c.userCoursesList;
                 },
                 builder: (context, stateCoursesBloc) {
-                  userProgress = context.read<VideoBloc>().state.userProgress;
+                  userProgress = context.read<ProgressBloc>().state.userProgress;
                   context.read<CoursesBloc>().add(
                         FilterUserCourses(
                           userProgress: userProgress,

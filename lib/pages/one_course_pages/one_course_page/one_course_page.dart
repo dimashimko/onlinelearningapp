@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
-import 'package:online_learning_app/blocs/video_bloc/video_bloc.dart';
+import 'package:online_learning_app/blocs/progress_bloc/progress_bloc.dart';
 import 'package:online_learning_app/models/course/course_model.dart';
 import 'package:online_learning_app/models/video_model/lesson_model.dart';
 import 'package:online_learning_app/pages/one_course_pages/no_videos_page/no_videos_page.dart';
@@ -83,7 +83,7 @@ class _OneCoursePageState extends State<OneCoursePage> {
       widget.uidCourse,
       context.read<CoursesBloc>().state.coursesList,
     );
-    context.read<VideoBloc>().add(
+    context.read<ProgressBloc>().add(
           ChangeCurrentCourseEvent(
             uidCourse: widget.uidCourse,
           ),
@@ -96,7 +96,7 @@ class _OneCoursePageState extends State<OneCoursePage> {
         ? const NoVideosPage()
         : Scaffold(
             body: SafeArea(
-              child: BlocListener<VideoBloc, VideoState>(
+              child: BlocListener<ProgressBloc, ProgressState>(
                 listenWhen: (p, c) {
                   return p.showStatistic != c.showStatistic;
                 },
@@ -208,7 +208,7 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<VideoBloc, VideoState>(
+    return BlocListener<ProgressBloc, ProgressState>(
       // if lesson has changed
       listenWhen: (p, c) {
         return p.currentLessonIndex != c.currentLessonIndex;
@@ -235,7 +235,7 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
                 dataSourceController.value.duration) {
               // The video has finished playing
               log('*** Video finished playing');
-              context.read<VideoBloc>().add(VideoFinishEvent());
+              context.read<ProgressBloc>().add(VideoFinishEvent());
             }
             if (currentProgress !=
                 dataSourceController.value.position.inSeconds) {
@@ -248,7 +248,7 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
                           totalDuration.inMilliseconds) *
                       100;
               // log('*** newViewProgressInPercent $newViewProgressInPercent');
-              context.read<VideoBloc>().add(
+              context.read<ProgressBloc>().add(
                     ChangeProgressEvent(
                       newViewProgressInPercent: newViewProgressInPercent,
                       newProgressValue:
@@ -261,7 +261,7 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
             // push Play/Pause status to Bloc
             if (dataSourceController.value.isPlaying != isPlaying) {
               isPlaying = dataSourceController.value.isPlaying;
-              context.read<VideoBloc>().add(
+              context.read<ProgressBloc>().add(
                     ChangePlaybackStatusEvent(
                       // newPlaybackStatus: dataSourceController.value.isPlaying
                       newPlaybackStatus: isPlaying
@@ -273,7 +273,7 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
           });
         }
       },
-      child: BlocListener<VideoBloc, VideoState>(
+      child: BlocListener<ProgressBloc, ProgressState>(
         // manipulate with controller when tap custom play/pause
         listenWhen: (p, c) {
           return p.playbackStatus != c.playbackStatus;
@@ -334,7 +334,7 @@ class CoursePanel extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // BlocBuilder<VideoBloc, VideoState>(
+                // BlocBuilder<ProgressBloc, ProgressState>(
                 //   builder: (context, state) {
                 //     return Text(
                 //       state.currentLessonIndex.toString() ?? '',
@@ -488,7 +488,7 @@ class LessonItem extends StatelessWidget {
   final int openLesson;
 
   void onTapPlay(BuildContext context) {
-    context.read<VideoBloc>().add(
+    context.read<ProgressBloc>().add(
           ChangeCurrentLessonEvent(
             newCurrentLessonIndex: index,
           ),
@@ -496,7 +496,7 @@ class LessonItem extends StatelessWidget {
   }
 
   void onTapPause(BuildContext context) {
-    context.read<VideoBloc>().add(
+    context.read<ProgressBloc>().add(
           const ChangePlaybackStatusEvent(
             newPlaybackStatus: PlaybackStatus.pause,
           ),
@@ -504,7 +504,7 @@ class LessonItem extends StatelessWidget {
   }
 
   void onTapResume(BuildContext context) {
-    context.read<VideoBloc>().add(
+    context.read<ProgressBloc>().add(
           const ChangePlaybackStatusEvent(
             newPlaybackStatus: PlaybackStatus.play,
           ),
@@ -550,7 +550,7 @@ class LessonItem extends StatelessWidget {
               ],
             ),
           ),
-          BlocBuilder<VideoBloc, VideoState>(
+          BlocBuilder<ProgressBloc, ProgressState>(
             builder: (context, state) {
               if (index < openLesson) {
                 if (index == state.currentLessonIndex) {
@@ -561,7 +561,7 @@ class LessonItem extends StatelessWidget {
                       },
                     );
                   } else {
-                    return BlocBuilder<VideoBloc, VideoState>(
+                    return BlocBuilder<ProgressBloc, ProgressState>(
                       builder: (context, state) {
                         return CustomPauseButtonWithProgress(
                           angle: state.currentProgressInPercent,

@@ -9,15 +9,15 @@ import 'package:online_learning_app/models/user_cativity/user_activity_model.dar
 import 'package:online_learning_app/services/firestore_progress_service.dart';
 import 'package:online_learning_app/utils/constants.dart';
 
-part 'video_event.dart';
+part 'progress_event.dart';
 
-part 'video_state.dart';
+part 'progress_state.dart';
 
-class VideoBloc extends Bloc<VideoEvent, VideoState> {
+class ProgressBloc extends Bloc<ProgressEvent, ProgressState> {
   static const int updateInterval = pushActivityUpdateInterval;
   double lastProgressValue = 0;
 
-  VideoBloc() : super(const VideoState()) {
+  ProgressBloc() : super(const ProgressState()) {
     MyFirestoreProgressService fireStoreProgressService =
         MyFirestoreProgressService();
 
@@ -167,10 +167,10 @@ class VideoBloc extends Bloc<VideoEvent, VideoState> {
       },
     );
 
-    // on<VideoBlocInitEvent>(
+    // on<ProgressBlocInitEvent>(
     //   (event, emit) async {
     //     fireStoreService = MyFirestoreService();
-    //     print('*** @VideoBlocInit ');
+    //     print('*** @ProgressBlocInit ');
     //     add(GetListOfRecordEvent());
     //   },
     // );
