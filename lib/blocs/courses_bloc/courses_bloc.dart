@@ -192,6 +192,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     });
 
     on<GetAllCourses>((event, emit) async {
+      // log('@@@ GetAllCourses');
       List<CourseModel> coursesList =
           await fireStoreService.getAllCoursesList(event.orderBy);
       if (event.orderBy == OrderBy.created.name) {
@@ -205,7 +206,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
           }
         }
       }
-      // log('*** coursesList: $coursesList');
+      // log('@@@ GetAllCourses coursesList: $coursesList');
       emit(
         state.copyWith(
           coursesList: coursesList,

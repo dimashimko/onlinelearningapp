@@ -56,10 +56,10 @@ class VideoBloc extends Bloc<VideoEvent, VideoState> {
 
     on<UpdateUserProgressEvent>(
       (event, emit) async {
-        log('*** @UpdateUserProgressEvent ');
+        // log('*** @UpdateUserProgressEvent ');
         Map<String, CourseProgressModel> userProgress =
             await fireStoreProgressService.getUserProgress();
-        log('*** @UpdateUserProgressEvent userProgress: $userProgress');
+        // log('*** @UpdateUserProgressEvent userProgress: $userProgress');
         emit(
           state.copyWith(
             userProgress: userProgress,
