@@ -4,7 +4,7 @@ enum FilterBottomSheetStatus { enable, disable }
 enum FilterEnabledType { text, price, duration, all}
 
 @immutable
-class CoursesState {
+class CoursesState extends Equatable {
   const CoursesState({
     this.filterStatus = FilterBottomSheetStatus.disable,
     this.currentIndex = 0,
@@ -25,8 +25,27 @@ class CoursesState {
     this.filterText = '',
     this.isFilterNavToSearchPage = true,
     this.filterEnabledType = FilterEnabledType.all,
+    this.userCoursesList = const [],
 
   });
+
+  //
+  @override
+  List<Object?> get props => [
+    filterStatus,
+    currentIndex,
+    coursesList,
+    categoryList,
+    filterCategory,
+    filterDurationItems,
+    filterPriceRangeValues,
+    filteredCoursesList,
+    maxPricePerCourse,
+    filterText,
+    isFilterNavToSearchPage,
+    filterEnabledType,
+    userCoursesList,
+  ];
 
   final FilterBottomSheetStatus filterStatus;
   final int currentIndex;
@@ -40,6 +59,7 @@ class CoursesState {
   final String filterText;
   final bool isFilterNavToSearchPage;
   final FilterEnabledType filterEnabledType;
+  final List<CourseModel> userCoursesList;
 
   CoursesState copyWith({
     FilterBottomSheetStatus? filterStatus,
@@ -56,6 +76,7 @@ class CoursesState {
     String? filterText,
     bool? isFilterNavToSearchPage,
     FilterEnabledType? filterEnabledType,
+    List<CourseModel>? userCoursesList,
   }) {
     return CoursesState(
       filterStatus: filterStatus ?? this.filterStatus,
@@ -70,6 +91,7 @@ class CoursesState {
       filterText: filterText ?? this.filterText,
       isFilterNavToSearchPage: isFilterNavToSearchPage ?? this.isFilterNavToSearchPage,
       filterEnabledType: filterEnabledType ?? this.filterEnabledType,
+      userCoursesList: userCoursesList ?? this.userCoursesList,
     );
   }
 }
