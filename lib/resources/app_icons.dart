@@ -47,6 +47,12 @@ class AppIcons {
   static const String lock = '$_path/lock.svg';
   static const String icon_done_blue = '$_path/icon_done_blue.svg';
   static const String icon_done_orange = '$_path/icon_done_orange.svg';
+  static const String plus = '$_path/plus.svg';
+  static const String plus2 = '$_path/plus2.svg';
+  static const String plus3 = '$_path/plus3.svg';
+  static const String plus4 = '$_path/plus4.svg';
+  static const String bucket = '$_path/bucket.svg';
+  static const String check_mark3 = '$_path/check_mark3.svg';
 
 
 

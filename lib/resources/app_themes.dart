@@ -13,6 +13,7 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color? green;
   final Color? white;
   final Color? orange;
+  final Color? violet_light;
 
   const AppColors({
     required this.red_light,
@@ -23,6 +24,7 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.green,
     required this.white,
     required this.orange,
+    required this.violet_light,
   });
 
   @override
@@ -35,6 +37,7 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? green,
     Color? white,
     Color? orange,
+    Color? violet_light,
   }) {
     return AppColors(
       red_light: red_light ?? this.red_light,
@@ -45,6 +48,7 @@ class AppColors extends ThemeExtension<AppColors> {
       green: green ?? this.green,
       white: white ?? this.white,
       orange: orange ?? this.orange,
+      violet_light: violet_light ?? this.violet_light,
     );
   }
 
@@ -62,6 +66,7 @@ class AppColors extends ThemeExtension<AppColors> {
       green: Color.lerp(green, other.green, t),
       white: Color.lerp(white, other.white, t),
       orange: Color.lerp(orange, other.orange, t),
+      violet_light: Color.lerp(violet_light, other.violet_light, t),
     );
   }
 }
@@ -250,6 +255,7 @@ class AppThemes {
           green: Color(0xFF398A80),
           white: Color(0xFFFFFFFF),
           orange: Color(0xFFFF6905),
+          violet_light: Color(0xFFF4F3FD),
           // green_light: isDarkTheme ? Colors.yellow : Colors.red,
         ),
       ],
@@ -268,6 +274,8 @@ class AppThemes {
             green: Color(0xFF398A80),
             white: Color(0xFFFFFFFF),
             orange: Color(0xFFFF6905),
+            violet_light: Color(0xFFF4F3FD),
+
             // green_light: isDarkTheme ? Colors.yellow : Colors.red,
           ),
         ],

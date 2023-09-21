@@ -11,12 +11,14 @@ import 'package:online_learning_app/models/progress/progress_model.dart';
 import 'package:online_learning_app/models/video_model/lesson_model.dart';
 import 'package:online_learning_app/pages/one_course_pages/no_videos_page/no_videos_page.dart';
 import 'package:online_learning_app/pages/one_course_pages/one_course_page/statistic_alert_dialog.dart';
+import 'package:online_learning_app/pages/one_course_pages/payment_page/payment_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/resources/app_images.dart';
 import 'package:online_learning_app/resources/app_themes.dart';
 import 'package:online_learning_app/utils/formatTime.dart';
 import 'package:online_learning_app/utils/get_course_model_by_uid.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
+import 'package:online_learning_app/widgets/buttons/custom_button_light.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button_star.dart';
 import 'package:online_learning_app/widgets/buttons/custom_lock_button.dart';
 import 'package:online_learning_app/widgets/buttons/custom_pause_button_with_progress.dart';
@@ -85,6 +87,14 @@ class _OneCoursePageState extends State<OneCoursePage> {
         );
   }
 
+  void onTapBuyButton() {
+    log('*** onTapBuyButton');
+    _navigateToPage(
+      context: context,
+      route: PaymentPage.routeName,
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -107,7 +117,7 @@ class _OneCoursePageState extends State<OneCoursePage> {
             body: SafeArea(
               child: BlocListener<ProgressBloc, ProgressState>(
                 listenWhen: (p, c) {
-                  return p.showStatistic != c.showStatistic;
+                  return p.showStatisticTrigger != c.showStatisticTrigger;
                 },
                 listener: (context, state) {
                   log('*** showAlertDialog');
@@ -140,6 +150,7 @@ class _OneCoursePageState extends State<OneCoursePage> {
                       child: CoursePanel(
                         currentCourse: currentCourse!,
                         onTapFavoriteButton: onTapFavoriteButton,
+                        onTapBuyButton: onTapBuyButton,
                       ),
                     ),
                   ],
@@ -331,11 +342,13 @@ class CoursePanel extends StatelessWidget {
   const CoursePanel({
     required this.currentCourse,
     required this.onTapFavoriteButton,
+    required this.onTapBuyButton,
     super.key,
   });
 
   final CourseModel currentCourse;
   final VoidCallback onTapFavoriteButton;
+  final VoidCallback onTapBuyButton;
 
   @override
   Widget build(BuildContext context) {
@@ -399,6 +412,7 @@ class CoursePanel extends StatelessWidget {
         ),
         BottomPanelButtons(
           onTapFavoriteButton: onTapFavoriteButton,
+          onTapBuyButton: onTapBuyButton,
         ),
       ],
     );
@@ -408,10 +422,12 @@ class CoursePanel extends StatelessWidget {
 class BottomPanelButtons extends StatelessWidget {
   const BottomPanelButtons({
     required this.onTapFavoriteButton,
+    required this.onTapBuyButton,
     super.key,
   });
 
   final VoidCallback onTapFavoriteButton;
+  final VoidCallback onTapBuyButton;
 
   @override
   Widget build(BuildContext context) {
@@ -436,15 +452,17 @@ class BottomPanelButtons extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
         child: BlocBuilder<ProgressBloc, ProgressState>(
           builder: (context, state) {
-            CourseProgressModel? courseProgressModel =
+            CourseProgressModel? currentCourseProgressModel =
                 state.userProgress?[state.currentCourseUid];
+
+            // bought: currentCourseProgressModel?.bought ?? false,
             return Row(
               children: [
                 Flexible(
                   flex: 2,
                   fit: FlexFit.tight,
                   child: StarButton(
-                    isEnable: (courseProgressModel?.favorites) ?? false,
+                    isEnable: (currentCourseProgressModel?.favorites) ?? false,
                     onTap: () {
                       onTapFavoriteButton();
                     },
@@ -454,12 +472,18 @@ class BottomPanelButtons extends StatelessWidget {
                 Flexible(
                   flex: 4,
                   fit: FlexFit.tight,
-                  child: CustomButton(
-                    title: 'Buy Now',
-                    onTap: () {
-                      log('*** ${DateTime.now().year}');
-                    },
-                  ),
+                  child: (currentCourseProgressModel?.bought ?? false)
+                      ? const CustomButtonLight(
+                          title: 'Bought ✓ ',
+                          onTap: null,
+                        )
+                      : CustomButton(
+                          title: 'Buy Now',
+                          onTap: () {
+                            onTapBuyButton();
+
+                          },
+                        ),
                 ),
               ],
             );
@@ -496,6 +520,7 @@ class LessonList extends StatelessWidget {
             lesson: lessons[index],
             lessonProgress:
                 currentCourseProgressModel?.lessonsProgress?['$index'],
+            bought: currentCourseProgressModel?.bought ?? false,
             index: index,
             openLesson: openLesson,
           ),
@@ -509,6 +534,7 @@ class LessonItem extends StatelessWidget {
   const LessonItem({
     required this.lesson,
     required this.lessonProgress,
+    required this.bought,
     required this.index,
     required this.openLesson,
     super.key,
@@ -516,6 +542,7 @@ class LessonItem extends StatelessWidget {
 
   final LessonModel lesson;
   final List<bool>? lessonProgress;
+  final bool bought;
   final int index;
   final int openLesson;
 
@@ -578,7 +605,7 @@ class LessonItem extends StatelessWidget {
           ),
           BlocBuilder<ProgressBloc, ProgressState>(
             builder: (context, state) {
-              if (index < openLesson) {
+              if (index < openLesson || bought) {
                 if (index == state.currentLessonIndex) {
                   if (state.playbackStatus == PlaybackStatus.pause) {
                     return CustomPlayButton(
@@ -587,14 +614,10 @@ class LessonItem extends StatelessWidget {
                       },
                     );
                   } else {
-                    return BlocBuilder<ProgressBloc, ProgressState>(
-                      builder: (context, state) {
-                        return CustomPauseButtonWithProgress(
-                          angle: state.currentProgressInPercent,
-                          onTap: () {
-                            onTapPause(context);
-                          },
-                        );
+                    return CustomPauseButtonWithProgress(
+                      angle: state.currentProgressInPercent,
+                      onTap: () {
+                        onTapPause(context);
                       },
                     );
                   }

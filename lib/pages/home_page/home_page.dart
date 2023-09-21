@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
@@ -5,6 +7,7 @@ import 'package:online_learning_app/models/course/course_model.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_in_page/sign_in_page.dart';
 import 'package:online_learning_app/pages/my_courses_page/my_courses_page.dart';
 import 'package:online_learning_app/pages/one_course_pages/one_course_page/statistic_alert_dialog.dart';
+import 'package:online_learning_app/pages/one_course_pages/payment_page/payment_page.dart';
 import 'package:online_learning_app/services/auth_service.dart';
 import 'package:online_learning_app/services/firestore_progress_service.dart';
 import 'package:online_learning_app/services/firestore_service.dart';
@@ -37,6 +40,13 @@ class _HomePageState extends State<HomePage> {
   void _goToMyCoursesPage() async {
     Navigator.of(context, rootNavigator: true).pushNamed(
       MyCoursesPage.routeName,
+    );
+  }
+
+  void onTapBuyButton() {
+    log('*** onTapBuyButton');
+    Navigator.of(context).pushNamed(
+      PaymentPage.routeName,
     );
   }
 
@@ -92,11 +102,9 @@ class _HomePageState extends State<HomePage> {
                 ),
                 const SizedBox(height: 16.0),
                 CustomButton(
-                  title: 'Get Progress',
+                  title: 'PaymentPage',
                   onTap: () {
-                    MyFirestoreProgressService firestoreProgressService =
-                        MyFirestoreProgressService();
-                    firestoreProgressService.getUserProgress();
+                    onTapBuyButton();
                   },
                 ),
                 const SizedBox(height: 16.0),

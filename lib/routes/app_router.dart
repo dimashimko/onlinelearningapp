@@ -9,7 +9,10 @@ import 'package:online_learning_app/pages/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:online_learning_app/pages/message_page/message_page.dart';
 import 'package:online_learning_app/pages/my_courses_page/my_courses_page.dart';
+import 'package:online_learning_app/pages/one_course_pages/add_cart_page/add_cart_page.dart';
 import 'package:online_learning_app/pages/one_course_pages/one_course_page/one_course_page.dart';
+import 'package:online_learning_app/pages/one_course_pages/payment_page/payment_page.dart';
+import 'package:online_learning_app/pages/one_course_pages/successful_purchase_page/successful_purchase_page.dart';
 import 'package:online_learning_app/pages/search_page/search_page.dart';
 
 class AppRouter {
@@ -72,19 +75,27 @@ class AppRouter {
         builder = (_) => SearchPage();
         break;
 
-      case MyCoursesPage.routeName:
-        builder = (_) => MyCoursesPage();
-        break;
-
-      // case OneCoursePage.routeName:
-      //   builder = (_) =>  OneCoursePage();
-      //   break;
-
       case OneCoursePage.routeName:
         final OneCoursePageArguments args = arguments as OneCoursePageArguments;
         builder = (_) => OneCoursePage(
               uidCourse: args.uidCourse,
             );
+        break;
+
+      case MyCoursesPage.routeName:
+        builder = (_) => MyCoursesPage();
+        break;
+
+      case PaymentPage.routeName:
+        builder = (_) => PaymentPage();
+        break;
+
+      case AddCartPage.routeName:
+        builder = (_) => AddCartPage();
+        break;
+
+      case SuccessfulPurchasePage.routeName:
+        builder = (_) => SuccessfulPurchasePage();
         break;
 
       default:

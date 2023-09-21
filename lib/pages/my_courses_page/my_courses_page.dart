@@ -58,8 +58,6 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
     );
   }
 
-  void onTapCourse() {}
-
   @override
   void initState() {
     super.initState();
@@ -152,7 +150,6 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
                           child: CourseItem(
                             courseModel:
                                 stateCoursesBloc.userCoursesList[index],
-                            onTapCourse: onTapCourse,
                             backgroundColor: backgroundColorsList[index % 3],
                             color: colorsList[index % 3],
                             lessonCompleted: lessonCompleted,
@@ -175,7 +172,6 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
 class CourseItem extends StatelessWidget {
   const CourseItem({
     required this.courseModel,
-    required this.onTapCourse,
     required this.backgroundColor,
     required this.color,
     required this.lessonCompleted,
@@ -183,7 +179,6 @@ class CourseItem extends StatelessWidget {
   });
 
   final CourseModel courseModel;
-  final VoidCallback onTapCourse;
   final Color backgroundColor;
   final Color color;
   final int lessonCompleted;

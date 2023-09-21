@@ -63,12 +63,12 @@ class ProgressBloc extends Bloc<ProgressEvent, ProgressState> {
         bool isNeedShowStatistic =
             await fireStoreProgressService.checkNeedShowStatistic();
         log('*** isNeedShowStatistic: $isNeedShowStatistic');
-        int showStatisticValue = state.showStatistic;
+        int showStatisticValue = state.showStatisticTrigger;
         showStatisticValue = showStatisticValue + 1;
         if (isNeedShowStatistic) {
           emit(
             state.copyWith(
-              showStatistic: showStatisticValue,
+              showStatisticTrigger: showStatisticValue,
             ),
           );
         }

@@ -10,7 +10,7 @@ class ProgressState extends Equatable {
     this.playbackStatus = PlaybackStatus.pause,
     this.currentProgressInPercent = 0.0,
     this.lastProgressValue = 0,
-    this.showStatistic = 0,
+    this.showStatisticTrigger = 0,
     this.userActivityModel,
     this.userProgress,
   });
@@ -24,7 +24,7 @@ class ProgressState extends Equatable {
         playbackStatus,
         currentProgressInPercent,
         lastProgressValue,
-        showStatistic,
+        showStatisticTrigger,
         userActivityModel,
         userProgress,
       ];
@@ -35,7 +35,7 @@ class ProgressState extends Equatable {
   final PlaybackStatus playbackStatus;
   final double currentProgressInPercent;
   final double lastProgressValue;
-  final int showStatistic;
+  final int showStatisticTrigger;
   final UserActivityModel? userActivityModel;
   final Map<String, CourseProgressModel>? userProgress;
 
@@ -47,7 +47,7 @@ class ProgressState extends Equatable {
     PlaybackStatus? playbackStatus,
     double? currentProgressInPercent,
     double? lastProgressValue,
-    int? showStatistic,
+    int? showStatisticTrigger,
     UserActivityModel? userActivityModel,
     Map<String, CourseProgressModel>? userProgress,
   }) {
@@ -62,7 +62,7 @@ class ProgressState extends Equatable {
       currentProgressInPercent:
           currentProgressInPercent ?? this.currentProgressInPercent,
       lastProgressValue: lastProgressValue ?? this.lastProgressValue,
-      showStatistic: showStatistic ?? this.showStatistic,
+      showStatisticTrigger: showStatisticTrigger ?? this.showStatisticTrigger,
       userActivityModel: userActivityModel ?? this.userActivityModel,
       userProgress: userProgress ?? this.userProgress,
     );

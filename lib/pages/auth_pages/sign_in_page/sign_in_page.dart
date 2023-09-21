@@ -72,7 +72,6 @@ class _SignInPageState extends State<SignInPage> {
     // testRequest();
   }
 
-
   late final imageController;
 
   bool isButtonsVisible = false;
@@ -83,9 +82,10 @@ class _SignInPageState extends State<SignInPage> {
 
     // Show Auth Button
     imageController = PageController(
-        viewportFraction: 1,
-        keepPage: false,
-        initialPage: widget.isFirst ? 0 : listSlideModel.length - 1);
+      viewportFraction: 1,
+      keepPage: false,
+      initialPage: widget.isFirst ? 0 : listSlideModel.length - 1,
+    );
     isButtonsVisible = !widget.isFirst;
     imageController.addListener(() {
       if (imageController.page != null) {
@@ -193,7 +193,6 @@ class _SignInPageState extends State<SignInPage> {
     );
   }
 
-
   final List<_SlideModel> listSlideModel = [
     _SlideModel(
       illustration: AppIcons.illustration_01,
@@ -204,13 +203,13 @@ class _SignInPageState extends State<SignInPage> {
       illustration: AppIcons.illustration_02,
       title: 'Quick and easy learning',
       description:
-      'Easy and fast learning at any time to help you improve various skills',
+          'Easy and fast learning at any time to help you improve various skills',
     ),
     _SlideModel(
       illustration: AppIcons.illustration_03,
       title: 'Create your own study plan',
       description:
-      'Study according to the study plan, make study more motivated',
+          'Study according to the study plan, make study more motivated',
     ),
   ];
 }
@@ -280,7 +279,10 @@ class _CustomSlideItem extends StatelessWidget {
             child: Text(
               slideModel.description,
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(fontSize: 16.0),
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.copyWith(fontSize: 16.0),
             ),
           ),
         ],

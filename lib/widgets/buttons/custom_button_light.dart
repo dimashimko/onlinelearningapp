@@ -17,7 +17,7 @@ class CustomButtonLight extends StatelessWidget {
   final String title;
   final double borderRadius;
   final double padding;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -44,10 +44,11 @@ class CustomButtonLight extends StatelessWidget {
             ),
           ),
         ),
-        SplashBox(
-          borderRadius: BorderRadius.circular(borderRadius),
-          onTap: onTap,
-        ),
+        if (onTap != null)
+          SplashBox(
+            borderRadius: BorderRadius.circular(borderRadius),
+            onTap: onTap!,
+          ),
       ],
     );
   }

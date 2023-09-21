@@ -42,6 +42,16 @@ dependencies:
   equatable: ^2.0.5
   share: ^2.0.4
 #  share_plus: ^7.1.0
+  flutter_secure_storage: ^9.0.0
+  flutter_credit_card: ^3.0.3
+  http: ^1.0.0
+  liqpay:
+    git:
+#      url: https://github.com/dimashimko/liqpay
+      url: https://github.com/Newgarden-Solutions/liqpay
+      ref: main
+  uuid: ^3.0.6
+
 
 flutter_icons:
   image_path: "assets/images/app_icon.png"
