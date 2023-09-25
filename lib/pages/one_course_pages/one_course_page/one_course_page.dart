@@ -374,7 +374,7 @@ class CoursePanel extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '\$${currentCourse.price}' ?? '',
+                      '\$${currentCourse.price.toString()}',
                       style: Theme.of(context)
                           .textTheme
                           .headlineMedium

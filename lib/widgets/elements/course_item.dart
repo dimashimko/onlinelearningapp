@@ -70,7 +70,7 @@ class CourseItem extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        '\$ ${courseModel.price.toString() ?? '---'}',
+                        '\$ ${courseModel.price ?? '---'}',
                         style: Theme.of(context).textTheme.headlineMedium,
                       ),
                       const SizedBox(width: 6.0),
