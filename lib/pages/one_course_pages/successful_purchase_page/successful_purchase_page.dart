@@ -46,7 +46,9 @@ class SuccessfulPurchasePage extends StatelessWidget {
                 ),
                 CustomButton(
                   title: 'Start learning',
-                  onTap: () {},
+                  onTap: () {
+                    _goToBackPage(context);
+                  },
                 ),
               ],
             ),

@@ -585,9 +585,9 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: main
-      resolved-ref: a13ef0c34b3b359a994bee9625cbbbce36bce106
-      url: "https://github.com/Newgarden-Solutions/liqpay"
+      ref: a3ac2e86622164a3d963fbb9bf4c30d19f55cd5e
+      resolved-ref: a3ac2e86622164a3d963fbb9bf4c30d19f55cd5e
+      url: "https://github.com/dimashimko/liqpay"
     source: git
     version: "0.0.1+2"
   matcher:

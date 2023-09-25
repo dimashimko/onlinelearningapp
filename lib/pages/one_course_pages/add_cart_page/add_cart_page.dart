@@ -27,6 +27,7 @@ class _AddCartPageState extends State<AddCartPage> {
   String _cardHolderName = "";
   String _cardCvvCode = "";
   bool _isCvvFocused = false;
+  late TextEditingController textEditingController;
 
   void onTapSaveNewCard() {
     FocusScope.of(context).unfocus();
@@ -35,6 +36,7 @@ class _AddCartPageState extends State<AddCartPage> {
       cardExpiryDate: _cardExpiryDate,
       cardHolderName: _cardHolderName,
       cardCvvCode: _cardCvvCode,
+      cardPaymentPassword: textEditingController.text.trim(),
     );
     Navigator.pop(context, cardModel);
   }
@@ -42,6 +44,8 @@ class _AddCartPageState extends State<AddCartPage> {
   @override
   void initState() {
     super.initState();
+
+    textEditingController = TextEditingController();
 
     border = OutlineInputBorder(
       borderSide: BorderSide(
@@ -145,9 +149,26 @@ class _AddCartPageState extends State<AddCartPage> {
                         focusedBorder: border,
                         enabledBorder: border,
                         labelText: 'Card Holder',
+                        // helperText: 'helperText',
                       ),
                       onCreditCardModelChange: onCreditCardModelChange,
                     ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                      ),
+                      child: TextFormField(
+                        controller: textEditingController,
+                        decoration: InputDecoration(
+                          hintText: 'Payment password (optional)',
+                          // border: OutlineInputBorder(),
+                          // border: border,
+                          focusedBorder: border,
+                          enabledBorder: border,
+                        ),
+                        keyboardType: TextInputType.number,
+                      ),
+                    )
                   ],
                 ),
               ),

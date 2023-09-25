@@ -47,9 +47,13 @@ dependencies:
   http: ^1.0.0
   liqpay:
     git:
-#      url: https://github.com/dimashimko/liqpay
-      url: https://github.com/Newgarden-Solutions/liqpay
-      ref: main
+      url: https://github.com/dimashimko/liqpay
+#      url: https://github.com/Newgarden-Solutions/liqpay
+#      ref: main
+#      ref: 579bcb2a23c2c730d107b77412e9373b90cb1b1c # commit hash
+#      ref: e82fbde5cfd707721c920968c4bec28075a06540 # commit hash
+#      ref: 0500d2192d24fe2c5ed92835c0bc73fee9c18e6a # commit hash
+      ref: a3ac2e86622164a3d963fbb9bf4c30d19f55cd5e # commit hash
   uuid: ^3.0.6
 
 

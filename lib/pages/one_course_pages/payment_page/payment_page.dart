@@ -3,11 +3,15 @@ import 'dart:developer';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_launcher_icons/logger.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:liqpay/liqpay.dart';
+import 'package:online_learning_app/blocs/progress_bloc/progress_bloc.dart';
 import 'package:online_learning_app/database/secure_storage.dart';
 import 'package:online_learning_app/models/card/card_model.dart';
 import 'package:online_learning_app/pages/one_course_pages/add_cart_page/add_cart_page.dart';
+import 'package:online_learning_app/pages/one_course_pages/payment_page/payment_password_bottom_sheet.dart';
 import 'package:online_learning_app/pages/one_course_pages/successful_purchase_page/successful_purchase_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/resources/app_themes.dart';
@@ -75,11 +79,10 @@ class _PaymentPageState extends State<PaymentPage> {
   }
 
   void _deleteCard(int index) {
-    _goToSuccessfulPurchasePage();
-/*
+    // _goToSuccessfulPurchasePage();
     cards.removeAt(index);
     _saveCards(cards);
-    setState(() {});*/
+    setState(() {});
   }
 
   void _saveCards(List<CardModel> cards) {
@@ -108,14 +111,45 @@ class _PaymentPageState extends State<PaymentPage> {
     setState(() {});
   }
 
+  Future<bool?> _showBottomSheet({
+    required String correctPin,
+  }) async {
+    final bool? result = await showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      context: context,
+      builder: (BuildContext context) {
+        return BottomSheetPaymentPassword(
+          correctPin: correctPin,
+        );
+      },
+    );
+
+    // Handle the result here
+    if (result != null) {
+      if (result) {
+        log('*** Result from bottom sheet: $result');
+        return true;
+      }
+    }
+    return null;
+  }
+
   _onTapPay() async {
     int cardIndex = ((cardController.page ?? 0.0) + 0.5).toInt();
-    if (cardIndex != cards.length - 0) {
-      log('*** cardIndex.page: $cardIndex');
-    }
     CardModel currentCard = cards[cardIndex];
+    bool? isConfirmed =
+        await _showBottomSheet(correctPin: currentCard.cardPaymentPassword);
+    if (isConfirmed != null) {
+      if (isConfirmed) {
+        _purchase(currentCard);
+      }
+    }
+  }
 
+  _purchase(CardModel currentCard) async {
     final cardDate = currentCard.cardExpiryDate.split('/');
+
     final card = LiqPayCard(
       currentCard.cardNumber.trim(),
       cardDate[0],
@@ -129,22 +163,29 @@ class _PaymentPageState extends State<PaymentPage> {
       // currency: LiqPayCurrency.uah
       currency: LiqPayCurrency.usd,
     );
-    LiqPayResponse liqPayResponse = await liqPay.purchase(order);
-    if(liqPayResponse.result == 'ok') {
-      // log('*** ok');
-      if(liqPayResponse.status == 'success') {
-        log('*** success');
-        _goToSuccessfulPurchasePage();
+    if (context.mounted) {
+      LiqPayResponse liqPayResponse = await liqPay.purchase(order);
+      if (liqPayResponse.result == 'ok') {
+        // log('*** ok');
+        if (liqPayResponse.status == 'success') {
+          log('*** success');
+
+          _goToSuccessfulPurchasePage();
+          context.read<ProgressBloc>().add(
+                CoursePurchasedEvent(),
+              );
+        }
+      } else {
+        liqPayResponse as LiqPayErrorResponse;
+        BotToast.showText(
+          text: '${liqPayResponse.status}: ${liqPayResponse.errorCode} '
+              '\n ${liqPayResponse.errorDescription}',
+          duration: Duration(
+            seconds: 3,
+          ),
+        );
       }
-    } else {
-      BotToast.showText(
-        text: liqPayResponse.result,
-      );
     }
-    log('*** liqPayResponse: $liqPayResponse');
-    log('*** liqPayResponse result: ${liqPayResponse.result}');
-    log('*** liqPayResponse status: ${liqPayResponse.status}');
-    log('*** liqPayResponse status: ${liqPayResponse}');
   }
 
   @override

@@ -21,6 +21,28 @@ class ProgressBloc extends Bloc<ProgressEvent, ProgressState> {
     MyFirestoreProgressService fireStoreProgressService =
         MyFirestoreProgressService();
 
+    on<CoursePurchasedEvent>(
+      (event, emit) async {
+        log('*** @CoursePurchasedEvent ');
+
+        CourseProgressModel? currentCourseProgress =
+            state.userProgress?[state.currentCourseUid] ??
+                const CourseProgressModel.empty();
+
+        currentCourseProgress = currentCourseProgress.copyWith(
+          bought: true,
+        );
+        if (state.currentCourseUid != null) {
+          fireStoreProgressService.pushUserProgress(
+            state.currentCourseUid!,
+            currentCourseProgress,
+          );
+        }
+        log('*** @CoursePurchasedEvent currentCourseProgress: $currentCourseProgress');
+        add(GetUserProgressEvent());
+      },
+    );
+
     on<TapButtonFavorite>(
       (event, emit) async {
         log('*** @TapButtonFavorite ');
@@ -35,7 +57,9 @@ class ProgressBloc extends Bloc<ProgressEvent, ProgressState> {
         );
         if (state.currentCourseUid != null) {
           fireStoreProgressService.pushUserProgress(
-              state.currentCourseUid!, currentCourseProgress);
+            state.currentCourseUid!,
+            currentCourseProgress,
+          );
         }
         log('*** @TapButtonFavorite currentCourseProgress: $currentCourseProgress');
         add(GetUserProgressEvent());
