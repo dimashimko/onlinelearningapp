@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/models/card/card_model.dart';
-import 'package:online_learning_app/pages/one_course_pages/payment_page/payment_page.dart';
-import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
-import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
 
-class AddCartPage extends StatefulWidget {
-  const AddCartPage({super.key});
+class AddCardPage extends StatefulWidget {
+  const AddCardPage({super.key});
 
-  static const routeName = '/one_course_pages/addCartPage';
+  static const routeName = '/one_course_pages/addCardPage';
 
   @override
-  State<AddCartPage> createState() => _AddCartPageState();
+  State<AddCardPage> createState() => _AddCardPageState();
 }
 
-class _AddCartPageState extends State<AddCartPage> {
+class _AddCardPageState extends State<AddCardPage> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   late OutlineInputBorder border;
@@ -91,7 +87,7 @@ class _AddCartPageState extends State<AddCartPage> {
               // isSwipeGestureEnabled: true,
               isSwipeGestureEnabled: false,
               onCreditCardWidgetChange: (CreditCardBrand creditCardBrand) {},
-              customCardTypeIcons: <CustomCardTypeIcon>[
+              customCardTypeIcons: const <CustomCardTypeIcon>[
 /*                CustomCardTypeIcon(
                   cardType: CardType.mastercard,
                   cardImage: Image.asset(
@@ -154,7 +150,7 @@ class _AddCartPageState extends State<AddCartPage> {
                       onCreditCardModelChange: onCreditCardModelChange,
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         horizontal: 16.0,
                       ),
                       child: TextFormField(

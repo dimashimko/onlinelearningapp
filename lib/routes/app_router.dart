@@ -9,7 +9,7 @@ import 'package:online_learning_app/pages/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:online_learning_app/pages/message_page/message_page.dart';
 import 'package:online_learning_app/pages/my_courses_page/my_courses_page.dart';
-import 'package:online_learning_app/pages/one_course_pages/add_cart_page/add_cart_page.dart';
+import 'package:online_learning_app/pages/one_course_pages/add_card_page/add_card_page.dart';
 import 'package:online_learning_app/pages/one_course_pages/one_course_page/one_course_page.dart';
 import 'package:online_learning_app/pages/one_course_pages/payment_page/payment_page.dart';
 import 'package:online_learning_app/pages/one_course_pages/successful_purchase_page/successful_purchase_page.dart';
@@ -60,7 +60,7 @@ class AppRouter {
         break;
 
       case CoursePage.routeName:
-        builder = (_) => CoursePage();
+        builder = (_) => const CoursePage();
         break;
 
       case MessagePage.routeName:
@@ -72,7 +72,7 @@ class AppRouter {
         break;
 
       case SearchPage.routeName:
-        builder = (_) => SearchPage();
+        builder = (_) => const SearchPage();
         break;
 
       case OneCoursePage.routeName:
@@ -83,19 +83,26 @@ class AppRouter {
         break;
 
       case MyCoursesPage.routeName:
-        builder = (_) => MyCoursesPage();
+        builder = (_) => const MyCoursesPage();
         break;
+
+/*      case PaymentPage.routeName:
+        builder = (_) => PaymentPage();
+        break;*/
 
       case PaymentPage.routeName:
-        builder = (_) => PaymentPage();
+        final PaymentPageArguments args = arguments as PaymentPageArguments;
+        builder = (_) => PaymentPage(
+          price: args.price,
+        );
         break;
 
-      case AddCartPage.routeName:
-        builder = (_) => AddCartPage();
+      case AddCardPage.routeName:
+        builder = (_) => const AddCardPage();
         break;
 
       case SuccessfulPurchasePage.routeName:
-        builder = (_) => SuccessfulPurchasePage();
+        builder = (_) => const SuccessfulPurchasePage();
         break;
 
       default:

@@ -23,7 +23,6 @@ import 'package:online_learning_app/widgets/buttons/custom_button_star.dart';
 import 'package:online_learning_app/widgets/buttons/custom_lock_button.dart';
 import 'package:online_learning_app/widgets/buttons/custom_pause_button_with_progress.dart';
 import 'package:online_learning_app/widgets/buttons/custom_play_button.dart';
-import 'package:online_learning_app/widgets/buttons/custom_pause_button.dart';
 import 'package:online_learning_app/widgets/elements/customImageViewer.dart';
 
 class OneCoursePageArguments {
@@ -87,11 +86,16 @@ class _OneCoursePageState extends State<OneCoursePage> {
         );
   }
 
-  void onTapBuyButton() {
+  void onTapBuyButton({
+    required double price,
+  }) {
     log('*** onTapBuyButton');
     _navigateToPage(
       context: context,
       route: PaymentPage.routeName,
+      arguments: PaymentPageArguments(
+        price: price,
+      ),
     );
   }
 
@@ -150,7 +154,11 @@ class _OneCoursePageState extends State<OneCoursePage> {
                       child: CoursePanel(
                         currentCourse: currentCourse!,
                         onTapFavoriteButton: onTapFavoriteButton,
-                        onTapBuyButton: onTapBuyButton,
+                        onTapBuyButton: () {
+                          onTapBuyButton(
+                            price: currentCourse!.price ?? 0.0,
+                          );
+                        },
                       ),
                     ),
                   ],
@@ -481,7 +489,6 @@ class BottomPanelButtons extends StatelessWidget {
                           title: 'Buy Now',
                           onTap: () {
                             onTapBuyButton();
-
                           },
                         ),
                 ),
@@ -572,71 +579,69 @@ class LessonItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        children: [
-          Text(
-            (index + 1).toString().padLeft(2, '0'),
-            style: Theme.of(context)
-                .textTheme
-                .titleSmall
-                ?.copyWith(fontSize: 24.0),
+    return Row(
+      children: [
+        Text(
+          (index + 1).toString().padLeft(2, '0'),
+          style: Theme.of(context)
+              .textTheme
+              .titleSmall
+              ?.copyWith(fontSize: 24.0),
+        ),
+        const SizedBox(width: 32.0),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                lesson.name ?? '',
+                // lessonProgress.toString(),
+                style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w400,
+                    ),
+              ),
+              const SizedBox(height: 6.0),
+              TextLessonDurationWithCheckBox(
+                lesson: lesson,
+                lessonProgress: lessonProgress,
+              ),
+            ],
           ),
-          const SizedBox(width: 32.0),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  lesson.name ?? '',
-                  // lessonProgress.toString(),
-                  style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w400,
-                      ),
-                ),
-                const SizedBox(height: 6.0),
-                TextLessonDurationWithCheckBox(
-                  lesson: lesson,
-                  lessonProgress: lessonProgress,
-                ),
-              ],
-            ),
-          ),
-          BlocBuilder<ProgressBloc, ProgressState>(
-            builder: (context, state) {
-              if (index < openLesson || bought) {
-                if (index == state.currentLessonIndex) {
-                  if (state.playbackStatus == PlaybackStatus.pause) {
-                    return CustomPlayButton(
-                      onTap: () {
-                        onTapResume(context);
-                      },
-                    );
-                  } else {
-                    return CustomPauseButtonWithProgress(
-                      angle: state.currentProgressInPercent,
-                      onTap: () {
-                        onTapPause(context);
-                      },
-                    );
-                  }
-                } else {
+        ),
+        BlocBuilder<ProgressBloc, ProgressState>(
+          builder: (context, state) {
+            if (index < openLesson || bought) {
+              if (index == state.currentLessonIndex) {
+                if (state.playbackStatus == PlaybackStatus.pause) {
                   return CustomPlayButton(
                     onTap: () {
-                      onTapPlay(context);
+                      onTapResume(context);
+                    },
+                  );
+                } else {
+                  return CustomPauseButtonWithProgress(
+                    angle: state.currentProgressInPercent,
+                    onTap: () {
+                      onTapPause(context);
                     },
                   );
                 }
               } else {
-                return CustomLockButton(
-                  onTap: () {},
+                return CustomPlayButton(
+                  onTap: () {
+                    onTapPlay(context);
+                  },
                 );
               }
-            },
-          ),
-        ],
-      ),
+            } else {
+              return CustomLockButton(
+                onTap: () {},
+              );
+            }
+          },
+        ),
+      ],
     );
   }
 }
@@ -672,9 +677,9 @@ class TextLessonDurationWithCheckBox extends StatelessWidget {
               ),
         ),
         const SizedBox(width: 8.0),
-        watchStatus == WatchStatus.not_viewed
+        watchStatus == WatchStatus.notViewed
             ? const SizedBox()
-            : watchStatus == WatchStatus.in_progress
+            : watchStatus == WatchStatus.inProgress
                 ? SvgPicture.asset(AppIcons.icon_done_orange)
                 : SvgPicture.asset(AppIcons.icon_done_blue),
       ],
@@ -682,12 +687,12 @@ class TextLessonDurationWithCheckBox extends StatelessWidget {
   }
 }
 
-enum WatchStatus { not_viewed, in_progress, viewed }
+enum WatchStatus { notViewed, inProgress, viewed }
 
 WatchStatus getWatchStatus(List<bool>? lessonProgress) {
   // log('*** lessonProgress: $lessonProgress');
   if (lessonProgress == null) {
-    return WatchStatus.not_viewed;
+    return WatchStatus.notViewed;
   }
 
   int counter = 0;
@@ -697,14 +702,14 @@ WatchStatus getWatchStatus(List<bool>? lessonProgress) {
   if (counter == lessonProgress.length) {
     return WatchStatus.viewed;
   } else {
-    return WatchStatus.in_progress;
+    return WatchStatus.inProgress;
   }
 }
 
 Color getColorByWatchStatus(BuildContext context, WatchStatus watchStatus) {
-  Color resultColor = watchStatus == WatchStatus.not_viewed
+  Color resultColor = watchStatus == WatchStatus.notViewed
       ? Theme.of(context).colorScheme.outlineVariant
-      : watchStatus == WatchStatus.in_progress
+      : watchStatus == WatchStatus.inProgress
           ? colors(context).orange ?? Colors.orange
           : colors(context).blue ?? Colors.blue;
   return resultColor;

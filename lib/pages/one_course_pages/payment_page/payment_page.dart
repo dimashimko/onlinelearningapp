@@ -4,27 +4,38 @@ import 'dart:developer';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_launcher_icons/logger.dart';
+import 'package:flutter_credit_card/credit_card_brand.dart';
+import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:liqpay/liqpay.dart';
 import 'package:online_learning_app/blocs/progress_bloc/progress_bloc.dart';
 import 'package:online_learning_app/database/secure_storage.dart';
 import 'package:online_learning_app/models/card/card_model.dart';
-import 'package:online_learning_app/pages/one_course_pages/add_cart_page/add_cart_page.dart';
+import 'package:online_learning_app/pages/one_course_pages/add_card_page/add_card_page.dart';
 import 'package:online_learning_app/pages/one_course_pages/payment_page/payment_password_bottom_sheet.dart';
 import 'package:online_learning_app/pages/one_course_pages/successful_purchase_page/successful_purchase_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/resources/app_themes.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
-import 'package:flutter_credit_card/credit_card_brand.dart';
-import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:uuid/uuid.dart';
 
-class PaymentPage extends StatefulWidget {
-  const PaymentPage({Key? key}) : super(key: key);
+class PaymentPageArguments {
+  PaymentPageArguments({
+    required this.price,
+  });
 
+  final double price;
+}
+
+class PaymentPage extends StatefulWidget {
+  const PaymentPage({
+    required this.price,
+    Key? key,
+  }) : super(key: key);
+
+  final double price;
   static const routeName = '/one_course_pages/payment_page';
 
   @override
@@ -37,27 +48,15 @@ class _PaymentPageState extends State<PaymentPage> {
   late final PageController cardController;
   late LiqPay liqPay;
 
-  void _navigateToPage({
-    required BuildContext context,
-    required String route,
-    bool isRoot = false,
-    Object? arguments,
-  }) {
-    Navigator.of(
-      context,
-      rootNavigator: isRoot,
-    ).pushNamed(route, arguments: arguments);
-  }
-
   void _goToBackPage(BuildContext context) {
     Navigator.of(context).pop();
   }
 
-  void _goToAddCartPage() {
+  void _goToAddCardPage() {
     Navigator.of(
       context,
       rootNavigator: false,
-    ).pushNamed(AddCartPage.routeName).then(
+    ).pushNamed(AddCardPage.routeName).then(
       (result) {
         // log('Result from second page: ${result.toString()}');
         if (result != null) {
@@ -157,7 +156,7 @@ class _PaymentPageState extends State<PaymentPage> {
       currentCard.cardCvvCode,
     );
     final order = LiqPayOrder(
-      const Uuid().v4(), 1, 'Test',
+      const Uuid().v4(), widget.price, 'Test',
       card: card,
       action: LiqPayAction.pay,
       // currency: LiqPayCurrency.uah
@@ -180,7 +179,7 @@ class _PaymentPageState extends State<PaymentPage> {
         BotToast.showText(
           text: '${liqPayResponse.status}: ${liqPayResponse.errorCode} '
               '\n ${liqPayResponse.errorDescription}',
-          duration: Duration(
+          duration: const Duration(
             seconds: 3,
           ),
         );
@@ -207,7 +206,7 @@ class _PaymentPageState extends State<PaymentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TemplatePageAppBar(onTap: () {
+      appBar: paymentPageAppBar(onTap: () {
         _goToBackPage(context);
       }),
       body: SafeArea(
@@ -230,7 +229,7 @@ class _PaymentPageState extends State<PaymentPage> {
                               ?
                               // Center(child: Text('Add'))
                               InkWell(
-                                  onTap: () => _goToAddCartPage(),
+                                  onTap: () => _goToAddCardPage(),
                                   child: SvgPicture.asset(
                                     AppIcons.plus4,
                                     fit: BoxFit.scaleDown,
@@ -250,7 +249,7 @@ class _PaymentPageState extends State<PaymentPage> {
                       ),
                     ),
                     CustomSmoothPageIndicator(
-                      imageController: cardController,
+                      cardController: cardController,
                       length: cards.length + 1,
                     ),
                   ],
@@ -261,7 +260,7 @@ class _PaymentPageState extends State<PaymentPage> {
                 // fit: FlexFit.tight,
                 child: Center(
                   child: CustomButton(
-                    title: 'Pay Now',
+                    title: 'Pay Now ${widget.price}\$',
                     onTap: () {
                       _onTapPay();
                     },
@@ -278,13 +277,13 @@ class _PaymentPageState extends State<PaymentPage> {
 
 class CustomSmoothPageIndicator extends StatelessWidget {
   const CustomSmoothPageIndicator({
-    required this.imageController,
+    required this.cardController,
     required this.length,
     super.key,
   });
 
-  final imageController;
-  final length;
+  final PageController cardController;
+  final int length;
 
   @override
   Widget build(BuildContext context) {
@@ -293,7 +292,7 @@ class CustomSmoothPageIndicator extends StatelessWidget {
       child: Align(
         alignment: Alignment.bottomCenter,
         child: SmoothPageIndicator(
-          controller: imageController,
+          controller: cardController,
           count: length,
           effect: SlideEffect(
             spacing: 8.0,
@@ -351,7 +350,7 @@ class CardItem extends StatelessWidget {
         ),
         InkWell(
           onTap: () => deleteCard(),
-          child: Padding(
+          child: const Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.0),
             child: Text(
               'Delete card',
@@ -369,7 +368,7 @@ class CardItem extends StatelessWidget {
   }
 }
 
-PreferredSizeWidget TemplatePageAppBar({
+PreferredSizeWidget paymentPageAppBar({
   required VoidCallback onTap,
 }) {
   return CustomAppBar(
