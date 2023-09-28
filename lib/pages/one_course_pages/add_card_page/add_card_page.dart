@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/models/card/card_model.dart';
+import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
+import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
 
 class AddCardPage extends StatefulWidget {
   const AddCardPage({super.key});
@@ -26,15 +29,22 @@ class _AddCardPageState extends State<AddCardPage> {
   late TextEditingController textEditingController;
 
   void onTapSaveNewCard() {
-    FocusScope.of(context).unfocus();
-    CardModel cardModel = CardModel(
-      cardNumber: _cardNumber,
-      cardExpiryDate: _cardExpiryDate,
-      cardHolderName: _cardHolderName,
-      cardCvvCode: _cardCvvCode,
-      cardPaymentPassword: textEditingController.text.trim(),
-    );
-    Navigator.pop(context, cardModel);
+
+    if (formKey.currentState?.validate() ?? false) {
+      FocusScope.of(context).unfocus();
+      CardModel cardModel = CardModel(
+        cardNumber: _cardNumber.replaceAll(' ', ''),
+        cardExpiryDate: _cardExpiryDate,
+        cardHolderName: _cardHolderName,
+        cardCvvCode: _cardCvvCode,
+        cardPaymentPassword: textEditingController.text.trim(),
+      );
+      Navigator.pop(context, cardModel);
+    }
+  }
+
+  void _goToBackPage(BuildContext context) {
+    Navigator.of(context).pop();
   }
 
   @override
@@ -50,18 +60,30 @@ class _AddCardPageState extends State<AddCardPage> {
       ),
     );
 
-    _cardNumber = "4242424242424242";
+/*    _cardNumber = "4242424242424242";
     final now = DateTime.now();
     _cardExpiryDate =
-        '${now.month.toString().padLeft(2, '0')}/${(now.year + 1).toString().substring(2)}';
-    _cardCvvCode = '000';
+        '${now.month.toString().padLeft(2, '0')}/${(now.year + 1).toString().substring(2)}';*/
+    _cardNumber = "";
+    _cardCvvCode = '';
+    _cardExpiryDate = '';
+
+  }
+
+  String? cardValidation(String? number){
+    if( number == null|| number.isEmpty ){
+      return "Inputs Can't be Empty";
+    }
+    return null;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Purchases"),
+      appBar: addCardPageAppBar(
+        onTap: () {
+          _goToBackPage(context);
+        },
       ),
       body: Center(
         child: Column(
@@ -115,27 +137,31 @@ class _AddCardPageState extends State<AddCardPage> {
                       expiryDate: _cardExpiryDate,
                       themeColor: Colors.green,
                       textColor: Colors.black,
+                      // cardNumberValidator: (value) => cardValidation(value),
                       cardNumberDecoration: InputDecoration(
                         labelText: 'Number',
                         hintText: 'XXXX XXXX XXXX XXXX',
-                        hintStyle: const TextStyle(color: Colors.black),
-                        labelStyle: const TextStyle(color: Colors.black),
+                        hintStyle: const TextStyle(color: Colors.grey),
+                        labelStyle: const TextStyle(color: Colors.grey),
                         focusedBorder: border,
                         enabledBorder: border,
+                        errorBorder: border,
                       ),
                       expiryDateDecoration: InputDecoration(
-                        hintStyle: const TextStyle(color: Colors.black),
-                        labelStyle: const TextStyle(color: Colors.black),
+                        hintStyle: const TextStyle(color: Colors.grey),
+                        labelStyle: const TextStyle(color: Colors.grey),
                         focusedBorder: border,
                         enabledBorder: border,
+                        errorBorder: border,
                         labelText: 'Expired Date',
                         hintText: 'XX/XX',
                       ),
                       cvvCodeDecoration: InputDecoration(
-                        hintStyle: const TextStyle(color: Colors.black),
-                        labelStyle: const TextStyle(color: Colors.black),
+                        hintStyle: const TextStyle(color: Colors.grey),
+                        labelStyle: const TextStyle(color: Colors.grey),
                         focusedBorder: border,
                         enabledBorder: border,
+                        errorBorder: border,
                         labelText: 'CVV',
                         hintText: 'XXX',
                       ),
@@ -202,4 +228,18 @@ class _AddCardPageState extends State<AddCardPage> {
       _isCvvFocused = creditCardModel.isCvvFocused;
     });
   }
+}
+
+PreferredSizeWidget addCardPageAppBar({
+  required VoidCallback onTap,
+}) {
+  return CustomAppBar(
+    leading: SvgPicture.asset(AppIcons.arrow_back),
+    onLeading: onTap,
+    title: const Text('Add new card'),
+    action: const Text(
+      '          ',
+      style: TextStyle(color: Colors.white),
+    ),
+  );
 }

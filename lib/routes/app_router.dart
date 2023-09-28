@@ -93,16 +93,30 @@ class AppRouter {
       case PaymentPage.routeName:
         final PaymentPageArguments args = arguments as PaymentPageArguments;
         builder = (_) => PaymentPage(
-          price: args.price,
-        );
+              price: args.price,
+            );
         break;
 
       case AddCardPage.routeName:
         builder = (_) => const AddCardPage();
         break;
 
-      case SuccessfulPurchasePage.routeName:
-        builder = (_) => const SuccessfulPurchasePage();
+/*      case CheckPaymentStatusPage.routeName:
+        builder = (_) => const CheckPaymentStatusPage();
+        break;*/
+
+      case CheckPaymentStatusPage.routeName:
+        final CheckPaymentStatusPageArguments args = arguments as CheckPaymentStatusPageArguments;
+        builder = (_) => CheckPaymentStatusPage(
+          liqPayOrder: args.liqPayOrder,
+        );
+        break;
+
+      case PaymentPage.routeName:
+        final PaymentPageArguments args = arguments as PaymentPageArguments;
+        builder = (_) => PaymentPage(
+              price: args.price,
+            );
         break;
 
       default:

@@ -13,6 +13,17 @@ class CardModel {
     required this.cardPaymentPassword,
   });
 
+/*  @override
+  String toString() {
+    return 'cardNumber: $cardNumber, cardExpiryDate: $cardExpiryDate, cardHolderName: $cardHolderName, cardCvvCode: $cardCvvCode, cardPaymentPassword: $cardPaymentPassword,';
+  }*/
+
+  @override
+  String toString() {
+    return 'CardModel{cardNumber: $cardNumber, cardExpiryDate: $cardExpiryDate, cardHolderName: $cardHolderName, cardCvvCode: $cardCvvCode, cardPaymentPassword: $cardPaymentPassword}';
+  }
+
+
   // Convert CardModel to JSON
   Map<String, dynamic> toJson() {
     return {
@@ -34,6 +45,7 @@ class CardModel {
       cardPaymentPassword: json['cardPaymentPassword'],
     );
   }
+
 
 
 /*  factory CardModel.fromJson(Map<String, dynamic> json) {

@@ -1,14 +1,11 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:liqpay/liqpay.dart';
-import 'package:online_learning_app/blocs/progress_bloc/progress_bloc.dart';
 import 'package:online_learning_app/database/secure_storage.dart';
 import 'package:online_learning_app/models/card/card_model.dart';
 import 'package:online_learning_app/pages/one_course_pages/add_card_page/add_card_page.dart';
@@ -46,7 +43,18 @@ class _PaymentPageState extends State<PaymentPage> {
   List<CardModel> cards = [];
   SecureStorageDB secureStorageDB = SecureStorageDB.instance;
   late final PageController cardController;
-  late LiqPay liqPay;
+
+  void _navigateToPage({
+    required BuildContext context,
+    required String route,
+    bool isRoot = false,
+    Object? arguments,
+  }) {
+    Navigator.of(
+      context,
+      rootNavigator: isRoot,
+    ).pushNamed(route, arguments: arguments);
+  }
 
   void _goToBackPage(BuildContext context) {
     Navigator.of(context).pop();
@@ -60,7 +68,9 @@ class _PaymentPageState extends State<PaymentPage> {
       (result) {
         // log('Result from second page: ${result.toString()}');
         if (result != null) {
-          cards.add(result as CardModel);
+          result as CardModel;
+          log('result: $result');
+          cards.add(result);
           _saveCards(cards);
           setState(() {});
         }
@@ -68,17 +78,17 @@ class _PaymentPageState extends State<PaymentPage> {
     );
   }
 
-  void _goToSuccessfulPurchasePage() {
-    Navigator.of(
-      context,
-      rootNavigator: false,
-    ).pushReplacementNamed(
-      SuccessfulPurchasePage.routeName,
+  void _goToCheckPaymentStatusPage({required LiqPayOrder liqPayOrder}) {
+    _navigateToPage(
+      context: context,
+      route: CheckPaymentStatusPage.routeName,
+      arguments: CheckPaymentStatusPageArguments(
+        liqPayOrder: liqPayOrder,
+      ),
     );
   }
 
   void _deleteCard(int index) {
-    // _goToSuccessfulPurchasePage();
     cards.removeAt(index);
     _saveCards(cards);
     setState(() {});
@@ -127,7 +137,7 @@ class _PaymentPageState extends State<PaymentPage> {
     // Handle the result here
     if (result != null) {
       if (result) {
-        log('*** Result from bottom sheet: $result');
+        // log('*** Result from bottom sheet: $result');
         return true;
       }
     }
@@ -137,6 +147,11 @@ class _PaymentPageState extends State<PaymentPage> {
   _onTapPay() async {
     int cardIndex = ((cardController.page ?? 0.0) + 0.5).toInt();
     CardModel currentCard = cards[cardIndex];
+
+    // //
+    // _purchase(currentCard);
+
+    //
     bool? isConfirmed =
         await _showBottomSheet(correctPin: currentCard.cardPaymentPassword);
     if (isConfirmed != null) {
@@ -144,6 +159,8 @@ class _PaymentPageState extends State<PaymentPage> {
         _purchase(currentCard);
       }
     }
+
+    //
   }
 
   _purchase(CardModel currentCard) async {
@@ -155,7 +172,7 @@ class _PaymentPageState extends State<PaymentPage> {
       cardDate[1],
       currentCard.cardCvvCode,
     );
-    final order = LiqPayOrder(
+    final LiqPayOrder liqPayOrder = LiqPayOrder(
       const Uuid().v4(), widget.price, 'Test',
       card: card,
       action: LiqPayAction.pay,
@@ -163,13 +180,14 @@ class _PaymentPageState extends State<PaymentPage> {
       currency: LiqPayCurrency.usd,
     );
     if (context.mounted) {
-      LiqPayResponse liqPayResponse = await liqPay.purchase(order);
-      if (liqPayResponse.result == 'ok') {
+      _goToCheckPaymentStatusPage(liqPayOrder: liqPayOrder);
+
+/*      if (liqPayResponse.result == 'ok') {
         // log('*** ok');
         if (liqPayResponse.status == 'success') {
           log('*** success');
 
-          _goToSuccessfulPurchasePage();
+          _goToCheckPaymentStatusPage();
           context.read<ProgressBloc>().add(
                 CoursePurchasedEvent(),
               );
@@ -183,17 +201,13 @@ class _PaymentPageState extends State<PaymentPage> {
             seconds: 3,
           ),
         );
-      }
+      }*/
     }
   }
 
   @override
   void initState() {
     super.initState();
-    liqPay = LiqPay(
-      "sandbox_i49070799254",
-      "sandbox_hxuDfGwsvrH2EoWHED8F5nyHyvTikHYnPQWWOVbe",
-    );
 
     _getStoredCards();
     cardController = PageController(
