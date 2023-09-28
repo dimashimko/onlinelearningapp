@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
@@ -38,6 +39,18 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _goToMyCoursesPage() async {
+    final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+    await analytics.logEvent(
+      name: 'test_event',
+      parameters: <String, dynamic>{
+        'string': 'string',
+        'int': 42,
+        'long': 12345678910,
+        'double': 42.0,
+        'bool': true.toString(),
+      },
+    );
+
     Navigator.of(context, rootNavigator: true).pushNamed(
       MyCoursesPage.routeName,
     );
@@ -92,6 +105,7 @@ class _HomePageState extends State<HomePage> {
                 CustomButton(
                   title: 'Show Alert',
                   onTap: () {
+
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {

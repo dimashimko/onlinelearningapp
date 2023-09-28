@@ -55,6 +55,8 @@ dependencies:
 #      ref: 0500d2192d24fe2c5ed92835c0bc73fee9c18e6a # commit hash
       ref: a3ac2e86622164a3d963fbb9bf4c30d19f55cd5e # commit hash
   uuid: ^3.0.6
+  url_launcher: ^6.1.11
+  firebase_analytics: ^10.5.0
 
 
 flutter_icons:
