@@ -65,6 +65,17 @@ class _App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    analytics.logEvent(
+      name: 'test_event',
+      parameters: <String, dynamic>{
+        'string': 'string',
+        'int': 42,
+        'long': 12345678910,
+        'double': 42.0,
+        'bool': true.toString(),
+      },
+    );
+
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider<AuthRepository>(
