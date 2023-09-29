@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
-import 'package:online_learning_app/models/duration_range/duration_range.dart';
+import 'package:online_learning_app/models/duration_range_model/duration_range_model.dart';
 import 'package:online_learning_app/pages/search_page/search_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';

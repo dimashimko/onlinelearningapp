@@ -6,7 +6,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/pages/auth_pages/widgets/successfulRegistrationDialog.dart';
 import 'package:online_learning_app/pages/main_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
-import 'package:online_learning_app/services/auth_service.dart';
 import 'package:online_learning_app/utils/show_custom_snack_bar.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/elements/custom_keyboard.dart';

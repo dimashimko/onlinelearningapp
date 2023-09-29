@@ -14,7 +14,6 @@ import 'package:online_learning_app/blocs/progress_bloc/progress_bloc.dart';
 import 'package:online_learning_app/database/local_database.dart';
 import 'package:online_learning_app/firebase_options.dart';
 import 'package:online_learning_app/pages/uncategorized_pages/splash_screen_page/splash_screen_page.dart';
-import 'package:online_learning_app/repositories/auth_repository.dart';
 import 'package:online_learning_app/resources/app_locale.dart';
 import 'package:online_learning_app/resources/app_themes.dart';
 import 'package:online_learning_app/routes/app_router.dart';
@@ -57,7 +56,6 @@ Future<void> main() async {
 class _App extends StatelessWidget {
   const _App({Key? key}) : super(key: key);
 
-  static final AuthRepository _authRepository = AuthRepository();
   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   static FirebaseAnalyticsObserver observer =
   FirebaseAnalyticsObserver(analytics: analytics);
@@ -78,9 +76,6 @@ class _App extends StatelessWidget {
 
     return MultiRepositoryProvider(
       providers: [
-        RepositoryProvider<AuthRepository>(
-          create: (_) => _authRepository,
-        ),
         BlocProvider<CoursesBloc>(
           create: (_) => CoursesBloc()
             ..add(

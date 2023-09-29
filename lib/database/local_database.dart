@@ -62,11 +62,6 @@ class LocalDB {
     await authBox.put('authUser', jsonEncode(user.toJson()));
   }
 
-  Future<void> setFlagNoFirst() async {
-    final Box<String> authBox = Hive.box(_authBox);
-    await authBox.put('isFirst', 'false');
-  }
-
   UserModel getUser() {
     final Box<String> authBox = Hive.box(_authBox);
     return UserModel.fromJson(
@@ -77,6 +72,11 @@ class LocalDB {
   String? getFlagIsFirst() {
     final Box<String> authBox = Hive.box(_authBox);
     return authBox.get('isFirst');
+  }
+
+  Future<void> setFlagNoFirst() async {
+    final Box<String> authBox = Hive.box(_authBox);
+    await authBox.put('isFirst', 'false');
   }
 
 // [END] User

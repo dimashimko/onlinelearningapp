@@ -15,7 +15,7 @@ import 'package:online_learning_app/widgets/elements/custom_error_text.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
 
 class SignUpPage extends StatefulWidget {
-  SignUpPage({Key? key}) : super(key: key);
+  const SignUpPage({Key? key}) : super(key: key);
 
   static const routeName = '/auth_pages/sign_up_page';
 
@@ -128,7 +128,7 @@ class _SignUpPageState extends State<SignUpPage> {
       },
       verificationFailed: (FirebaseAuthException e) {
         log("*** verificationFailed");
-        Navigator.of(context).pop();
+        Navigator.of(context).pop(); // need for pop CircularProgressIndicator
         log('*** e.code: ${e.code}');
         log('*** e.message: ${e.message}');
         showCustomSnackBar(context, e.message);
@@ -155,8 +155,7 @@ class _SignUpPageState extends State<SignUpPage> {
     );
 
     try {
-      final UserCredential credential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _contactController.text.trim(),
         password: _passwordController.text.trim(),
       );
@@ -403,4 +402,3 @@ PreferredSizeWidget SignUpPageAppBar({
     ),
   );
 }
-

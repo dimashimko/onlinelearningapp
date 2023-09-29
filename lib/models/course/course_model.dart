@@ -88,25 +88,8 @@ class CourseModel extends Equatable  {
   }
 
   factory CourseModel.fromJson(Map<String, dynamic> json) {
-    // parse category
-/*    Categories? category;
-    log('*** json[category]: ${json['category']}');
-    if (json['category'] != null) {
-      log('*** json[category][name]: ${json['category']['name']}');
-      if (json['category']['name'] != null) {
-        category = Categories.values.byName(
-          json['category'],
-        );
-      }
-    }*/
-
-    // parse lessons
-    // List listLesson = List<dynamic>.from(json['lessons']);
+    // log('*** json: $json');
     List listLesson = List<Map<String, dynamic>>.from(json['lessons'] ?? []);
-    // log('*** listLesson: ${listLesson}');
-
-/*    final Map<String, dynamic> listLessonsRaw =
-        json['lessons'] as Map<String, dynamic>;*/
     List<LessonModel> listLessons = [];
 
     for (Map<String, dynamic> lessonRaw in listLesson) {
@@ -117,15 +100,7 @@ class CourseModel extends Equatable  {
         ),
       );
     }
-/*    for (MapEntry<String, dynamic> lessonRaw in listLessonsRaw.entries) {
-      listLessons.add(
-        LessonModel.fromJson(
-          lessonRaw.value,
-        ),
-      );
-    }*/
 
-    // log('json: $json');
     return CourseModel(
       uid: json['uid'],
       name: json['name'],
@@ -137,17 +112,6 @@ class CourseModel extends Equatable  {
       title: json['titleImage'],
       lessons: listLessons,
     );
-
-/*    uid = json['uid'];
-    name = json['name'];
-    author = json['author'];
-    category = json['category'];
-    price = json['price'].toDouble();
-    duration = json['duration'].toDouble();
-    about = json['about'];
-    openLesson = json['openLesson'];
-    title = json['titleImage'];
-    lessons = listLessons;*/
   }
 
   Map<String, dynamic> toJson() {

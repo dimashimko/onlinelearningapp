@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:online_learning_app/models/category/category_model.dart';
 import 'package:online_learning_app/models/course/course_model.dart';
-import 'package:online_learning_app/models/duration_range/duration_range.dart';
+import 'package:online_learning_app/models/duration_range_model/duration_range_model.dart';
 import 'package:online_learning_app/models/progress/progress_model.dart';
-import 'package:online_learning_app/services/firestore_service.dart';
+import 'package:online_learning_app/services/firestore_course_service.dart';
 import 'package:online_learning_app/utils/get_uisd_catogories.dart';
 
 part 'courses_event.dart';

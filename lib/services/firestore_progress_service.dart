@@ -32,6 +32,7 @@ class MyFirestoreProgressService {
     return newUserActivityModel != null;
   }
 
+
   UserActivityModel? checkLastDay(UserActivityModel userActivityModel) {
     Jiffy now = Jiffy.now().add(days: shiftDay);
     String nowDayOfYear = '${now.year}-${now.month}-${now.date}';
@@ -58,7 +59,7 @@ class MyFirestoreProgressService {
     UserActivityModel? userActivityModel = await getActivityModel();
     if (userActivityModel == null) {
       log('*** Failed to get UserActivityModel');
-      userActivityModel = UserActivityModel.empty();
+      userActivityModel = const UserActivityModel.empty();
     }
 
     // change
@@ -130,6 +131,8 @@ class MyFirestoreProgressService {
     }
   }
 
+
+  // return UserActivityModel of current user
   Future<UserActivityModel?> getActivityModel() async {
     String? uid = FirebaseAuth.instance.currentUser?.uid;
     UserActivityModel? userActivityModel;

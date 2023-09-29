@@ -63,14 +63,14 @@ class UserModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['uid'] = this.uid;
-    data['verificationId'] = this.verificationId;
-    data['name'] = this.name;
-    data['phoneNumber'] = this.phoneNumber;
-    data['linkToImage'] = this.linkToImage;
-    data['nameImage'] = this.nameImage;
-    data['typeSubscriptions'] = this.typeSubscriptions;
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['uid'] = uid;
+    data['verificationId'] = verificationId;
+    data['name'] = name;
+    data['phoneNumber'] = phoneNumber;
+    data['linkToImage'] = linkToImage;
+    data['nameImage'] = nameImage;
+    data['typeSubscriptions'] = typeSubscriptions;
     return data;
   }
 }

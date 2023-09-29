@@ -7,7 +7,7 @@ import 'package:online_learning_app/pages/search_page/search_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/resources/app_images.dart';
 import 'package:online_learning_app/widgets/elements/course_item.dart';
-import 'package:online_learning_app/widgets/elements/customImageViewer.dart';
+import 'package:online_learning_app/widgets/elements/custom_image_viewer.dart';
 import 'package:online_learning_app/widgets/elements/custom_search_text_field.dart';
 
 class CoursePage extends StatefulWidget {

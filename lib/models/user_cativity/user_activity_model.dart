@@ -9,7 +9,7 @@ class UserActivityModel extends Equatable {
   final String? lastDayShowStatistic;
   final List<bool>? recordOfThisWeek;
 
-  UserActivityModel({
+  const UserActivityModel({
     this.dayOfYear,
     this.timePerDay,
     this.totallyHours,
@@ -19,7 +19,7 @@ class UserActivityModel extends Equatable {
     this.recordOfThisWeek,
   });
 
-  UserActivityModel.empty({
+  const UserActivityModel.empty({
     this.dayOfYear = '',
     this.timePerDay = 0,
     this.totallyHours = 0,
@@ -88,12 +88,12 @@ class UserActivityModel extends Equatable {
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> outputJson = {
-      'dayOfYear': this.dayOfYear,
-      'timePerDay': this.timePerDay,
-      'totallyHours': this.totallyHours,
-      'totallyDays': this.totallyDays,
-      'weekOfYear': this.weekOfYear,
-      'lastDayShowStatistic': this.lastDayShowStatistic,
+      'dayOfYear': dayOfYear,
+      'timePerDay': timePerDay,
+      'totallyHours': totallyHours,
+      'totallyDays': totallyDays,
+      'weekOfYear': weekOfYear,
+      'lastDayShowStatistic': lastDayShowStatistic,
       // 'recordOfThisWeek': json.encode(recordOfThisWeek),
       'recordOfThisWeek': List<dynamic>.from(recordOfThisWeek ?? []),
     };

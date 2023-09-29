@@ -23,7 +23,7 @@ import 'package:online_learning_app/widgets/buttons/custom_button_star.dart';
 import 'package:online_learning_app/widgets/buttons/custom_lock_button.dart';
 import 'package:online_learning_app/widgets/buttons/custom_pause_button_with_progress.dart';
 import 'package:online_learning_app/widgets/buttons/custom_play_button.dart';
-import 'package:online_learning_app/widgets/elements/customImageViewer.dart';
+import 'package:online_learning_app/widgets/elements/custom_image_viewer.dart';
 
 class OneCoursePageArguments {
   OneCoursePageArguments({

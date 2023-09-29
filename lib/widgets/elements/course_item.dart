@@ -4,7 +4,7 @@ import 'package:online_learning_app/models/course/course_model.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/resources/app_images.dart';
 import 'package:online_learning_app/utils/time_converter.dart';
-import 'package:online_learning_app/widgets/elements/customImageViewer.dart';
+import 'package:online_learning_app/widgets/elements/custom_image_viewer.dart';
 
 class CourseItem extends StatelessWidget {
   const CourseItem({
