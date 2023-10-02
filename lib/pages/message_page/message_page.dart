@@ -38,6 +38,10 @@ class MessagePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text('MessagePage'),
+                TextButton(
+                  onPressed: () => throw Exception(),
+                  child: const Text("Throw Test Exception"),
+                ),
                 Placeholder(),
                 SvgPicture.asset(AppIcons.bg),
                 SvgPicture.asset(AppIcons.bg),

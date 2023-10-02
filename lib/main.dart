@@ -5,6 +5,8 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,6 +36,15 @@ Future<void> main() async {
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
       );
+      // Pass all uncaught "fatal" errors from the framework to Crashlytics
+      FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+
+      // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
+      PlatformDispatcher.instance.onError = (error, stack) {
+        FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+        return true;
+      };
+
       await EasyLocalization.ensureInitialized();
       await LocalDB.instance.ensureInitialized();
       SystemChrome.setPreferredOrientations([
@@ -63,7 +74,7 @@ class _App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    analytics.logEvent(
+/*    analytics.logEvent(
       name: 'test_event',
       parameters: <String, dynamic>{
         'string': 'string',
@@ -72,7 +83,7 @@ class _App extends StatelessWidget {
         'double': 42.0,
         'bool': true.toString(),
       },
-    );
+    );*/
 
     return MultiRepositoryProvider(
       providers: [

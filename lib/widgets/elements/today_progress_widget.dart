@@ -17,7 +17,7 @@ class TodayProgress extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16.0),
       width: double.infinity,
-      height: 96.0,
+      height: 100.0,
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(8.0),

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
 import 'package:online_learning_app/blocs/navigation_bloc/navigation_bloc.dart';
@@ -86,6 +87,17 @@ class _MainPageState extends State<MainPage> {
     }
   }
 
+  Future<void> _logToAnalyticsBottomBarEvent(String routeName) async {
+    log('*** Index: $routeName');
+    final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+    await analytics.logEvent(
+      name: 'bottom_bar_event',
+      parameters: <String, dynamic>{
+        'bottomBarIndex': routeName,
+      },
+    );
+  }
+
   late PersistentBottomSheetController _sheetController;
 
   bool bottomSheetEnabled = false;
@@ -158,6 +170,8 @@ class _MainPageState extends State<MainPage> {
                       : AppIcons.search_light,
                 ),
                 onTap: () {
+                  _logToAnalyticsBottomBarEvent('filter');
+
                   context.read<CoursesBloc>().add(
                         FilterBottomSheetEnable(
                           isFilterNavToSearchPage: true,
@@ -170,6 +184,7 @@ class _MainPageState extends State<MainPage> {
               currentTab: state.currentIndex,
               onSelect: (int index) {
                 if (state.currentIndex != index) {
+                  _logToAnalyticsBottomBarEvent(_pages[index]);
                   context.read<NavigationBloc>().add(
                         NavigateTab(
                           tabIndex: index,

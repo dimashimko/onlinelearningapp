@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "488434172670",
+    "firebase_url": "https://onlinelearningapp-616fe-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "onlinelearningapp-616fe",
     "storage_bucket": "onlinelearningapp-616fe.appspot.com"
   },
@@ -14,7 +15,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "488434172670-djl8gritq0pb81q06ktkp5cfp6cnkmga.apps.googleusercontent.com",
+          "client_id": "488434172670-t1s3be5j12e3lo11912o42h8p8ou2fns.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.online_learning_app",
+            "certificate_hash": "b52af20b31cfe5c1cc155f52c60d55b59a3acaba"
+          }
+        },
+        {
+          "client_id": "488434172670-fmel0p3iahf846q53lhna1cnq9mej19k.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -29,6 +38,13 @@
             {
               "client_id": "488434172670-djl8gritq0pb81q06ktkp5cfp6cnkmga.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "488434172670-tcmqds43j868j4n48thirhvqbp1at9vh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.onlineLearningApp"
+              }
             }
           ]
         }

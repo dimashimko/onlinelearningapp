@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -28,6 +29,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late int testCounter;
+
   void _goToSignInPage() async {
     Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(
       SignInPage.routeName,
@@ -56,10 +59,32 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void onTapBuyButton() {
-    log('*** onTapBuyButton');
-    Navigator.of(context).pushNamed(
-      PaymentPage.routeName,
+  void _throwTestException2() {
+    throw FormatException('Button presss on Format Exception');
+  }
+
+  void _throwTestException1() {
+    throw Exception();
+  }
+
+  void onTapLog() async {
+    final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+    DateTime dateTime = DateTime.now();
+    String dateTimeNow = dateTime.toString();
+    String name = 'platformName';
+    if (Platform.isAndroid) {
+      name = 'android_dateTimeNow';
+    } else if (Platform.isIOS) {
+      name = 'iOS_dateTimeNow';
+    }
+    log('*** name: $name, onTapLog: $dateTimeNow');
+
+    analytics.setAnalyticsCollectionEnabled(true);
+    await analytics.logEvent(
+      name: name,
+      parameters: <String, dynamic>{
+        'dateTime': dateTimeNow,
+      },
     );
   }
 
@@ -104,9 +129,22 @@ class _HomePageState extends State<HomePage> {
                 ),
                 const Spacer(),
                 CustomButton(
+                  title: 'Throw Test Exception2',
+                  onTap: () {
+                    _throwTestException2();
+                  },
+                ),
+                const SizedBox(height: 8.0),
+                CustomButton(
+                  title: 'Throw Test Exception1',
+                  onTap: () {
+                    _throwTestException1();
+                  },
+                ),
+                const SizedBox(height: 8.0),
+                CustomButton(
                   title: 'Show Alert',
                   onTap: () {
-
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
@@ -115,14 +153,14 @@ class _HomePageState extends State<HomePage> {
                     );
                   },
                 ),
-                const SizedBox(height: 16.0),
+                const SizedBox(height: 8.0),
                 CustomButton(
-                  title: 'PaymentPage',
+                  title: 'Log Event',
                   onTap: () {
-                    onTapBuyButton();
+                    onTapLog();
                   },
                 ),
-                const SizedBox(height: 16.0),
+                const SizedBox(height: 8.0),
                 CustomButton(
                   title: 'FillCourses',
                   onTap: () {
@@ -130,7 +168,7 @@ class _HomePageState extends State<HomePage> {
                     fireStoreService.fillCourses();
                   },
                 ),
-                const SizedBox(height: 16.0),
+                const SizedBox(height: 8.0),
                 CustomButton(
                   title: 'LogOut',
                   onTap: () {
