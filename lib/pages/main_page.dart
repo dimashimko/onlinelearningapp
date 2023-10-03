@@ -2,13 +2,14 @@ import 'dart:developer';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:online_learning_app/blocs/analytics_block/analytics_bloc.dart';
 import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
 import 'package:online_learning_app/blocs/navigation_bloc/navigation_bloc.dart';
 import 'package:online_learning_app/blocs/progress_bloc/progress_bloc.dart';
 import 'package:online_learning_app/pages/account_page/account_page.dart';
 import 'package:online_learning_app/pages/course_page/course_page.dart';
 import 'package:online_learning_app/pages/home_page/home_page.dart';
-import 'package:online_learning_app/pages/message_page/message_page.dart';
+import 'package:online_learning_app/pages/notification_page/notification_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/routes/app_router.dart';
 import 'package:online_learning_app/widgets/elements/search_filter_sheet.dart';
@@ -29,8 +30,8 @@ class _MainPageState extends State<MainPage> {
   static const List<String> _pages = [
     HomePage.routeName,
     CoursePage.routeName,
-    MessagePage.routeName,
-    MessagePage.routeName,
+    NotificationPage.routeName,
+    NotificationPage.routeName,
     AccountPage.routeName,
   ];
 
@@ -87,16 +88,6 @@ class _MainPageState extends State<MainPage> {
     }
   }
 
-  Future<void> _logToAnalyticsBottomBarEvent(String routeName) async {
-    log('*** Index: $routeName');
-    final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-    await analytics.logEvent(
-      name: 'bottom_bar_event',
-      parameters: <String, dynamic>{
-        'bottomBarIndex': routeName,
-      },
-    );
-  }
 
   late PersistentBottomSheetController _sheetController;
 
@@ -154,6 +145,7 @@ class _MainPageState extends State<MainPage> {
                 child: Navigator(
                   key: _navigatorKey,
                   initialRoute: HomePage.routeName,
+                  // initialRoute: NotificationPage.routeName,
                   onGenerateRoute: AppRouter.generateRoute,
                 ),
               ),
@@ -170,7 +162,11 @@ class _MainPageState extends State<MainPage> {
                       : AppIcons.search_light,
                 ),
                 onTap: () {
-                  _logToAnalyticsBottomBarEvent('filter');
+                  context.read<AnalyticsBloc>().add(
+                        const OnBottomBarEvent(
+                          routeName: 'filter',
+                        ),
+                      );
 
                   context.read<CoursesBloc>().add(
                         FilterBottomSheetEnable(
@@ -184,7 +180,12 @@ class _MainPageState extends State<MainPage> {
               currentTab: state.currentIndex,
               onSelect: (int index) {
                 if (state.currentIndex != index) {
-                  _logToAnalyticsBottomBarEvent(_pages[index]);
+                  context.read<AnalyticsBloc>().add(
+                        OnBottomBarEvent(
+                          routeName: _pages[index],
+                        ),
+                      );
+
                   context.read<NavigationBloc>().add(
                         NavigateTab(
                           tabIndex: index,

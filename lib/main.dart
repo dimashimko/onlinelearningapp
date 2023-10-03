@@ -10,6 +10,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:online_learning_app/blocs/analytics_block/analytics_bloc.dart';
 import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
 import 'package:online_learning_app/blocs/navigation_bloc/navigation_bloc.dart';
 import 'package:online_learning_app/blocs/progress_bloc/progress_bloc.dart';
@@ -106,6 +107,9 @@ class _App extends StatelessWidget {
         ),
         BlocProvider<NavigationBloc>(
           create: (_) => NavigationBloc(),
+        ),
+        BlocProvider<AnalyticsBloc>(
+          create: (_) => AnalyticsBloc(),
         ),
       ],
       child: SystemOverlay(

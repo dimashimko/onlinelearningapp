@@ -4,6 +4,7 @@ import 'package:appinio_video_player/appinio_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:online_learning_app/blocs/analytics_block/analytics_bloc.dart';
 import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
 import 'package:online_learning_app/blocs/progress_bloc/progress_bloc.dart';
 import 'package:online_learning_app/models/course/course_model.dart';
@@ -106,6 +107,12 @@ class _OneCoursePageState extends State<OneCoursePage> {
       widget.uidCourse,
       context.read<CoursesBloc>().state.coursesList,
     );
+    context.read<AnalyticsBloc>().add(
+          OnCourseSelectedEvent(
+            currentCourse: currentCourse,
+          ),
+        );
+
     context.read<ProgressBloc>().add(
           ChangeCurrentCourseEvent(
             uidCourse: widget.uidCourse,
@@ -583,10 +590,8 @@ class LessonItem extends StatelessWidget {
       children: [
         Text(
           (index + 1).toString().padLeft(2, '0'),
-          style: Theme.of(context)
-              .textTheme
-              .titleSmall
-              ?.copyWith(fontSize: 24.0),
+          style:
+              Theme.of(context).textTheme.titleSmall?.copyWith(fontSize: 24.0),
         ),
         const SizedBox(width: 32.0),
         Expanded(

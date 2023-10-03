@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:online_learning_app/blocs/analytics_block/analytics_bloc.dart';
 import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
 import 'package:online_learning_app/models/course/course_model.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_in_page/sign_in_page.dart';
@@ -42,7 +43,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _goToMyCoursesPage() async {
+    // context.read<AnalyticsBloc>().add(OnOpenMyCoursesPageEvent());
+
     final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+    analytics.setAnalyticsCollectionEnabled(true);
     await analytics.logEvent(
       name: 'test_event',
       parameters: <String, dynamic>{
@@ -67,25 +71,8 @@ class _HomePageState extends State<HomePage> {
     throw Exception();
   }
 
-  void onTapLog() async {
-    final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-    DateTime dateTime = DateTime.now();
-    String dateTimeNow = dateTime.toString();
-    String name = 'platformName';
-    if (Platform.isAndroid) {
-      name = 'android_dateTimeNow';
-    } else if (Platform.isIOS) {
-      name = 'iOS_dateTimeNow';
-    }
-    log('*** name: $name, onTapLog: $dateTimeNow');
-
-    analytics.setAnalyticsCollectionEnabled(true);
-    await analytics.logEvent(
-      name: name,
-      parameters: <String, dynamic>{
-        'dateTime': dateTimeNow,
-      },
-    );
+  void onTapTestLog() async {
+    context.read<AnalyticsBloc>().add(OnTestLogEvent());
   }
 
   firebaseSignOut(BuildContext context) async {
@@ -155,9 +142,9 @@ class _HomePageState extends State<HomePage> {
                 ),
                 const SizedBox(height: 8.0),
                 CustomButton(
-                  title: 'Log Event',
+                  title: 'Test Log Event',
                   onTap: () {
-                    onTapLog();
+                    onTapTestLog();
                   },
                 ),
                 const SizedBox(height: 8.0),
