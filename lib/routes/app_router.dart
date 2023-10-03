@@ -7,8 +7,8 @@ import 'package:online_learning_app/pages/course_page/course_page.dart';
 import 'package:online_learning_app/pages/home_page/home_page.dart';
 import 'package:online_learning_app/pages/main_page.dart';
 import 'package:flutter/material.dart';
-import 'package:online_learning_app/pages/message_page/message_page.dart';
 import 'package:online_learning_app/pages/my_courses_page/my_courses_page.dart';
+import 'package:online_learning_app/pages/notification_page/notification_page.dart';
 import 'package:online_learning_app/pages/one_course_pages/add_card_page/add_card_page.dart';
 import 'package:online_learning_app/pages/one_course_pages/one_course_page/one_course_page.dart';
 import 'package:online_learning_app/pages/one_course_pages/payment_page/payment_page.dart';
@@ -63,8 +63,8 @@ class AppRouter {
         builder = (_) => const CoursePage();
         break;
 
-      case MessagePage.routeName:
-        builder = (_) => const MessagePage();
+      case NotificationPage.routeName:
+        builder = (_) =>  NotificationPage();
         break;
 
       case AccountPage.routeName:

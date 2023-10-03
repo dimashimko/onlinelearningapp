@@ -105,7 +105,9 @@ class _CoursePageState extends State<CoursePage> {
                 children: [
                   Text(
                     'Course',
-                    style: Theme.of(context).textTheme.displaySmall,
+                    style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                      fontSize: 24.0,
+                    ),
                   ),
                   SvgPicture.asset(AppIcons.avatar),
                 ],

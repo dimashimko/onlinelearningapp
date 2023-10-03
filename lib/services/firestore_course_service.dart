@@ -128,6 +128,17 @@ class MyFirestoreService {
   }
 
   Future<void> fillCourses() async {
+    db.collection("message").doc().set({
+      "1691069121": {
+        "bought": false,
+        "favorites": false,
+        "completed": false,
+        "lessons": {
+          "1": [true, true, true, true, true],
+          "2": [true, true, true, false, false],
+        },
+      },
+    });
 /*    db.collection("progress").doc("eLC2uAmaA8VUvslkqNiqY1K8F6l2").set({
       "1691069121": {
         "bought": false,

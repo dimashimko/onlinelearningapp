@@ -53,6 +53,7 @@ class AppIcons {
   static const String plus4 = '$_path/plus4.svg';
   static const String bucket = '$_path/bucket.svg';
   static const String check_mark3 = '$_path/check_mark3.svg';
+  static const String point_orange = '$_path/point_orange.svg';
 
 
 
