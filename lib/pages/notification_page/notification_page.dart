@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:online_learning_app/blocs/notification_bloc/notification_bloc.dart';
 import 'package:online_learning_app/pages/notification_page/message/message_tab_view.dart';
 import 'package:online_learning_app/pages/notification_page/notification/notification_tab_view.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
@@ -31,9 +33,12 @@ class NotificationPage extends StatelessWidget {
   final List<Widget> tabs = [
     const CustomTabBar(
       name: ' message ',
+      hasNew: false,
+      // hasNew: true,
     ),
     const CustomTabBar(
       name: ' notification ',
+      hasNew: true,
     ),
   ];
 
@@ -51,45 +56,50 @@ class NotificationPage extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const TitlePage(),
-              const SizedBox(height: 16.0),
-              Expanded(
-                child: DefaultTabController(
-                  length: tabs.length,
-                  child: Column(
-                    children: [
-                      TabBar(
-                        dividerColor: Colors.transparent,
-                        indicator: UnderlineTabIndicator(
-                          borderSide: BorderSide(
-                            width: 3.0,
-                            color: Theme.of(context).colorScheme.primary,
+          child: BlocProvider(
+            // create: (context) => NotificationBloc(),
+            create: (context) => NotificationBloc()..add(GetAllMessagesEvent()),
+
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const TitlePage(),
+                const SizedBox(height: 16.0),
+                Expanded(
+                  child: DefaultTabController(
+                    length: tabs.length,
+                    child: Column(
+                      children: [
+                        TabBar(
+                          dividerColor: Colors.transparent,
+                          indicator: UnderlineTabIndicator(
+                            borderSide: BorderSide(
+                              width: 3.0,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                            insets: const EdgeInsets.symmetric(
+                              horizontal: 16.0,
+                            ),
                           ),
-                          insets: const EdgeInsets.symmetric(
-                            horizontal: 16.0,
+                          tabs: tabs
+                              .map(
+                                (tab) => tab,
+                              )
+                              .toList(),
+                          isScrollable: false,
+                        ),
+                        Expanded(
+                          child: TabBarView(
+                            children: tabsView.map((e) => e).toList(),
                           ),
-                        ),
-                        tabs: tabs
-                            .map(
-                              (tab) => tab,
-                            )
-                            .toList(),
-                        isScrollable: false,
-                      ),
-                      Expanded(
-                        child: TabBarView(
-                          children: tabsView.map((e) => e).toList(),
-                        ),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -100,10 +110,12 @@ class NotificationPage extends StatelessWidget {
 class CustomTabBar extends StatelessWidget {
   const CustomTabBar({
     required this.name,
+    required this.hasNew,
     super.key,
   });
 
   final String name;
+  final bool hasNew;
 
   @override
   Widget build(BuildContext context) {
@@ -112,9 +124,11 @@ class CustomTabBar extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
-        SvgPicture.asset(
-          AppIcons.point_orange,
-        ),
+        hasNew
+            ? SvgPicture.asset(
+                AppIcons.point_orange,
+              )
+            : SizedBox(height: 6.0),
         Text(
           name,
           style: Theme.of(context).textTheme.labelLarge?.copyWith(

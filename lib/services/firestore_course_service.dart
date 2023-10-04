@@ -6,8 +6,9 @@ import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
 import 'package:online_learning_app/models/category/category_model.dart';
 import 'package:online_learning_app/models/course/course_model.dart';
 import 'package:online_learning_app/models/duration_range_model/duration_range_model.dart';
+import 'package:online_learning_app/models/message_model/message_model.dart';
 
-class MyFirestoreService {
+class MyFirestoreCourseService {
   FirebaseFirestore db = FirebaseFirestore.instance;
 
   Future<List<CourseModel>> getFilteredCoursesList({
@@ -128,17 +129,33 @@ class MyFirestoreService {
   }
 
   Future<void> fillCourses() async {
-    db.collection("message").doc().set({
-      "1691069121": {
-        "bought": false,
-        "favorites": false,
-        "completed": false,
-        "lessons": {
-          "1": [true, true, true, true, true],
-          "2": [true, true, true, false, false],
-        },
-      },
-    });
+    List<MessageModel> messages = [
+      MessageModel(
+        iconLink:
+            'https://www.greentrainingusa.com/media/course/small/new_courses2.jpg',
+        name: 'name1',
+        time: '2023-10-04T05:51:03.268Z',
+        text:
+            'Congratulations on completing the first lesson, keep up the good work!',
+        imageLink:
+            'https://mxcc.edu/wp-content/uploads/2016/01/New-Course-Icon-01.png',
+      ),
+      MessageModel(
+        iconLink:
+            'https://envicomply.com/wp-content/uploads/2020/02/new_course.png',
+        name: 'name2',
+        time: '2023-10-04T05:05:58.509Z',
+        text:
+            'Your course has been updated, you can check the new course in your study course.',
+        imageLink: '',
+      ),
+    ];
+    for (MessageModel message in messages) {
+      db.collection("messages").doc().set(
+            message.toJson(),
+          );
+    }
+
 /*    db.collection("progress").doc("eLC2uAmaA8VUvslkqNiqY1K8F6l2").set({
       "1691069121": {
         "bought": false,

@@ -14,6 +14,7 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color? white;
   final Color? orange;
   final Color? violet_light;
+  final Color? grey;
 
   const AppColors({
     required this.red_light,
@@ -25,6 +26,7 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.white,
     required this.orange,
     required this.violet_light,
+    required this.grey,
   });
 
   @override
@@ -38,6 +40,7 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? white,
     Color? orange,
     Color? violet_light,
+    Color? grey,
   }) {
     return AppColors(
       red_light: red_light ?? this.red_light,
@@ -49,6 +52,7 @@ class AppColors extends ThemeExtension<AppColors> {
       white: white ?? this.white,
       orange: orange ?? this.orange,
       violet_light: violet_light ?? this.violet_light,
+      grey: grey ?? this.grey,
     );
   }
 
@@ -67,6 +71,7 @@ class AppColors extends ThemeExtension<AppColors> {
       white: Color.lerp(white, other.white, t),
       orange: Color.lerp(orange, other.orange, t),
       violet_light: Color.lerp(violet_light, other.violet_light, t),
+      grey: Color.lerp(grey, other.grey, t),
     );
   }
 }
@@ -115,7 +120,6 @@ class AppThemes {
           fontWeight: FontWeight.w700,
           color: Color(0xFF1F1F39),
         ),
-
         headlineLarge: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w500,
@@ -256,6 +260,7 @@ class AppThemes {
           white: Color(0xFFFFFFFF),
           orange: Color(0xFFFF6905),
           violet_light: Color(0xFFF4F3FD),
+          grey: Color(0xFF858597),
           // green_light: isDarkTheme ? Colors.yellow : Colors.red,
         ),
       ],
@@ -275,6 +280,7 @@ class AppThemes {
             white: Color(0xFFFFFFFF),
             orange: Color(0xFFFF6905),
             violet_light: Color(0xFFF4F3FD),
+            grey: Color(0xFFB8B8D2),
 
             // green_light: isDarkTheme ? Colors.yellow : Colors.red,
           ),

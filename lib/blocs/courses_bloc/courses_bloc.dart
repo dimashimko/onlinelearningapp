@@ -17,7 +17,7 @@ part 'courses_state.dart';
 
 class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
   CoursesBloc() : super(const CoursesState()) {
-    MyFirestoreService fireStoreService = MyFirestoreService();
+    MyFirestoreCourseService fireStoreService = MyFirestoreCourseService();
 
     on<FilterUserCourses>((event, emit) async {
       // log('@@@ FilterUserCourses');

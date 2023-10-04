@@ -151,7 +151,7 @@ class _HomePageState extends State<HomePage> {
                 CustomButton(
                   title: 'FillCourses',
                   onTap: () {
-                    MyFirestoreService fireStoreService = MyFirestoreService();
+                    MyFirestoreCourseService fireStoreService = MyFirestoreCourseService();
                     fireStoreService.fillCourses();
                   },
                 ),
