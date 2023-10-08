@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:online_learning_app/blocs/account_bloc/account_bloc.dart';
+import 'package:online_learning_app/pages/my_courses_page/my_courses_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
+import 'package:online_learning_app/resources/app_images.dart';
+import 'package:online_learning_app/widgets/elements/custom_image_viewer.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
 
 class AccountPage extends StatelessWidget {
@@ -24,32 +29,134 @@ class AccountPage extends StatelessWidget {
     Navigator.of(context).pop();
   }
 
+  void _goToFavoritePage(BuildContext context) {
+    _navigateToPage(
+      context: context,
+      route: MyCoursesPage.routeName,
+    );
+  }
+
+  void _goToEditAccountPage(BuildContext context) {
+    _navigateToPage(
+      context: context,
+      route: MyCoursesPage.routeName,
+    );
+  }
+
+  void _goToSettingsAndPrivacyPage(BuildContext context) {
+    _navigateToPage(
+      context: context,
+      route: MyCoursesPage.routeName,
+    );
+  }
+
+  void _goToHelpPage(BuildContext context) {
+    _navigateToPage(
+      context: context,
+      route: MyCoursesPage.routeName,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MessagePageAppBar(onTap: () {
-        _goToBackPage(context);
-      }),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.0),
           child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Placeholder(),
-                SvgPicture.asset(AppIcons.rectangle),
-                // SvgPicture.asset(AppIcons.rectangle),
-                SvgPicture.asset(AppIcons.rectangle2),
-                SvgPicture.asset(AppIcons.rectangle),
-                SvgPicture.asset(AppIcons.rectangle),
-                SvgPicture.asset(AppIcons.rectangle2),
-                SvgPicture.asset(AppIcons.rectangle),
-                Text('AccountPage'),
-              ],
+            child: BlocBuilder<AccountBloc, AccountState>(
+              builder: (context, state) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    TitleOfPage(),
+                    InkWell(
+                      onTap: () => _goToEditAccountPage(context),
+                      child: SizedBox(
+                        height: 96.0,
+                        child: CustomImageViewer(
+                          link: state.accountModel.avatarLink,
+                          alternativePhoto: AppImages.empty_avatar,
+                        ),
+                      ),
+                    ),
+                    AccountMenuItem(
+                      title: 'Favourite',
+                      onTap: () => _goToFavoritePage(context),
+                    ),
+                    AccountMenuItem(
+                      title: 'Edit Account',
+                      onTap: () => _goToEditAccountPage(context),
+                    ),
+                    AccountMenuItem(
+                      title: 'Settings and Privacy',
+                      onTap: () => _goToSettingsAndPrivacyPage(context),
+                    ),
+                    AccountMenuItem(
+                      title: 'Help',
+                      onTap: () => _goToHelpPage(context),
+                    ),
+                  ],
+                );
+              },
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class AccountMenuItem extends StatelessWidget {
+  const AccountMenuItem({
+    required this.title,
+    required this.onTap,
+    super.key,
+  });
+
+  final String title;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: SizedBox(
+        height: 36.0,
+        child: Row(
+          children: [
+            Text(
+              title,
+              style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w500,
+                  ),
+            ),
+            const Spacer(),
+            SvgPicture.asset(
+              AppIcons.arrow_right,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class TitleOfPage extends StatelessWidget {
+  const TitleOfPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Text(
+        'Account',
+        style: Theme.of(context).textTheme.displayLarge?.copyWith(
+              fontSize: 24.0,
+            ),
+        textAlign: TextAlign.start,
       ),
     );
   }
