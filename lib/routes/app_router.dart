@@ -1,4 +1,4 @@
-import 'package:online_learning_app/pages/account_page/account_page.dart';
+import 'package:online_learning_app/pages/account_pages/account_page/account_page.dart';
 import 'package:online_learning_app/pages/auth_pages/log_in_page/log_in_page.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_in_page/sign_in_page.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_up_page/sign_up_page.dart';

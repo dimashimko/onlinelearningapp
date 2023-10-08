@@ -7,7 +7,7 @@ import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
 import 'package:online_learning_app/blocs/navigation_bloc/navigation_bloc.dart';
 import 'package:online_learning_app/blocs/notification_bloc/notification_bloc.dart';
 import 'package:online_learning_app/blocs/progress_bloc/progress_bloc.dart';
-import 'package:online_learning_app/pages/account_page/account_page.dart';
+import 'package:online_learning_app/pages/account_pages/account_page/account_page.dart';
 import 'package:online_learning_app/pages/course_page/course_page.dart';
 import 'package:online_learning_app/pages/home_page/home_page.dart';
 import 'package:online_learning_app/pages/notification_page/notification_page.dart';
