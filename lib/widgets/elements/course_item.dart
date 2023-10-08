@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/models/course/course_model.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/resources/app_images.dart';
-import 'package:online_learning_app/utils/time_converter.dart';
+import 'package:online_learning_app/utils/formatDataTime.dart';
 import 'package:online_learning_app/widgets/elements/custom_image_viewer.dart';
 
 class CourseItem extends StatelessWidget {
@@ -82,7 +82,7 @@ class CourseItem extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(4.0),
                           child: Text(
-                            durationToString(
+                            formatSecondsToTimeDuration(
                               second: courseModel.duration?.toInt() ?? 0,
                             ),
                             style: Theme.of(context).textTheme.headlineSmall,

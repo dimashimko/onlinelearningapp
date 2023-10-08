@@ -24,7 +24,16 @@ String formatDateTime(DateTime dateTime) {
 
 main() {
 
-  DateTime now = DateTime.now();
+  String datatime1 =  DateTime.now().toString();
+  print('datatime1: $datatime1');
+  String datatime2 =  DateTime.now().toString();
+  print('datatime2: $datatime2');
+  print(datatime1.compareTo(datatime2));
+  print(datatime2.compareTo(datatime1));
+/*  DateTime dt =  DateTime.parse(datatime2);
+  print('dt: ${dt.month}');*/
+
+/*  DateTime now = DateTime.now();
   DateTime someDate = DateTime(2023, 10, 3); // Example date
 
   String formattedDateTime = formatDateTime(now);
@@ -32,6 +41,10 @@ main() {
 
   print(formattedDateTime); // Output: 3:30 PM
   print(formattedDate); // Output: Oct 4, 2023 3:30 PM
+  */
+
+
+
 
 /*  String timeStr = '2023-10-04T05:05:58.509Z';
   DateTime dataTime = DateTime.parse(timeStr);

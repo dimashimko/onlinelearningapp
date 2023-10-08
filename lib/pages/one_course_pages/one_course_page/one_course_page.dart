@@ -4,8 +4,9 @@ import 'package:appinio_video_player/appinio_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:online_learning_app/blocs/analytics_block/analytics_bloc.dart';
+import 'package:online_learning_app/blocs/analytics_bloc/analytics_bloc.dart';
 import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
+import 'package:online_learning_app/blocs/notification_bloc/notification_bloc.dart';
 import 'package:online_learning_app/blocs/progress_bloc/progress_bloc.dart';
 import 'package:online_learning_app/models/course/course_model.dart';
 import 'package:online_learning_app/models/progress/progress_model.dart';
@@ -16,7 +17,7 @@ import 'package:online_learning_app/pages/one_course_pages/payment_page/payment_
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/resources/app_images.dart';
 import 'package:online_learning_app/resources/app_themes.dart';
-import 'package:online_learning_app/utils/formatTime.dart';
+import 'package:online_learning_app/utils/formatDataTime.dart';
 import 'package:online_learning_app/utils/get_course_model_by_uid.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button_light.dart';
@@ -132,6 +133,9 @@ class _OneCoursePageState extends State<OneCoursePage> {
                 },
                 listener: (context, state) {
                   log('*** showAlertDialog');
+                  context.read<NotificationBloc>().add(
+                    AddNotificationCompletingFirstLessonEvent(),
+                  );
                   showAlertDialog(context);
                 },
                 child: Column(
@@ -399,7 +403,7 @@ class CoursePanel extends StatelessWidget {
                 ),
                 const SizedBox(height: 4.0),
                 Text(
-                  '${formatTimeToHour(
+                  '${formatDurationToHour(
                     Duration(
                       seconds: currentCourse.duration?.toInt() ?? 0,
                     ),
@@ -667,7 +671,7 @@ class TextLessonDurationWithCheckBox extends StatelessWidget {
     return Row(
       children: [
         Text(
-          formatTimeToMinutes(
+          formatDurationToMinutes(
             Duration(
               seconds: lesson.duration?.toInt() ?? 0,
             ),

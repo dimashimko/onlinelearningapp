@@ -1,18 +1,15 @@
-import 'dart:developer';
-import 'dart:io';
-
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:online_learning_app/blocs/analytics_block/analytics_bloc.dart';
+import 'package:online_learning_app/blocs/analytics_bloc/analytics_bloc.dart';
 import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
+import 'package:online_learning_app/blocs/notification_bloc/notification_bloc.dart';
 import 'package:online_learning_app/models/course/course_model.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_in_page/sign_in_page.dart';
 import 'package:online_learning_app/pages/my_courses_page/my_courses_page.dart';
 import 'package:online_learning_app/pages/one_course_pages/one_course_page/statistic_alert_dialog.dart';
-import 'package:online_learning_app/pages/one_course_pages/payment_page/payment_page.dart';
 import 'package:online_learning_app/services/firestore_course_service.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/elements/today_progress_widget.dart';
@@ -116,6 +113,14 @@ class _HomePageState extends State<HomePage> {
                 ),
                 const Spacer(),
                 CustomButton(
+                  title: 'Add notification',
+                  onTap: () {
+                    context.read<NotificationBloc>().add(
+                          AddNotificationSuccessfulPurchaseEvent(),
+                        );
+                  },
+                ),
+/*                CustomButton(
                   title: 'Throw Test Exception2',
                   onTap: () {
                     _throwTestException2();
@@ -127,7 +132,7 @@ class _HomePageState extends State<HomePage> {
                   onTap: () {
                     _throwTestException1();
                   },
-                ),
+                ),*/
                 const SizedBox(height: 8.0),
                 CustomButton(
                   title: 'Show Alert',
@@ -151,7 +156,8 @@ class _HomePageState extends State<HomePage> {
                 CustomButton(
                   title: 'FillCourses',
                   onTap: () {
-                    MyFirestoreCourseService fireStoreService = MyFirestoreCourseService();
+                    MyFirestoreCourseService fireStoreService =
+                        MyFirestoreCourseService();
                     fireStoreService.fillCourses();
                   },
                 ),

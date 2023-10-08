@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:online_learning_app/models/message_model/message_model.dart';
 import 'package:online_learning_app/models/progress/progress_model.dart';
-import 'package:online_learning_app/models/user_cativity/user_activity_model.dart';
+import 'package:online_learning_app/models/user_activity/user_activity_model.dart';
 import 'package:online_learning_app/utils/constants.dart';
 
 class MyFirestoreNotificationService {

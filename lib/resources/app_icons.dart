@@ -55,6 +55,10 @@ class AppIcons {
   static const String bucket = '$_path/bucket.svg';
   static const String check_mark3 = '$_path/check_mark3.svg';
   static const String point_orange = '$_path/point_orange.svg';
+  static const String notification_icon_payment = '$_path/notification_icon_payment.svg';
+  static const String notification_icon_simle = '$_path/notification_icon_simle.svg';
+  static const String clock = '$_path/clock.svg';
+  static const String arrow_right = '$_path/arrow_right.svg';
 
 
 

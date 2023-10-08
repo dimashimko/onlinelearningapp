@@ -10,7 +10,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:online_learning_app/blocs/analytics_block/analytics_bloc.dart';
+import 'package:online_learning_app/blocs/account_bloc/account_bloc.dart';
+import 'package:online_learning_app/blocs/analytics_bloc/analytics_bloc.dart';
 import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
 import 'package:online_learning_app/blocs/navigation_bloc/navigation_bloc.dart';
 import 'package:online_learning_app/blocs/notification_bloc/notification_bloc.dart';
@@ -39,7 +40,8 @@ Future<void> main() async {
         options: DefaultFirebaseOptions.currentPlatform,
       );
       // Pass all uncaught "fatal" errors from the framework to Crashlytics
-      FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+      FlutterError.onError =
+          FirebaseCrashlytics.instance.recordFlutterFatalError;
 
       // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
       PlatformDispatcher.instance.onError = (error, stack) {
@@ -71,8 +73,7 @@ class _App extends StatelessWidget {
 
   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   static FirebaseAnalyticsObserver observer =
-  FirebaseAnalyticsObserver(analytics: analytics);
-
+      FirebaseAnalyticsObserver(analytics: analytics);
 
   @override
   Widget build(BuildContext context) {
@@ -112,8 +113,20 @@ class _App extends StatelessWidget {
         BlocProvider<AnalyticsBloc>(
           create: (_) => AnalyticsBloc(),
         ),
+        BlocProvider<AccountBloc>(
+          create: (_) => AccountBloc(),
+        ),
         BlocProvider<NotificationBloc>(
-          create: (_) => NotificationBloc(),
+          create: (_) => NotificationBloc()
+            ..add(
+              GetAllMessagesEvent(),
+            )
+            ..add(
+              GetAllNotificationsEvent(),
+            )
+            ..add(
+              GetTimeLastSeenNotification(),
+            ),
         ),
       ],
       child: SystemOverlay(

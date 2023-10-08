@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:online_learning_app/models/users/user_model.dart';
@@ -36,11 +37,13 @@ class LocalDB {
   const LocalDB._();
 
   static const String _authBox = 'authBox';
+  static const String _notificationsBox = '_notificationsBox';
   static const LocalDB instance = LocalDB._();
 
   Future<void> _initializeHive() async {
     await Hive.initFlutter();
     await Hive.openBox<String>(_authBox);
+    await Hive.openBox<String>(_notificationsBox);
   }
 
   Future<void> ensureInitialized() async {
@@ -69,15 +72,44 @@ class LocalDB {
     );
   }
 
-  String? getFlagIsFirst() {
-    final Box<String> authBox = Hive.box(_authBox);
-    return authBox.get('isFirst');
-  }
+  // ******
 
   Future<void> setFlagNoFirst() async {
     final Box<String> authBox = Hive.box(_authBox);
     await authBox.put('isFirst', 'false');
   }
 
-// [END] User
+  String? getFlagIsFirst() {
+    final Box<String> authBox = Hive.box(_authBox);
+    return authBox.get('isFirst');
+  }
+
+  // ******
+
+  Future<void> saveNotifications(String json, String userUid) async {
+    final Box<String> notificationsBox = Hive.box(_notificationsBox);
+    await notificationsBox.put('notifications_$userUid', json);
+  }
+
+  String? getNotifications(String userUid) {
+    final Box<String> notificationsBox = Hive.box(_notificationsBox);
+    String key = 'notifications_$userUid';
+    String? value = notificationsBox.get(key);
+    // log('*** key:$key, value: $value');
+    return value;
+  }
+
+// ******
+
+  Future<void> saveTimeLastSeenNotification(
+      String timeLastSeenNotification) async {
+    final Box<String> notificationsBox = Hive.box(_notificationsBox);
+    await notificationsBox.put(
+        'timeLastSeenNotification', timeLastSeenNotification);
+  }
+
+  String? getTimeLastSeenNotification() {
+    final Box<String> notificationsBox = Hive.box(_notificationsBox);
+    return notificationsBox.get('timeLastSeenNotification');
+  }
 }

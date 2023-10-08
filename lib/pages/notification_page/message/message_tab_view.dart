@@ -89,7 +89,7 @@ class MessageItem extends StatelessWidget {
                 SizedBox(width: 8.0),
                 Expanded(
                   child: Text(
-                    message.name.toString(),
+                    message.name??'',
                     style: Theme.of(context).textTheme.displayLarge?.copyWith(
                           fontSize: 14.0,
                         ),
@@ -143,9 +143,3 @@ String formatDateTime(DateTime dateTime) {
   }
 }
 
-String formatTime(String formattedString) {
-  DateTime dataTime = DateTime.parse(formattedString);
-
-  String formattedTime = DateFormat.jm().format(dataTime);
-  return formattedTime;
-}

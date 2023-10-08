@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:liqpay/liqpay.dart';
+import 'package:online_learning_app/blocs/notification_bloc/notification_bloc.dart';
 import 'package:online_learning_app/blocs/progress_bloc/progress_bloc.dart';
 import 'package:online_learning_app/pages/one_course_pages/one_course_page/one_course_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
@@ -120,6 +121,9 @@ class _CheckPaymentStatusPageState extends State<CheckPaymentStatusPage> {
 
   Future<void> fetchServerStatus() async {
     counter++;
+    ProgressBloc progressBloc = context.read<ProgressBloc>();
+    NotificationBloc notificationBloc = context.read<NotificationBloc>();
+
 
     try {
       CustomPaymentStatus customPaymentStatus =
@@ -129,7 +133,10 @@ class _CheckPaymentStatusPageState extends State<CheckPaymentStatusPage> {
 
       if (liqPayResponseStatus == LiqPayResponseStatus.success) {
         timer.cancel();
-        context.read<ProgressBloc>().add(CoursePurchasedEvent());
+        if (mounted) {
+          progressBloc.add(CoursePurchasedEvent());
+          notificationBloc.add(AddNotificationSuccessfulPurchaseEvent());
+        }
         contentWidget = SuccessfulPaymentWidget(
           goToCoursePage: () {
             _goToCoursePage(context);

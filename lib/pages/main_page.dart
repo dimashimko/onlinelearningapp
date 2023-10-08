@@ -2,9 +2,10 @@ import 'dart:developer';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:online_learning_app/blocs/analytics_block/analytics_bloc.dart';
+import 'package:online_learning_app/blocs/analytics_bloc/analytics_bloc.dart';
 import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
 import 'package:online_learning_app/blocs/navigation_bloc/navigation_bloc.dart';
+import 'package:online_learning_app/blocs/notification_bloc/notification_bloc.dart';
 import 'package:online_learning_app/blocs/progress_bloc/progress_bloc.dart';
 import 'package:online_learning_app/pages/account_page/account_page.dart';
 import 'package:online_learning_app/pages/course_page/course_page.dart';
@@ -88,19 +89,39 @@ class _MainPageState extends State<MainPage> {
     }
   }
 
-
   late PersistentBottomSheetController _sheetController;
 
   bool bottomSheetEnabled = false;
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    log('*** didChangeDependencies MainPage');
+    context.read<ProgressBloc>()
+      ..add(
+        UpdateUserActivityTimeEvent(),
+      )
+      ..add(
+        GetUserProgressEvent(),
+      );
+
+    context.read<NotificationBloc>()
+      ..add(
+        GetAllMessagesEvent(),
+      )
+      ..add(
+        GetAllNotificationsEvent(),
+      );
+  }
+
+  @override
   Widget build(BuildContext context) {
+    log('*** build MainPage');
     return BlocConsumer<NavigationBloc, NavigationState>(
       listener: (_, state) {
         if (state.status == NavigationStateStatus.menu) {
           _onSelectMenu(state.route);
         }
-
         if (state.status == NavigationStateStatus.tab) {
           _onSelectTab(state.route);
         }
@@ -127,26 +148,37 @@ class _MainPageState extends State<MainPage> {
                   );
                 }
               },
-              child: BlocListener<ProgressBloc, ProgressState>(
+              child: BlocListener<NotificationBloc, NotificationState>(
                 listenWhen: (p, c) {
-                  // print(
-                  //     '*** p.userProgress != c.userProgress: ${p.userProgress != c.userProgress}');
-                  return p.userProgress != c.userProgress;
+                  return p.notificationList != c.notificationList ||
+                      p.timeLastSeenNotification != c.timeLastSeenNotification;
                 },
                 listener: (context, state) {
-                  // userProgress = context.read<ProgressBloc>().state.userProgress;
-                  // print('*** state.userProgress: ${state.userProgress}');
-                  context.read<CoursesBloc>().add(
-                        FilterUserCourses(
-                          userProgress: state.userProgress,
-                        ),
-                      );
+                  context
+                      .read<NotificationBloc>()
+                      .add(CheckHasNoSeenNotification());
                 },
-                child: Navigator(
-                  key: _navigatorKey,
-                  initialRoute: HomePage.routeName,
-                  // initialRoute: NotificationPage.routeName,
-                  onGenerateRoute: AppRouter.generateRoute,
+                child: BlocListener<ProgressBloc, ProgressState>(
+                  listenWhen: (p, c) {
+                    // print(
+                    //     '*** p.userProgress != c.userProgress: ${p.userProgress != c.userProgress}');
+                    return p.userProgress != c.userProgress;
+                  },
+                  listener: (context, state) {
+                    // userProgress = context.read<ProgressBloc>().state.userProgress;
+                    // print('*** state.userProgress: ${state.userProgress}');
+                    context.read<CoursesBloc>().add(
+                          FilterUserCourses(
+                            userProgress: state.userProgress,
+                          ),
+                        );
+                  },
+                  child: Navigator(
+                    key: _navigatorKey,
+                    initialRoute: HomePage.routeName,
+                    // initialRoute: NotificationPage.routeName,
+                    onGenerateRoute: AppRouter.generateRoute,
+                  ),
                 ),
               ),
             ),

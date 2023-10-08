@@ -2,7 +2,9 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:online_learning_app/blocs/notification_bloc/notification_bloc.dart';
 import 'package:online_learning_app/pages/auth_pages/log_in_page/log_in_page.dart';
 import 'package:online_learning_app/pages/auth_pages/verify_phone_page/verify_phone_page.dart';
 import 'package:online_learning_app/pages/auth_pages/widgets/authFormFields.dart';
@@ -76,6 +78,13 @@ class _SignUpPageState extends State<SignUpPage> {
   bool acceptPrivacyPolicy = false;
   String privacyPolicyErrorText = '';
 
+  void _successfulRegistration() async {
+    context.read<NotificationBloc>().add(
+      AddNotificationSuccessfulRegistrationEvent(),
+    );
+    _showCompleteRegistrationDialog();
+  }
+
   void _showCompleteRegistrationDialog() async {
     showDialog(
       context: context,
@@ -123,7 +132,7 @@ class _SignUpPageState extends State<SignUpPage> {
         log("*** verificationCompleted");
         await FirebaseAuth.instance.signInWithCredential(credential);
         if (FirebaseAuth.instance.currentUser != null) {
-          _showCompleteRegistrationDialog();
+          _successfulRegistration();
         }
       },
       verificationFailed: (FirebaseAuthException e) {
@@ -160,7 +169,7 @@ class _SignUpPageState extends State<SignUpPage> {
         password: _passwordController.text.trim(),
       );
       if (FirebaseAuth.instance.currentUser != null) {
-        _showCompleteRegistrationDialog();
+        _successfulRegistration();
       }
       // _goToMainPage();
     } on FirebaseAuthException catch (e) {

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,30 +9,20 @@ import 'package:online_learning_app/pages/notification_page/notification/notific
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
 
-class NotificationPage extends StatelessWidget {
-  NotificationPage({Key? key}) : super(key: key);
+class NotificationPage extends StatefulWidget {
+  const NotificationPage({Key? key}) : super(key: key);
 
   static const routeName = '/notification_page/notification_page';
 
-  void _navigateToPage({
-    required BuildContext context,
-    required String route,
-    bool isRoot = false,
-    Object? arguments,
-  }) {
-    Navigator.of(
-      context,
-      rootNavigator: isRoot,
-    ).pushNamed(route, arguments: arguments);
-  }
+  @override
+  State<NotificationPage> createState() => _NotificationPageState();
+}
 
-  void _goToBackPage(BuildContext context) {
-    Navigator.of(context).pop();
-  }
-
+class _NotificationPageState extends State<NotificationPage> {
   //   message
-  // notification
-  final List<Widget> tabs = [
+  late List<Widget> tabs;
+
+/*  final List<Widget> tabs = [
     const CustomTabBar(
       name: ' message ',
       hasNew: false,
@@ -40,8 +32,7 @@ class NotificationPage extends StatelessWidget {
       name: ' notification ',
       hasNew: true,
     ),
-  ];
-
+  ];*/
   final List<Widget> tabsView = [
     const MessageTabView(),
     const NotificationTabView(),
@@ -56,50 +47,73 @@ class NotificationPage extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: BlocProvider(
-            // create: (context) => NotificationBloc(),
-            create: (context) => NotificationBloc()..add(GetAllMessagesEvent()),
-
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const TitlePage(),
-                const SizedBox(height: 16.0),
-                Expanded(
-                  child: DefaultTabController(
-                    length: tabs.length,
-                    child: Column(
-                      children: [
-                        TabBar(
-                          dividerColor: Colors.transparent,
-                          indicator: UnderlineTabIndicator(
-                            borderSide: BorderSide(
-                              width: 3.0,
-                              color: Theme.of(context).colorScheme.primary,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const TitleOfPage(),
+              const SizedBox(height: 16.0),
+              Expanded(
+                child: BlocBuilder<NotificationBloc, NotificationState>(
+                  builder: (context, state) {
+                    log('*** state.isHasNoReadNotification: ${state.isHasNoReadNotification}');
+                    tabs = [
+                      const CustomTabBar(
+                        name: ' message ',
+                        hasNew: false,
+                        // hasNew: true,
+                      ),
+                      CustomTabBar(
+                        name: ' notification ',
+                        hasNew: state.isHasNoReadNotification,
+                      ),
+                    ];
+                    return DefaultTabController(
+                      length: tabs.length,
+                      child: Column(
+                        children: [
+                          TabBar(
+                            onTap: (int index) {
+                              log('*** TabBarIndex: $index');
+                              if (index == 1) {
+                                context.read<NotificationBloc>().add(
+                                      SaveTimeLastSeenNotification(
+                                        timeLastSeenNotification:
+                                            DateTime.now().toString(),
+                                      ),
+                                    );
+                                // update last seen for notification
+                              }
+                            },
+                            dividerColor: Colors.transparent,
+                            indicator: UnderlineTabIndicator(
+                              borderSide: BorderSide(
+                                width: 3.0,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              insets: const EdgeInsets.symmetric(
+                                horizontal: 16.0,
+                              ),
                             ),
-                            insets: const EdgeInsets.symmetric(
-                              horizontal: 16.0,
+                            tabs: tabs
+                                .map(
+                                  (tab) => tab,
+                                )
+                                .toList(),
+                            isScrollable: false,
+                          ),
+                          Expanded(
+                            child: TabBarView(
+                              children: tabsView.map((e) => e).toList(),
                             ),
-                          ),
-                          tabs: tabs
-                              .map(
-                                (tab) => tab,
-                              )
-                              .toList(),
-                          isScrollable: false,
-                        ),
-                        Expanded(
-                          child: TabBarView(
-                            children: tabsView.map((e) => e).toList(),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
+                          )
+                        ],
+                      ),
+                    );
+                  },
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -128,7 +142,7 @@ class CustomTabBar extends StatelessWidget {
             ? SvgPicture.asset(
                 AppIcons.point_orange,
               )
-            : SizedBox(height: 6.0),
+            : const SizedBox(height: 6.0),
         Text(
           name,
           style: Theme.of(context).textTheme.labelLarge?.copyWith(
@@ -141,8 +155,8 @@ class CustomTabBar extends StatelessWidget {
   }
 }
 
-class TitlePage extends StatelessWidget {
-  const TitlePage({super.key});
+class TitleOfPage extends StatelessWidget {
+  const TitleOfPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -159,7 +173,7 @@ class TitlePage extends StatelessWidget {
   }
 }
 
-PreferredSizeWidget MessagePageAppBar({
+PreferredSizeWidget messagePageAppBar({
   required VoidCallback onTap,
 }) {
   return CustomAppBar(

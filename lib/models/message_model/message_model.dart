@@ -33,9 +33,10 @@ class MessageModel extends Equatable {
         imageLink,
       ];
 
+
   @override
   String toString() {
-    return 'dayOfYear: $iconLink, timePerDay: $name, totallyHours: $time, totallyDays: $text, weekOfYear: $imageLink, ';
+    return 'MessageModel{iconLink: $iconLink, name: $name, time: $time, text: $text, imageLink: $imageLink}';
   }
 
   MessageModel copyWith({
