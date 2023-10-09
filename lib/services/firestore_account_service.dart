@@ -40,7 +40,7 @@ class MyFirestoreAccountService {
     } else {
       accountModel = AccountModel.fromJson(value.data()!);
     }
-
+    log('*** accountModel: $accountModel');
     return accountModel;
   }
 }

@@ -114,7 +114,10 @@ class _App extends StatelessWidget {
           create: (_) => AnalyticsBloc(),
         ),
         BlocProvider<AccountBloc>(
-          create: (_) => AccountBloc(),
+          create: (_) => AccountBloc()
+            ..add(
+              GetAccountModel(),
+            ),
         ),
         BlocProvider<NotificationBloc>(
           create: (_) => NotificationBloc()

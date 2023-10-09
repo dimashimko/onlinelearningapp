@@ -130,6 +130,8 @@ class _MainPageState extends State<MainPage> {
         return WillPopScope(
           onWillPop: _onWillPop,
           child: Scaffold(
+            // resizeToAvoidBottomPadding: false, // fluter 1.x
+            resizeToAvoidBottomInset: false, // fluter 2.x
             // backgroundColor: Colors.indigo,
             body: BlocListener<CoursesBloc, CoursesState>(
               listenWhen: (p, c) {

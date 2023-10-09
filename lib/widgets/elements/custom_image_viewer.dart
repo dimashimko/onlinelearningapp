@@ -9,12 +9,16 @@ class CustomImageViewer extends StatelessWidget {
     required this.link,
     this.alternativePhoto = AppImages.empty_title,
     this.height = 240,
+    this.boxFitLocalImage = BoxFit.fitHeight,
+    this.boxFitNetworkImage = BoxFit.cover,
     Key? key,
   }) : super(key: key);
 
   final String? link;
   final String alternativePhoto;
   final double height;
+  final BoxFit boxFitLocalImage;
+  final BoxFit boxFitNetworkImage;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +38,7 @@ class CustomImageViewer extends StatelessWidget {
             // width: double.infinity,
             width: double.infinity,
             height: height,
-            fit: BoxFit.cover,
+            fit: boxFitNetworkImage,
             loadingBuilder: (BuildContext context, Widget child,
                 ImageChunkEvent? loadingProgress) {
               if (loadingProgress == null) return child;
@@ -58,7 +62,7 @@ class CustomImageViewer extends StatelessWidget {
                 StackTrace? stackTrace) {
               return Image.asset(
                 alternativePhoto,
-                fit: BoxFit.cover,
+                fit: boxFitLocalImage,
               );
             },
           )
@@ -68,13 +72,13 @@ class CustomImageViewer extends StatelessWidget {
             ),
             width: double.infinity,
             height: height,
-            fit: BoxFit.cover,
+            fit: boxFitLocalImage,
             errorBuilder: (BuildContext context, Object exception,
                 StackTrace? stackTrace) {
               // return Container(color: AppColors.whiteSmoke.withOpacity(0.9));
               return Image.asset(
                 alternativePhoto,
-                fit: BoxFit.cover,
+                fit: boxFitLocalImage,
               );
             },
           );

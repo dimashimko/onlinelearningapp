@@ -75,6 +75,10 @@ class UserActivityModel extends Equatable {
   }
 
   factory UserActivityModel.fromJson(Map<String, dynamic> json) {
+    List<bool>? recordOfThisWeek;
+    if (json['recordOfThisWeek'] != null) {
+      recordOfThisWeek = List<bool>.from(json['recordOfThisWeek']);
+    }
     return UserActivityModel(
       dayOfYear: json['dayOfYear'],
       timePerDay: json['timePerDay'],
@@ -82,7 +86,7 @@ class UserActivityModel extends Equatable {
       totallyDays: json['totallyDays'],
       weekOfYear: json['weekOfYear'],
       lastDayShowStatistic: json['lastDayShowStatistic'],
-      recordOfThisWeek: List<bool>.from(json['recordOfThisWeek']),
+      recordOfThisWeek: recordOfThisWeek,
     );
   }
 

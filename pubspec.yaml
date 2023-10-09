@@ -59,6 +59,10 @@ dependencies:
   url_launcher: ^6.1.11
   firebase_analytics: ^10.5.0
   firebase_crashlytics: ^3.3.6
+  image_picker: ^1.0.4
+  firebase_storage: ^11.0.9
+
+
 
 
 flutter_icons:

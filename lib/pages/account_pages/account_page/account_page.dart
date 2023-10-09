@@ -80,6 +80,7 @@ class AccountPage extends StatelessWidget {
                         child: CustomImageViewer(
                           link: state.accountModel.avatarLink,
                           alternativePhoto: AppImages.empty_avatar,
+                          boxFitNetworkImage: BoxFit.fitHeight,
                         ),
                       ),
                     ),

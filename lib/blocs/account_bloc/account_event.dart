@@ -5,6 +5,7 @@ abstract class AccountEvent {
   const AccountEvent();
 }
 
+
 class OnChangeUserAvatar extends AccountEvent {
   const OnChangeUserAvatar({
     required this.newUserAvatar,
@@ -12,13 +13,15 @@ class OnChangeUserAvatar extends AccountEvent {
 
   final String newUserAvatar;
 }
-
-class OnChangeUserName extends AccountEvent {
-  const OnChangeUserName({
+class OnChangeUserAccount extends AccountEvent {
+  const OnChangeUserAccount({
     required this.newName,
+    required this.newAvatarLocalLink,
   });
 
-  final String newName;
+  final String? newName;
+  final String? newAvatarLocalLink;
+
 }
 
 class GetAccountModel extends AccountEvent {}
