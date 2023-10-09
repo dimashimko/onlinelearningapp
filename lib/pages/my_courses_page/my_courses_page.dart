@@ -110,7 +110,7 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
               const SizedBox(height: 20.0),
               BlocBuilder<CoursesBloc, CoursesState>(
                 buildWhen: (p, c) {
-                  log('*** p.userCoursesList != c.userCoursesList: ${p.userCoursesList != c.userCoursesList}');
+                  // log('*** p.userCoursesList != c.userCoursesList: ${p.userCoursesList != c.userCoursesList}');
                   // return true;
                   return p.userCoursesList != c.userCoursesList;
                 },
