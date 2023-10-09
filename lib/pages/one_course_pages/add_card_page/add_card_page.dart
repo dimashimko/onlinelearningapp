@@ -60,13 +60,13 @@ class _AddCardPageState extends State<AddCardPage> {
       ),
     );
 
-/*    _cardNumber = "4242424242424242";
+    _cardNumber = "4242424242424242";
     final now = DateTime.now();
     _cardExpiryDate =
-        '${now.month.toString().padLeft(2, '0')}/${(now.year + 1).toString().substring(2)}';*/
-    _cardNumber = "";
+        '${now.month.toString().padLeft(2, '0')}/${(now.year + 1).toString().substring(2)}';
+/*    _cardNumber = "";
     _cardCvvCode = '';
-    _cardExpiryDate = '';
+    _cardExpiryDate = '';*/
 
   }
 
