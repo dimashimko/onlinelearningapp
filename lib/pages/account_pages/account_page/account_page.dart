@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/blocs/account_bloc/account_bloc.dart';
+import 'package:online_learning_app/pages/account_pages/edit_account_page/edit_account_page.dart';
+import 'package:online_learning_app/pages/account_pages/favorive_page/favorite_page.dart';
 import 'package:online_learning_app/pages/my_courses_page/my_courses_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/resources/app_images.dart';
@@ -32,14 +34,14 @@ class AccountPage extends StatelessWidget {
   void _goToFavoritePage(BuildContext context) {
     _navigateToPage(
       context: context,
-      route: MyCoursesPage.routeName,
+      route: FavoritePage.routeName,
     );
   }
 
   void _goToEditAccountPage(BuildContext context) {
     _navigateToPage(
       context: context,
-      route: MyCoursesPage.routeName,
+      route: EditAccountPage.routeName,
     );
   }
 
@@ -62,7 +64,7 @@ class AccountPage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: SingleChildScrollView(
             child: BlocBuilder<AccountBloc, AccountState>(
               builder: (context, state) {
@@ -70,7 +72,7 @@ class AccountPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    TitleOfPage(),
+                    const TitleOfPage(),
                     InkWell(
                       onTap: () => _goToEditAccountPage(context),
                       child: SizedBox(
@@ -123,7 +125,7 @@ class AccountMenuItem extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: SizedBox(
-        height: 36.0,
+        height: 64.0,
         child: Row(
           children: [
             Text(

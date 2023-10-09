@@ -1,4 +1,6 @@
 import 'package:online_learning_app/pages/account_pages/account_page/account_page.dart';
+import 'package:online_learning_app/pages/account_pages/edit_account_page/edit_account_page.dart';
+import 'package:online_learning_app/pages/account_pages/favorive_page/favorite_page.dart';
 import 'package:online_learning_app/pages/auth_pages/log_in_page/log_in_page.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_in_page/sign_in_page.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_up_page/sign_up_page.dart';
@@ -64,7 +66,7 @@ class AppRouter {
         break;
 
       case NotificationPage.routeName:
-        builder = (_) =>  NotificationPage();
+        builder = (_) => NotificationPage();
         break;
 
       case AccountPage.routeName:
@@ -101,15 +103,18 @@ class AppRouter {
         builder = (_) => const AddCardPage();
         break;
 
+
+
 /*      case CheckPaymentStatusPage.routeName:
         builder = (_) => const CheckPaymentStatusPage();
         break;*/
 
       case CheckPaymentStatusPage.routeName:
-        final CheckPaymentStatusPageArguments args = arguments as CheckPaymentStatusPageArguments;
+        final CheckPaymentStatusPageArguments args =
+            arguments as CheckPaymentStatusPageArguments;
         builder = (_) => CheckPaymentStatusPage(
-          liqPayOrder: args.liqPayOrder,
-        );
+              liqPayOrder: args.liqPayOrder,
+            );
         break;
 
       case PaymentPage.routeName:
@@ -117,6 +122,14 @@ class AppRouter {
         builder = (_) => PaymentPage(
               price: args.price,
             );
+        break;
+
+      case FavoritePage.routeName:
+        builder = (_) => const FavoritePage();
+        break;
+
+      case EditAccountPage.routeName:
+        builder = (_) => const EditAccountPage();
         break;
 
       default:

@@ -27,6 +27,7 @@ class CoursesState extends Equatable {
     this.isFilterNavToSearchPage = true,
     this.filterEnabledType = FilterEnabledType.all,
     this.userCoursesList = const [],
+    this.favoriteList = const [],
 
   });
 
@@ -46,6 +47,7 @@ class CoursesState extends Equatable {
     isFilterNavToSearchPage,
     filterEnabledType,
     userCoursesList,
+    favoriteList,
   ];
 
   final FilterBottomSheetStatus filterStatus;
@@ -61,6 +63,7 @@ class CoursesState extends Equatable {
   final bool isFilterNavToSearchPage;
   final FilterEnabledType filterEnabledType;
   final List<CourseModel> userCoursesList;
+  final List<CourseModel> favoriteList;
 
   CoursesState copyWith({
     FilterBottomSheetStatus? filterStatus,
@@ -78,6 +81,7 @@ class CoursesState extends Equatable {
     bool? isFilterNavToSearchPage,
     FilterEnabledType? filterEnabledType,
     List<CourseModel>? userCoursesList,
+    List<CourseModel>? favoriteList,
   }) {
     return CoursesState(
       filterStatus: filterStatus ?? this.filterStatus,
@@ -93,6 +97,7 @@ class CoursesState extends Equatable {
       isFilterNavToSearchPage: isFilterNavToSearchPage ?? this.isFilterNavToSearchPage,
       filterEnabledType: filterEnabledType ?? this.filterEnabledType,
       userCoursesList: userCoursesList ?? this.userCoursesList,
+      favoriteList: favoriteList ?? this.favoriteList,
     );
   }
 }

@@ -33,13 +33,21 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
         }
         return false;
       }).toList();
-      // log('@@@ FilterUserCourses state.coursesList: ${state.coursesList}');
-      // log('@@@ FilterUserCourses event.userProgress: ${event.userProgress}');
-      // log('@@@ FilterUserCourses userCoursesList: $userCoursesList');
+
+      List<CourseModel> favoriteList = state.coursesList.where((course) {
+        CourseProgressModel? progress = userProgress[course.uid];
+        if (progress != null) {
+          if ((progress.favorites ?? false)) {
+            return true;
+          }
+        }
+        return false;
+      }).toList();
 
       emit(
         state.copyWith(
           userCoursesList: userCoursesList,
+          favoriteList: favoriteList,
         ),
       );
     });
