@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/blocs/account_bloc/account_bloc.dart';
 import 'package:online_learning_app/pages/account_pages/edit_account_page/edit_account_page.dart';
 import 'package:online_learning_app/pages/account_pages/favorive_page/favorite_page.dart';
+import 'package:online_learning_app/pages/account_pages/help_page/help_page.dart';
 import 'package:online_learning_app/pages/account_pages/setting_page/setting_page.dart';
 import 'package:online_learning_app/pages/my_courses_page/my_courses_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
@@ -50,13 +51,14 @@ class AccountPage extends StatelessWidget {
     _navigateToPage(
       context: context,
       route: SettingPage.routeName,
+      isRoot: true,
     );
   }
 
   void _goToHelpPage(BuildContext context) {
     _navigateToPage(
       context: context,
-      route: MyCoursesPage.routeName,
+      route: HelpPage.routeName,
     );
   }
 

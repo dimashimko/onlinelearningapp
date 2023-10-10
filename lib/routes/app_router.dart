@@ -1,6 +1,7 @@
 import 'package:online_learning_app/pages/account_pages/account_page/account_page.dart';
 import 'package:online_learning_app/pages/account_pages/edit_account_page/edit_account_page.dart';
 import 'package:online_learning_app/pages/account_pages/favorive_page/favorite_page.dart';
+import 'package:online_learning_app/pages/account_pages/help_page/help_page.dart';
 import 'package:online_learning_app/pages/account_pages/setting_page/setting_page.dart';
 import 'package:online_learning_app/pages/auth_pages/log_in_page/log_in_page.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_in_page/sign_in_page.dart';
@@ -133,6 +134,10 @@ class AppRouter {
 
       case SettingPage.routeName:
         builder = (_) => const SettingPage();
+        break;
+
+      case HelpPage.routeName:
+        builder = (_) => const HelpPage();
         break;
 
       default:

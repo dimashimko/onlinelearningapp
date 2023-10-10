@@ -4,27 +4,28 @@ import 'package:flutter/material.dart';
 import 'package:online_learning_app/resources/app_fonts.dart';
 
 class ThemeProvider with ChangeNotifier {
-  ThemeData _currentTheme = AppThemes.light();
+  // ThemeData _currentTheme = AppThemes.light();
+  ThemeData _currentTheme = AppThemes.dark();
 
   ThemeData get currentTheme => _currentTheme;
 
   void toggleTheme() {
-    _currentTheme =
-    _currentTheme == AppThemes.light() ? AppThemes.dark() : AppThemes.light();
+    _currentTheme = _currentTheme == AppThemes.light()
+        ? AppThemes.dark()
+        : AppThemes.light();
     // log('*** _currentTheme: ${_currentTheme.colorScheme}');
     log('*** _currentTheme colorScheme: ${_currentTheme.colorScheme}');
     notifyListeners();
   }
 
   void toggleTheme2(bool isDark) {
-    _currentTheme = isDark? AppThemes.dark() : AppThemes.light();
+    _currentTheme = isDark ? AppThemes.dark() : AppThemes.light();
     // _currentTheme == AppThemes.light() ? AppThemes.dark() : AppThemes.light();
     // log('*** _currentTheme: ${_currentTheme.colorScheme}');
     log('*** _currentTheme colorScheme: ${_currentTheme.colorScheme}');
     notifyListeners();
   }
 }
-
 
 AppColors colors(context) => Theme.of(context).extension<AppColors>()!;
 
@@ -117,6 +118,7 @@ class AppThemes {
     return ThemeData(
       fontFamily: AppFonts.fontFamily,
       useMaterial3: true,
+
       textSelectionTheme: const TextSelectionThemeData(
         cursorColor: Color(0xFF1F1F39),
         selectionColor: Color(0xFF858597),
@@ -289,11 +291,35 @@ class AppThemes {
           // green_light: isDarkTheme ? Colors.yellow : Colors.red,
         ),
       ],
+      expansionTileTheme: ExpansionTileThemeData(
+        backgroundColor: const Color(0xFFFFFFFF),
+        collapsedBackgroundColor: const Color(0xFFFFFFFF),
+        textColor: const Color(0xFF1F1F39),
+        collapsedTextColor: const Color(0xFF1F1F39),
+        iconColor: const Color(0xFF1F1F39),
+        collapsedIconColor: const Color(0xFF1F1F39),
+          // iconColor: Colors.red, // Change the icon color
+          // textColor: Colors.blue, // Change the text color
+          // backgroundColor: Colors.yellow, // Change the background color
+          ),
     );
   }
 
   static ThemeData dark() {
     return ThemeData(
+        expansionTileTheme: ExpansionTileThemeData(
+          backgroundColor: const Color(0xFF1F1F39),
+          collapsedBackgroundColor: const Color(0xFF1F1F39),
+          textColor: const Color(0xFFB8B8D2),
+          collapsedTextColor: const Color(0xFFB8B8D2),
+          iconColor: const Color(0xFFB8B8D2),
+          collapsedIconColor: const Color(0xFFB8B8D2),
+
+          // collapsedTextColor: Colors.red,
+          // iconColor: Colors.red, // Change the icon color
+          // textColor: Colors.blue, // Change the text color
+          // backgroundColor: Colors.yellow, // Change the background color
+        ),
         extensions: <ThemeExtension<AppColors>>[
           AppColors(
             red_light: Color(0xFF2F2F42),
@@ -311,6 +337,7 @@ class AppThemes {
           ),
         ],
         fontFamily: AppFonts.fontFamily,
+        useMaterial3: true,
         scaffoldBackgroundColor: const Color(0xFF1F1F39),
         colorScheme: const ColorScheme.dark().copyWith(
           onSecondary: const Color(0xFFFFFFFF).withOpacity(0.3),
@@ -337,7 +364,6 @@ class AppThemes {
           surfaceTint: const Color(0xFF858597),
           inversePrimary: const Color(0xFFFFEBF0),
         ),
-        useMaterial3: true,
         textSelectionTheme: const TextSelectionThemeData(
           cursorColor: Color(0xFFFFFFFF),
           selectionColor: Color(0xFFB8B8D2),
