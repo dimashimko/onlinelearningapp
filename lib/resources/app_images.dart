@@ -6,4 +6,5 @@ class AppImages {
   static const String empty_title = '$_path/empty_title.png';
   static const String empty_message_icon = '$_path/empty_message_icon.png';
   static const String empty_avatar = '$_path/empty_avatar.png';
+  static const String moon = '$_path/moon.png';
 }

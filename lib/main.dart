@@ -23,6 +23,7 @@ import 'package:online_learning_app/resources/app_locale.dart';
 import 'package:online_learning_app/resources/app_themes.dart';
 import 'package:online_learning_app/routes/app_router.dart';
 import 'package:online_learning_app/widgets/uncategorized/system_overlay.dart';
+import 'package:provider/provider.dart';
 
 void _errorHandler(Object error, StackTrace stack) {
   log(
@@ -54,12 +55,16 @@ Future<void> main() async {
       SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,
       ]);
+
       runApp(
-        EasyLocalization(
-          path: AppLocale.path,
-          supportedLocales: AppLocale.supportedLocales,
-          fallbackLocale: AppLocale.fallbackLocale,
-          child: const _App(),
+        ChangeNotifierProvider(
+          create: (context) => ThemeProvider(),
+          child: EasyLocalization(
+            path: AppLocale.path,
+            supportedLocales: AppLocale.supportedLocales,
+            fallbackLocale: AppLocale.fallbackLocale,
+            child: const _App(),
+          ),
         ),
       );
       EasyLocalization.logger.enableBuildModes = [];
@@ -147,7 +152,8 @@ class _App extends StatelessWidget {
           title: 'Online Learning App',
           // title: context.read<AuthRepository>().toString(),
           // theme: AppThemes.light2(),
-          theme: AppThemes.light(),
+          // theme: AppThemes.light(),
+          theme: Provider.of<ThemeProvider>(context).currentTheme,
           // theme: AppThemes.dark(),
 
           initialRoute: SplashScreenPage.routeName,

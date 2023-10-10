@@ -1,5 +1,30 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:online_learning_app/resources/app_fonts.dart';
+
+class ThemeProvider with ChangeNotifier {
+  ThemeData _currentTheme = AppThemes.light();
+
+  ThemeData get currentTheme => _currentTheme;
+
+  void toggleTheme() {
+    _currentTheme =
+    _currentTheme == AppThemes.light() ? AppThemes.dark() : AppThemes.light();
+    // log('*** _currentTheme: ${_currentTheme.colorScheme}');
+    log('*** _currentTheme colorScheme: ${_currentTheme.colorScheme}');
+    notifyListeners();
+  }
+
+  void toggleTheme2(bool isDark) {
+    _currentTheme = isDark? AppThemes.dark() : AppThemes.light();
+    // _currentTheme == AppThemes.light() ? AppThemes.dark() : AppThemes.light();
+    // log('*** _currentTheme: ${_currentTheme.colorScheme}');
+    log('*** _currentTheme colorScheme: ${_currentTheme.colorScheme}');
+    notifyListeners();
+  }
+}
+
 
 AppColors colors(context) => Theme.of(context).extension<AppColors>()!;
 
