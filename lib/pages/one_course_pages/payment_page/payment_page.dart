@@ -106,8 +106,11 @@ class _PaymentPageState extends State<PaymentPage> {
   void _getStoredCards() async {
     String? cardsData = await secureStorageDB.read(key: 'cards_');
 
-    final cardsRaw =
-        List<Map<String, dynamic>>.from(json.decode(cardsData ?? ''));
+    final cardsRaw = List<Map<String, dynamic>>.from(
+      json.decode(
+        cardsData ?? '',
+      ),
+    );
     List<CardModel> cardsList = [];
     for (Map<String, dynamic> cardRaw in cardsRaw) {
       cardsList.add(

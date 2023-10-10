@@ -1,51 +1,32 @@
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:flutter/cupertino.dart';
-// import 'package:personal_security_asistant/model/user.model.dart';
-// import 'package:personal_security_asistant/repository/user.repository.dart';
+// import 'package:flutter/material.dart';
+// import 'package:provider/provider.dart';
+// import 'theme_provider.dart'; // Import the theme provider class
 //
-// class cUser with ChangeNotifier {
-//   final _userRepository = UserRepository();
-//
-//   UserModel? model = UserModel(ID: "ID");
-//
-//   cUser();
-//
-//   String? verificationId;
-//   Future<cUser?> confirmPhoneCode(String code) async {
-//     UserCredential usercred;
-//     try {
-//       PhoneAuthCredential cred = PhoneAuthProvider.credential(
-//           verificationId: verificationId!, smsCode: code);
-//       usercred = await FirebaseAuth.instance.signInWithCredential(cred);
-//     } catch (e) {
-//       return null;
-//     }
-//     if (usercred.user == null) {
-//       return null;
-//     }
-//
-//     UserRepository userRepository = UserRepository();
-//
-//     UserModel? userModel = await userRepository.getFromId(usercred.user!.uid);
-//
-//     if (userModel != null) {
-//       this.model = userModel;
-//     } else {
-//       model!.ID = usercred.user!.uid;
-//     }
-//     return this;
-//   }
-//
-//   Future<bool> phoneVerification(String phoneNumber) async {
-//     // confirmationResult =
-//     await FirebaseAuth.instance.verifyPhoneNumber(
-//         phoneNumber: phoneNumber,
-//         verificationCompleted: (verificationCompleted) {},
-//         verificationFailed: (verificationFailed) {},
-//         codeSent: (verificationId, test) {
-//           this.verificationId = verificationId;
-//         },
-//         codeAutoRetrievalTimeout: (codeAutoRetrievalTimeout) {});
-//     return true;
+// class HomeScreen extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('Light/Dark Theme Switcher'),
+//       ),
+//       body: Center(
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: <Widget>[
+//             Consumer<ThemeProvider>(
+//               builder: (context, themeProvider, child) {
+//                 return Switch(
+//                   value: themeProvider.currentTheme == ThemeData.dark(),
+//                   onChanged: (value) {
+//                     themeProvider.toggleTheme();
+//                   },
+//                 );
+//               },
+//             ),
+//             Text('Toggle Theme'),
+//           ],
+//         ),
+//       ),
+//     );
 //   }
 // }

@@ -102,10 +102,13 @@ class LocalDB {
 // ******
 
   Future<void> saveTimeLastSeenNotification(
-      String timeLastSeenNotification) async {
+    String timeLastSeenNotification,
+  ) async {
     final Box<String> notificationsBox = Hive.box(_notificationsBox);
     await notificationsBox.put(
-        'timeLastSeenNotification', timeLastSeenNotification);
+      'timeLastSeenNotification',
+      timeLastSeenNotification,
+    );
   }
 
   String? getTimeLastSeenNotification() {

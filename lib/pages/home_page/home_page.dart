@@ -6,6 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:online_learning_app/blocs/analytics_bloc/analytics_bloc.dart';
 import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
 import 'package:online_learning_app/blocs/notification_bloc/notification_bloc.dart';
+import 'package:online_learning_app/firebase_options.dart';
 import 'package:online_learning_app/models/course/course_model.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_in_page/sign_in_page.dart';
 import 'package:online_learning_app/pages/my_courses_page/my_courses_page.dart';
@@ -74,7 +75,7 @@ class _HomePageState extends State<HomePage> {
 
   firebaseSignOut(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
-    await GoogleSignIn().signOut();
+    await GoogleSignIn(clientId: DefaultFirebaseOptions.currentPlatform.iosClientId).signOut();
     _goToSignInPage();
   }
 

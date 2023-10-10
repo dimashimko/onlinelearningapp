@@ -10,10 +10,14 @@ showCustomSnackBar(
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         duration: const Duration(seconds: 5),
-        content: Text('${isError ? 'Error: ' : ''} $message'),
+        content: Text(
+          '${isError ? 'Error: ' : ''} $message',
+          style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                fontSize: 14,
+              ),
+        ),
         showCloseIcon: true,
       ),
     );
   }
 }
-
