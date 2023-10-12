@@ -67,8 +67,7 @@ class _SettingPageState extends State<SettingPage> {
                   Consumer<ThemeProvider>(
                     builder: (context, themeProvider, child) {
                       return Switch(
-                        value: isDark,
-                        // value: isLight,
+                        value: themeProvider.currentTheme == AppThemes.dark(),
                         onChanged: (value) {
                           setState(() {
                             log('*** on switch');
