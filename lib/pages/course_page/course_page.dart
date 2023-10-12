@@ -106,8 +106,8 @@ class _CoursePageState extends State<CoursePage> {
                   Text(
                     'Course',
                     style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                      fontSize: 24.0,
-                    ),
+                          fontSize: 24.0,
+                        ),
                   ),
                   SvgPicture.asset(AppIcons.avatar),
                 ],
@@ -169,14 +169,20 @@ class _CustomToggleButtonsState extends State<CustomToggleButtons> {
     setState(() {
       if (_current != newCurrent) {
         if (newCurrent == 0) {
-          context.read<CoursesBloc>().add(GetAllCourses(orderBy: OrderBy.name.name));
+          context
+              .read<CoursesBloc>()
+              .add(GetAllCourses(orderBy: OrderBy.name.name));
         }
         if (newCurrent == 1) {
-          context.read<CoursesBloc>().add(GetAllCourses(orderBy: OrderBy.duration.name));
+          context
+              .read<CoursesBloc>()
+              .add(GetAllCourses(orderBy: OrderBy.duration.name));
           // context.read<CoursesBloc>().add(GetAllCoursesSortDuration());
         }
         if (newCurrent == 2) {
-          context.read<CoursesBloc>().add(GetAllCourses(orderBy: OrderBy.created.name));
+          context
+              .read<CoursesBloc>()
+              .add(GetAllCourses(orderBy: OrderBy.created.name));
         }
       }
       _current = newCurrent;
@@ -252,7 +258,7 @@ class CategoriesListView extends StatelessWidget {
                         width: 240,
                         child: CustomImageViewer(
                           link: state.categoryList[index].categoryTitle,
-                          alternativePhoto: AppImages.empty_title,
+                          alternativePhoto: AppImages.empty_course,
                         ),
                       ),
                     )

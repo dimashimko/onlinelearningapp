@@ -332,7 +332,7 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
                 .videoPlayerController.dataSource.isEmpty
             ? CustomImageViewer(
                 link: widget.currentCourse.title,
-                alternativePhoto: AppImages.empty_title,
+                alternativePhoto: AppImages.empty_course,
               )
             : dataSourceController.value.isInitialized
                 ? Center(

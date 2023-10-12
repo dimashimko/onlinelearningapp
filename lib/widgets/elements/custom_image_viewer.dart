@@ -7,7 +7,7 @@ import 'package:online_learning_app/resources/app_images.dart';
 class CustomImageViewer extends StatelessWidget {
   CustomImageViewer({
     required this.link,
-    this.alternativePhoto = AppImages.empty_title,
+    this.alternativePhoto = AppImages.empty_course,
     this.height = 240,
     this.boxFitLocalImage = BoxFit.fitHeight,
     this.boxFitNetworkImage = BoxFit.cover,

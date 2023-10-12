@@ -1,7 +1,8 @@
 import 'package:online_learning_app/pages/account_pages/account_page/account_page.dart';
 import 'package:online_learning_app/pages/account_pages/edit_account_page/edit_account_page.dart';
-import 'package:online_learning_app/pages/account_pages/favorive_page/favorite_page.dart';
+import 'package:online_learning_app/pages/account_pages/favorite_page/favorite_page.dart';
 import 'package:online_learning_app/pages/account_pages/help_page/help_page.dart';
+import 'package:online_learning_app/pages/account_pages/privacy_policy_page/privacy_policy_page.dart';
 import 'package:online_learning_app/pages/account_pages/setting_page/setting_page.dart';
 import 'package:online_learning_app/pages/auth_pages/log_in_page/log_in_page.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_in_page/sign_in_page.dart';
@@ -37,7 +38,7 @@ class AppRouter {
         break;
 
       case SignUpPage.routeName:
-        builder = (_) => SignUpPage();
+        builder = (_) => const SignUpPage();
         break;
 
       case LogInPage.routeName:
@@ -68,7 +69,7 @@ class AppRouter {
         break;
 
       case NotificationPage.routeName:
-        builder = (_) => NotificationPage();
+        builder = (_) => const NotificationPage();
         break;
 
       case AccountPage.routeName:
@@ -117,13 +118,6 @@ class AppRouter {
             );
         break;
 
-      case PaymentPage.routeName:
-        final PaymentPageArguments args = arguments as PaymentPageArguments;
-        builder = (_) => PaymentPage(
-              price: args.price,
-            );
-        break;
-
       case FavoritePage.routeName:
         builder = (_) => const FavoritePage();
         break;
@@ -138,6 +132,10 @@ class AppRouter {
 
       case HelpPage.routeName:
         builder = (_) => const HelpPage();
+        break;
+
+      case PrivacyPolicyPage.routeName:
+        builder = (_) => const PrivacyPolicyPage();
         break;
 
       default:

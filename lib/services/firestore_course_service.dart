@@ -129,7 +129,11 @@ class MyFirestoreCourseService {
   }
 
   Future<void> fillCourses() async {
-    List<MessageModel> messages = [
+    // db.collection("ads").doc().set({"uidCourse": "1691069121"});
+    // db.collection("ads").doc().set({"uidCourse": "1691069119"});
+    db.collection("ads").doc().set({"uidCourse": "1691069119", "position":1});
+
+/*    List<MessageModel> messages = [
       MessageModel(
         iconLink:
             'https://www.greentrainingusa.com/media/course/small/new_courses2.jpg',
@@ -154,7 +158,7 @@ class MyFirestoreCourseService {
       db.collection("messages").doc().set(
             message.toJson(),
           );
-    }
+    }*/
 
 /*    db.collection("progress").doc("eLC2uAmaA8VUvslkqNiqY1K8F6l2").set({
       "1691069121": {

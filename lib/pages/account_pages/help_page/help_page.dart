@@ -113,8 +113,8 @@ class _CustomSwitchState extends State<CustomSwitch> {
             setState(() {
               log('*** on switch');
               isDark = !isDark;
-              // themeProvider.toggleTheme();
-              themeProvider.toggleTheme2(isDark);
+              themeProvider.toggleTheme();
+              // themeProvider.toggleTheme2(isDark);
             });
           },
         );

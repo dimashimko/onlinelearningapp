@@ -41,7 +41,7 @@ class CourseItem extends StatelessWidget {
               height: 68,
               child: CustomImageViewer(
                 link: courseModel.title,
-                alternativePhoto: AppImages.empty_title,
+                alternativePhoto: AppImages.empty_course,
               ),
             ),
             const SizedBox(width: 24.0),

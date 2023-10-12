@@ -3,10 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/blocs/account_bloc/account_bloc.dart';
 import 'package:online_learning_app/pages/account_pages/edit_account_page/edit_account_page.dart';
-import 'package:online_learning_app/pages/account_pages/favorive_page/favorite_page.dart';
+import 'package:online_learning_app/pages/account_pages/favorite_page/favorite_page.dart';
 import 'package:online_learning_app/pages/account_pages/help_page/help_page.dart';
 import 'package:online_learning_app/pages/account_pages/setting_page/setting_page.dart';
-import 'package:online_learning_app/pages/my_courses_page/my_courses_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/resources/app_images.dart';
 import 'package:online_learning_app/widgets/elements/custom_image_viewer.dart';
@@ -27,10 +26,6 @@ class AccountPage extends StatelessWidget {
       context,
       rootNavigator: isRoot,
     ).pushNamed(route, arguments: arguments);
-  }
-
-  void _goToBackPage(BuildContext context) {
-    Navigator.of(context).pop();
   }
 
   void _goToFavoritePage(BuildContext context) {
@@ -168,7 +163,7 @@ class TitleOfPage extends StatelessWidget {
   }
 }
 
-PreferredSizeWidget MessagePageAppBar({
+PreferredSizeWidget messagePageAppBar({
   required VoidCallback onTap,
 }) {
   return CustomAppBar(

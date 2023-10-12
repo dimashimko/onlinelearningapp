@@ -77,7 +77,6 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
 
   @override
   Widget build(BuildContext context) {
-    //
     colorsList = [
       // Theme.of(context).colorScheme.onErrorContainer,
       // Theme.of(context).colorScheme.onSecondaryContainer,
@@ -86,7 +85,6 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
       colors(context).blue ?? Colors.red,
       colors(context).green ?? Colors.red,
     ];
-
     backgroundColorsList = [
       colors(context).red_light ?? Colors.red,
       colors(context).blue_light ?? Colors.red,
@@ -115,13 +113,13 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
                   return p.userCoursesList != c.userCoursesList;
                 },
                 builder: (context, stateCoursesBloc) {
-                  userProgress = context.read<ProgressBloc>().state.userProgress;
+                  userProgress =
+                      context.read<ProgressBloc>().state.userProgress;
                   context.read<CoursesBloc>().add(
                         FilterUserCourses(
                           userProgress: userProgress,
                         ),
                       );
-                  log('*** BlocBuilder<CoursesBloc');
                   return Expanded(
                     child: GridView.builder(
                       gridDelegate:
@@ -137,7 +135,6 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
                           userProgress: userProgress?[
                               stateCoursesBloc.userCoursesList[index].uid],
                         );
-
                         return InkWell(
                           onTap: () {
                             if (stateCoursesBloc.userCoursesList[index].uid !=
