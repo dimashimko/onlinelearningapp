@@ -60,6 +60,7 @@ class AppIcons {
   static const String clock = '$_path/clock.svg';
   static const String arrow_right = '$_path/arrow_right.svg';
   static const String camera_contour = '$_path/camera_contour.svg';
+  static const String meetup_icon = '$_path/meetup_icon.svg';
 
 
 

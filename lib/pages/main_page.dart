@@ -112,6 +112,9 @@ class _MainPageState extends State<MainPage> {
       ..add(
         GetAllNotificationsEvent(),
       );
+    context.read<CoursesBloc>().add(
+      CourseBlocInit(),
+    );
   }
 
   @override

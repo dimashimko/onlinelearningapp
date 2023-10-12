@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_learning_app/blocs/account_bloc/account_bloc.dart';
+import 'package:online_learning_app/blocs/ads_block/ads_bloc.dart';
 import 'package:online_learning_app/blocs/analytics_bloc/analytics_bloc.dart';
 import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
 import 'package:online_learning_app/blocs/navigation_bloc/navigation_bloc.dart';
@@ -98,9 +99,10 @@ class _App extends StatelessWidget {
         BlocProvider<CoursesBloc>(
           create: (_) => CoursesBloc()
             ..add(
-              GetAllCourses(
+                CourseBlocInit(),
+/*              GetAllCourses(
                 orderBy: OrderBy.name.name,
-              ),
+              ),*/
             ),
         ),
         BlocProvider<ProgressBloc>(
@@ -122,6 +124,12 @@ class _App extends StatelessWidget {
           create: (_) => AccountBloc()
             ..add(
               GetAccountModel(),
+            ),
+        ),
+        BlocProvider<AdsBloc>(
+          create: (_) => AdsBloc()
+            ..add(
+              GetAdsCoursesUids(),
             ),
         ),
         BlocProvider<NotificationBloc>(
