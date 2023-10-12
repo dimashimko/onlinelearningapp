@@ -1,6 +1,7 @@
 import 'dart:developer';
 
-import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/blocs/analytics_bloc/analytics_bloc.dart';
 import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
@@ -15,8 +16,6 @@ import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/routes/app_router.dart';
 import 'package:online_learning_app/widgets/elements/search_filter_sheet.dart';
 import 'package:online_learning_app/widgets/navigation/custom_bottom_navigation_bar.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -89,7 +88,6 @@ class _MainPageState extends State<MainPage> {
     }
   }
 
-  late PersistentBottomSheetController _sheetController;
 
   bool bottomSheetEnabled = false;
 
@@ -133,8 +131,8 @@ class _MainPageState extends State<MainPage> {
         return WillPopScope(
           onWillPop: _onWillPop,
           child: Scaffold(
-            // resizeToAvoidBottomPadding: false, // fluter 1.x
-            resizeToAvoidBottomInset: false, // fluter 2.x
+            // resizeToAvoidBottomPadding: false, // flutter 1.x
+            resizeToAvoidBottomInset: false, // flutter 2.x
             // backgroundColor: Colors.indigo,
             body: BlocListener<CoursesBloc, CoursesState>(
               listenWhen: (p, c) {

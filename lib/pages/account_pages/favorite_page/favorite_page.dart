@@ -12,7 +12,6 @@ import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/resources/app_themes.dart';
 import 'package:online_learning_app/utils/count_completed_lesson.dart';
 import 'package:online_learning_app/widgets/buttons/custom_play_button.dart';
-import 'package:online_learning_app/widgets/elements/today_progress_widget.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
 
 class FavoritePage extends StatefulWidget {
@@ -88,12 +87,12 @@ class _FavoritePageState extends State<FavoritePage> {
     ];
 
     backgroundColorsList = [
-      colors(context).red_light ?? Colors.red,
-      colors(context).blue_light ?? Colors.red,
-      colors(context).green_light ?? Colors.red,
+      colors(context).redLight ?? Colors.red,
+      colors(context).blueLight ?? Colors.red,
+      colors(context).greenLight ?? Colors.red,
     ];
     return Scaffold(
-      appBar: MyCoursesPageAppBar(
+      appBar: myCoursesPageAppBar(
         onTap: () {
           _goToBackPage(context);
         },
@@ -149,7 +148,7 @@ class _FavoritePageState extends State<FavoritePage> {
                             backgroundColor: backgroundColorsList[index % 3],
                             color: colorsList[index % 3],
                             lessonCompleted: lessonCompleted,
-                            // color: colors(context).blue_light??Colors.red,
+                            // color: colors(context).blueLight??Colors.red,
                           ),
                         );
                       },
@@ -305,7 +304,7 @@ class CustomLinearGradientLine extends StatelessWidget {
   }
 }
 
-PreferredSizeWidget MyCoursesPageAppBar({
+PreferredSizeWidget myCoursesPageAppBar({
   required VoidCallback onTap,
 }) {
   return CustomAppBar(

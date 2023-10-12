@@ -61,64 +61,64 @@ AppColors colors(context) => Theme.of(context).extension<AppColors>()!;
 
 @immutable
 class AppColors extends ThemeExtension<AppColors> {
-  final Color? red_light;
+  final Color? redLight;
   final Color? red;
-  final Color? blue_light;
+  final Color? blueLight;
   final Color? blue;
-  final Color? green_light;
+  final Color? greenLight;
   final Color? green;
   final Color? white;
   final Color? orange;
-  final Color? violet_light;
+  final Color? violetLight;
   final Color? grey;
-  final Color? grey_dark;
+  final Color? greyDark;
   final Color? pink;
   final Color? violet;
 
   const AppColors({
-    required this.red_light,
+    required this.redLight,
     required this.red,
-    required this.blue_light,
+    required this.blueLight,
     required this.blue,
-    required this.green_light,
+    required this.greenLight,
     required this.green,
     required this.white,
     required this.orange,
-    required this.violet_light,
+    required this.violetLight,
     required this.grey,
-    required this.grey_dark,
+    required this.greyDark,
     required this.pink,
     required this.violet,
   });
 
   @override
   AppColors copyWith({
-    Color? red_light,
+    Color? redLight,
     Color? red,
-    Color? blue_light,
+    Color? blueLight,
     Color? blue,
-    Color? green_light,
+    Color? greenLight,
     Color? green,
     Color? white,
     Color? orange,
-    Color? violet_light,
+    Color? violetLight,
     Color? grey,
-    Color? grey_dark,
+    Color? greyDark,
     Color? pink,
     Color? violet,
   }) {
     return AppColors(
-      red_light: red_light ?? this.red_light,
+      redLight: redLight ?? this.redLight,
       red: red ?? this.red,
-      blue_light: blue_light ?? this.blue_light,
+      blueLight: blueLight ?? this.blueLight,
       blue: blue ?? this.blue,
-      green_light: green_light ?? this.green_light,
+      greenLight: greenLight ?? this.greenLight,
       green: green ?? this.green,
       white: white ?? this.white,
       orange: orange ?? this.orange,
-      violet_light: violet_light ?? this.violet_light,
+      violetLight: violetLight ?? this.violetLight,
       grey: grey ?? this.grey,
-      grey_dark: grey_dark ?? this.grey_dark,
+      greyDark: greyDark ?? this.greyDark,
       pink: pink ?? this.pink,
       violet: violet ?? this.violet,
     );
@@ -130,17 +130,17 @@ class AppColors extends ThemeExtension<AppColors> {
       return this;
     }
     return AppColors(
-      red_light: Color.lerp(red_light, other.red_light, t),
+      redLight: Color.lerp(redLight, other.redLight, t),
       red: Color.lerp(red, other.red, t),
-      blue_light: Color.lerp(blue_light, other.blue_light, t),
+      blueLight: Color.lerp(blueLight, other.blueLight, t),
       blue: Color.lerp(blue, other.blue, t),
-      green_light: Color.lerp(green_light, other.green_light, t),
+      greenLight: Color.lerp(greenLight, other.greenLight, t),
       green: Color.lerp(green, other.green, t),
       white: Color.lerp(white, other.white, t),
       orange: Color.lerp(orange, other.orange, t),
-      violet_light: Color.lerp(violet_light, other.violet_light, t),
+      violetLight: Color.lerp(violetLight, other.violetLight, t),
       grey: Color.lerp(grey, other.grey, t),
-      grey_dark: Color.lerp(grey_dark, other.grey_dark, t),
+      greyDark: Color.lerp(greyDark, other.greyDark, t),
       pink: Color.lerp(pink, other.pink, t),
       violet: Color.lerp(violet, other.violet, t),
     );
@@ -323,20 +323,20 @@ class AppThemes {
       ),
       extensions: const <ThemeExtension<AppColors>>[
         AppColors(
-          red_light: Color(0xFFFFE7EE),
-          blue_light: Color(0xFFBAD6FF),
-          green_light: Color(0xFFBAE0DB),
+          redLight: Color(0xFFFFE7EE),
+          blueLight: Color(0xFFBAD6FF),
+          greenLight: Color(0xFFBAE0DB),
           red: Color(0xFFEC7B9C),
           blue: Color(0xFF3D5CFF),
           green: Color(0xFF398A80),
           white: Color(0xFFFFFFFF),
           orange: Color(0xFFFF6905),
-          violet_light: Color(0xFFF4F3FD),
+          violetLight: Color(0xFFF4F3FD),
           grey: Color(0xFF858597),
-          grey_dark: Color(0xFF707070),
+          greyDark: Color(0xFF707070),
           pink: Color(0xFFEFE0FF),
           violet: Color(0xFF440687),
-          // green_light: isDarkTheme ? Colors.yellow : Colors.red,
+          // greenLight: isDarkTheme ? Colors.yellow : Colors.red,
         ),
       ],
       expansionTileTheme: const ExpansionTileThemeData(
@@ -370,21 +370,21 @@ class AppThemes {
         ),
         extensions: const <ThemeExtension<AppColors>>[
           AppColors(
-            red_light: Color(0xFF2F2F42),
-            blue_light: Color(0xFF2F2F42),
-            green_light: Color(0xFF2F2F42),
+            redLight: Color(0xFF2F2F42),
+            blueLight: Color(0xFF2F2F42),
+            greenLight: Color(0xFF2F2F42),
             red: Color(0xFFEC7B9C),
             blue: Color(0xFF3D5CFF),
             green: Color(0xFF398A80),
             white: Color(0xFFFFFFFF),
             orange: Color(0xFFFF6905),
-            violet_light: Color(0xFFF4F3FD),
+            violetLight: Color(0xFFF4F3FD),
             grey: Color(0xFFB8B8D2),
-            grey_dark: Color(0xFF707070),
+            greyDark: Color(0xFF707070),
             pink: Color(0xFFEFE0FF),
             violet: Color(0xFF440687),
 
-            // green_light: isDarkTheme ? Colors.yellow : Colors.red,
+            // greenLight: isDarkTheme ? Colors.yellow : Colors.red,
           ),
         ],
         fontFamily: AppFonts.fontFamily,

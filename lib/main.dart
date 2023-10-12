@@ -3,7 +3,6 @@ import 'dart:developer';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -76,10 +75,6 @@ Future<void> main() async {
 
 class _App extends StatelessWidget {
   const _App({Key? key}) : super(key: key);
-
-  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-  static FirebaseAnalyticsObserver observer =
-      FirebaseAnalyticsObserver(analytics: analytics);
 
   @override
   Widget build(BuildContext context) {

@@ -319,7 +319,7 @@ class CustomSmoothPageIndicator extends StatelessWidget {
             paintStyle: PaintingStyle.fill,
             // strokeWidth: 1.5,
             // dotColor: AppColors.scaffold,
-            dotColor: colors(context).violet_light ?? Colors.grey,
+            dotColor: colors(context).violetLight ?? Colors.grey,
             activeDotColor: Theme.of(context).colorScheme.outlineVariant,
           ),
         ),

@@ -327,8 +327,8 @@ class CourseProgressItem extends StatelessWidget {
               child: CircularProgressIndicator(
                 value: lessonCompleted / (courseModel.lessons?.length ?? 1.0),
                 // color: Colors.orange,
-                color: colors(context).grey_dark,
-                backgroundColor: colors(context).violet_light,
+                color: colors(context).greyDark,
+                backgroundColor: colors(context).violetLight,
                 // backgroundColor: Colors.red,
                 // valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
               ),

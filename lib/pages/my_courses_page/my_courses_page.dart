@@ -86,9 +86,9 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
       colors(context).green ?? Colors.red,
     ];
     backgroundColorsList = [
-      colors(context).red_light ?? Colors.red,
-      colors(context).blue_light ?? Colors.red,
-      colors(context).green_light ?? Colors.red,
+      colors(context).redLight ?? Colors.red,
+      colors(context).blueLight ?? Colors.red,
+      colors(context).greenLight ?? Colors.red,
     ];
     return Scaffold(
       appBar: MyCoursesPageAppBar(
@@ -150,7 +150,7 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
                             backgroundColor: backgroundColorsList[index % 3],
                             color: colorsList[index % 3],
                             lessonCompleted: lessonCompleted,
-                            // color: colors(context).blue_light??Colors.red,
+                            // color: colors(context).blueLight??Colors.red,
                           ),
                         );
                       },
