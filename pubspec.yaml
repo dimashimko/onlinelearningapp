@@ -63,6 +63,7 @@ dependencies:
   firebase_storage: ^11.0.9
   day_night_switch: ^1.0.4
   provider: ^6.0.5
+  shared_preferences: ^2.2.2
 
 
 

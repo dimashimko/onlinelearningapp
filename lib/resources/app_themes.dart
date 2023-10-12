@@ -1,11 +1,40 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:online_learning_app/resources/app_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class ThemeProvider with ChangeNotifier {
-  // ThemeData _currentTheme = AppThemes.light();
-  ThemeData _currentTheme = AppThemes.dark();
+  ThemeData _currentTheme = AppThemes.light();
+
+  ThemeData get currentTheme => _currentTheme;
+
+  ThemeProvider() {
+    _loadTheme();
+  }
+
+  void _loadTheme() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isDark = prefs.getBool('isDark') ?? false;
+
+    _currentTheme = isDark ? AppThemes.dark() : AppThemes.light();
+    notifyListeners();
+  }
+
+  void toggleTheme() async {
+    _currentTheme =
+    _currentTheme == AppThemes.light() ? AppThemes.dark() : AppThemes.light();
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isDark', _currentTheme == AppThemes.dark());
+
+    notifyListeners();
+  }
+}
+
+/*
+class ThemeProvider with ChangeNotifier {
+  ThemeData _currentTheme = AppThemes.light();
+  // ThemeData _currentTheme = AppThemes.dark();
 
   ThemeData get currentTheme => _currentTheme;
 
@@ -26,6 +55,7 @@ class ThemeProvider with ChangeNotifier {
     notifyListeners();
   }
 }
+*/
 
 AppColors colors(context) => Theme.of(context).extension<AppColors>()!;
 
@@ -41,6 +71,9 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color? orange;
   final Color? violet_light;
   final Color? grey;
+  final Color? grey_dark;
+  final Color? pink;
+  final Color? violet;
 
   const AppColors({
     required this.red_light,
@@ -53,6 +86,9 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.orange,
     required this.violet_light,
     required this.grey,
+    required this.grey_dark,
+    required this.pink,
+    required this.violet,
   });
 
   @override
@@ -67,6 +103,9 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? orange,
     Color? violet_light,
     Color? grey,
+    Color? grey_dark,
+    Color? pink,
+    Color? violet,
   }) {
     return AppColors(
       red_light: red_light ?? this.red_light,
@@ -79,6 +118,9 @@ class AppColors extends ThemeExtension<AppColors> {
       orange: orange ?? this.orange,
       violet_light: violet_light ?? this.violet_light,
       grey: grey ?? this.grey,
+      grey_dark: grey_dark ?? this.grey_dark,
+      pink: pink ?? this.pink,
+      violet: violet ?? this.violet,
     );
   }
 
@@ -98,6 +140,9 @@ class AppColors extends ThemeExtension<AppColors> {
       orange: Color.lerp(orange, other.orange, t),
       violet_light: Color.lerp(violet_light, other.violet_light, t),
       grey: Color.lerp(grey, other.grey, t),
+      grey_dark: Color.lerp(grey_dark, other.grey_dark, t),
+      pink: Color.lerp(pink, other.pink, t),
+      violet: Color.lerp(violet, other.violet, t),
     );
   }
 }
@@ -276,7 +321,7 @@ class AppThemes {
         surfaceTint: const Color(0xFFF4F3FD),
         inversePrimary: const Color(0xFFFFEBF0),
       ),
-      extensions: <ThemeExtension<AppColors>>[
+      extensions: const <ThemeExtension<AppColors>>[
         AppColors(
           red_light: Color(0xFFFFE7EE),
           blue_light: Color(0xFFBAD6FF),
@@ -288,16 +333,19 @@ class AppThemes {
           orange: Color(0xFFFF6905),
           violet_light: Color(0xFFF4F3FD),
           grey: Color(0xFF858597),
+          grey_dark: Color(0xFF707070),
+          pink: Color(0xFFEFE0FF),
+          violet: Color(0xFF440687),
           // green_light: isDarkTheme ? Colors.yellow : Colors.red,
         ),
       ],
-      expansionTileTheme: ExpansionTileThemeData(
-        backgroundColor: const Color(0xFFFFFFFF),
-        collapsedBackgroundColor: const Color(0xFFFFFFFF),
-        textColor: const Color(0xFF1F1F39),
-        collapsedTextColor: const Color(0xFF1F1F39),
-        iconColor: const Color(0xFF1F1F39),
-        collapsedIconColor: const Color(0xFF1F1F39),
+      expansionTileTheme: const ExpansionTileThemeData(
+        backgroundColor: Color(0xFFFFFFFF),
+        collapsedBackgroundColor: Color(0xFFFFFFFF),
+        textColor: Color(0xFF1F1F39),
+        collapsedTextColor: Color(0xFF1F1F39),
+        iconColor: Color(0xFF1F1F39),
+        collapsedIconColor: Color(0xFF1F1F39),
           // iconColor: Colors.red, // Change the icon color
           // textColor: Colors.blue, // Change the text color
           // backgroundColor: Colors.yellow, // Change the background color
@@ -307,20 +355,20 @@ class AppThemes {
 
   static ThemeData dark() {
     return ThemeData(
-        expansionTileTheme: ExpansionTileThemeData(
-          backgroundColor: const Color(0xFF1F1F39),
-          collapsedBackgroundColor: const Color(0xFF1F1F39),
-          textColor: const Color(0xFFB8B8D2),
-          collapsedTextColor: const Color(0xFFB8B8D2),
-          iconColor: const Color(0xFFB8B8D2),
-          collapsedIconColor: const Color(0xFFB8B8D2),
+        expansionTileTheme: const ExpansionTileThemeData(
+          backgroundColor: Color(0xFF1F1F39),
+          collapsedBackgroundColor: Color(0xFF1F1F39),
+          textColor: Color(0xFFB8B8D2),
+          collapsedTextColor: Color(0xFFB8B8D2),
+          iconColor: Color(0xFFB8B8D2),
+          collapsedIconColor: Color(0xFFB8B8D2),
 
           // collapsedTextColor: Colors.red,
           // iconColor: Colors.red, // Change the icon color
           // textColor: Colors.blue, // Change the text color
           // backgroundColor: Colors.yellow, // Change the background color
         ),
-        extensions: <ThemeExtension<AppColors>>[
+        extensions: const <ThemeExtension<AppColors>>[
           AppColors(
             red_light: Color(0xFF2F2F42),
             blue_light: Color(0xFF2F2F42),
@@ -332,6 +380,9 @@ class AppThemes {
             orange: Color(0xFFFF6905),
             violet_light: Color(0xFFF4F3FD),
             grey: Color(0xFFB8B8D2),
+            grey_dark: Color(0xFF707070),
+            pink: Color(0xFFEFE0FF),
+            violet: Color(0xFF440687),
 
             // green_light: isDarkTheme ? Colors.yellow : Colors.red,
           ),
