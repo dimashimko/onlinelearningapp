@@ -2,10 +2,7 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:online_learning_app/pages/auth_pages/widgets/successfulRegistrationDialog.dart';
 import 'package:online_learning_app/pages/main_page.dart';
-import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/utils/show_custom_snack_bar.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/elements/custom_keyboard.dart';
@@ -47,14 +44,10 @@ class _VerifyPhonePageState extends State<VerifyPhonePage> {
     );
   }
 
-  void _goToBackPage(BuildContext context) {
-    Navigator.of(context).pop();
-  }
 
   final TextEditingController _pinController = TextEditingController();
 
   Future<void> _onTapVerify() async {
-
     final bool isValid =
         _pinController.text.length == VerifyPhonePage.pinLength;
     log('*** isValid: $isValid');
@@ -83,13 +76,12 @@ class _VerifyPhonePageState extends State<VerifyPhonePage> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TemplatePageAppBar(onTap: () {
-        _goToBackPage(context);
-      }),
+      appBar: const CustomAppBarDefault(
+        title: 'Verify Phone',
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -126,9 +118,6 @@ class _VerifyPhonePageState extends State<VerifyPhonePage> {
   }
 }
 
-
-
-
 class PinCodeVerificationWidget extends StatefulWidget {
   const PinCodeVerificationWidget({
     required this.textEditingController,
@@ -138,11 +127,11 @@ class PinCodeVerificationWidget extends StatefulWidget {
   final TextEditingController textEditingController;
 
   @override
-  _PinCodeVerificationWidgetState createState() =>
-      _PinCodeVerificationWidgetState();
+  PinCodeVerificationWidgetState createState() =>
+      PinCodeVerificationWidgetState();
 }
 
-class _PinCodeVerificationWidgetState extends State<PinCodeVerificationWidget> {
+class PinCodeVerificationWidgetState extends State<PinCodeVerificationWidget> {
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -178,18 +167,4 @@ class _PinCodeVerificationWidgetState extends State<PinCodeVerificationWidget> {
       ),
     );
   }
-}
-
-PreferredSizeWidget TemplatePageAppBar({
-  required VoidCallback onTap,
-}) {
-  return CustomAppBar(
-    leading: SvgPicture.asset(AppIcons.close),
-    onLeading: onTap,
-    title: const Text('Verify Phone'),
-    action: const Text(
-      '          ',
-      style: TextStyle(color: Colors.white),
-    ),
-  );
 }

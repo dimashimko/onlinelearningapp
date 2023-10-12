@@ -1,11 +1,7 @@
 import 'dart:developer';
 
-import 'package:day_night_switch/day_night_switch.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/pages/account_pages/privacy_policy_page/privacy_policy_page.dart';
-import 'package:online_learning_app/resources/app_icons.dart';
-import 'package:online_learning_app/resources/app_images.dart';
 import 'package:online_learning_app/resources/app_themes.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
 import 'package:provider/provider.dart';
@@ -32,10 +28,6 @@ class _SettingPageState extends State<SettingPage> {
     ).pushNamed(route, arguments: arguments);
   }
 
-  void _goToBackPage(BuildContext context) {
-    Navigator.of(context).pop();
-  }
-
   void _goToPrivacyPolicyPage() {
     _navigateToPage(
       context: context,
@@ -49,10 +41,12 @@ class _SettingPageState extends State<SettingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: SettingPageAppBar(
-        onTap: () {
-          _goToBackPage(context);
-        },
+      // appBar: AppBar(),
+/*      appBar: settingPageAppBar(
+        onTap: () => _goToBackPage(context),
+      ),*/
+      appBar: const CustomAppBarDefault(
+        title: 'Settings',
       ),
       body: SafeArea(
         child: Padding(
@@ -94,7 +88,7 @@ class _SettingPageState extends State<SettingPage> {
               ),
               const Spacer(),
               InkWell(
-                onTap: ()=> _goToPrivacyPolicyPage(),
+                onTap: () => _goToPrivacyPolicyPage(),
                 child: const Text(
                   'Privacy policy and Term of Use',
                 ),
@@ -107,16 +101,10 @@ class _SettingPageState extends State<SettingPage> {
   }
 }
 
-PreferredSizeWidget SettingPageAppBar({
+PreferredSizeWidget settingPageAppBar({
   required VoidCallback onTap,
 }) {
-  return CustomAppBar(
-    leading: SvgPicture.asset(AppIcons.arrow_back),
-    onLeading: onTap,
-    title: const Text('Settings and Privacy'),
-    action: const Text(
-      '          ',
-      style: TextStyle(color: Colors.white),
-    ),
+  return const CustomAppBarDefault(
+    title: 'Settings',
   );
 }

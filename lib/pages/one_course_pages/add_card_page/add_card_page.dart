@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/models/card/card_model.dart';
-import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
 
@@ -29,7 +27,6 @@ class _AddCardPageState extends State<AddCardPage> {
   late TextEditingController textEditingController;
 
   void onTapSaveNewCard() {
-
     if (formKey.currentState?.validate() ?? false) {
       FocusScope.of(context).unfocus();
       CardModel cardModel = CardModel(
@@ -41,10 +38,6 @@ class _AddCardPageState extends State<AddCardPage> {
       );
       Navigator.pop(context, cardModel);
     }
-  }
-
-  void _goToBackPage(BuildContext context) {
-    Navigator.of(context).pop();
   }
 
   @override
@@ -67,11 +60,10 @@ class _AddCardPageState extends State<AddCardPage> {
 /*    _cardNumber = "";
     _cardCvvCode = '';
     _cardExpiryDate = '';*/
-
   }
 
-  String? cardValidation(String? number){
-    if( number == null|| number.isEmpty ){
+  String? cardValidation(String? number) {
+    if (number == null || number.isEmpty) {
       return "Inputs Can't be Empty";
     }
     return null;
@@ -80,10 +72,8 @@ class _AddCardPageState extends State<AddCardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: addCardPageAppBar(
-        onTap: () {
-          _goToBackPage(context);
-        },
+      appBar: const CustomAppBarDefault(
+        title: 'Add new card',
       ),
       body: Center(
         child: Column(
@@ -228,18 +218,4 @@ class _AddCardPageState extends State<AddCardPage> {
       _isCvvFocused = creditCardModel.isCvvFocused;
     });
   }
-}
-
-PreferredSizeWidget addCardPageAppBar({
-  required VoidCallback onTap,
-}) {
-  return CustomAppBar(
-    leading: SvgPicture.asset(AppIcons.arrow_back),
-    onLeading: onTap,
-    title: const Text('Add new card'),
-    action: const Text(
-      '          ',
-      style: TextStyle(color: Colors.white),
-    ),
-  );
 }

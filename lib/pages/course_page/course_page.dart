@@ -305,19 +305,3 @@ class CoursesListView extends StatelessWidget {
   }
 }
 
-/*PreferredSizeWidget CoursePageAppBar({
-  required VoidCallback onTap,
-}) {
-  return CustomAppBar(
-    leading: Text(
-      'Course',
-      style: Theme.of(context).textTheme.displaySmall,
-    ),
-    // onLeading: (){},
-    title: const Text('CoursePage'),
-    action: const Text(
-      '          ',
-      style: TextStyle(color: Colors.white),
-    ),
-  );
-}*/

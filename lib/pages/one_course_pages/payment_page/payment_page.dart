@@ -56,10 +56,6 @@ class _PaymentPageState extends State<PaymentPage> {
     ).pushNamed(route, arguments: arguments);
   }
 
-  void _goToBackPage(BuildContext context) {
-    Navigator.of(context).pop();
-  }
-
   void _goToAddCardPage() {
     Navigator.of(
       context,
@@ -223,9 +219,9 @@ class _PaymentPageState extends State<PaymentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: paymentPageAppBar(onTap: () {
-        _goToBackPage(context);
-      }),
+      appBar: const CustomAppBarDefault(
+        title: 'Payment',
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -383,18 +379,4 @@ class CardItem extends StatelessWidget {
       ],
     );
   }
-}
-
-PreferredSizeWidget paymentPageAppBar({
-  required VoidCallback onTap,
-}) {
-  return CustomAppBar(
-    leading: SvgPicture.asset(AppIcons.arrow_back),
-    onLeading: onTap,
-    title: const Text('Payment'),
-    action: const Text(
-      '          ',
-      style: TextStyle(color: Colors.white),
-    ),
-  );
 }

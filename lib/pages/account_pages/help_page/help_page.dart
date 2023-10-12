@@ -1,8 +1,6 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/resources/app_themes.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
 import 'package:provider/provider.dart';
@@ -12,31 +10,13 @@ class HelpPage extends StatelessWidget {
 
   static const routeName = '/account_pages/help_page';
 
-  void _navigateToPage({
-    required BuildContext context,
-    required String route,
-    bool isRoot = false,
-    Object? arguments,
-  }) {
-    Navigator.of(
-      context,
-      rootNavigator: isRoot,
-    ).pushNamed(route, arguments: arguments);
-  }
-
-  void _goToBackPage(BuildContext context) {
-    Navigator.of(context).pop();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: HelpPageAppBar(
-        onTap: () {
-          _goToBackPage(context);
-        },
+    return const Scaffold(
+      appBar: CustomAppBarDefault(
+        title: 'Help',
       ),
-      body: const SafeArea(
+      body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(20.0),
           child: SingleChildScrollView(
@@ -135,56 +115,40 @@ class QAItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // color: Colors.grey,
-      child: ExpansionTile(
-        // backgroundColor: Theme.of(context).colorScheme.outlineVariant,
-        // textColor: Theme.of(context).colorScheme.onSecondaryContainer,
-        // backgroundColor: Colors.grey,
-        // textColor: Colors.black,
-        title: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: Text(
-            question,
-            style: TextStyle(fontSize: 18.0),
+    return ExpansionTile(
+      // backgroundColor: Theme.of(context).colorScheme.outlineVariant,
+      // textColor: Theme.of(context).colorScheme.onSecondaryContainer,
+      // backgroundColor: Colors.grey,
+      // textColor: Colors.black,
+      title: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Text(
+          question,
+          style: const TextStyle(fontSize: 18.0),
+        ),
+      ),
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: Column(
+            children: [
+              Text(
+                answer,
+                style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w400,
+                    ),
+                // style: TextStyle(
+                //   fontSize: 16.0,
+                //   color: Theme.of(context).colorScheme.onSecondaryContainer,
+                // ),
+              ),
+              const SizedBox(height: 8.0),
+            ],
           ),
         ),
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Column(
-              children: [
-                Text(
-                  answer,
-                  style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w400,
-                      ),
-                  // style: TextStyle(
-                  //   fontSize: 16.0,
-                  //   color: Theme.of(context).colorScheme.onSecondaryContainer,
-                  // ),
-                ),
-                SizedBox(height: 8.0),
-              ],
-            ),
-          ),
-        ],
-      ),
+      ],
     );
   }
 }
 
-PreferredSizeWidget HelpPageAppBar({
-  required VoidCallback onTap,
-}) {
-  return CustomAppBar(
-    leading: SvgPicture.asset(AppIcons.arrow_back),
-    onLeading: onTap,
-    title: const Text('Help'),
-    action: const Text(
-      '          ',
-      style: TextStyle(color: Colors.white),
-    ),
-  );
-}

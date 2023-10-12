@@ -101,7 +101,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: HomePageAppBar(),
+      // appBar: homePageAppBar(),
+/*      appBar: const CustomAppBarDefault(
+        title: 'HomePage',
+      ),*/
       body: SafeArea(
         child: BlocListener<CoursesBloc, CoursesState>(
           listenWhen: (previous, current) {
@@ -145,8 +148,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 const LearningPlanWidget(),
                 const MeetupBanner(),
-
-                Buttons(),
+                const Buttons(),
               ],
             ),
           ),
@@ -339,9 +341,9 @@ class CourseProgressItem extends StatelessWidget {
             child: Text(
               courseModel.name ?? '',
               style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                fontWeight: FontWeight.w500,
-                fontSize: 14.0,
-              ),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14.0,
+                  ),
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -531,7 +533,7 @@ class UserInfoWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Hi, ${state.accountModel.name}',
+                      'Hi, ${state.accountModel.name?? 'User'}',
                       style: Theme.of(context).textTheme.displayLarge?.copyWith(
                             color: colors(context).white,
                             fontSize: 24.0,
@@ -674,7 +676,9 @@ class _ButtonsState extends State<Buttons> {
 
 PreferredSizeWidget homePageAppBar() {
   return const CustomAppBar(
-    title: Text('HomePage'),
+    title: Text(
+      'HomePage',
+    ),
     action: Text(
       '          ',
       style: TextStyle(color: Colors.white),

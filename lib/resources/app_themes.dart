@@ -273,7 +273,7 @@ class AppThemes {
         ),
       ),
       // scaffoldBackgroundColor: Colors.transparent,
-      // scaffoldBackgroundColor: Colors.red,
+      scaffoldBackgroundColor: const Color(0xFFFFFFFF),
       colorScheme: const ColorScheme.light().copyWith(
         // onSecondaryContainer: const Color(0xFFFFFFFF),
         // tertiary: const Color(0xFFFFFFFF),

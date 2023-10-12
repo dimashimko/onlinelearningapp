@@ -1,6 +1,50 @@
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/resources/app_colors.dart';
 import 'package:online_learning_app/resources/app_fonts.dart';
 import 'package:flutter/material.dart';
+import 'package:online_learning_app/resources/app_icons.dart';
+
+class CustomAppBarDefault extends StatelessWidget
+    implements PreferredSizeWidget {
+  const CustomAppBarDefault({
+    Key? key,
+    this.title,
+    this.onLeading,
+  }) : super(key: key);
+
+  final String? title;
+  final void Function()? onLeading;
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomAppBar(
+      leading: SvgPicture.asset(
+        AppIcons.arrow_back,
+        colorFilter: ColorFilter.mode(
+          Theme.of(context).colorScheme.onSecondaryContainer,
+          BlendMode.srcIn,
+        ),
+      ),
+      // onLeading: onLeading,
+      onLeading: () {
+        Navigator.of(context).pop();
+      },
+      title: Text(
+        title ?? '',
+        style: Theme.of(context).textTheme.displayLarge?.copyWith(
+              fontSize: 24.0,
+            ),
+      ),
+      action: const Text(
+        '          ',
+        // style: TextStyle(color: Colors.white),
+      ),
+    );
+  }
+}
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({

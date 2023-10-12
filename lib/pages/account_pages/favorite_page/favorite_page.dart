@@ -2,13 +2,11 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
 import 'package:online_learning_app/blocs/progress_bloc/progress_bloc.dart';
 import 'package:online_learning_app/models/course/course_model.dart';
 import 'package:online_learning_app/models/progress/progress_model.dart';
 import 'package:online_learning_app/pages/one_course_pages/one_course_page/one_course_page.dart';
-import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/resources/app_themes.dart';
 import 'package:online_learning_app/utils/count_completed_lesson.dart';
 import 'package:online_learning_app/widgets/buttons/custom_play_button.dart';
@@ -40,10 +38,6 @@ class _FavoritePageState extends State<FavoritePage> {
     ).pushNamed(route, arguments: arguments);
   }
 
-  void _goToBackPage(BuildContext context) {
-    Navigator.of(context).pop();
-  }
-
   void _goToOneCoursePage({
     required String uidCourse,
   }) async {
@@ -64,8 +58,8 @@ class _FavoritePageState extends State<FavoritePage> {
     //
     log('*** initState MyCoursesPage');
     context.read<ProgressBloc>().add(
-      GetUserProgressEvent(),
-    );
+          GetUserProgressEvent(),
+        );
 /*    userProgress = context.read<ProgressBloc>().state.userProgress;
     context.read<CoursesBloc>().add(
           FilterUserCourses(
@@ -92,10 +86,8 @@ class _FavoritePageState extends State<FavoritePage> {
       colors(context).greenLight ?? Colors.red,
     ];
     return Scaffold(
-      appBar: myCoursesPageAppBar(
-        onTap: () {
-          _goToBackPage(context);
-        },
+      appBar: const CustomAppBarDefault(
+        title: 'Favourite',
       ),
       body: SafeArea(
         child: Padding(
@@ -110,17 +102,18 @@ class _FavoritePageState extends State<FavoritePage> {
                   return p.favoriteList != c.favoriteList;
                 },
                 builder: (context, stateCoursesBloc) {
-                  userProgress = context.read<ProgressBloc>().state.userProgress;
+                  userProgress =
+                      context.read<ProgressBloc>().state.userProgress;
                   context.read<CoursesBloc>().add(
-                    FilterUserCourses(
-                      userProgress: userProgress,
-                    ),
-                  );
+                        FilterUserCourses(
+                          userProgress: userProgress,
+                        ),
+                      );
                   log('*** BlocBuilder<CoursesBloc');
                   return Expanded(
                     child: GridView.builder(
                       gridDelegate:
-                      const SliverGridDelegateWithMaxCrossAxisExtent(
+                          const SliverGridDelegateWithMaxCrossAxisExtent(
                         maxCrossAxisExtent: 200,
                         childAspectRatio: 5 / 6,
                         crossAxisSpacing: 16,
@@ -130,7 +123,7 @@ class _FavoritePageState extends State<FavoritePage> {
                       itemBuilder: (context, index) {
                         int lessonCompleted = countCompletedLesson(
                           userProgress: userProgress?[
-                          stateCoursesBloc.favoriteList[index].uid],
+                              stateCoursesBloc.favoriteList[index].uid],
                         );
 
                         return InkWell(
@@ -143,8 +136,7 @@ class _FavoritePageState extends State<FavoritePage> {
                             }
                           },
                           child: CourseItem(
-                            courseModel:
-                            stateCoursesBloc.favoriteList[index],
+                            courseModel: stateCoursesBloc.favoriteList[index],
                             backgroundColor: backgroundColorsList[index % 3],
                             color: colorsList[index % 3],
                             lessonCompleted: lessonCompleted,
@@ -193,8 +185,8 @@ class CourseItem extends StatelessWidget {
             Text(
               courseModel.name ?? '',
               style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                fontSize: 16.0,
-              ),
+                    fontSize: 16.0,
+                  ),
             ),
             const SizedBox(height: 20.0),
             Stack(
@@ -216,7 +208,7 @@ class CourseItem extends StatelessWidget {
                       begin: Alignment.centerLeft,
                       end: Alignment(
                           ((lessonCompleted * 2) /
-                              (courseModel.lessons?.length ?? 1)) -
+                                  (courseModel.lessons?.length ?? 1)) -
                               1,
                           0.0),
                       colors: <Color>[
@@ -244,8 +236,8 @@ class CourseItem extends StatelessWidget {
                 Text(
                   '${lessonCompleted.toString()}/${courseModel.lessons?.length}',
                   style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                    fontSize: 20.0,
-                  ),
+                        fontSize: 20.0,
+                      ),
                 ),
                 CustomPlayButton(
                   onTap: () {},
@@ -302,18 +294,4 @@ class CustomLinearGradientLine extends StatelessWidget {
       ],
     );
   }
-}
-
-PreferredSizeWidget myCoursesPageAppBar({
-  required VoidCallback onTap,
-}) {
-  return CustomAppBar(
-    leading: SvgPicture.asset(AppIcons.arrow_back),
-    onLeading: onTap,
-    title: const Text('Favourite'),
-    action: const Text(
-      '          ',
-      style: TextStyle(color: Colors.white),
-    ),
-  );
 }

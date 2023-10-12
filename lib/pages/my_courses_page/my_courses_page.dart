@@ -2,13 +2,11 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
 import 'package:online_learning_app/blocs/progress_bloc/progress_bloc.dart';
 import 'package:online_learning_app/models/course/course_model.dart';
 import 'package:online_learning_app/models/progress/progress_model.dart';
 import 'package:online_learning_app/pages/one_course_pages/one_course_page/one_course_page.dart';
-import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/resources/app_themes.dart';
 import 'package:online_learning_app/utils/count_completed_lesson.dart';
 import 'package:online_learning_app/widgets/buttons/custom_play_button.dart';
@@ -39,10 +37,6 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
       context,
       rootNavigator: isRoot,
     ).pushNamed(route, arguments: arguments);
-  }
-
-  void _goToBackPage(BuildContext context) {
-    Navigator.of(context).pop();
   }
 
   void _goToOneCoursePage({
@@ -91,10 +85,8 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
       colors(context).greenLight ?? Colors.red,
     ];
     return Scaffold(
-      appBar: MyCoursesPageAppBar(
-        onTap: () {
-          _goToBackPage(context);
-        },
+      appBar: const CustomAppBarDefault(
+        title: 'My Courses',
       ),
       body: SafeArea(
         child: Padding(
@@ -306,16 +298,3 @@ class CustomLinearGradientLine extends StatelessWidget {
   }
 }
 
-PreferredSizeWidget MyCoursesPageAppBar({
-  required VoidCallback onTap,
-}) {
-  return CustomAppBar(
-    leading: SvgPicture.asset(AppIcons.arrow_back),
-    onLeading: onTap,
-    title: const Text('My Courses'),
-    action: const Text(
-      '          ',
-      style: TextStyle(color: Colors.white),
-    ),
-  );
-}

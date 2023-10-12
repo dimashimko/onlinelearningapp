@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
 
 class PrivacyPolicyPage extends StatelessWidget {
@@ -8,31 +6,15 @@ class PrivacyPolicyPage extends StatelessWidget {
 
   static const routeName = '/account_pages/privacy_policy_page';
 
-  void _navigateToPage({
-    required BuildContext context,
-    required String route,
-    bool isRoot = false,
-    Object? arguments,
-  }) {
-    Navigator.of(
-      context,
-      rootNavigator: isRoot,
-    ).pushNamed(route, arguments: arguments);
-  }
-
-  void _goToBackPage(BuildContext context) {
-    Navigator.of(context).pop();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PrivacyPolicyPageAppBar(onTap: () {
-        _goToBackPage(context);
-      }),
+    return const Scaffold(
+      appBar: CustomAppBarDefault(
+        title: 'Privacy policy',
+      ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: EdgeInsets.all(20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -52,16 +34,4 @@ Information We Collect: When you use our app, we may collect the following infor
   }
 }
 
-PreferredSizeWidget PrivacyPolicyPageAppBar({
-  required VoidCallback onTap,
-}) {
-  return CustomAppBar(
-    leading: SvgPicture.asset(AppIcons.arrow_back),
-    onLeading: onTap,
-    title: Text('PrivacyPolicy'),
-    action: Text(
-      '          ',
-      style: TextStyle(color: Colors.white),
-    ),
-  );
-}
+

@@ -9,7 +9,6 @@ import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/resources/app_images.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/elements/custom_image_viewer.dart';
-import 'package:online_learning_app/widgets/elements/custom_text_form.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
 
 class EditAccountPage extends StatefulWidget {
@@ -24,21 +23,6 @@ class EditAccountPage extends StatefulWidget {
 class _EditAccountPageState extends State<EditAccountPage> {
   final TextEditingController nameController = TextEditingController();
   String? avatarLink;
-
-  void _navigateToPage({
-    required BuildContext context,
-    required String route,
-    bool isRoot = false,
-    Object? arguments,
-  }) {
-    Navigator.of(
-      context,
-      rootNavigator: isRoot,
-    ).pushNamed(
-      route,
-      arguments: arguments,
-    );
-  }
 
   void _goToBackPage(BuildContext context) {
     Navigator.of(context).pop();
@@ -67,8 +51,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
           GetAccountModel(),
         );
     avatarLink = context.read<AccountBloc>().state.accountModel.avatarLink;
-    String? userName =
-        context.read<AccountBloc>().state.accountModel.name;
+    String? userName = context.read<AccountBloc>().state.accountModel.name;
     nameController.text = userName ?? '';
   }
 
@@ -77,17 +60,14 @@ class _EditAccountPageState extends State<EditAccountPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false, // fluter 2.x
 
-      appBar: EditAccountPageAppBar(
-        onTap: () {
-          _goToBackPage(context);
-        },
+      appBar: const CustomAppBarDefault(
+        title: 'Edit account',
       ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: BlocBuilder<AccountBloc, AccountState>(
             builder: (context, state) {
-
               return Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -140,7 +120,7 @@ class UserAvatar extends StatelessWidget {
       height: 96.0,
       child: InkWell(
         onTap: () async {
-          print('*** choice photo');
+          log('*** choice photo');
           final ImagePicker picker = ImagePicker();
           final XFile? image = await picker.pickImage(
             source: ImageSource.gallery,
@@ -152,7 +132,7 @@ class UserAvatar extends StatelessWidget {
               print(image.path);
             });*/
           } else {
-            print('*** image not choiced');
+            log('*** image not choiced');
           }
         },
         child: Stack(
@@ -162,7 +142,6 @@ class UserAvatar extends StatelessWidget {
               link: avatarLink,
               alternativePhoto: AppImages.empty_avatar,
               boxFitNetworkImage: BoxFit.fitHeight,
-
             ),
 /*            Container(
               // width: 96.0,
@@ -205,26 +184,5 @@ class UserNameTextField extends StatelessWidget {
         ),
       ),
     );
-    return CustomTextFormField(
-      // key: widget.contentFormFieldKey,
-      controller: nameController,
-      keyboardType: TextInputType.text,
-      // textInputAction: TextInputAction.next,
-      hintText: 'Name',
-    );
   }
-}
-
-PreferredSizeWidget EditAccountPageAppBar({
-  required VoidCallback onTap,
-}) {
-  return CustomAppBar(
-    leading: SvgPicture.asset(AppIcons.arrow_back),
-    onLeading: onTap,
-    title: Text('Edit account'),
-    action: Text(
-      '          ',
-      style: TextStyle(color: Colors.white),
-    ),
-  );
 }

@@ -5,7 +5,6 @@ import 'package:online_learning_app/models/message_model/message_model.dart';
 import 'package:online_learning_app/pages/notification_page/no_notification_widget/no_notification_widget.dart';
 import 'package:online_learning_app/resources/app_images.dart';
 import 'package:online_learning_app/resources/app_themes.dart';
-import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/elements/custom_image_viewer.dart';
 import 'package:intl/intl.dart';
 
@@ -57,7 +56,7 @@ class MessageItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(4.0),
+      padding: const EdgeInsets.all(4.0),
       child: Container(
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surface,
@@ -73,7 +72,7 @@ class MessageItem extends StatelessWidget {
           // borderRadius: BorderRadius.vertical(bottom: Radius.circular(16.0)),
           // color: Colors.black54,
         ),
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
             Row(
@@ -86,7 +85,7 @@ class MessageItem extends StatelessWidget {
                     alternativePhoto: AppImages.empty_message_icon,
                   ),
                 ),
-                SizedBox(width: 8.0),
+                const SizedBox(width: 8.0),
                 Expanded(
                   child: Text(
                     message.name??'',
@@ -95,7 +94,7 @@ class MessageItem extends StatelessWidget {
                         ),
                   ),
                 ),
-                SizedBox(width: 8.0),
+                const SizedBox(width: 8.0),
                 Text(
                   formatDateTime(
                     DateTime.tryParse(message.time.toString()) ??
@@ -105,7 +104,7 @@ class MessageItem extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 12.0),
+            const SizedBox(height: 12.0),
             Text(
               message.text ?? '',
               style: TextStyle(
@@ -116,7 +115,7 @@ class MessageItem extends StatelessWidget {
                 color: colors(context).grey!
               ),*/
             ),
-            SizedBox(height: 12.0),
+            const SizedBox(height: 12.0),
             if (message.imageLink != null)
               CustomImageViewer(
                 link: message.imageLink,

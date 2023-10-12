@@ -3,14 +3,12 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/blocs/notification_bloc/notification_bloc.dart';
 import 'package:online_learning_app/pages/auth_pages/log_in_page/log_in_page.dart';
 import 'package:online_learning_app/pages/auth_pages/verify_phone_page/verify_phone_page.dart';
 import 'package:online_learning_app/pages/auth_pages/widgets/authFormFields.dart';
 import 'package:online_learning_app/pages/auth_pages/widgets/successfulRegistrationDialog.dart';
 import 'package:online_learning_app/pages/main_page.dart';
-import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/utils/show_custom_snack_bar.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/elements/custom_error_text.dart';
@@ -35,10 +33,6 @@ class _SignUpPageState extends State<SignUpPage> {
       context,
       rootNavigator: isRoot,
     ).pushReplacementNamed(route);
-  }
-
-  void _goToBackPage(BuildContext context) {
-    Navigator.of(context).pop();
   }
 
   void _goToLogInPage(BuildContext context) {
@@ -80,8 +74,8 @@ class _SignUpPageState extends State<SignUpPage> {
 
   void _successfulRegistration() async {
     context.read<NotificationBloc>().add(
-      AddNotificationSuccessfulRegistrationEvent(),
-    );
+          AddNotificationSuccessfulRegistrationEvent(),
+        );
     _showCompleteRegistrationDialog();
   }
 
@@ -173,13 +167,17 @@ class _SignUpPageState extends State<SignUpPage> {
       }
       // _goToMainPage();
     } on FirebaseAuthException catch (e) {
-      Navigator.of(context).pop();
-      log('*** e.code: ${e.code}');
-      log('*** e.message: ${e.message}');
-      showCustomSnackBar(context, e.message);
+      if (mounted) {
+        Navigator.of(context).pop();
+        log('*** e.code: ${e.code}');
+        log('*** e.message: ${e.message}');
+        showCustomSnackBar(context, e.message);
+      }
     } catch (e) {
-      log('*** Unhandled error: ${e.toString()}');
-      showCustomSnackBar(context, 'SomeError');
+      if (mounted) {
+        log('*** Unhandled error: ${e.toString()}');
+        showCustomSnackBar(context, 'SomeError');
+      }
     }
   }
 
@@ -200,12 +198,8 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.tertiary,
-      appBar: SignUpPageAppBar(
-        iconColor: Theme.of(context).colorScheme.onBackground,
-        backgroundColor: Theme.of(context).colorScheme.tertiary,
-        onTap: () {
-          _goToBackPage(context);
-        },
+      appBar: const CustomAppBarDefault(
+        title: '',
       ),
       body: SafeArea(
         child: LayoutBuilder(
@@ -347,13 +341,13 @@ class _SignUpPageState extends State<SignUpPage> {
 }
 
 class CustomCheckBox extends StatefulWidget {
-  CustomCheckBox({
+  const CustomCheckBox({
     required this.acceptPrivacyPolicy,
     required this.changeAcceptPrivacyPolicy,
     Key? key,
   }) : super(key: key);
 
-  bool acceptPrivacyPolicy;
+  final bool acceptPrivacyPolicy;
   final Function(bool) changeAcceptPrivacyPolicy;
 
   @override
@@ -361,15 +355,25 @@ class CustomCheckBox extends StatefulWidget {
 }
 
 class _CustomCheckBoxState extends State<CustomCheckBox> {
+  bool acceptPrivacyPolicy = false;
+
+/*  @override
+  void initState() {
+    super.initState();
+    acceptPrivacyPolicy = widget.acceptPrivacyPolicy;
+  }*/
+
   @override
   Widget build(BuildContext context) {
-    return widget.acceptPrivacyPolicy
+    return acceptPrivacyPolicy
         ? InkWell(
             child: const Icon(Icons.check_box),
             onTap: () {
               setState(() {
-                widget.acceptPrivacyPolicy = false;
-                widget.changeAcceptPrivacyPolicy(widget.acceptPrivacyPolicy);
+                acceptPrivacyPolicy = false;
+                widget.changeAcceptPrivacyPolicy(
+                  acceptPrivacyPolicy,
+                );
               });
             },
           )
@@ -377,37 +381,13 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
             child: const Icon(Icons.check_box_outline_blank),
             onTap: () {
               setState(() {
-                widget.acceptPrivacyPolicy = true;
-                widget.changeAcceptPrivacyPolicy(widget.acceptPrivacyPolicy);
+                acceptPrivacyPolicy = true;
+                widget.changeAcceptPrivacyPolicy(
+                  acceptPrivacyPolicy,
+                );
               });
             },
           );
     // : Icon(Icons.check_box_outline_blank);
   }
-}
-
-PreferredSizeWidget SignUpPageAppBar({
-  required Color iconColor,
-  required Color backgroundColor,
-  required VoidCallback onTap,
-}) {
-  return CustomAppBar(
-    backgroundColor: backgroundColor,
-    leading: SvgPicture.asset(
-      AppIcons.arrow_back,
-      colorFilter: ColorFilter.mode(
-        iconColor,
-        BlendMode.srcIn,
-      ),
-      // color: Colors.red,
-    ),
-    onLeading: onTap,
-    // title: Text('titleSignUpPage'),
-    action: const Text(
-      '          ',
-      style: TextStyle(
-        color: Colors.white,
-      ),
-    ),
-  );
 }

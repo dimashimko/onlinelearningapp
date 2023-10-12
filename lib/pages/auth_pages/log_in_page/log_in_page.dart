@@ -26,10 +26,6 @@ class LogInPage extends StatefulWidget {
 }
 
 class _LogInPageState extends State<LogInPage> {
-  void _goToBackPage() {
-    Navigator.of(context).pop();
-  }
-
   void _goToSignUpPage() async {
     Navigator.pushNamedAndRemoveUntil(
       context,
@@ -98,7 +94,7 @@ class _LogInPageState extends State<LogInPage> {
       ),
     );
     await FirebaseAuth.instance.verifyPhoneNumber(
-      timeout: Duration(seconds: 3),
+      timeout: const Duration(seconds: 3),
       phoneNumber: _contactController.text.trim().replaceAll(' ', ''),
       verificationCompleted: (PhoneAuthCredential credential) async {
         log("*** verificationCompleted");
@@ -144,13 +140,17 @@ class _LogInPageState extends State<LogInPage> {
         _goToMainPage();
       }
     } on FirebaseAuthException catch (e) {
-      Navigator.of(context).pop();
-      log('*** e.code: ${e.code}');
-      log('*** e.message: ${e.message}');
-      showCustomSnackBar(context, e.message);
+      if (mounted) {
+        Navigator.of(context).pop();
+        log('*** e.code: ${e.code}');
+        log('*** e.message: ${e.message}');
+        showCustomSnackBar(context, e.message);
+      }
     } catch (e) {
       log('*** Unhandled error: ${e.toString()}');
-      showCustomSnackBar(context, 'SomeError');
+      if (mounted) {
+        showCustomSnackBar(context, 'SomeError');
+      }
     }
   }
 
@@ -190,14 +190,18 @@ class _LogInPageState extends State<LogInPage> {
           Navigator.of(context).pop();
         }
       } on FirebaseAuthException catch (e) {
-        Navigator.of(context).pop();
-        log('*** e.code: ${e.code}');
-        log('*** e.message: ${e.message}');
-        showCustomSnackBar(context, e.message);
+        if (mounted) {
+          Navigator.of(context).pop();
+          log('*** e.code: ${e.code}');
+          log('*** e.message: ${e.message}');
+          showCustomSnackBar(context, e.message);
+        }
       } catch (e) {
-        Navigator.of(context).pop();
-        log('*** Unhandled error: ${e.toString()}');
-        showCustomSnackBar(context, 'SomeError');
+        if (mounted) {
+          Navigator.of(context).pop();
+          log('*** Unhandled error: ${e.toString()}');
+          showCustomSnackBar(context, 'SomeError');
+        }
       }
     } else {
       showCustomSnackBar(context, 'Email is incorrect');
@@ -232,14 +236,18 @@ class _LogInPageState extends State<LogInPage> {
         return _goToMainPage();
       }
     } on FirebaseAuthException catch (e) {
-      Navigator.of(context).pop();
-      log('*** e.code: ${e.code}');
-      log('*** e.message: ${e.message}');
-      showCustomSnackBar(context, e.message);
+      if (mounted) {
+        Navigator.of(context).pop();
+        log('*** e.code: ${e.code}');
+        log('*** e.message: ${e.message}');
+        showCustomSnackBar(context, e.message);
+      }
     } catch (e) {
-      log('*** Unhandled error: ${e.toString()}');
-      Navigator.of(context).pop();
-      showCustomSnackBar(context, 'SomeError');
+      if (mounted) {
+        log('*** Unhandled error: ${e.toString()}');
+        Navigator.of(context).pop();
+        showCustomSnackBar(context, 'SomeError');
+      }
     }
   }
 
@@ -252,7 +260,7 @@ class _LogInPageState extends State<LogInPage> {
   }
 
   void _printCredentials() {
-    print(
+    log(
       prettyPrint(_accessToken!.toJson()),
     );
   }
@@ -293,14 +301,14 @@ class _LogInPageState extends State<LogInPage> {
 
         // Create a credential from the access token
         final OAuthCredential facebookAuthCredential =
-            await FacebookAuthProvider.credential(result.accessToken!.token);
+            FacebookAuthProvider.credential(result.accessToken!.token);
         log('*** facebookAuthCredential: $facebookAuthCredential');
 
         // Once signed in, return the UserCredential
         UserCredential userCredential = await FirebaseAuth.instance
             .signInWithCredential(facebookAuthCredential);
 
-        log('*** userCredential${userCredential}');
+        log('*** userCredential$userCredential');
         log('*** userCredential${userCredential.toString()}');
         log('*** FirebaseAuth.instance.currentUser: ${FirebaseAuth.instance.currentUser}');
 
@@ -308,19 +316,25 @@ class _LogInPageState extends State<LogInPage> {
           return _goToMainPage();
         }
       } on FirebaseAuthException catch (e) {
-        Navigator.of(context).pop();
-        log('*** e.code: ${e.code}');
-        log('*** e.message: ${e.message}');
-        showCustomSnackBar(context, e.message);
+        if (mounted) {
+          Navigator.of(context).pop();
+          log('*** e.code: ${e.code}');
+          log('*** e.message: ${e.message}');
+          showCustomSnackBar(context, e.message);
+        }
       } catch (e) {
-        log('*** Unhandled error: ${e.toString()}');
-        Navigator.of(context).pop();
-        showCustomSnackBar(context, 'SomeError');
+        if (mounted) {
+          log('*** Unhandled error: ${e.toString()}');
+          Navigator.of(context).pop();
+          showCustomSnackBar(context, 'SomeError');
+        }
       }
     } else {
-      Navigator.of(context).pop();
-      print(result.status);
-      print(result.message);
+      if (mounted) {
+        Navigator.of(context).pop();
+        log(result.status.toString());
+        log(result.message.toString());
+      }
     }
   }
 
@@ -328,12 +342,8 @@ class _LogInPageState extends State<LogInPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.tertiary,
-      appBar: LogInPageAppBar(
-        iconColor: Theme.of(context).colorScheme.onBackground,
-        backgroundColor: Theme.of(context).colorScheme.tertiary,
-        onTap: () {
-          _goToBackPage();
-        },
+      appBar: const CustomAppBarDefault(
+        title: '',
       ),
       body: SafeArea(
         child: LayoutBuilder(
@@ -506,30 +516,4 @@ class LoginWithOtherServicesButtons extends StatelessWidget {
       ],
     );
   }
-}
-
-PreferredSizeWidget LogInPageAppBar({
-  required Color iconColor,
-  required Color backgroundColor,
-  required VoidCallback onTap,
-}) {
-  return CustomAppBar(
-    backgroundColor: backgroundColor,
-    leading: SvgPicture.asset(
-      AppIcons.arrow_back,
-      colorFilter: ColorFilter.mode(
-        iconColor,
-        BlendMode.srcIn,
-      ),
-      // color: Colors.red,
-    ),
-    onLeading: onTap,
-    // title: Text('titleSignUpPage'),
-    action: const Text(
-      '          ',
-      style: TextStyle(
-        color: Colors.white,
-      ),
-    ),
-  );
 }

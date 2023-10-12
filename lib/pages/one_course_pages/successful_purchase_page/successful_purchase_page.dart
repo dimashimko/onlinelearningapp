@@ -23,7 +23,7 @@ class CheckPaymentStatusPageArguments {
 }
 
 class CheckPaymentStatusPage extends StatefulWidget {
-  CheckPaymentStatusPage({
+  const CheckPaymentStatusPage({
     required this.liqPayOrder,
     Key? key,
   }) : super(key: key);
@@ -45,18 +45,6 @@ class _CheckPaymentStatusPageState extends State<CheckPaymentStatusPage> {
   // Widget contentWidget = const CircularProgressIndicator();
   Widget contentWidget = const WaitStatusWidget(counterState: 0);
 
-  void _navigateToPage({
-    required BuildContext context,
-    required String route,
-    bool isRoot = false,
-    Object? arguments,
-  }) {
-    Navigator.of(
-      context,
-      rootNavigator: isRoot,
-    ).pushNamed(route, arguments: arguments);
-  }
-
   void _goToBackPage(BuildContext context) {
     Navigator.of(context).pop();
   }
@@ -67,7 +55,6 @@ class _CheckPaymentStatusPageState extends State<CheckPaymentStatusPage> {
       log('*** route.settings.name: ${route.settings.name}');
       return route.settings.name == OneCoursePage.routeName;
     });
-
   }
 
 /*  void _navigateToPage(String route) {
@@ -124,7 +111,6 @@ class _CheckPaymentStatusPageState extends State<CheckPaymentStatusPage> {
     ProgressBloc progressBloc = context.read<ProgressBloc>();
     NotificationBloc notificationBloc = context.read<NotificationBloc>();
 
-
     try {
       CustomPaymentStatus customPaymentStatus =
           await customLiqPay.checkOrderStatus(widget.liqPayOrder.id);
@@ -172,9 +158,9 @@ class _CheckPaymentStatusPageState extends State<CheckPaymentStatusPage> {
 
   void tryOpenUrl(String link) {
     // log('*** link: $link');
-    final Uri? _uri = Uri.tryParse(link);
-    if (_uri != null) {
-      _launchUrl(_uri);
+    final Uri? uri = Uri.tryParse(link);
+    if (uri != null) {
+      _launchUrl(uri);
     }
   }
 
@@ -188,17 +174,15 @@ class _CheckPaymentStatusPageState extends State<CheckPaymentStatusPage> {
         throw 'Could not launch $url';
       }
     } catch (e) {
-      print(e);
+      log(e.toString());
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CheckPaymentStatusPageAppBar(
-        onTap: () {
-          _goToBackPage(context);
-        },
+      appBar: const CustomAppBarDefault(
+        title: '',
       ),
       body: SafeArea(
         child: Padding(
@@ -301,18 +285,4 @@ class SuccessfulPaymentWidget extends StatelessWidget {
       ],
     );
   }
-}
-
-PreferredSizeWidget CheckPaymentStatusPageAppBar({
-  required VoidCallback onTap,
-}) {
-  return CustomAppBar(
-    leading: SvgPicture.asset(AppIcons.arrow_back),
-    onLeading: onTap,
-    title: const Text(''),
-    action: const Text(
-      '          ',
-      style: TextStyle(color: Colors.white),
-    ),
-  );
 }

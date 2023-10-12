@@ -7,7 +7,6 @@ import 'package:online_learning_app/blocs/notification_bloc/notification_bloc.da
 import 'package:online_learning_app/pages/notification_page/message/message_tab_view.dart';
 import 'package:online_learning_app/pages/notification_page/notification/notification_tab_view.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
-import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({Key? key}) : super(key: key);
@@ -173,16 +172,3 @@ class TitleOfPage extends StatelessWidget {
   }
 }
 
-PreferredSizeWidget messagePageAppBar({
-  required VoidCallback onTap,
-}) {
-  return CustomAppBar(
-    leading: SvgPicture.asset(AppIcons.arrow_back),
-    onLeading: () {},
-    title: const Text('Notifications'),
-    action: const Text(
-      '          ',
-      style: TextStyle(color: Colors.white),
-    ),
-  );
-}

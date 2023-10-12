@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
 
 class TemplatePage extends StatelessWidget {
@@ -27,9 +25,9 @@ class TemplatePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TemplatePageAppBar(onTap: () {
-        _goToBackPage(context);
-      }),
+      appBar: const CustomAppBarDefault(
+        title: 'Settings',
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -43,18 +41,4 @@ class TemplatePage extends StatelessWidget {
       ),
     );
   }
-}
-
-PreferredSizeWidget TemplatePageAppBar({
-  required VoidCallback onTap,
-}) {
-  return CustomAppBar(
-    leading: SvgPicture.asset(AppIcons.arrow_back),
-    onLeading: onTap,
-    title: Text('title'),
-    action: Text(
-      '          ',
-      style: TextStyle(color: Colors.white),
-    ),
-  );
 }

@@ -12,22 +12,6 @@ class NoVideosPage extends StatelessWidget {
 
   static const routeName = '/template_pages/template_page';
 
-  void _navigateToPage({
-    required BuildContext context,
-    required String route,
-    bool isRoot = false,
-    Object? arguments,
-  }) {
-    Navigator.of(
-      context,
-      rootNavigator: isRoot,
-    ).pushNamed(route, arguments: arguments);
-  }
-
-  void _goToBackPage(BuildContext context) {
-    Navigator.of(context).pop();
-  }
-
   void _goToCoursesPage(BuildContext context) {
     context.read<NavigationBloc>().add(
           NavigateTab(
@@ -40,13 +24,13 @@ class NoVideosPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TemplatePageAppBar(onTap: () {
-        _goToBackPage(context);
-      }),
+      appBar: const CustomAppBarDefault(
+        title: '',
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Container(
+          child: SizedBox(
             width: double.infinity,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -63,8 +47,8 @@ class NoVideosPage extends StatelessWidget {
                   'Here is no video you want at the moment',
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
-                SizedBox(height: 24.0),
-                Container(
+                const SizedBox(height: 24.0),
+                SizedBox(
                   width: 240,
                   child: CustomButton(
                     title: 'Search more',
@@ -78,18 +62,4 @@ class NoVideosPage extends StatelessWidget {
       ),
     );
   }
-}
-
-PreferredSizeWidget TemplatePageAppBar({
-  required VoidCallback onTap,
-}) {
-  return CustomAppBar(
-    leading: SvgPicture.asset(AppIcons.arrow_back),
-    onLeading: onTap,
-    title: Text(''),
-    action: Text(
-      '          ',
-      style: TextStyle(color: Colors.white),
-    ),
-  );
 }
