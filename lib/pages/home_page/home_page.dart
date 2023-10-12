@@ -146,7 +146,7 @@ class _HomePageState extends State<HomePage> {
                 const LearningPlanWidget(),
                 const MeetupBanner(),
 
-                // Buttonst(),
+                Buttons(),
               ],
             ),
           ),
@@ -338,6 +338,10 @@ class CourseProgressItem extends StatelessWidget {
           Expanded(
             child: Text(
               courseModel.name ?? '',
+              style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                fontWeight: FontWeight.w500,
+                fontSize: 14.0,
+              ),
               overflow: TextOverflow.ellipsis,
             ),
           ),
