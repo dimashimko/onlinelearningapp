@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:day_night_switch/day_night_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:online_learning_app/pages/account_pages/privacy_policy_page/privacy_policy_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/resources/app_images.dart';
 import 'package:online_learning_app/resources/app_themes.dart';
@@ -35,6 +36,14 @@ class _SettingPageState extends State<SettingPage> {
     Navigator.of(context).pop();
   }
 
+  void _goToPrivacyPolicyPage() {
+    _navigateToPage(
+      context: context,
+      route: PrivacyPolicyPage.routeName,
+      isRoot: true,
+    );
+  }
+
   bool isDark = false;
 
   @override
@@ -47,14 +56,14 @@ class _SettingPageState extends State<SettingPage> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Row(
                 children: [
                   const Text('Theme:'),
-                  Spacer(),
+                  const Spacer(),
                   Consumer<ThemeProvider>(
                     builder: (context, themeProvider, child) {
                       return Switch(
@@ -64,10 +73,9 @@ class _SettingPageState extends State<SettingPage> {
                           setState(() {
                             log('*** on switch');
                             isDark = !isDark;
-                            // themeProvider.toggleTheme();
-                            themeProvider.toggleTheme2(isDark);
+                            themeProvider.toggleTheme();
+                            // themeProvider.toggleTheme2(isDark);
                           });
-
                         },
                       );
                     },
@@ -84,6 +92,13 @@ class _SettingPageState extends State<SettingPage> {
                     },
                   ),*/
                 ],
+              ),
+              const Spacer(),
+              InkWell(
+                onTap: ()=> _goToPrivacyPolicyPage(),
+                child: const Text(
+                  'Privacy policy and Term of Use',
+                ),
               ),
             ],
           ),
