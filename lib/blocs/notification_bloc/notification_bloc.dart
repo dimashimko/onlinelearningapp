@@ -209,7 +209,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       (event, emit) async {
         // log('@@@ GetAllMessagesEvent');
         List<MessageModel> messageList =
-            await fireStoreNotificationService.getMessages();
+            await fireStoreNotificationService.getAllMessages();
 
         emit(
           state.copyWith(

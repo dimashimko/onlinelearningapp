@@ -1,47 +1,77 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:online_learning_app/blocs/notification_bloc/notification_bloc.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:intl/intl.dart';
 import 'package:online_learning_app/models/message_model/message_model.dart';
-import 'package:online_learning_app/pages/notification_page/no_notification_widget/no_notification_widget.dart';
 import 'package:online_learning_app/resources/app_images.dart';
 import 'package:online_learning_app/resources/app_themes.dart';
+import 'package:online_learning_app/services/firestore_notification_service.dart';
+import 'package:online_learning_app/utils/constants.dart';
 import 'package:online_learning_app/widgets/elements/custom_image_viewer.dart';
-import 'package:intl/intl.dart';
 
-class MessageTabView extends StatelessWidget {
+class MessageTabView extends StatefulWidget {
   const MessageTabView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: Column(
-          children: [
-/*            CustomButton(
-                title: 'GetAllMessagesEvent',
-                onTap: () {
-                  context.read<NotificationBloc>().add(
-                        GetAllMessagesEvent(),
-                      );
-                }),*/
-            BlocBuilder<NotificationBloc, NotificationState>(
-              builder: (context, state) {
-                return state.messageList.isEmpty
-                    ? const NoNotificationWidget()
-                    : Column(
-                        children: state.messageList
-                            .map((message) => MessageItem(
-                                  message: message,
-                                ))
-                            .toList(),
-                      );
-              },
+  State<MessageTabView> createState() => _MessageTabViewState();
+}
+
+class _MessageTabViewState extends State<MessageTabView> {
+  final PagingController<int, QueryDocumentSnapshot> _pagingController =
+      PagingController(firstPageKey: 0);
+  final MyFirestoreNotificationService notificationService = MyFirestoreNotificationService();
+
+
+
+  Future<void> _fetchPage(int pageKey) async {
+    try {
+      final newItems = await notificationService.fetchPage(pageKey);
+      // final isLastPage = newItems.docs.isEmpty;
+      final isLastPage = newItems.docs.length < Constants.PAGINATION_PAGE_SIZE;
+
+      if (isLastPage) {
+        _pagingController.appendLastPage(newItems.docs);
+      } else {
+        final nextPageKey = pageKey + newItems.docs.length;
+        _pagingController.appendPage(newItems.docs, nextPageKey);
+      }
+    } catch (error) {
+      _pagingController.error = error;
+    }
+  }
+
+  @override
+  void initState() {
+    _pagingController.addPageRequestListener((pageKey) {
+      _fetchPage(pageKey);
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) =>
+      PagedListView<int, QueryDocumentSnapshot>(
+        pagingController: _pagingController,
+        builderDelegate: PagedChildBuilderDelegate<QueryDocumentSnapshot>(
+          itemBuilder: (context, item, index) => Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 8.0,
+              vertical: 16.0,
             ),
-          ],
+            child: Column(
+              children: [
+                Text(item['name']),
+                // Text(item['text']),
+              ],
+            ),
+          ),
         ),
-      ),
-    );
+      );
+
+  @override
+  void dispose() {
+    _pagingController.dispose();
+    super.dispose();
   }
 }
 
@@ -74,6 +104,7 @@ class MessageItem extends StatelessWidget {
         ),
         padding: const EdgeInsets.all(20.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
@@ -88,7 +119,7 @@ class MessageItem extends StatelessWidget {
                 const SizedBox(width: 8.0),
                 Expanded(
                   child: Text(
-                    message.name??'',
+                    message.name ?? '',
                     style: Theme.of(context).textTheme.displayLarge?.copyWith(
                           fontSize: 14.0,
                         ),
@@ -141,4 +172,3 @@ String formatDateTime(DateTime dateTime) {
     return formattedDate; // Return date and time if it's not today
   }
 }
-

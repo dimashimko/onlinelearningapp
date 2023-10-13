@@ -55,7 +55,7 @@ class _NotificationPageState extends State<NotificationPage> {
               Expanded(
                 child: BlocBuilder<NotificationBloc, NotificationState>(
                   builder: (context, state) {
-                    log('*** state.isHasNoReadNotification: ${state.isHasNoReadNotification}');
+                    // log('*** state.isHasNoReadNotification: ${state.isHasNoReadNotification}');
                     tabs = [
                       const CustomTabBar(
                         name: ' message ',
