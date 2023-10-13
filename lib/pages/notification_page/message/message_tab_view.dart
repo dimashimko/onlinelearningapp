@@ -17,23 +17,22 @@ class MessageTabView extends StatefulWidget {
 }
 
 class _MessageTabViewState extends State<MessageTabView> {
-  final PagingController<int, QueryDocumentSnapshot> _pagingController =
+  final PagingController<int, MessageModel> _pagingController =
       PagingController(firstPageKey: 0);
-  final MyFirestoreNotificationService notificationService = MyFirestoreNotificationService();
-
-
+  final MyFirestoreNotificationService notificationService =
+      MyFirestoreNotificationService();
 
   Future<void> _fetchPage(int pageKey) async {
     try {
       final newItems = await notificationService.fetchPage(pageKey);
       // final isLastPage = newItems.docs.isEmpty;
-      final isLastPage = newItems.docs.length < Constants.PAGINATION_PAGE_SIZE;
+      final isLastPage = newItems.length < Constants.PAGINATION_PAGE_SIZE;
 
       if (isLastPage) {
-        _pagingController.appendLastPage(newItems.docs);
+        _pagingController.appendLastPage(newItems);
       } else {
-        final nextPageKey = pageKey + newItems.docs.length;
-        _pagingController.appendPage(newItems.docs, nextPageKey);
+        final nextPageKey = pageKey + newItems.length;
+        _pagingController.appendPage(newItems, nextPageKey);
       }
     } catch (error) {
       _pagingController.error = error;
@@ -49,21 +48,11 @@ class _MessageTabViewState extends State<MessageTabView> {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      PagedListView<int, QueryDocumentSnapshot>(
+  Widget build(BuildContext context) => PagedListView<int, MessageModel>(
         pagingController: _pagingController,
-        builderDelegate: PagedChildBuilderDelegate<QueryDocumentSnapshot>(
-          itemBuilder: (context, item, index) => Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 8.0,
-              vertical: 16.0,
-            ),
-            child: Column(
-              children: [
-                Text(item['name']),
-                // Text(item['text']),
-              ],
-            ),
+        builderDelegate: PagedChildBuilderDelegate<MessageModel>(
+          itemBuilder: (context, item, index) => MessageItem(
+            message: item,
           ),
         ),
       );

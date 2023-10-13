@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:online_learning_app/models/message_model/message_model.dart';
 import 'package:online_learning_app/utils/constants.dart';
@@ -10,9 +12,16 @@ class MyFirestoreNotificationService {
   // *****************************
   QueryDocumentSnapshot<Map<String, dynamic>>? lastQuerySnapshot;
 
-  Future<QuerySnapshot<Map<String, dynamic>>> fetchPage(
+
+  Future<List<MessageModel> > fetchPage(
     int pageNumber,
   ) async {
+    await Future.delayed(
+      const Duration(
+        seconds: 2,
+      ),
+    );
+    log('*** fetchPage');
     Query<Map<String, dynamic>> query = FirebaseFirestore.instance
         .collection('messages')
         .orderBy('time', descending: true)
@@ -38,7 +47,7 @@ class MyFirestoreNotificationService {
       );
     }
 
-    return querySnapshot;
+    return listOfMessageModel;
   }
 
   Future<List<MessageModel>> getAllMessages() async {
