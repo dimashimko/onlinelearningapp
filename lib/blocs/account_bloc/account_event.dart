@@ -1,10 +1,8 @@
 part of 'account_bloc.dart';
 
-@immutable
 abstract class AccountEvent {
   const AccountEvent();
 }
-
 
 class OnChangeUserAvatar extends AccountEvent {
   const OnChangeUserAvatar({
@@ -13,6 +11,7 @@ class OnChangeUserAvatar extends AccountEvent {
 
   final String newUserAvatar;
 }
+
 class OnChangeUserAccount extends AccountEvent {
   const OnChangeUserAccount({
     required this.newName,
@@ -21,10 +20,11 @@ class OnChangeUserAccount extends AccountEvent {
 
   final String? newName;
   final String? newAvatarLocalLink;
-
 }
 
 class GetAccountModel extends AccountEvent {}
+
+class InitAccountBlocEvent extends AccountEvent {}
 
 /*class GetAccountModel extends AccountEvent {
   const GetAccountModel({

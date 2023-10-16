@@ -36,12 +36,12 @@ void _errorHandler(Object error, StackTrace stack) {
 
 Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(
-    SystemUiOverlayStyle(statusBarColor: Colors.red),
+    const SystemUiOverlayStyle(statusBarColor: Colors.red),
   );
   await runZonedGuarded<Future<void>>(
     () async {
       SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(statusBarColor: Colors.red),
+        const SystemUiOverlayStyle(statusBarColor: Colors.red),
       );
       WidgetsFlutterBinding.ensureInitialized();
       NotificationService().initNotification();
@@ -76,7 +76,7 @@ Future<void> main() async {
         ),
       );
       SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(statusBarColor: Colors.red),
+        const SystemUiOverlayStyle(statusBarColor: Colors.red),
       );
       EasyLocalization.logger.enableBuildModes = [];
     },
@@ -90,7 +90,7 @@ class _App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(statusBarColor: Colors.red),
+      const SystemUiOverlayStyle(statusBarColor: Colors.red),
     );
 /*    analytics.logEvent(
       name: 'test_event',
@@ -104,7 +104,6 @@ class _App extends StatelessWidget {
     );*/
 
     return MultiRepositoryProvider(
-
       providers: [
         BlocProvider<CoursesBloc>(
           create: (_) => CoursesBloc()
@@ -118,10 +117,7 @@ class _App extends StatelessWidget {
         BlocProvider<ProgressBloc>(
           create: (_) => ProgressBloc()
             ..add(
-              UpdateUserActivityTimeEvent(),
-            )
-            ..add(
-              GetUserProgressEvent(),
+              InitProgressBlocEvent(),
             ),
         ),
         BlocProvider<NavigationBloc>(
@@ -133,7 +129,7 @@ class _App extends StatelessWidget {
         BlocProvider<AccountBloc>(
           create: (_) => AccountBloc()
             ..add(
-              GetAccountModel(),
+              InitAccountBlocEvent(),
             ),
         ),
         BlocProvider<AdsBloc>(
@@ -143,17 +139,8 @@ class _App extends StatelessWidget {
             ),
         ),
         BlocProvider<NotificationBloc>(
-          create: (_) => NotificationBloc()
-            ..add(
-              GetAllMessagesEvent(),
-            )
-            ..add(
-              GetAllNotificationsEvent(),
-            )
-            ..add(
-              GetTimeLastSeenNotification(),
-            ),
-        ),
+            create: (_) =>
+                NotificationBloc()..add(InitNotificationBlocEvent())),
       ],
       child: SystemOverlay(
         statusBarColor: Colors.transparent,

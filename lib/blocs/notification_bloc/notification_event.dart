@@ -38,6 +38,9 @@ class AddNotificationEvent extends NotificationEvent {
 
 class GetAllMessagesEvent extends NotificationEvent {}
 
+class InitNotificationBlocEvent extends NotificationEvent {}
+
+
 /*class GetAllMessagesEvent extends NotificationEvent {
   const GetAllMessagesEvent({
     required this.counter,

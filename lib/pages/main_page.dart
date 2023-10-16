@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:online_learning_app/blocs/account_bloc/account_bloc.dart';
 import 'package:online_learning_app/blocs/analytics_bloc/analytics_bloc.dart';
 import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
 import 'package:online_learning_app/blocs/navigation_bloc/navigation_bloc.dart';
@@ -89,40 +90,39 @@ class _MainPageState extends State<MainPage> {
     }
   }
 
-
   bool bottomSheetEnabled = false;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(statusBarColor: Colors.red),
+      const SystemUiOverlayStyle(statusBarColor: Colors.red),
     );
     log('*** didChangeDependencies MainPage');
-    context.read<ProgressBloc>()
-      ..add(
-        UpdateUserActivityTimeEvent(),
-      )
-      ..add(
-        GetUserProgressEvent(),
-      );
-
-    context.read<NotificationBloc>()
-      ..add(
-        GetAllMessagesEvent(),
-      )
-      ..add(
-        GetAllNotificationsEvent(),
-      );
+    context.read<ProgressBloc>().add(
+          InitProgressBlocEvent(),
+        );
+    context.read<NotificationBloc>().add(
+          InitNotificationBlocEvent(),
+        );
     context.read<CoursesBloc>().add(
-      CourseBlocInit(),
-    );
+          CourseBlocInit(),
+        );
+    context.read<AccountBloc>().add(
+          InitAccountBlocEvent(),
+        );
+    context.read<NavigationBloc>().add(
+          NavigateTab(
+            tabIndex: 0,
+            route: _pages[0],
+          ),
+        );
   }
 
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(statusBarColor: Colors.red),
+      const SystemUiOverlayStyle(statusBarColor: Colors.red),
     );
     log('*** build MainPage');
     return BlocConsumer<NavigationBloc, NavigationState>(
@@ -136,13 +136,14 @@ class _MainPageState extends State<MainPage> {
       },
       builder: (context, state) {
         SystemChrome.setSystemUIOverlayStyle(
-          SystemUiOverlayStyle(statusBarColor: Colors.red),
+          const SystemUiOverlayStyle(statusBarColor: Colors.red),
         );
         return WillPopScope(
           onWillPop: _onWillPop,
           child: Scaffold(
             // resizeToAvoidBottomPadding: false, // flutter 1.x
-            resizeToAvoidBottomInset: false, // flutter 2.x
+            resizeToAvoidBottomInset: false,
+            // flutter 2.x
             // backgroundColor: Colors.indigo,
             body: BlocListener<CoursesBloc, CoursesState>(
               listenWhen: (p, c) {

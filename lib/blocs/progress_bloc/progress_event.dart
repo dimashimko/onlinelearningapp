@@ -5,7 +5,7 @@ abstract class ProgressEvent {
   const ProgressEvent();
 }
 
-
+class InitProgressBlocEvent extends ProgressEvent {}
 
 class CoursePurchasedEvent extends ProgressEvent {}
 

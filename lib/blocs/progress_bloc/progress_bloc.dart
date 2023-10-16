@@ -1,9 +1,8 @@
 import 'dart:developer';
 
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_learning_app/models/progress/progress_model.dart';
 import 'package:online_learning_app/models/user_activity/user_activity_model.dart';
 import 'package:online_learning_app/services/firestore_progress_service.dart';
@@ -212,12 +211,17 @@ class ProgressBloc extends Bloc<ProgressEvent, ProgressState> {
       },
     );
 
-    // on<ProgressBlocInitEvent>(
-    //   (event, emit) async {
-    //     fireStoreService = MyFirestoreService();
-    //     print('*** @ProgressBlocInit ');
-    //     add(GetListOfRecordEvent());
-    //   },
-    // );
+    on<InitProgressBlocEvent>(
+      (event, emit) async {
+        log('*** @InitProgressBlocEvent ');
+        add(
+          UpdateUserActivityTimeEvent(),
+        );
+        add(
+          GetUserProgressEvent(),
+        );
+      },
+    );
+
   }
 }

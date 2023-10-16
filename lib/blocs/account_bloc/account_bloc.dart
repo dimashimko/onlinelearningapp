@@ -1,7 +1,6 @@
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_learning_app/models/account_model/account_model.dart';
 import 'package:online_learning_app/services/firebase_storage_service.dart';
 import 'package:online_learning_app/services/firestore_account_service.dart';
@@ -89,6 +88,12 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
             accountModel: accountModel,
           ),
         );
+      },
+    );
+
+    on<InitAccountBlocEvent>(
+      (event, emit) async {
+        add(GetAccountModel());
       },
     );
 
