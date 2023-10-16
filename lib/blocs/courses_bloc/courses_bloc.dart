@@ -1,9 +1,8 @@
 import 'dart:developer';
 
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_learning_app/models/category/category_model.dart';
 import 'package:online_learning_app/models/course/course_model.dart';
 import 'package:online_learning_app/models/duration_range_model/duration_range_model.dart';
@@ -108,8 +107,9 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       log('event.newFilterText: ${event.newFilterText}');
       if (state.filterText != event.newFilterText) {
         FilterEnabledType newFilterEnabledType = FilterEnabledType.text;
-        if (event.newFilterText.isEmpty)
+        if (event.newFilterText.isEmpty) {
           newFilterEnabledType = FilterEnabledType.all;
+        }
         emit(
           state.copyWith(
             filterText: event.newFilterText,

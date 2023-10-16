@@ -1,9 +1,8 @@
 import 'dart:developer';
 
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_learning_app/models/message_model/message_model.dart';
 import 'package:online_learning_app/models/notification_model/notification_model.dart';
 import 'package:online_learning_app/services/firestore_notification_service.dart';

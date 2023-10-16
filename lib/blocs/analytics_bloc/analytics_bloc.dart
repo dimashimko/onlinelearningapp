@@ -1,14 +1,11 @@
-import 'dart:developer';
 import 'dart:io';
 
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_learning_app/models/course/course_model.dart';
 
 part 'analytics_event.dart';
-
 part 'analytics_state.dart';
 
 class AnalyticsBloc extends Bloc<AnalyticsEvent, AnalyticsState> {

@@ -1,5 +1,4 @@
-import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_learning_app/pages/home_page/home_page.dart';
 
 part 'navigation_event.dart';
