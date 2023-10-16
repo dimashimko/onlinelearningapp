@@ -4,6 +4,20 @@ import 'package:online_learning_app/resources/app_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 
+class CustomAppBarZero extends StatelessWidget implements PreferredSizeWidget {
+  const CustomAppBarZero({Key? key}) : super(key: key);
+
+  @override
+  Size get preferredSize => const Size.fromHeight(0);
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      automaticallyImplyLeading: false,
+    );
+  }
+}
+
 class CustomAppBarDefault extends StatelessWidget
     implements PreferredSizeWidget {
   const CustomAppBarDefault({

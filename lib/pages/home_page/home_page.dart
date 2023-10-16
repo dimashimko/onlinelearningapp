@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -22,6 +23,7 @@ import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/resources/app_images.dart';
 import 'package:online_learning_app/resources/app_themes.dart';
 import 'package:online_learning_app/services/firestore_course_service.dart';
+import 'package:online_learning_app/services/notifi_service.dart';
 import 'package:online_learning_app/utils/count_completed_lesson.dart';
 import 'package:online_learning_app/utils/get_course_model_by_uid.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
@@ -100,56 +102,71 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+      statusBarColor: Colors.black,
+    ));
     return Scaffold(
       // appBar: homePageAppBar(),
 /*      appBar: const CustomAppBarDefault(
         title: 'HomePage',
       ),*/
-      body: SafeArea(
-        child: BlocListener<CoursesBloc, CoursesState>(
-          listenWhen: (previous, current) {
-            return previous.coursesList != current.coursesList;
-          },
-          listener: (context, state) {
-            // log('*** precacheImage in HomePage');
-            for (CourseModel course in state.coursesList) {
-              try {
-                if (course.title != null && course.title!.isNotEmpty) {
-                  precacheImage(
-                    NetworkImage(course.title ?? ''),
-                    context,
-                  );
-                }
-              } catch (e) {
-                // print(e);
-              }
-              // log('*** course.title: ${course.title ?? ''}');
-            }
-          },
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const UserInfoWidget(),
-                Container(
-                  height: 32.0,
-                  color: colors(context).blue,
-                ),
-                TodayProgressWidgetWithBackground(
-                  goToMyCoursesPage: () => _goToMyCoursesPage(),
-                ),
-                const SizedBox(height: 16.0),
-                AdsWidget(
-                  goToOneCoursePage: (uidCourse) {
-                    _goToOneCoursePage(
-                      uidCourse: uidCourse,
+
+      body: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle(
+          systemNavigationBarColor: Colors.brown,
+          // systemNavigationBarColor: Theme.of(context).colorScheme.onBackground,
+          // systemNavigationBarColor: Color(0xFF000000),
+          // systemNavigationBarIconBrightness: Brightness.light,
+          // statusBarIconBrightness: Brightness.light,
+          // statusBarBrightness: Brightness.dark,
+        ),
+        child: SafeArea(
+          child: BlocListener<CoursesBloc, CoursesState>(
+            listenWhen: (previous, current) {
+              return previous.coursesList != current.coursesList;
+            },
+            listener: (context, state) {
+              // log('*** precacheImage in HomePage');
+              for (CourseModel course in state.coursesList) {
+                try {
+                  if (course.title != null && course.title!.isNotEmpty) {
+                    precacheImage(
+                      NetworkImage(course.title ?? ''),
+                      context,
                     );
-                  },
-                ),
-                const LearningPlanWidget(),
-                const MeetupBanner(),
-                const Buttons(),
-              ],
+                  }
+                } catch (e) {
+                  // print(e);
+                }
+                // log('*** course.title: ${course.title ?? ''}');
+              }
+            },
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const UserInfoWidget(),
+                  Container(
+                    height: 32.0,
+                    color: colors(context).blue,
+                  ),
+                  TodayProgressWidgetWithBackground(
+                    goToMyCoursesPage: () => _goToMyCoursesPage(),
+                  ),
+                  const Buttons(),
+
+                  const SizedBox(height: 16.0),
+                  AdsWidget(
+                    goToOneCoursePage: (uidCourse) {
+                      _goToOneCoursePage(
+                        uidCourse: uidCourse,
+                      );
+                    },
+                  ),
+                  const LearningPlanWidget(),
+                  const MeetupBanner(),
+                ],
+              ),
             ),
           ),
         ),
@@ -533,7 +550,7 @@ class UserInfoWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Hi, ${state.accountModel.name?? 'User'}',
+                      'Hi, ${state.accountModel.name ?? 'User'}',
                       style: Theme.of(context).textTheme.displayLarge?.copyWith(
                             color: colors(context).white,
                             fontSize: 24.0,
@@ -601,8 +618,8 @@ class _ButtonsState extends State<Buttons> {
   firebaseSignOut(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
     await GoogleSignIn(
-            clientId: DefaultFirebaseOptions.currentPlatform.iosClientId)
-        .signOut();
+      clientId: DefaultFirebaseOptions.currentPlatform.iosClientId,
+    ).signOut();
     _goToSignInPage();
   }
 
@@ -610,6 +627,17 @@ class _ButtonsState extends State<Buttons> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        CustomButton(
+          title: 'Add notification2',
+          onTap: () {
+            NotificationService().showNotification(
+              title: 'Sample title',
+              body: 'It works!',
+              payLoad: 'payLoad',
+            );
+          },
+        ),
+        const SizedBox(height: 8.0),
         CustomButton(
           title: 'Add notification',
           onTap: () {

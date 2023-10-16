@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:online_learning_app/resources/app_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,6 +27,10 @@ class ThemeProvider with ChangeNotifier {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isDark', _currentTheme == AppThemes.dark());
+
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(statusBarColor: Colors.red),
+    );
 
     notifyListeners();
   }
@@ -155,6 +160,35 @@ class AppThemes {
       primarySwatch: Colors.blue,
       bottomSheetTheme: BottomSheetThemeData(
         backgroundColor: Colors.black.withOpacity(0),
+      ),
+      colorScheme: const ColorScheme.light().copyWith(
+        onSecondaryContainer: const Color(0xFFFF5106),
+        tertiary: const Color(0xFFFF5106),
+        tertiaryContainer: const Color(0xFFFF5106),
+        onTertiaryContainer: const Color(0xFFFF5106), // free
+        error: const Color(0xFFFF5106),               // free
+        onError: const Color(0xFFFF5106),             // free
+        errorContainer: const Color(0xFFFF5106),      // free
+        onErrorContainer: const Color(0xFFFF5106),    // free
+        background: const Color(0xFFFF5106),
+        onBackground: const Color(0xFFFF5106),
+        surface: const Color(0xFFFF5106),
+        onSurface: const Color(0xFFFF5106),
+        surfaceVariant: const Color(0xFFFF5106),
+        onSurfaceVariant: const Color(0xFFFF5106),
+        outline: const Color(0xFFFF5106),
+        outlineVariant: const Color(0xFFFF5106),
+        shadow: const Color(0xFFFF5106),           // free
+        scrim: const Color(0xFFFF5106),
+        inverseSurface: const Color(0xFFFF5106),
+        onInverseSurface: const Color(0xFFFF5106),
+        inversePrimary: const Color(0xFFFF5106),
+        surfaceTint: const Color(0xFFFF5106),
+        onSecondary: const Color(0xFFFF5106),
+        primary: const Color(0xFFFF5106),
+        onPrimary: const Color(0xFFFF5106),
+        secondary: const Color(0xFFFF5106),
+        secondaryContainer: const Color(0xFFFF5106),
       ),
     );
   }

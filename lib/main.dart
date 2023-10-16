@@ -22,6 +22,7 @@ import 'package:online_learning_app/pages/uncategorized_pages/splash_screen_page
 import 'package:online_learning_app/resources/app_locale.dart';
 import 'package:online_learning_app/resources/app_themes.dart';
 import 'package:online_learning_app/routes/app_router.dart';
+import 'package:online_learning_app/services/notifi_service.dart';
 import 'package:online_learning_app/widgets/uncategorized/system_overlay.dart';
 import 'package:provider/provider.dart';
 
@@ -34,9 +35,16 @@ void _errorHandler(Object error, StackTrace stack) {
 }
 
 Future<void> main() async {
+  SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle(statusBarColor: Colors.red),
+  );
   await runZonedGuarded<Future<void>>(
     () async {
+      SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarColor: Colors.red),
+      );
       WidgetsFlutterBinding.ensureInitialized();
+      NotificationService().initNotification();
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
       );
@@ -67,6 +75,9 @@ Future<void> main() async {
           ),
         ),
       );
+      SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarColor: Colors.red),
+      );
       EasyLocalization.logger.enableBuildModes = [];
     },
     _errorHandler,
@@ -78,6 +89,9 @@ class _App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(statusBarColor: Colors.red),
+    );
 /*    analytics.logEvent(
       name: 'test_event',
       parameters: <String, dynamic>{
@@ -90,11 +104,12 @@ class _App extends StatelessWidget {
     );*/
 
     return MultiRepositoryProvider(
+
       providers: [
         BlocProvider<CoursesBloc>(
           create: (_) => CoursesBloc()
             ..add(
-                CourseBlocInit(),
+              CourseBlocInit(),
 /*              GetAllCourses(
                 orderBy: OrderBy.name.name,
               ),*/

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/blocs/analytics_bloc/analytics_bloc.dart';
@@ -94,6 +95,9 @@ class _MainPageState extends State<MainPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(statusBarColor: Colors.red),
+    );
     log('*** didChangeDependencies MainPage');
     context.read<ProgressBloc>()
       ..add(
@@ -117,6 +121,9 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(statusBarColor: Colors.red),
+    );
     log('*** build MainPage');
     return BlocConsumer<NavigationBloc, NavigationState>(
       listener: (_, state) {
@@ -128,6 +135,9 @@ class _MainPageState extends State<MainPage> {
         }
       },
       builder: (context, state) {
+        SystemChrome.setSystemUIOverlayStyle(
+          SystemUiOverlayStyle(statusBarColor: Colors.red),
+        );
         return WillPopScope(
           onWillPop: _onWillPop,
           child: Scaffold(
