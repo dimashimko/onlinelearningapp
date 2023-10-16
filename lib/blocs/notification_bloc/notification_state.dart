@@ -8,6 +8,7 @@ class NotificationState extends Equatable {
     this.notificationList = const [],
     this.timeLastSeenNotification = '',
     this.isHasNoReadNotification = false,
+    this.isNotificationEnabled = false,
   });
 
   final int counter;
@@ -15,6 +16,7 @@ class NotificationState extends Equatable {
   final List<NotificationModel> notificationList;
   final String timeLastSeenNotification;
   final bool isHasNoReadNotification;
+  final bool isNotificationEnabled;
 
   //
   @override
@@ -24,6 +26,7 @@ class NotificationState extends Equatable {
         notificationList,
         timeLastSeenNotification,
         isHasNoReadNotification,
+        isNotificationEnabled,
       ];
 
   NotificationState copyWith({
@@ -32,6 +35,7 @@ class NotificationState extends Equatable {
     List<NotificationModel>? notificationList,
     String? timeLastSeenNotification,
     bool? isHasNoReadNotification,
+    bool? isNotificationEnabled,
   }) {
     return NotificationState(
       counter: counter ?? this.counter,
@@ -41,6 +45,8 @@ class NotificationState extends Equatable {
           timeLastSeenNotification ?? this.timeLastSeenNotification,
       isHasNoReadNotification:
           isHasNoReadNotification ?? this.isHasNoReadNotification,
+      isNotificationEnabled:
+          isNotificationEnabled ?? this.isNotificationEnabled,
     );
   }
 }

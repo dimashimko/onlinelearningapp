@@ -9,6 +9,9 @@ import 'package:online_learning_app/models/message_model/message_model.dart';
 import 'package:online_learning_app/models/notification_model/notification_model.dart';
 import 'package:online_learning_app/services/firestore_notification_service.dart';
 import 'package:online_learning_app/services/local_notification_service.dart';
+import 'package:online_learning_app/services/notifi_service.dart';
+import 'package:online_learning_app/utils/custom_shared_preferecnes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 part 'notification_event.dart';
@@ -17,6 +20,7 @@ part 'notification_state.dart';
 
 class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   NotificationBloc() : super(const NotificationState()) {
+    //
     LocalNotificationService notificationService = LocalNotificationService();
     MyFirestoreNotificationService fireStoreNotificationService =
         MyFirestoreNotificationService();
@@ -94,6 +98,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
           time: DateTime.now().toString(),
           text:
               'Congratulations, you have completed your registration! Let\'s start your learning journey next.',
+          title: 'Completing the registration',
         );
         add(
           AddNotificationEvent(
@@ -113,6 +118,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
           time: DateTime.now().toString(),
           text:
               'Congratulations on completing the first lesson, keep up the good work!',
+          title: 'Completing the first lesson',
         );
         add(
           AddNotificationEvent(
@@ -131,6 +137,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
           uid: const Uuid().v4(),
           time: DateTime.now().toString(),
           text: 'Successful purchase!',
+          title: 'Successful purchase!',
         );
 
         add(
@@ -145,6 +152,26 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       (event, emit) async {
         log('@@@ AddNotificationSuccessfulPurchaseEvent');
 
+        // show notification
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+
+        bool isNotificationEnabled = await loadNotificationEnabled();
+
+        // Milliseconds since the start of the day
+        if (isNotificationEnabled) {
+          DateTime now = DateTime.now();
+          DateTime startOfDay = DateTime(now.year, now.month, now.day);
+          Duration difference = now.difference(startOfDay);
+          int milliseconds = difference.inMilliseconds;
+
+          NotificationService().showNotification(
+            id: milliseconds,
+            title: event.notification.title,
+            body: event.notification.text,
+          );
+        }
+
+        // save notification to local storage
         List<NotificationModel> notificationList = [...state.notificationList];
         notificationList.add(event.notification);
 

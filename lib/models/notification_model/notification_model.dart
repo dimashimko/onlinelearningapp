@@ -6,12 +6,14 @@ class NotificationModel extends Equatable {
   final String? uid; // uid
   final String? time;
   final String? text;
+  final String? title;
 
   const NotificationModel({
     this.typeNotification,
     this.uid,
     this.time,
     this.text,
+    this.title,
   });
 
 /*  const NotificationModel.empty({
@@ -19,6 +21,7 @@ class NotificationModel extends Equatable {
     this.uid = '',
     this.time = '0',
     this.text = '',
+    this.title = '',
   });*/
 
   //
@@ -28,6 +31,7 @@ class NotificationModel extends Equatable {
     uid,
     time,
     text,
+    title,
   ];
 
 
@@ -37,13 +41,14 @@ class NotificationModel extends Equatable {
     String? uid,
     String? time,
     String? text,
-    String? imageLink,
+    String? title,
   }) {
     return NotificationModel(
       typeNotification: typeNotification ?? this.typeNotification,
       uid: uid ?? this.uid,
       time: time ?? this.time,
       text: text ?? this.text,
+      title: title ?? this.title,
     );
   }
 
@@ -60,6 +65,7 @@ class NotificationModel extends Equatable {
       uid: json['uid'],
       time: json['time'],
       text: json['text'],
+      title: json['title'],
     );
   }
 
@@ -69,6 +75,7 @@ class NotificationModel extends Equatable {
       'uid': uid,
       'time': time,
       'text': text,
+      'title': title,
     };
     return outputJson;
   }
