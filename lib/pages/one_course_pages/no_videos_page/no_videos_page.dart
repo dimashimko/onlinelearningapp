@@ -10,7 +10,7 @@ import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
 class NoVideosPage extends StatelessWidget {
   const NoVideosPage({Key? key}) : super(key: key);
 
-  static const routeName = '/template_pages/template_page';
+  static const routeName = '/one_course_pages/no_video_page';
 
   void _goToCoursesPage(BuildContext context) {
     context.read<NavigationBloc>().add(
