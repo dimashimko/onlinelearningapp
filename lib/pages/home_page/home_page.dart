@@ -153,7 +153,7 @@ class _HomePageState extends State<HomePage> {
                   TodayProgressWidgetWithBackground(
                     goToMyCoursesPage: () => _goToMyCoursesPage(),
                   ),
-                  const Buttons(),
+                  // const Buttons(),
 
                   const SizedBox(height: 16.0),
                   AdsWidget(
@@ -615,7 +615,7 @@ class _ButtonsState extends State<Buttons> {
     context.read<AnalyticsBloc>().add(OnTestLogEvent());
   }
 
-  firebaseSignOut(BuildContext context) async {
+  logOut(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
     await GoogleSignIn(
       clientId: DefaultFirebaseOptions.currentPlatform.iosClientId,
@@ -646,7 +646,7 @@ class _ButtonsState extends State<Buttons> {
                 );
           },
         ),
-        const SizedBox(height: 8.0),
+/*        const SizedBox(height: 8.0),
         CustomButton(
           title: 'Throw Test Exception2',
           onTap: () {
@@ -659,7 +659,7 @@ class _ButtonsState extends State<Buttons> {
           onTap: () {
             _throwTestException1();
           },
-        ),
+        ),*/
         const SizedBox(height: 8.0),
         CustomButton(
           title: 'Show Alert',
@@ -692,7 +692,7 @@ class _ButtonsState extends State<Buttons> {
         CustomButton(
           title: 'LogOut',
           onTap: () {
-            firebaseSignOut(context);
+            logOut(context);
             // log('*** name: ${ModalRoute.of(context)?.settings.name}');
             // Navigator.of(context).
           },
