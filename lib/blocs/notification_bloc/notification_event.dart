@@ -1,13 +1,12 @@
 part of 'notification_bloc.dart';
 
-enum TypeNotification {payment, simple}
+enum TypeNotification { payment, simple }
 
 @immutable
 abstract class NotificationEvent {
   const NotificationEvent();
 }
 
-// class SomeEvent extends PlayerEvent {}
 class CheckHasNoSeenNotification extends NotificationEvent {}
 
 class GetTimeLastSeenNotification extends NotificationEvent {}
@@ -39,7 +38,6 @@ class AddNotificationEvent extends NotificationEvent {
 class GetAllMessagesEvent extends NotificationEvent {}
 
 class InitNotificationBlocEvent extends NotificationEvent {}
-
 
 /*class GetAllMessagesEvent extends NotificationEvent {
   const GetAllMessagesEvent({

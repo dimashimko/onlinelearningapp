@@ -88,13 +88,11 @@ class _CustomSwitchState extends State<CustomSwitch> {
       builder: (context, themeProvider, child) {
         return Switch(
           value: isDark,
-          // value: isLight,
           onChanged: (value) {
             setState(() {
               log('*** on switch');
               isDark = !isDark;
               themeProvider.toggleTheme();
-              // themeProvider.toggleTheme2(isDark);
             });
           },
         );
@@ -116,10 +114,6 @@ class QAItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
-      // backgroundColor: Theme.of(context).colorScheme.outlineVariant,
-      // textColor: Theme.of(context).colorScheme.onSecondaryContainer,
-      // backgroundColor: Colors.grey,
-      // textColor: Colors.black,
       title: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Text(
@@ -138,10 +132,6 @@ class QAItem extends StatelessWidget {
                       fontSize: 14.0,
                       fontWeight: FontWeight.w400,
                     ),
-                // style: TextStyle(
-                //   fontSize: 16.0,
-                //   color: Theme.of(context).colorScheme.onSecondaryContainer,
-                // ),
               ),
               const SizedBox(height: 8.0),
             ],
@@ -151,4 +141,3 @@ class QAItem extends StatelessWidget {
     );
   }
 }
-

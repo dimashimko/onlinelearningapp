@@ -23,7 +23,6 @@ class MessageModel extends Equatable {
     this.imageLink = '',
   });
 
-  //
   @override
   List<Object?> get props => [
         iconLink,

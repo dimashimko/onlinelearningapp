@@ -11,7 +11,6 @@ import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button_light.dart';
 import 'package:online_learning_app/widgets/elements/custom_range_slider/custom_range_slider_v1.dart';
 import 'package:online_learning_app/widgets/uncategorized/custom_widget_switcher.dart';
-import 'package:online_learning_app/widgets/uncategorized/splash_box.dart';
 
 class SearchFilterSheet extends StatefulWidget {
   const SearchFilterSheet({Key? key}) : super(key: key);
@@ -40,7 +39,6 @@ class _SearchFilterSheetState extends State<SearchFilterSheet> {
   }
 
   void _goToSearchPage() async {
-    // log('*** _goToSearchPage');
 /*    context.read<CoursesBloc>().add(
           FilterBottomSheetDisable(),
         );*/
@@ -65,7 +63,6 @@ class _SearchFilterSheetState extends State<SearchFilterSheet> {
               top: Radius.circular(32),
             ),
             color: Theme.of(context).colorScheme.surface,
-            // color: Colors.red,
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.15),
@@ -106,7 +103,6 @@ class _SearchFilterSheetState extends State<SearchFilterSheet> {
                         },
                         goToSearchPage: () => _goToSearchPage(),
                       )
-                      // DurationRange
                     ],
                   );
                 },
@@ -153,8 +149,6 @@ class FilterButtons extends StatelessWidget {
     );
   }
 }
-
-
 
 class FilterDuration extends StatelessWidget {
   const FilterDuration({
@@ -309,12 +303,6 @@ class DurationElementsFilterItem extends StatelessWidget {
                 durationRange: durationRange,
               ),
             );
-        // isEnable
-        //     ? context
-        //     .read<CoursesBloc>()
-        //     .add(ChangefilterCategory(remove: durationRange))
-        //     : context.read<CoursesBloc>().add(
-        //     ChangefilterCategory(add: durationRange));
       },
       child: Container(
         decoration: BoxDecoration(
@@ -330,7 +318,6 @@ class DurationElementsFilterItem extends StatelessWidget {
             style: isEnable
                 ? Theme.of(context).textTheme.bodySmall
                 : Theme.of(context).textTheme.bodyLarge,
-            // : Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey),
           ),
         ),
       ),
@@ -432,7 +419,6 @@ class CategoriesElementFilterItem extends StatelessWidget {
             style: isEnable
                 ? Theme.of(context).textTheme.bodySmall
                 : Theme.of(context).textTheme.bodyLarge,
-            // : Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey),
           ),
         ),
       ),

@@ -5,8 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 class FirebaseStorageServices {
   String getTimeNow() {
     String fileName = DateTime.now().microsecondsSinceEpoch.toString();
-    // print(DateTime.parse('formattedString'));
-    // print('*** file name: $fileName');
+
     return fileName;
   }
 
@@ -26,8 +25,6 @@ class FirebaseStorageServices {
       await newRef.putFile(file);
     } catch (e) {
       return null;
-
-      // print(e);
     }
 /*
     String newURL = await newRef.getDownloadURL();
@@ -36,20 +33,4 @@ class FirebaseStorageServices {
     return newRef;
   }
 
-  Future<void> deleteInStorage(String? filePath, String folder) async {
-    print('*** deleteInStorage');
-
-    if (filePath != null) {
-      final Reference baseRef = FirebaseStorage.instance.ref();
-      print('*** deleteInStorage baseRef: $baseRef');
-
-      // Create a reference to the file to delete
-      final desertRef = baseRef.child(folder).child(filePath);
-      print('*** deleteInStorage desertRef: $desertRef');
-
-      // Delete the file
-      await desertRef.delete();
-      print('*** deleteInStorage deleted... ');
-    }
-  }
 }

@@ -44,7 +44,6 @@ class _VerifyPhonePageState extends State<VerifyPhonePage> {
     );
   }
 
-
   final TextEditingController _pinController = TextEditingController();
 
   Future<void> _onTapVerify() async {
@@ -72,7 +71,6 @@ class _VerifyPhonePageState extends State<VerifyPhonePage> {
     await FirebaseAuth.instance.signInWithCredential(credential);
     if (FirebaseAuth.instance.currentUser != null) {
       _goToMainPage();
-      // _showCompleteRegistrationDialog();
     }
   }
 

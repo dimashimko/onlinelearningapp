@@ -60,12 +60,10 @@ class _LogInPageState extends State<LogInPage> {
   final _formKey = GlobalKey<FormState>();
   final _contentFormFieldKey = GlobalKey<FormFieldState>();
 
-  // for validating
   String emailErrorText = '';
   String nameErrorText = '';
   String passwordErrorText = '';
 
-  // METHODS
   void onTapLogin() async {
     bool isValid = false;
 
@@ -75,13 +73,11 @@ class _LogInPageState extends State<LogInPage> {
       }
     });
     if (isValid) {
-      // if (true) {
       if (_contactController.text.contains('@')) {
         firebaseSignInWithEmail();
       } else {
         firebaseAuthWithPhone();
       }
-      // _goToVerifyPhonePage();
     }
   }
 
@@ -114,11 +110,7 @@ class _LogInPageState extends State<LogInPage> {
         log("*** codeSent");
         _goToVerifyPhonePage(verificationId: verificationId);
       },
-      codeAutoRetrievalTimeout: (String verificationId) {
-        // Navigator.of(context).pop();
-        // log('*** SMS code handling fails');
-        // showCustomSnackBar(context, 'SMS code handling fails');
-      },
+      codeAutoRetrievalTimeout: (String verificationId) {},
     );
   }
 
@@ -167,7 +159,7 @@ class _LogInPageState extends State<LogInPage> {
 
       }
     });*/
-    // if (isValid) {
+
     if (EmailValidator.validate(_contactController.text)) {
       showDialog(
         context: context,
@@ -217,20 +209,16 @@ class _LogInPageState extends State<LogInPage> {
       ),
     );
     try {
-      // Trigger the authentication flow
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-      // Obtain the auth details from the request
       final GoogleSignInAuthentication? googleAuth =
           await googleUser?.authentication;
 
-      // Create a new credential
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth?.accessToken,
         idToken: googleAuth?.idToken,
       );
 
-      // Once signed in, return the UserCredential
       await FirebaseAuth.instance.signInWithCredential(credential);
       if (FirebaseAuth.instance.currentUser != null) {
         return _goToMainPage();
@@ -279,32 +267,22 @@ class _LogInPageState extends State<LogInPage> {
     final LoginResult result = await FacebookAuth.instance
         .login(); // by default we request the email and the public profile
 
-    // loginBehavior is only supported for Android devices, for ios it will be ignored
-    // final result = await FacebookAuth.instance.login(
-    //   permissions: ['email', 'public_profile', 'user_birthday', 'user_friends', 'user_gender', 'user_link'],
-    //   loginBehavior: LoginBehavior
-    //       .DIALOG_ONLY, // (only android) show an authentication dialog instead of redirecting to facebook app
-    // );
-
     if (result.status == LoginStatus.success) {
       try {
         _accessToken = result.accessToken;
         log('*** _printCredentials:');
         _printCredentials(); // result.accessToken
-        // get the user data
-        // by default we get the userId, email,name and picture
+
         final userData = await FacebookAuth.instance.getUserData();
-        // final userData = await FacebookAuth.instance.getUserData(fields: "email,birthday,friends,gender,link");
+
         _userData = userData;
         log('*** _userData: ');
         log(prettyPrint(_userData!));
 
-        // Create a credential from the access token
         final OAuthCredential facebookAuthCredential =
             FacebookAuthProvider.credential(result.accessToken!.token);
         log('*** facebookAuthCredential: $facebookAuthCredential');
 
-        // Once signed in, return the UserCredential
         UserCredential userCredential = await FirebaseAuth.instance
             .signInWithCredential(facebookAuthCredential);
 
@@ -355,7 +333,6 @@ class _LogInPageState extends State<LogInPage> {
                 ),
                 child: IntrinsicHeight(
                   child: Column(
-                    // mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(

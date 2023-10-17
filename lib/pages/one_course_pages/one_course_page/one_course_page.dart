@@ -51,8 +51,7 @@ class OneCoursePage extends StatefulWidget {
 class _OneCoursePageState extends State<OneCoursePage> {
   CourseModel? currentCourse;
 
-  // late VideoPlayerController dataSourceController;
-  // late CustomVideoPlayerController _customVideoPlayerController;
+
 
   void _navigateToPage({
     required BuildContext context,
@@ -72,7 +71,7 @@ class _OneCoursePageState extends State<OneCoursePage> {
   }
 
   showAlertDialog(BuildContext context) {
-    // show the dialog
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -141,7 +140,7 @@ class _OneCoursePageState extends State<OneCoursePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    // Text(currentCourseProgressModel.toString()),
+
                     Flexible(
                       flex: 1,
                       fit: FlexFit.tight,
@@ -194,7 +193,7 @@ class ButtonBack extends StatelessWidget {
       onTap: () => onTapButtonBack(),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: SvgPicture.asset(AppIcons.arrow_back),
+        child: SvgPicture.asset(AppIcons.arrowBack),
       ),
     );
   }
@@ -230,7 +229,6 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
     dataSourceController.dispose();
   }
 
-  // build UI of Player
   CustomVideoPlayerController getCustomVideoPlayerController({
     required VideoPlayerController dataSourceController,
   }) {
@@ -238,8 +236,8 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
       context: context,
       videoPlayerController: dataSourceController,
       customVideoPlayerSettings: const CustomVideoPlayerSettings(
-        // settingsButton: SizedBox(),
-        // showPlayButton: false,
+
+
         showPlayButton: true,
         settingsButtonAvailable: false,
         alwaysShowThumbnailOnVideoPaused: true,
@@ -250,12 +248,12 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<ProgressBloc, ProgressState>(
-      // if lesson has changed
+
       listenWhen: (p, c) {
         return p.currentLessonIndex != c.currentLessonIndex;
       },
       listener: (context, state) {
-        // reload new video
+
         if (state.currentLessonIndex != null) {
           dataSourceController.pause();
           String? url =
@@ -269,12 +267,11 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
                   dataSourceController.play();
                 }));
 
-          // add Listener
           dataSourceController.addListener(() {
-            // push progress to Bloc. (each second)
+
             if (dataSourceController.value.position ==
                 dataSourceController.value.duration) {
-              // The video has finished playing
+
               log('*** Video finished playing');
               context.read<ProgressBloc>().add(VideoFinishEvent());
             }
@@ -288,7 +285,7 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
                   (currentPosition.inMilliseconds /
                           totalDuration.inMilliseconds) *
                       100;
-              // log('*** newViewProgressInPercent $newViewProgressInPercent');
+
               context.read<ProgressBloc>().add(
                     ChangeProgressEvent(
                       newViewProgressInPercent: newViewProgressInPercent,
@@ -299,12 +296,11 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
                   );
             }
 
-            // push Play/Pause status to Bloc
             if (dataSourceController.value.isPlaying != isPlaying) {
               isPlaying = dataSourceController.value.isPlaying;
               context.read<ProgressBloc>().add(
                     ChangePlaybackStatusEvent(
-                      // newPlaybackStatus: dataSourceController.value.isPlaying
+
                       newPlaybackStatus: isPlaying
                           ? PlaybackStatus.play
                           : PlaybackStatus.pause,
@@ -315,7 +311,7 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
         }
       },
       child: BlocListener<ProgressBloc, ProgressState>(
-        // manipulate with controller when tap custom play/pause
+
         listenWhen: (p, c) {
           return p.playbackStatus != c.playbackStatus;
         },
@@ -452,8 +448,8 @@ class BottomPanelButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 98.0,
-      // width: double.infinity,
-      // alignment: Alignment.topCenter,
+
+
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         boxShadow: [
@@ -474,7 +470,6 @@ class BottomPanelButtons extends StatelessWidget {
             CourseProgressModel? currentCourseProgressModel =
                 state.userProgress?[state.currentCourseUid];
 
-            // bought: currentCourseProgressModel?.bought ?? false,
             return Row(
               children: [
                 Flexible(
@@ -604,7 +599,7 @@ class LessonItem extends StatelessWidget {
             children: [
               Text(
                 lesson.name ?? '',
-                // lessonProgress.toString(),
+
                 style: Theme.of(context).textTheme.displayLarge?.copyWith(
                       fontSize: 14.0,
                       fontWeight: FontWeight.w400,
@@ -689,8 +684,8 @@ class TextLessonDurationWithCheckBox extends StatelessWidget {
         watchStatus == WatchStatus.notViewed
             ? const SizedBox()
             : watchStatus == WatchStatus.inProgress
-                ? SvgPicture.asset(AppIcons.icon_done_orange)
-                : SvgPicture.asset(AppIcons.icon_done_blue),
+                ? SvgPicture.asset(AppIcons.iconDoneOrange)
+                : SvgPicture.asset(AppIcons.iconDoneBlue),
       ],
     );
   }
@@ -699,7 +694,7 @@ class TextLessonDurationWithCheckBox extends StatelessWidget {
 enum WatchStatus { notViewed, inProgress, viewed }
 
 WatchStatus getWatchStatus(List<bool>? lessonProgress) {
-  // log('*** lessonProgress: $lessonProgress');
+
   if (lessonProgress == null) {
     return WatchStatus.notViewed;
   }
@@ -763,7 +758,7 @@ class _AboutCourseState extends State<AboutCourse> {
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: SvgPicture.asset(
-                isFullText ? AppIcons.arrow_up : AppIcons.arrow_down,
+                isFullText ? AppIcons.arrowUp : AppIcons.arrowDown,
               ),
             ),
             onTap: () {

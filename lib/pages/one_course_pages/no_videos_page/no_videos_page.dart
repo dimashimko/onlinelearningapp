@@ -37,7 +37,7 @@ class NoVideosPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SvgPicture.asset(
-                  AppIcons.Illustration_no_video,
+                  AppIcons.illustrationNoVideo,
                 ),
                 Text(
                   'No videos!',

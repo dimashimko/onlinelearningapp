@@ -51,7 +51,6 @@ class CustomLiqPay extends LiqPay {
     }
   }
 
-  // 5168745174849247
   Future<CustomPaymentStatus> checkOrderStatus(String id) async {
     Map<String, String> params = {};
     params['action'] = 'status';
@@ -63,46 +62,29 @@ class CustomLiqPay extends LiqPay {
         await client.post(url, body: getRequestDataFromMap(params));
 
     if (response.statusCode == 200) {
-      // log('response.statusCode == 200');
       Map responseMap = json.decode(response.body);
-      final String? result = responseMap["result"];
       final String? status = responseMap["status"];
-      // log('*** result: $result');
-      // log('*** status: $status');
-      // log('*** responseMap: $responseMap');
-      // if (status == 'success') {
+
       if (setOfSuccessfulStatus.contains(status)) {
         return CustomPaymentStatus(LiqPayResponseStatus.success, '');
-        // return 'success';
       } else if (setOfWaitStatus.contains(status)) {
-
-        String? redirect_to = responseMap["redirect_to"];
-        String? errCode = responseMap["err_code"];
-        String description = redirect_to ?? '';
+        String? redirectTo = responseMap["redirect_to"];
+        String description = redirectTo ?? '';
         return CustomPaymentStatus(LiqPayResponseStatus.wait, description);
-        // return errCode;
       } else {
         String? errCode = responseMap["err_code"];
         errCode ??= 'Something wrong';
-        String? err_description = responseMap["err_description"] ?? '';
-        err_description ??= '';
-        return CustomPaymentStatus(LiqPayResponseStatus.error, err_description);
-        // return errCode;
+        String? errDescription = responseMap["err_description"] ?? '';
+        errDescription ??= '';
+        return CustomPaymentStatus(LiqPayResponseStatus.error, errDescription);
       }
-      // return status ?? '';
     } else if (response.statusCode == 302) {
-      // log('response.statusCode == 302');
       final String location = response.headers["location"] ??
           (throw HttpException(response.toString(), uri: url));
-      // log("Redirect location: $location");
+
       return CustomPaymentStatus(LiqPayResponseStatus.redirect, location);
-      // return location;
     } else {
-      // log('response.statusCode == ???');
-      // log('response.toString() : ${response.toString()}');
       throw HttpException(response.toString(), uri: url);
     }
   }
 }
-
-

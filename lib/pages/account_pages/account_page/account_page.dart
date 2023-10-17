@@ -163,7 +163,7 @@ class AccountMenuItem extends StatelessWidget {
             ),
             const Spacer(),
             SvgPicture.asset(
-              AppIcons.arrow_right,
+              AppIcons.arrowRight,
             ),
           ],
         ),

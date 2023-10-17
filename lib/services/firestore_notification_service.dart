@@ -7,26 +7,22 @@ import 'package:online_learning_app/utils/constants.dart';
 class MyFirestoreNotificationService {
   FirebaseFirestore db = FirebaseFirestore.instance;
 
-  // *****************************
-  // **** Messages ******
-  // *****************************
   QueryDocumentSnapshot<Map<String, dynamic>>? lastQuerySnapshot;
 
-
-  Future<List<MessageModel> > fetchPage(
+  Future<List<MessageModel>> fetchPage(
     int pageNumber,
   ) async {
-/*    await Future.delayed(
+    await Future.delayed(
       const Duration(
         seconds: 2,
       ),
-    );*/
+    );
     log('*** fetchPage');
     Query<Map<String, dynamic>> query = FirebaseFirestore.instance
         .collection('messages')
         .orderBy('time', descending: true)
         .limit(
-          Constants.PAGINATION_PAGE_SIZE,
+          paginationPageSize,
         );
 
     if (lastQuerySnapshot != null) {

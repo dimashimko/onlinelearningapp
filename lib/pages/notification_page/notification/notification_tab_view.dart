@@ -84,16 +84,14 @@ class NotificationItem extends StatelessWidget {
             ),
           ],
           borderRadius: BorderRadius.circular(16.0),
-          // borderRadius: BorderRadius.vertical(bottom: Radius.circular(16.0)),
-          // color: Colors.black54,
         ),
         padding: const EdgeInsets.all(20.0),
         child: Row(
           children: [
             SvgPicture.asset(
               notification.typeNotification == TypeNotification.payment
-                  ? AppIcons.notification_icon_payment
-                  : AppIcons.notification_icon_simle,
+                  ? AppIcons.notificationIconPayment
+                  : AppIcons.notificationIconSimle,
             ),
             const SizedBox(width: 8.0),
             Expanded(
@@ -107,18 +105,16 @@ class NotificationItem extends StatelessWidget {
                           fontWeight: FontWeight.w400,
                         ),
                   ),
-                  SizedBox(height: 4.0),
+                  const SizedBox(height: 4.0),
                   Row(
                     children: [
                       SvgPicture.asset(AppIcons.clock),
                       const SizedBox(width: 4.0),
                       Text(
-                        // notification.time ?? '',
                         formatRelativeTime(
                           DateTime.tryParse(notification.time ?? '') ??
                               DateTime.now(),
                         ),
-                        // notification.time ?? '',
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                     ],

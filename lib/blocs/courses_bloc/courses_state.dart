@@ -31,7 +31,6 @@ class CoursesState extends Equatable {
 
   });
 
-  //
   @override
   List<Object?> get props => [
     filterStatus,
@@ -71,7 +70,7 @@ class CoursesState extends Equatable {
     String? route,
     List<CourseModel>? coursesList,
     List<CategoryModel>? categoryList,
-    // filter
+
     Set<String>? filterCategory,
     List<DurationRangeModel>? filterDurationItems,
     RangeValues? filterPriceRangeValues,

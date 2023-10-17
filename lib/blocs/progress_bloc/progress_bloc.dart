@@ -100,10 +100,10 @@ class ProgressBloc extends Bloc<ProgressEvent, ProgressState> {
 
     on<GetUserProgressEvent>(
       (event, emit) async {
-        // log('*** @GetUserProgressEvent ');
+
         Map<String, CourseProgressModel> userProgress =
             await fireStoreProgressService.getUserProgress();
-        // log('*** @GetUserProgressEvent userProgress: $userProgress');
+
         emit(
           state.copyWith(
             userProgress: userProgress,
@@ -114,13 +114,12 @@ class ProgressBloc extends Bloc<ProgressEvent, ProgressState> {
 
     on<ChangeProgressEvent>(
       (event, emit) async {
-        // log('*** @ChangeViewProgress ');
+
 
         double difference = event.newProgressValue - lastProgressValue;
-        // log('*** difference: ${difference}');
-        // log('*** updateInterval: ${updateInterval}');
 
-        // video change position
+
+
         if (difference > updateInterval * 2 || difference < 0) {
           log('*** seek video (rewind video)');
           difference = 0.0;
@@ -128,9 +127,9 @@ class ProgressBloc extends Bloc<ProgressEvent, ProgressState> {
         }
 
         if (difference > updateInterval) {
-          // log('*** push accessed');
+
           if (state.currentCourseUid != null) {
-            // change
+
             UserActivityModel? userActivityModel =
                 await fireStoreProgressService.updateActivityTime(
               difference: difference,
@@ -148,8 +147,7 @@ class ProgressBloc extends Bloc<ProgressEvent, ProgressState> {
               ),
             );
 
-            // log('*** event.newProgressValue: ${event.newProgressValue}');
-            // log('*** lastProgressValue: ${lastProgressValue}');
+
             lastProgressValue = event.newProgressValue;
           }
         }
@@ -159,19 +157,19 @@ class ProgressBloc extends Bloc<ProgressEvent, ProgressState> {
             currentProgressInPercent: event.newViewProgressInPercent,
           ),
         );
-        // add(GetFilteredCourses());
+
       },
     );
 
     on<ChangePlaybackStatusEvent>(
       (event, emit) async {
-        // log('*** @ChangePlaybackStatus ');
+
         emit(
           state.copyWith(
             playbackStatus: event.newPlaybackStatus,
           ),
         );
-        // add(GetFilteredCourses());
+
       },
     );
 
@@ -180,13 +178,13 @@ class ProgressBloc extends Bloc<ProgressEvent, ProgressState> {
         log('*** @ChangeCurrentLesson ');
         emit(
           state.copyWith(
-            // currentLessonIndex: event.newCurrentLessonIndex,
+
             currentLessonIndex: () => event.newCurrentLessonIndex,
             currentProgressInPercent: 0.0,
             lastProgressValue: 0,
           ),
         );
-        // add(GetFilteredCourses());
+
       },
     );
 
@@ -201,7 +199,7 @@ class ProgressBloc extends Bloc<ProgressEvent, ProgressState> {
             lastProgressValue: 0,
           ),
         );
-        // add(GetFilteredCourses());
+
       },
     );
 

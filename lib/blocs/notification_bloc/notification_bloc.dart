@@ -13,11 +13,11 @@ import 'package:online_learning_app/utils/custom_shared_preferecnes.dart';
 import 'package:uuid/uuid.dart';
 
 part 'notification_event.dart';
+
 part 'notification_state.dart';
 
 class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   NotificationBloc() : super(const NotificationState()) {
-    //
     LocalNotificationService notificationService = LocalNotificationService();
     MyFirestoreNotificationService fireStoreNotificationService =
         MyFirestoreNotificationService();
@@ -32,10 +32,10 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       if (timeLastNotification.isEmpty) return true;
 
       if (timeLastSeenNotification.isEmpty) return true;
-      // log('*** compare: ${timeLastNotification.compareTo(timeLastSeenNotification)}');
+
       bool hasNoSeenNotification =
           timeLastNotification.compareTo(timeLastSeenNotification) > 0;
-      // log('*** hasNoSeenNotification: $hasNoSeenNotification');
+
       return hasNoSeenNotification;
     }
 
@@ -149,10 +149,8 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       (event, emit) async {
         log('@@@ AddNotificationSuccessfulPurchaseEvent');
 
-        // show notification
         bool isNotificationEnabled = await loadNotificationEnabled();
         if (isNotificationEnabled) {
-          // Milliseconds since the start of the day
           DateTime now = DateTime.now();
           DateTime startOfDay = DateTime(now.year, now.month, now.day);
           Duration difference = now.difference(startOfDay);
@@ -165,7 +163,6 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
           );
         }
 
-        // save notification to local storage
         List<NotificationModel> notificationList = [...state.notificationList];
         notificationList.add(event.notification);
 
@@ -184,15 +181,12 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       },
     );
 
-    // return list of NotificationModel from local storage of current user
-    // if list of NotificationModel is
     on<GetAllNotificationsEvent>(
       (event, emit) async {
         log('@@@ GetAllNotificationsEvent');
         String? uid = FirebaseAuth.instance.currentUser?.uid;
         List<NotificationModel> notificationList =
             await notificationService.getNotifications(uid ?? '');
-        // log('*** notificationList: $notificationList');
 
         emit(
           state.copyWith(
@@ -201,7 +195,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
         );
 
 /*        // check
-        // get uid of previous user
+
         String lastUid = await notificationService.getLastUid();
         String? uid = FirebaseAuth.instance.currentUser?.uid;
         if (uid != null && uid == lastUid) {
@@ -215,7 +209,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
             ),
           );
         } else {
-          // erase notification of previous user
+
           notificationService.saveNotifications(
             listOfNotificationModel: [],
           );
@@ -223,12 +217,8 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       },
     );
 
-    // *****************************
-    // **** Messages ******
-    // *****************************
     on<GetAllMessagesEvent>(
       (event, emit) async {
-        // log('@@@ GetAllMessagesEvent');
         List<MessageModel> messageList =
             await fireStoreNotificationService.getAllMessages();
 
@@ -242,7 +232,6 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
     on<InitNotificationBlocEvent>(
       (event, emit) async {
-        // log('@@@ InitNotificationBlocEvent');
         add(GetAllMessagesEvent());
         add(GetAllNotificationsEvent());
         add(GetTimeLastSeenNotification());

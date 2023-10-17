@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
-import 'package:online_learning_app/models/course/course_model.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 
 class FindTextField extends StatefulWidget {
@@ -29,7 +26,6 @@ class _FindTextFieldState extends State<FindTextField> {
     super.initState();
     widget.searchController.addListener(() {
       setState(() {});
-      // add Bloc Event
     });
   }
 
@@ -38,7 +34,6 @@ class _FindTextFieldState extends State<FindTextField> {
     final OutlineInputBorder customBorder = OutlineInputBorder(
       borderRadius: BorderRadius.circular(16.0),
       borderSide: BorderSide(
-        // color: Colors.red,
         color: Theme.of(context).colorScheme.inverseSurface,
       ),
     );
@@ -55,7 +50,7 @@ class _FindTextFieldState extends State<FindTextField> {
         prefixIcon: Padding(
           padding: const EdgeInsets.all(16.0),
           child: SvgPicture.asset(
-            AppIcons.search_grey,
+            AppIcons.searchGrey,
           ),
         ),
         suffixIcon: Row(
@@ -68,7 +63,7 @@ class _FindTextFieldState extends State<FindTextField> {
                   padding: const EdgeInsets.symmetric(
                       vertical: 16.0, horizontal: 8.0),
                   child: SvgPicture.asset(
-                    AppIcons.clear_text,
+                    AppIcons.clearText,
                   ),
                 ),
                 onTap: () {
@@ -89,20 +84,12 @@ class _FindTextFieldState extends State<FindTextField> {
             ),
           ],
         ),
-        // errorMaxLines: 2,
-        // border: InputBorder.none,
         border: customBorder,
         focusedBorder: customBorder,
         enabledBorder: customBorder,
         hintText: 'Find Cousre',
         hintStyle: Theme.of(context).textTheme.titleSmall,
-        // suffixIcon: widget.suffixIcon,
-        // suffixIconColor: AppColors.white,
-        // contentPadding: const EdgeInsets.symmetric(horizontal: 10),
       ),
     );
   }
 }
-
-
-

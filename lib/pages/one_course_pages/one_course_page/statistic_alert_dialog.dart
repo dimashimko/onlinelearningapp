@@ -1,4 +1,3 @@
-// set up the AlertDialog
 import 'package:flutter/material.dart';
 import 'package:online_learning_app/models/user_activity/user_activity_model.dart';
 import 'package:online_learning_app/services/firestore_progress_service.dart';
@@ -65,7 +64,7 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
                   "GOOD JOB!",
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
-                SizedBox(height: 32.0),
+                const SizedBox(height: 32.0),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -85,7 +84,7 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 24.0),
+                    const SizedBox(height: 24.0),
                     StatItem(
                       title: 'Totally days',
                       amount: (userActivityModel.totallyDays ?? 0.0).toInt(),
@@ -93,7 +92,7 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
                     ),
                   ],
                 ),
-                SizedBox(height: 32.0),
+                const SizedBox(height: 32.0),
                 if (userActivityModel.recordOfThisWeek != null)
                   Column(
                     children: [
@@ -127,7 +126,7 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
                       ),
                     ],
                   ),
-                SizedBox(height: 32.0),
+                const SizedBox(height: 32.0),
                 CustomButton(
                   title: 'Share',
                   onTap: () => onTapShare(userActivityModel),
@@ -167,7 +166,7 @@ class DayItem extends StatelessWidget {
       ),
       child: Center(
         child: Text(
-          '$text',
+          text,
           style: Theme.of(context).textTheme.bodySmall,
         ),
       ),

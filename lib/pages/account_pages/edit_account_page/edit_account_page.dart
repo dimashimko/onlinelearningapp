@@ -144,14 +144,14 @@ class UserAvatar extends StatelessWidget {
               boxFitNetworkImage: BoxFit.fitHeight,
             ),
 /*            Container(
-              // width: 96.0,
+
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16.0),
                 color: Colors.black26,
               ),
             ),*/
             SvgPicture.asset(
-              AppIcons.camera_contour,
+              AppIcons.cameraContour,
             ),
           ],
         ),
@@ -180,7 +180,7 @@ class UserNameTextField extends StatelessWidget {
         hintText: 'Name',
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.0),
-          // gapPadding: 16.0,
+
         ),
       ),
     );

@@ -57,7 +57,6 @@ class LocalDB {
     await clearStorage.writeLaunch(false);
   }
 
-  // [START] User
 
   Future<void> saveUser(UserModel user) async {
     final Box<String> authBox = Hive.box(_authBox);
@@ -71,7 +70,6 @@ class LocalDB {
     );
   }
 
-  // ******
 
   Future<void> setFlagNoFirst() async {
     final Box<String> authBox = Hive.box(_authBox);
@@ -83,7 +81,6 @@ class LocalDB {
     return authBox.get('isFirst');
   }
 
-  // ******
 
   Future<void> saveNotifications(String json, String userUid) async {
     final Box<String> notificationsBox = Hive.box(_notificationsBox);
@@ -94,11 +91,10 @@ class LocalDB {
     final Box<String> notificationsBox = Hive.box(_notificationsBox);
     String key = 'notifications_$userUid';
     String? value = notificationsBox.get(key);
-    // log('*** key:$key, value: $value');
+
     return value;
   }
 
-// ******
 
   Future<void> saveTimeLastSeenNotification(
     String timeLastSeenNotification,

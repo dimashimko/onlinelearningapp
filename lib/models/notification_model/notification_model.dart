@@ -24,7 +24,6 @@ class NotificationModel extends Equatable {
     this.title = '',
   });*/
 
-  //
   @override
   List<Object?> get props => [
     typeNotification,

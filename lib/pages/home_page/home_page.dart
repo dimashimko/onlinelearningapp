@@ -37,8 +37,6 @@ class HomePage extends StatefulWidget {
 
   static const routeName = '/';
 
-  // static const routeName = '/home_pages/home_page';
-
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -102,23 +100,17 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-      statusBarColor: Colors.black,
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(statusBarColor: Colors.red),
+    );
     return Scaffold(
-      // appBar: homePageAppBar(),
 /*      appBar: const CustomAppBarDefault(
         title: 'HomePage',
       ),*/
 
       body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle(
+        value: const SystemUiOverlayStyle(
           systemNavigationBarColor: Colors.brown,
-          // systemNavigationBarColor: Theme.of(context).colorScheme.onBackground,
-          // systemNavigationBarColor: Color(0xFF000000),
-          // systemNavigationBarIconBrightness: Brightness.light,
-          // statusBarIconBrightness: Brightness.light,
-          // statusBarBrightness: Brightness.dark,
         ),
         child: SafeArea(
           child: BlocListener<CoursesBloc, CoursesState>(
@@ -126,7 +118,6 @@ class _HomePageState extends State<HomePage> {
               return previous.coursesList != current.coursesList;
             },
             listener: (context, state) {
-              // log('*** precacheImage in HomePage');
               for (CourseModel course in state.coursesList) {
                 try {
                   if (course.title != null && course.title!.isNotEmpty) {
@@ -136,9 +127,8 @@ class _HomePageState extends State<HomePage> {
                     );
                   }
                 } catch (e) {
-                  // print(e);
+                  log(e.toString());
                 }
-                // log('*** course.title: ${course.title ?? ''}');
               }
             },
             child: SingleChildScrollView(
@@ -153,8 +143,6 @@ class _HomePageState extends State<HomePage> {
                   TodayProgressWidgetWithBackground(
                     goToMyCoursesPage: () => _goToMyCoursesPage(),
                   ),
-                  // const Buttons(),
-
                   const SizedBox(height: 16.0),
                   AdsWidget(
                     goToOneCoursePage: (uidCourse) {
@@ -179,7 +167,6 @@ class MeetupBanner extends StatelessWidget {
   const MeetupBanner({super.key});
 
   void tryOpenUrl(String link) {
-    // log('*** link: $link');
     final Uri? uri = Uri.tryParse(link);
     if (uri != null) {
       _launchUrl(uri);
@@ -191,7 +178,6 @@ class MeetupBanner extends StatelessWidget {
       if (!await launchUrl(
         url,
         mode: LaunchMode.externalApplication,
-        // mode: LaunchMode.platformDefault,
       )) {
         throw 'Could not launch $url';
       }
@@ -243,7 +229,7 @@ class MeetupBanner extends StatelessWidget {
                   ),
                 ),
                 SvgPicture.asset(
-                  AppIcons.meetup_icon,
+                  AppIcons.meetupIcon,
                 ),
               ],
             ),
@@ -345,11 +331,8 @@ class CourseProgressItem extends StatelessWidget {
               width: 18.0,
               child: CircularProgressIndicator(
                 value: lessonCompleted / (courseModel.lessons?.length ?? 1.0),
-                // color: Colors.orange,
                 color: colors(context).greyDark,
                 backgroundColor: colors(context).violetLight,
-                // backgroundColor: Colors.red,
-                // valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
               ),
             ),
           ),
@@ -456,7 +439,6 @@ class AdsListView extends StatelessWidget {
                     separatorBuilder: (context, index) => const SizedBox(
                           width: 8.0,
                         ),
-                    // itemCount: categories.length,
                     itemCount: adsState.adsCoursesUids.length,
                     itemBuilder: (context, index) {
                       CourseModel? courseModel = getCourseModelByUid(
@@ -475,9 +457,7 @@ class AdsListView extends StatelessWidget {
                           ),
                         ),
                       );
-                    }
-                    // SvgPicture.asset(state.categoryList[index].categoryTitle),
-                    );
+                    });
               },
             );
           },
@@ -571,7 +551,6 @@ class UserInfoWidget extends StatelessWidget {
                   width: 96.0,
                   child: CustomImageViewer(
                     link: state.accountModel.avatarLink,
-                    // link: 'state.accountModel.avatarLink',
                     alternativePhoto: AppImages.empty_avatar,
                     boxFitNetworkImage: BoxFit.fitHeight,
                   ),
@@ -646,20 +625,6 @@ class _ButtonsState extends State<Buttons> {
                 );
           },
         ),
-/*        const SizedBox(height: 8.0),
-        CustomButton(
-          title: 'Throw Test Exception2',
-          onTap: () {
-            _throwTestException2();
-          },
-        ),
-        const SizedBox(height: 8.0),
-        CustomButton(
-          title: 'Throw Test Exception1',
-          onTap: () {
-            _throwTestException1();
-          },
-        ),*/
         const SizedBox(height: 8.0),
         CustomButton(
           title: 'Show Alert',
@@ -693,8 +658,20 @@ class _ButtonsState extends State<Buttons> {
           title: 'LogOut',
           onTap: () {
             logOut(context);
-            // log('*** name: ${ModalRoute.of(context)?.settings.name}');
-            // Navigator.of(context).
+          },
+        ),
+        const SizedBox(height: 8.0),
+        CustomButton(
+          title: 'Throw Test Exception2',
+          onTap: () {
+            _throwTestException2();
+          },
+        ),
+        const SizedBox(height: 8.0),
+        CustomButton(
+          title: 'Throw Test Exception1',
+          onTap: () {
+            _throwTestException1();
           },
         ),
       ],

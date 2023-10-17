@@ -41,8 +41,6 @@ class _CheckPaymentStatusPageState extends State<CheckPaymentStatusPage> {
   int counter = 0;
   late CustomLiqPay customLiqPay;
 
-  // Widget contentWidget = const SizedBox();
-  // Widget contentWidget = const CircularProgressIndicator();
   Widget contentWidget = const WaitStatusWidget(counterState: 0);
 
   void _goToBackPage(BuildContext context) {
@@ -79,10 +77,7 @@ class _CheckPaymentStatusPageState extends State<CheckPaymentStatusPage> {
   Future<void> purchase() async {
     Map<String, dynamic> liqPayResponse =
         await customLiqPay.customPurchase(widget.liqPayOrder);
-    // log('*** liqPayResponse result: ${liqPayResponse['result']}');
-    // log('*** liqPayResponse status: ${liqPayResponse['status']}');
-    // log('*** liqPayResponse action: ${liqPayResponse['action']}');
-    // log('*** liqPayResponse redirect_to: ${liqPayResponse['redirect_to']}');
+
     String? link = liqPayResponse['redirect_to'];
     if (link != null) {
       tryOpenUrl(link);
@@ -115,7 +110,6 @@ class _CheckPaymentStatusPageState extends State<CheckPaymentStatusPage> {
       CustomPaymentStatus customPaymentStatus =
           await customLiqPay.checkOrderStatus(widget.liqPayOrder.id);
       liqPayResponseStatus = customPaymentStatus.status;
-      // log('*** customPaymentStatus: $customPaymentStatus');
 
       if (liqPayResponseStatus == LiqPayResponseStatus.success) {
         timer.cancel();
@@ -146,7 +140,6 @@ class _CheckPaymentStatusPageState extends State<CheckPaymentStatusPage> {
         tryOpenUrl(customPaymentStatus.description);
       }
       if (liqPayResponseStatus == LiqPayResponseStatus.redirect) {
-        // String link = await myLiqPay.checkout(_order);
         tryOpenUrl(customPaymentStatus.description);
       }
     } catch (e) {
@@ -157,7 +150,6 @@ class _CheckPaymentStatusPageState extends State<CheckPaymentStatusPage> {
   }
 
   void tryOpenUrl(String link) {
-    // log('*** link: $link');
     final Uri? uri = Uri.tryParse(link);
     if (uri != null) {
       _launchUrl(uri);
@@ -169,7 +161,6 @@ class _CheckPaymentStatusPageState extends State<CheckPaymentStatusPage> {
       if (!await launchUrl(
         url,
         mode: LaunchMode.externalApplication,
-        // mode: LaunchMode.platformDefault,
       )) {
         throw 'Could not launch $url';
       }
@@ -268,7 +259,7 @@ class SuccessfulPaymentWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
-        SvgPicture.asset(AppIcons.check_mark3),
+        SvgPicture.asset(AppIcons.checkMark3),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 16.0),
           child: Text(

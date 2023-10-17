@@ -18,14 +18,14 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPageState extends State<NotificationPage> {
-  //   message
+
   late List<Widget> tabs;
 
 /*  final List<Widget> tabs = [
     const CustomTabBar(
       name: ' message ',
       hasNew: false,
-      // hasNew: true,
+
     ),
     const CustomTabBar(
       name: ' notification ',
@@ -55,12 +55,12 @@ class _NotificationPageState extends State<NotificationPage> {
               Expanded(
                 child: BlocBuilder<NotificationBloc, NotificationState>(
                   builder: (context, state) {
-                    // log('*** state.isHasNoReadNotification: ${state.isHasNoReadNotification}');
+
                     tabs = [
                       const CustomTabBar(
                         name: ' message ',
                         hasNew: false,
-                        // hasNew: true,
+
                       ),
                       CustomTabBar(
                         name: ' notification ',
@@ -81,7 +81,7 @@ class _NotificationPageState extends State<NotificationPage> {
                                             DateTime.now().toString(),
                                       ),
                                     );
-                                // update last seen for notification
+
                               }
                             },
                             dividerColor: Colors.transparent,
@@ -139,13 +139,13 @@ class CustomTabBar extends StatelessWidget {
       children: [
         hasNew
             ? SvgPicture.asset(
-                AppIcons.point_orange,
+                AppIcons.pointOrange,
               )
             : const SizedBox(height: 6.0),
         Text(
           name,
           style: Theme.of(context).textTheme.labelLarge?.copyWith(
-              // color: Colors.orange,
+
               ),
         ),
         const SizedBox(height: 8.0),

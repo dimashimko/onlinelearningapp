@@ -9,7 +9,6 @@ class AccountState extends Equatable {
 
   final AccountModel accountModel;
 
-  //
   @override
   List<Object?> get props => [
         accountModel,

@@ -48,11 +48,10 @@ Future<void> main() async {
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
       );
-      // Pass all uncaught "fatal" errors from the framework to Crashlytics
+
       FlutterError.onError =
           FirebaseCrashlytics.instance.recordFlutterFatalError;
 
-      // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
       PlatformDispatcher.instance.onError = (error, stack) {
         FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
         return true;
@@ -155,11 +154,11 @@ class _App extends StatelessWidget {
           ],
           debugShowCheckedModeBanner: false,
           title: 'Online Learning App',
-          // title: context.read<AuthRepository>().toString(),
-          // theme: AppThemes.light2(),
-          // theme: AppThemes.light(),
+
+
+
           theme: Provider.of<ThemeProvider>(context).currentTheme,
-          // theme: AppThemes.dark(),
+
 
           initialRoute: SplashScreenPage.routeName,
           onGenerateRoute: AppRouter.generateRoute,

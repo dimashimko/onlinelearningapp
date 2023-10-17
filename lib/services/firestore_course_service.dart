@@ -1,12 +1,10 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
 import 'package:online_learning_app/models/category/category_model.dart';
 import 'package:online_learning_app/models/course/course_model.dart';
 import 'package:online_learning_app/models/duration_range_model/duration_range_model.dart';
-import 'package:online_learning_app/models/message_model/message_model.dart';
 
 class MyFirestoreCourseService {
   FirebaseFirestore db = FirebaseFirestore.instance;
@@ -19,7 +17,6 @@ class MyFirestoreCourseService {
     required String searchKey,
     required FilterEnabledType filterEnabledType,
   }) async {
-    // print('*** getFilteredCoursesList');
     List<CourseModel> listOfCoursesModel = [];
     Query<Map<String, dynamic>> filteredCourses = db.collection('courses');
 /*        // Filtered by Name v1
@@ -27,18 +24,15 @@ class MyFirestoreCourseService {
             .where('name', isGreaterThanOrEqualTo: searchKey)
             .where('name', isLessThan: searchKey + 'z');*/
 
-    // Filtered by Name v2
     if (filterEnabledType == FilterEnabledType.text) {
       log('*** searchKey: $searchKey');
       if (true) {
         filteredCourses = filteredCourses
             .orderBy(OrderBy.name.name)
-            .startAt([searchKey]).endAt([searchKey + '\uf8ff']);
+            .startAt([searchKey]).endAt(['$searchKey\uf8ff']);
       }
     }
 
-    // Filtered by category
-    // if (filterEnabledType == FilterEnabledType.categories) {
     if (true) {
       if (uidsSelectedCategories.isNotEmpty) {
         filteredCourses = filteredCourses.where(
@@ -48,17 +42,13 @@ class MyFirestoreCourseService {
       }
     }
 
-    // Filtered by Price
     if (filterEnabledType == FilterEnabledType.price) {
-      // if (true) {
       filteredCourses = filteredCourses.where('price', isGreaterThan: minPrice);
       filteredCourses =
           filteredCourses.where('price', isLessThan: maxPrice + 0.5);
     }
 
-    // Filtered by duration
     if (filterEnabledType == FilterEnabledType.duration) {
-      // if (true) {
       for (DurationRangeModel durationFilter in filterDurationItems) {
         if (durationFilter.isEnable) {
           log('*** durationFilter: $durationFilter');
@@ -87,7 +77,7 @@ class MyFirestoreCourseService {
         }
       },
     );
-    // log('*** listOfCoursesModel: ${listOfCoursesModel}');
+
     return listOfCoursesModel;
   }
 
@@ -99,8 +89,6 @@ class MyFirestoreCourseService {
     await coursesCollection.get().then(
       (QuerySnapshot<Map<String, dynamic>> snapshot) {
         for (var doc in snapshot.docs) {
-          // log('*** doc.data(): ${doc.data()}');
-
           listOfCoursesModel.add(
             CourseModel.fromJson(
               doc.data()..addAll({'uid': doc.id.toString()}),
@@ -129,9 +117,7 @@ class MyFirestoreCourseService {
   }
 
   Future<void> fillCourses() async {
-    // db.collection("ads").doc().set({"uidCourse": "1691069121"});
-    // db.collection("ads").doc().set({"uidCourse": "1691069119"});
-    db.collection("ads").doc().set({"uidCourse": "1691069119", "position":1});
+    db.collection("ads").doc().set({"uidCourse": "1691069119", "position": 1});
 
 /*    List<MessageModel> messages = [
       MessageModel(
@@ -182,7 +168,7 @@ class MyFirestoreCourseService {
         },
       },
     });*/
-    //
+
 /*    db.collection("users").doc("eLC2uAmaA8VUvslkqNiqY1K8F6l2").set({
       "learned_today": 360,
       "today": '2023_09_08',
@@ -215,26 +201,7 @@ class MyFirestoreCourseService {
         },
       },
     });*/
-    // db.collection("users").doc("6rKzQ5xAInd7dodC9bR2Fy7EbBI2").set({
-    //   "uid": "6rKzQ5xAInd7dodC9bR2Fy7EbBI2",
-    //   "created": 0,
-    // });
-    // db.collection("u").doc().set({"uid": "rwIfbhET42cvzH9QADWEqEUPHZb2", "created": 0});
-    // db.collection("u").doc().set({"uid": "RsxxVMwgvOTVHra0tsG2lTXur2q1", "created": 0});
-    // return;
-    // db.collection("authors").doc('1691376989').set({"name": "Andrey Markov"});
-    // db.collection("authors").doc('1691377035').set({"name": "VideoSmile"});
-    // db.collection("authors").doc('1691377101').set({"name": "Zakhariychenko"});
-    // db.collection("authors").doc('1691400957').set({"name": "Bebris"});
-    //
-    // db.collection("categories").doc().set({"name": Categories.painting.name});
-    // db.collection("categories").doc().set({"name": Categories.language.name});
-    // db
-    //     .collection("categories")
-    //     .doc()
-    //     .set({"name": Categories.programming.name});
-    // db.collection("categories").doc().set({"name": Categories.math.name});
-    // db.collection("categories").doc().set({"name": Categories.other.name});
+
 /*
 
     db.collection("courses").doc('1691069119').set({
@@ -402,15 +369,5 @@ class MyFirestoreCourseService {
       ],
     }).onError((e, _) => log("Error writing document: $e"));
 */
-
-    // db
-    //     .collection("courses")
-    //     .doc('1691069119')
-    //     .collection('lessons')
-    //     .doc('1')
-    //     .set({
-    //   "link":
-    //       "https://firebasestorage.googleapis.com/v0/b/onlinelearningapp-616fe.appspot.com/o/videos%2F%D0%9F%D0%BE%D0%B2%D0%BD%D0%B8%D0%B9%20%D0%BA%D1%83%D1%80%D1%81%20%D0%BC%D0%B0%D1%82%D0%B5%D0%BC%D0%B0%D1%82%D0%B8%D0%BA%D0%B8%20%D0%B2%20%D1%82%D0%B5%D1%81%D1%82%D0%B0%D1%85%20%D0%97%D0%B0%D0%B2%D0%B4%D0%B0%D0%BD%D0%BD%D1%8F%2021-26.%20%D0%97%D0%B0%D1%85%D0%B0%D1%80%D1%96%D0%B9%D1%87%D0%B5%D0%BD%D0%BA%D0%BE.mp4?alt=media&token=01473cf6-ac2b-436b-aef7-cbab0ec73dc7",
-    // });
   }
 }

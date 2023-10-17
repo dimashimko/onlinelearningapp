@@ -1,11 +1,9 @@
 import 'dart:math';
 
-import 'package:online_learning_app/resources/app_colors.dart';
-import 'package:online_learning_app/resources/app_fonts.dart';
-import 'package:online_learning_app/resources/app_icons.dart';
-import 'package:online_learning_app/widgets/uncategorized/splash_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:online_learning_app/resources/app_icons.dart';
+import 'package:online_learning_app/widgets/uncategorized/splash_box.dart';
 
 class CustomPauseButtonWithProgress extends StatefulWidget {
   const CustomPauseButtonWithProgress({
@@ -48,7 +46,7 @@ class _CustomPauseButtonWithProgressState
         Padding(
           padding: EdgeInsets.all(widget.padding),
           child: Center(
-            child: Container(
+            child: SizedBox(
               width: size,
               height: size,
               child: Stack(
@@ -105,7 +103,7 @@ class _CustomPauseButtonWithProgressState
 }
 
 class ArchPainter extends CustomPainter {
-  // ArchPainter(double angle){}
+
   ArchPainter({
     required this.angle,
   });
@@ -135,7 +133,6 @@ class ArchPainter extends CustomPainter {
       paint,
     );
 
-    // canvas.drawPath(path, paint);
   }
 
   @override

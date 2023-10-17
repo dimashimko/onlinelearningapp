@@ -15,7 +15,6 @@ class ProgressState extends Equatable {
     this.userProgress,
   });
 
-  //
   @override
   List<Object?> get props => [
         totalDuration,
@@ -42,7 +41,6 @@ class ProgressState extends Equatable {
   ProgressState copyWith({
     int? totalDuration,
     String? currentCourseUid,
-    // int? currentLessonIndex,
     int? Function()? currentLessonIndex,
     PlaybackStatus? playbackStatus,
     double? currentProgressInPercent,
@@ -54,7 +52,6 @@ class ProgressState extends Equatable {
     return ProgressState(
       totalDuration: totalDuration ?? this.totalDuration,
       currentCourseUid: currentCourseUid ?? this.currentCourseUid,
-      // currentLessonIndex: currentLessonIndex ?? this.currentLessonIndex,
       currentLessonIndex: currentLessonIndex != null
           ? currentLessonIndex()
           : this.currentLessonIndex,

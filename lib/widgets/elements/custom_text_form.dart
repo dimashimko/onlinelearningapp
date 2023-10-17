@@ -45,7 +45,6 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       textAlign: TextAlign.left,
       key: widget.key,
 
-      // textAlign: TextAlign.center, // Set text alignment to center
       inputFormatters: widget.inputFormatters,
       textInputAction: widget.textInputAction,
       controller: widget.controller,
@@ -62,13 +61,13 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           height: 1.0,
           fontSize: 12,
         ),
-        // errorMaxLines: 2,
+
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(
             widget.borderRadius,
           ),
           borderSide: BorderSide(
-            // color: Colors.red,
+
             color: Theme.of(context).colorScheme.outlineVariant,
           ),
         ),
@@ -77,7 +76,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             widget.borderRadius,
           ),
           borderSide: BorderSide(
-            // color: Colors.red,
+
             color: Theme.of(context).colorScheme.outlineVariant,
           ),
         ),
@@ -87,14 +86,14 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           ),
           borderSide: BorderSide(
             color: Theme.of(context).colorScheme.outline,
-            // color: Colors.red,
+
           ),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(
             widget.borderRadius,
           ),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: Colors.red,
           ),
         ),
@@ -103,10 +102,10 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         hintText: widget.hintText,
         hintStyle: widget.hintStyle,
         suffixIcon: widget.suffixIcon,
-        // suffixIconColor: AppColors.white,
-        // contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+
+
       ),
-      // keyboardType: TextInputType.none,
+
     );
   }
 }

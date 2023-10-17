@@ -20,7 +20,6 @@ class CourseProgressModel extends Equatable {
     this.lessonsProgress = const {},
   });
 
-  //
   @override
   List<Object?> get props => [
         bought,
@@ -49,7 +48,6 @@ class CourseProgressModel extends Equatable {
   }
 
   factory CourseProgressModel.fromJson(Map<String, dynamic> json) {
-    // log('***: input json: ${json}');
     Map<String, List<bool>> lessonsProgressMap = {};
     if (json['lessons'] != null) {
       json['lessons'].forEach((key, value) {
@@ -80,7 +78,7 @@ class CourseProgressModel extends Equatable {
     data['bought'] = this.bought;
     data['favorites'] = this.favorites;
     data['completed'] = this.completed;
-    // data['lessons'] = this.lessonsProgress;
+
     data['lessons'] = json.encode(this.lessonsProgress);
     return data;*/
   }

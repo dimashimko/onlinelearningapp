@@ -5,7 +5,6 @@ abstract class AdsEvent {
   const AdsEvent();
 }
 
-// class SomeEvent extends PlayerEvent {}
 
 class GetAdsCoursesUids extends AdsEvent {}
 

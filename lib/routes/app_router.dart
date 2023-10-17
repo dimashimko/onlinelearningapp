@@ -29,7 +29,7 @@ class AppRouter {
     WidgetBuilder builder;
 
     switch (settings.name) {
-      // [START] Auth pages
+
       case SignInPage.routeName:
         final SignInPageArguments args = arguments as SignInPageArguments;
         builder = (_) => SignInPage(
@@ -54,7 +54,6 @@ class AppRouter {
             );
         break;
 
-      // [END] Auth pages
 
       case MainPage.routeName:
         builder = (_) => const MainPage();

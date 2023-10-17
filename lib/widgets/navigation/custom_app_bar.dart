@@ -36,13 +36,13 @@ class CustomAppBarDefault extends StatelessWidget
   Widget build(BuildContext context) {
     return CustomAppBar(
       leading: SvgPicture.asset(
-        AppIcons.arrow_back,
+        AppIcons.arrowBack,
         colorFilter: ColorFilter.mode(
           Theme.of(context).colorScheme.onSecondaryContainer,
           BlendMode.srcIn,
         ),
       ),
-      // onLeading: onLeading,
+
       onLeading: () {
         Navigator.of(context).pop();
       },
@@ -54,7 +54,7 @@ class CustomAppBarDefault extends StatelessWidget
       ),
       action: const Text(
         '          ',
-        // style: TextStyle(color: Colors.white),
+
       ),
     );
   }

@@ -76,14 +76,12 @@ class _MainPageState extends State<MainPage> {
         return content;
       },
     ).whenComplete(() {
-      // log('*** close ModalBottomSheet');
       context.read<CoursesBloc>().add(FilterBottomSheetDisable());
       modalBottomSheetEnabled = false;
     });
   }
 
   void _hideModalBottomSheet(BuildContext context) {
-    // log('*** _hideModalBottomSheet');
     if (modalBottomSheetEnabled) {
       Navigator.of(context).pop();
       bottomSheetEnabled = false;
@@ -141,10 +139,7 @@ class _MainPageState extends State<MainPage> {
         return WillPopScope(
           onWillPop: _onWillPop,
           child: Scaffold(
-            // resizeToAvoidBottomPadding: false, // flutter 1.x
             resizeToAvoidBottomInset: false,
-            // flutter 2.x
-            // backgroundColor: Colors.indigo,
             body: BlocListener<CoursesBloc, CoursesState>(
               listenWhen: (p, c) {
                 return p.filterStatus != c.filterStatus;
@@ -174,13 +169,9 @@ class _MainPageState extends State<MainPage> {
                 },
                 child: BlocListener<ProgressBloc, ProgressState>(
                   listenWhen: (p, c) {
-                    // print(
-                    //     '*** p.userProgress != c.userProgress: ${p.userProgress != c.userProgress}');
                     return p.userProgress != c.userProgress;
                   },
                   listener: (context, state) {
-                    // userProgress = context.read<ProgressBloc>().state.userProgress;
-                    // print('*** state.userProgress: ${state.userProgress}');
                     context.read<CoursesBloc>().add(
                           FilterUserCourses(
                             userProgress: state.userProgress,
@@ -190,7 +181,6 @@ class _MainPageState extends State<MainPage> {
                   child: Navigator(
                     key: _navigatorKey,
                     initialRoute: HomePage.routeName,
-                    // initialRoute: NotificationPage.routeName,
                     onGenerateRoute: AppRouter.generateRoute,
                   ),
                 ),
@@ -204,8 +194,8 @@ class _MainPageState extends State<MainPage> {
               child: InkWell(
                 child: SvgPicture.asset(
                   Theme.of(context).brightness == Brightness.dark
-                      ? AppIcons.search_dark
-                      : AppIcons.search_light,
+                      ? AppIcons.searchDark
+                      : AppIcons.searchLight,
                 ),
                 onTap: () {
                   context.read<AnalyticsBloc>().add(

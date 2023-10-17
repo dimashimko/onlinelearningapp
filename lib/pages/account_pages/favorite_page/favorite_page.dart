@@ -55,7 +55,6 @@ class _FavoritePageState extends State<FavoritePage> {
   void initState() {
     super.initState();
 
-    //
     log('*** initState MyCoursesPage');
     context.read<ProgressBloc>().add(
           GetUserProgressEvent(),
@@ -70,11 +69,11 @@ class _FavoritePageState extends State<FavoritePage> {
 
   @override
   Widget build(BuildContext context) {
-    //
+
     colorsList = [
-      // Theme.of(context).colorScheme.onErrorContainer,
-      // Theme.of(context).colorScheme.onSecondaryContainer,
-      // Theme.of(context).colorScheme.onTertiaryContainer,
+
+
+
       colors(context).red ?? Colors.red,
       colors(context).blue ?? Colors.red,
       colors(context).green ?? Colors.red,
@@ -97,8 +96,8 @@ class _FavoritePageState extends State<FavoritePage> {
             children: [
               BlocBuilder<CoursesBloc, CoursesState>(
                 buildWhen: (p, c) {
-                  // log('*** p.favoriteList != c.favoriteList: ${p.favoriteList != c.favoriteList}');
-                  // return true;
+
+
                   return p.favoriteList != c.favoriteList;
                 },
                 builder: (context, stateCoursesBloc) {
@@ -140,7 +139,7 @@ class _FavoritePageState extends State<FavoritePage> {
                             backgroundColor: backgroundColorsList[index % 3],
                             color: colorsList[index % 3],
                             lessonCompleted: lessonCompleted,
-                            // color: colors(context).blueLight??Colors.red,
+
                           ),
                         );
                       },
@@ -221,7 +220,7 @@ class CourseItem extends StatelessWidget {
                 ),
               ],
             ),
-            // SizedBox(height: 8.0),
+
             const Spacer(),
             Text(
               'Completed',
@@ -279,12 +278,12 @@ class CustomLinearGradientLine extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.centerLeft,
-              // end: Alignment.centerRight,
+
               end: Alignment(((minRounded * 2) / 60) - 1, 0.0),
-              // end: Alignment(-0.5, 0.0),
+
               colors: <Color>[
                 Theme.of(context).colorScheme.onSecondary,
-                // Colors.white,
+
                 Theme.of(context).colorScheme.tertiaryContainer,
               ],
               tileMode: TileMode.decal,

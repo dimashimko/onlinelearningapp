@@ -1,9 +1,5 @@
-import 'dart:developer';
-
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:online_learning_app/widgets/animations/appear_in_animation.dart';
-import 'package:online_learning_app/widgets/animations/fade_in_animation.dart';
 import 'package:online_learning_app/widgets/elements/custom_text_form.dart';
 
 class AuthFormFields extends StatefulWidget {
@@ -57,12 +53,12 @@ class _AuthFormFieldsState extends State<AuthFormFields> {
           style: Theme.of(context).textTheme.titleMedium,
         ),
         CustomTextFormField(
-          // key: widget.contentFormFieldKey,
+
           controller: widget.contactController,
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.next,
           hintText: '',
-          // inputFormatters: [maskFormatter],
+
           validator: _isEmail
               ? (String? value) {
                   if (value == null) return null;
@@ -88,7 +84,7 @@ class _AuthFormFieldsState extends State<AuthFormFields> {
                   return null;
                 },*/
         ),
-        // SizedBox(height: 16.0),
+
         if (_isEmail)
           Text(
             'Password',
@@ -130,8 +126,8 @@ class _AuthFormFieldsState extends State<AuthFormFields> {
 }
 
 bool _validatePhoneNumber(String input) {
-  final _phoneExp = RegExp(r'^\+\d\d\d\d\d\d\d\d\d\d\d\d$');
-  return _phoneExp.hasMatch(input);
+  final phoneExp = RegExp(r'^\+\d\d\d\d\d\d\d\d\d\d\d\d$');
+  return phoneExp.hasMatch(input);
 }
 
 class ForgetPasswordButton extends StatelessWidget {

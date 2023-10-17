@@ -33,7 +33,7 @@ class _CoursePageState extends State<CoursePage> {
   }
 
   void _goToSearchPage(BuildContext context) async {
-    // log('*** _goToSearchPage');
+
     context.read<CoursesBloc>().add(
           ClearFilters(),
         );
@@ -41,7 +41,7 @@ class _CoursePageState extends State<CoursePage> {
       context: context,
       route: SearchPage.routeName,
       isRoot: true,
-      // isRoot: false,
+
     );
   }
 
@@ -58,7 +58,7 @@ class _CoursePageState extends State<CoursePage> {
       context: context,
       route: SearchPage.routeName,
       isRoot: true,
-      // isRoot: false,
+
     );
   }
 
@@ -83,14 +83,13 @@ class _CoursePageState extends State<CoursePage> {
     context.read<CoursesBloc>().add(GetAllCourses(orderBy: OrderBy.name.name));
   }
 
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   for (CourseModel course in context.read<CoursesBloc>().state.coursesList) {
-  //     precacheImage(NetworkImage(course.title ?? ''), context);
-  //     log('*** course.title: ${course.title ?? ''}');
-  //   }
-  // }
+
+
+
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +120,7 @@ class _CoursePageState extends State<CoursePage> {
                       onTapSetting: () => _goToSearchPage(context),
                       onTap: () => _goToSearchPage(context),
                       isReadOnly: true,
-                      // isReadOnly: false,
+
                     ),
                     CategoriesListView(
                       onTapCategory: (String? category) {
@@ -177,7 +176,7 @@ class _CustomToggleButtonsState extends State<CustomToggleButtons> {
           context
               .read<CoursesBloc>()
               .add(GetAllCourses(orderBy: OrderBy.duration.name));
-          // context.read<CoursesBloc>().add(GetAllCoursesSortDuration());
+
         }
         if (newCurrent == 2) {
           context
@@ -248,7 +247,7 @@ class CategoriesListView extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 separatorBuilder: (context, index) =>
                     const SizedBox(width: 8.0),
-                // itemCount: categories.length,
+
                 itemCount: state.categoryList.length,
                 itemBuilder: (context, index) => InkWell(
                       onTap: () {
@@ -262,7 +261,7 @@ class CategoriesListView extends StatelessWidget {
                         ),
                       ),
                     )
-                // SvgPicture.asset(state.categoryList[index].categoryTitle),
+
                 );
           },
         ),

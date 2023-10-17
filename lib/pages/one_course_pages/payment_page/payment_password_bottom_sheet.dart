@@ -28,18 +28,10 @@ class BottomSheetPaymentPassword extends StatelessWidget {
   }
 
   String? pinValidator(String? text) {
-    // if (text == null) return 'Enter pin code';
-    //
-    // //
-    // final pinExp = RegExp(r'^.{6}$');
-    // bool isSixSign = pinExp.hasMatch(text);
-    // if (!isSixSign) return 'Must be six sign';
-    //
     if (text != correctPin) return 'Pin is incorrect';
 
     return null;
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +45,6 @@ class BottomSheetPaymentPassword extends StatelessWidget {
               top: Radius.circular(32),
             ),
             color: Theme.of(context).colorScheme.surface,
-            // color: Colors.red,
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.15),
@@ -68,7 +59,7 @@ class BottomSheetPaymentPassword extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: [
-                  SizedBox(height: 16.0),
+                  const SizedBox(height: 16.0),
                   Text(
                     'Payment Password',
                     style: Theme.of(context).textTheme.displayLarge?.copyWith(
@@ -79,7 +70,7 @@ class BottomSheetPaymentPassword extends StatelessWidget {
                     'Please enter the payment password',
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
-                  SizedBox(height: 16.0),
+                  const SizedBox(height: 16.0),
                   PinCodeVerificationWidget(
                     textEditingController: _pinController,
                     formKey: _formKey,
@@ -94,7 +85,7 @@ class BottomSheetPaymentPassword extends StatelessWidget {
                       },
                     ),
                   ),
-                  SizedBox(height: 16.0),
+                  const SizedBox(height: 16.0),
                   CustomKeyboard(
                     pinController: _pinController,
                     pinLength: BottomSheetPaymentPassword.pinLength,
@@ -123,11 +114,11 @@ class PinCodeVerificationWidget extends StatefulWidget {
   static const pinLength = 6;
 
   @override
-  _PinCodeVerificationWidgetState createState() =>
-      _PinCodeVerificationWidgetState();
+  PinCodeVerificationWidgetState createState() =>
+      PinCodeVerificationWidgetState();
 }
 
-class _PinCodeVerificationWidgetState extends State<PinCodeVerificationWidget> {
+class PinCodeVerificationWidgetState extends State<PinCodeVerificationWidget> {
   @override
   Widget build(BuildContext context) {
     return Form(

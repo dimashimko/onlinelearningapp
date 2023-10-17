@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/pages/auth_pages/log_in_page/log_in_page.dart';
@@ -19,7 +16,7 @@ class SignInPageArguments {
 }
 
 class SignInPage extends StatefulWidget {
-  SignInPage({
+  const SignInPage({
     required this.isFirst,
     Key? key,
   }) : super(key: key);
@@ -61,7 +58,6 @@ class _SignInPageState extends State<SignInPage> {
       context: context,
       route: SignUpPage.routeName,
     );
-    // testRequest();
   }
 
   void _goToLogInPage(BuildContext context) {
@@ -69,10 +65,9 @@ class _SignInPageState extends State<SignInPage> {
       context: context,
       route: LogInPage.routeName,
     );
-    // testRequest();
   }
 
-  late final imageController;
+  late final PageController imageController;
 
   bool isButtonsVisible = false;
 
@@ -80,7 +75,6 @@ class _SignInPageState extends State<SignInPage> {
   void initState() {
     super.initState();
 
-    // Show Auth Button
     imageController = PageController(
       viewportFraction: 1,
       keepPage: false,
@@ -110,7 +104,6 @@ class _SignInPageState extends State<SignInPage> {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            // mainAxisSize: MainAxisSize.max,
             children: [
               Flexible(
                 flex: 1,
@@ -160,8 +153,6 @@ class _SignInPageState extends State<SignInPage> {
                   children: [
                     if (isButtonsVisible)
                       Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        // mainAxisSize: MainAxisSize.min,
                         children: [
                           Expanded(
                             child: CustomButton(
@@ -221,8 +212,8 @@ class CustomSmoothPageIndicator extends StatelessWidget {
     super.key,
   });
 
-  final imageController;
-  final length;
+  final PageController imageController;
+  final int length;
 
   @override
   Widget build(BuildContext context) {
@@ -239,9 +230,6 @@ class CustomSmoothPageIndicator extends StatelessWidget {
             dotWidth: 12.0,
             dotHeight: 6.0,
             paintStyle: PaintingStyle.fill,
-            // strokeWidth: 1.5,
-            // dotColor: AppColors.scaffold,
-            // dotColor: Theme.of(context).primaryColor,
             activeDotColor: Theme.of(context).colorScheme.primary,
           ),
         ),

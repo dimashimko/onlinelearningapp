@@ -1,9 +1,6 @@
-import 'package:online_learning_app/resources/app_colors.dart';
-import 'package:online_learning_app/resources/app_fonts.dart';
-import 'package:online_learning_app/resources/app_icons.dart';
-import 'package:online_learning_app/widgets/uncategorized/splash_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:online_learning_app/resources/app_icons.dart';
 
 class CustomLockButton extends StatelessWidget {
   const CustomLockButton({
@@ -37,7 +34,7 @@ class CustomLockButton extends StatelessWidget {
                 Theme.of(context).colorScheme.onSecondary,
                 BlendMode.srcIn,
               ),
-              // color: Colors.white.withOpacity(0.3),
+
             ),
           ),
         ),

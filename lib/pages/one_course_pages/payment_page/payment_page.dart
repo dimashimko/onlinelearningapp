@@ -62,7 +62,6 @@ class _PaymentPageState extends State<PaymentPage> {
       rootNavigator: false,
     ).pushNamed(AddCardPage.routeName).then(
       (result) {
-        // log('Result from second page: ${result.toString()}');
         if (result != null) {
           result as CardModel;
           log('result: $result');
@@ -92,7 +91,7 @@ class _PaymentPageState extends State<PaymentPage> {
 
   void _saveCards(List<CardModel> cards) {
     String? cardsData = json.encode(cards);
-    // log('*** cardsData: $cardsData');
+
     secureStorageDB.write(
       key: 'cards_',
       value: cardsData,
@@ -133,10 +132,8 @@ class _PaymentPageState extends State<PaymentPage> {
       },
     );
 
-    // Handle the result here
     if (result != null) {
       if (result) {
-        // log('*** Result from bottom sheet: $result');
         return true;
       }
     }
@@ -147,10 +144,6 @@ class _PaymentPageState extends State<PaymentPage> {
     int cardIndex = ((cardController.page ?? 0.0) + 0.5).toInt();
     CardModel currentCard = cards[cardIndex];
 
-    // //
-    // _purchase(currentCard);
-
-    //
     bool? isConfirmed =
         await _showBottomSheet(correctPin: currentCard.cardPaymentPassword);
     if (isConfirmed != null) {
@@ -158,8 +151,6 @@ class _PaymentPageState extends State<PaymentPage> {
         _purchase(currentCard);
       }
     }
-
-    //
   }
 
   _purchase(CardModel currentCard) async {
@@ -172,17 +163,18 @@ class _PaymentPageState extends State<PaymentPage> {
       currentCard.cardCvvCode,
     );
     final LiqPayOrder liqPayOrder = LiqPayOrder(
-      const Uuid().v4(), widget.price, 'Test',
+      const Uuid().v4(),
+      widget.price,
+      'Test',
       card: card,
       action: LiqPayAction.pay,
-      // currency: LiqPayCurrency.uah
       currency: LiqPayCurrency.usd,
     );
     if (context.mounted) {
       _goToCheckPaymentStatusPage(liqPayOrder: liqPayOrder);
 
 /*      if (liqPayResponse.result == 'ok') {
-        // log('*** ok');
+
         if (liqPayResponse.status == 'success') {
           log('*** success');
 
@@ -230,7 +222,6 @@ class _PaymentPageState extends State<PaymentPage> {
             children: [
               Flexible(
                 flex: 1,
-                // fit: FlexFit.tight,
                 child: Column(
                   children: [
                     Expanded(
@@ -239,9 +230,7 @@ class _PaymentPageState extends State<PaymentPage> {
                         controller: cardController,
                         itemBuilder: (_, index) {
                           return index == (cards.length)
-                              ?
-                              // Center(child: Text('Add'))
-                              InkWell(
+                              ? InkWell(
                                   onTap: () => _goToAddCardPage(),
                                   child: SvgPicture.asset(
                                     AppIcons.plus4,
@@ -270,7 +259,6 @@ class _PaymentPageState extends State<PaymentPage> {
               ),
               Flexible(
                 flex: 1,
-                // fit: FlexFit.tight,
                 child: Center(
                   child: CustomButton(
                     title: 'Pay Now ${widget.price}\$',
@@ -313,8 +301,6 @@ class CustomSmoothPageIndicator extends StatelessWidget {
             dotWidth: 8.0,
             dotHeight: 8.0,
             paintStyle: PaintingStyle.fill,
-            // strokeWidth: 1.5,
-            // dotColor: AppColors.scaffold,
             dotColor: colors(context).violetLight ?? Colors.grey,
             activeDotColor: Theme.of(context).colorScheme.outlineVariant,
           ),
@@ -346,17 +332,13 @@ class CardItem extends StatelessWidget {
           cardNumber: cardModel.cardNumber,
           expiryDate: cardModel.cardExpiryDate,
           cardHolderName: cardModel.cardHolderName,
-          // cardHolderName: '_cardHolderName',
           cvvCode: cardModel.cardCvvCode,
           bankName: ' ',
           showBackView: false,
-          // showBackView: true,
           obscureCardNumber: true,
           obscureCardCvv: true,
           isHolderNameVisible: true,
-          // cardBgColor: Colors.green,
           cardBgColor: Theme.of(context).colorScheme.primary,
-          // cardBgColor: colors(context).orange!,
           backgroundImage: null,
           isSwipeGestureEnabled: false,
           onCreditCardWidgetChange: (CreditCardBrand creditCardBrand) {},
@@ -368,14 +350,12 @@ class CardItem extends StatelessWidget {
             child: Text(
               'Delete card',
               style: TextStyle(
-                // color: colors(context).red!,
                 color: Colors.red,
                 fontWeight: FontWeight.w700,
               ),
             ),
           ),
         ),
-        // SvgPicture.asset(AppIcons.bucket),
       ],
     );
   }

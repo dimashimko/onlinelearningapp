@@ -18,7 +18,7 @@ class AnalyticsBloc extends Bloc<AnalyticsEvent, AnalyticsState> {
 
     on<OnCourseSelectedEvent>(
       (event, emit) async {
-        // log('@@@  OnCourseSelectedEvent');
+
         await analytics.logEvent(
           name: 'course_selected',
           parameters: <String, dynamic>{
@@ -33,8 +33,8 @@ class AnalyticsBloc extends Bloc<AnalyticsEvent, AnalyticsState> {
 
     on<OnBottomBarEvent>(
       (event, emit) async {
-        // log('@@@  OnBottomBarEvent');
-        // log('*** Index: ${event.routeName}');
+
+
         await analytics.logEvent(
           name: 'bottom_bar_event',
           parameters: <String, dynamic>{
@@ -46,7 +46,7 @@ class AnalyticsBloc extends Bloc<AnalyticsEvent, AnalyticsState> {
 
     on<OnTestLogEvent>(
       (event, emit) async {
-        // log('@@@  OnTestLogEvent');
+
         DateTime dateTime = DateTime.now();
         String dateTimeNow = dateTime.toString();
         String name = 'platformName';
@@ -55,7 +55,7 @@ class AnalyticsBloc extends Bloc<AnalyticsEvent, AnalyticsState> {
         } else if (Platform.isIOS) {
           name = 'iOS_dateTimeNow';
         }
-        // log('*** name: $name, onTapLog: $dateTimeNow');
+
         await analytics.logEvent(
           name: name,
           parameters: <String, dynamic>{

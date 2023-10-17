@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
@@ -25,8 +24,8 @@ class _MessageTabViewState extends State<MessageTabView> {
   Future<void> _fetchPage(int pageKey) async {
     try {
       final newItems = await notificationService.fetchPage(pageKey);
-      // final isLastPage = newItems.docs.isEmpty;
-      final isLastPage = newItems.length < Constants.PAGINATION_PAGE_SIZE;
+
+      final isLastPage = newItems.length < paginationPageSize;
 
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
@@ -88,8 +87,6 @@ class MessageItem extends StatelessWidget {
             ),
           ],
           borderRadius: BorderRadius.circular(16.0),
-          // borderRadius: BorderRadius.vertical(bottom: Radius.circular(16.0)),
-          // color: Colors.black54,
         ),
         padding: const EdgeInsets.all(20.0),
         child: Column(

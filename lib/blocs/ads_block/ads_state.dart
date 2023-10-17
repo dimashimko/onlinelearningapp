@@ -9,7 +9,6 @@ class AdsState extends Equatable {
 
   final List<String> adsCoursesUids;
 
-  //
   @override
   List<Object?> get props => [
     adsCoursesUids,

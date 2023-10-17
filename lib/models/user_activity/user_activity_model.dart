@@ -37,7 +37,6 @@ class UserActivityModel extends Equatable {
     ],
   });
 
-  //
   @override
   List<Object?> get props => [
         dayOfYear,
@@ -98,7 +97,6 @@ class UserActivityModel extends Equatable {
       'totallyDays': totallyDays,
       'weekOfYear': weekOfYear,
       'lastDayShowStatistic': lastDayShowStatistic,
-      // 'recordOfThisWeek': json.encode(recordOfThisWeek),
       'recordOfThisWeek': List<dynamic>.from(recordOfThisWeek ?? []),
     };
     return outputJson;

@@ -20,7 +20,6 @@ class LocalNotificationService {
     );
   }
 
-  // ******
 
   Future<void> saveNotifications({
     required List<NotificationModel>? listOfNotificationModel,
@@ -31,7 +30,7 @@ class LocalNotificationService {
           .map((notification) => notification.toJson())
           .toList();
       String jsonString = jsonEncode(jsonList);
-      log('*** jsonString: ${jsonString}');
+      log('*** jsonString: $jsonString');
       db.saveNotifications(
         jsonString,
         userUid,

@@ -68,7 +68,6 @@ class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
   final _contentFormFieldKey = GlobalKey<FormFieldState>();
 
-  // validating
   bool acceptPrivacyPolicy = false;
   String privacyPolicyErrorText = '';
 
@@ -92,8 +91,6 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   void onTapCreateAccount() async {
-    // return _showCompleteRegistrationDialog();
-
     bool isAcceptedPrivacyPolicy = false;
     bool isFormsValid = false;
 
@@ -165,7 +162,6 @@ class _SignUpPageState extends State<SignUpPage> {
       if (FirebaseAuth.instance.currentUser != null) {
         _successfulRegistration();
       }
-      // _goToMainPage();
     } on FirebaseAuthException catch (e) {
       if (mounted) {
         Navigator.of(context).pop();
@@ -211,7 +207,6 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 child: IntrinsicHeight(
                   child: Column(
-                    // mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(
@@ -388,6 +383,5 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
               });
             },
           );
-    // : Icon(Icons.check_box_outline_blank);
   }
 }

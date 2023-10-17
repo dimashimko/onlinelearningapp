@@ -19,8 +19,8 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     MyFirestoreCourseService fireStoreService = MyFirestoreCourseService();
 
     on<FilterUserCourses>((event, emit) async {
-      // log('@@@ FilterUserCourses');
-      // log('*** event.userProgress: ${event.userProgress}');
+
+
       Map<String, CourseProgressModel> userProgress = event.userProgress ?? {};
 
       List<CourseModel> userCoursesList = state.coursesList.where((course) {
@@ -65,7 +65,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       for (DurationRangeModel durationItem in state.filterDurationItems) {
         newFilterDurationItems.add(durationItem.copyWith(isEnable: false));
       }
-      // this.filterPriceRangeValues = const RangeValues(0.0, 1.0),
+
 
       emit(
         state.copyWith(
@@ -80,8 +80,8 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     });
 
     on<GetFilteredCourses>((event, emit) async {
-      // log('@@@ GetFilteredCourses');
-      // convert list names category to uid of this categories
+
+
       List<String> uidsSelectedCategories =
           getUidsCategories(state.filterCategory, state.categoryList);
 
@@ -94,7 +94,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
         searchKey: state.filterText,
         filterEnabledType: state.filterEnabledType,
       );
-      // log('*** filteredCoursesList: $filteredCoursesList');
+
       emit(
         state.copyWith(
           filteredCoursesList: filteredCoursesList,
@@ -139,7 +139,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     });
 
     on<InverseDurationRangeItem>((event, emit) async {
-      // print('@@@ InverseDurationRangeItem');
+
       FilterEnabledType newFilterEnabledType = FilterEnabledType.duration;
 
       List<DurationRangeModel> filterDurationItems = [];
@@ -147,7 +147,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
         if (durationItem.min == event.durationRange.min) {
           durationItem = durationItem.copyWith(
             isEnable: !durationItem.isEnable,
-            // isEnable: true,
+
           );
           if (!durationItem.isEnable) {
             newFilterEnabledType = FilterEnabledType.all;
@@ -173,11 +173,11 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       if (event.add != null) filterCategory.add(event.add!);
       if (event.remove != null) filterCategory.remove(event.remove!);
       if (event.clear != null && event.clear == true) filterCategory = {};
-      // if (filterCategory.isEmpty) newFilterEnabledType = FilterEnabledType.all;
+
       emit(
         state.copyWith(
           filterCategory: filterCategory,
-          // filterEnabledType: newFilterEnabledType,
+
         ),
       );
       add(GetFilteredCourses());
@@ -214,7 +214,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
           }
         }
       }
-      // log('@@@ GetAllCourses coursesList: $coursesList');
+
       emit(
         state.copyWith(
           coursesList: coursesList,
@@ -226,7 +226,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
 
 /*    on<GetAllCoursesSortDuration>((event, emit) async {
       List<CourseModel> filteredCoursesList = await fireStoreService.getAllCoursesListSortDuration();
-      // log('*** filteredCoursesList: $filteredCoursesList');
+
       emit(
         state.copyWith(
           filteredCoursesList: filteredCoursesList,
@@ -237,7 +237,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     on<GetCategories>((event, emit) async {
       log('@@@ GetCategories');
       List<CategoryModel> categoryList = await fireStoreService.getCategories();
-      // log('*** categoryList: $categoryList');
+
       emit(
         state.copyWith(
           categoryList: categoryList,

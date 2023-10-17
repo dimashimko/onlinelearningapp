@@ -1,7 +1,6 @@
-import 'package:online_learning_app/resources/app_colors.dart';
-import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:online_learning_app/resources/app_icons.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
   const CustomBottomNavigationBar({
@@ -63,38 +62,35 @@ class CustomBottomNavigationBar extends StatelessWidget {
           return Flexible(
             child: SizedBox(
               width: double.infinity,
-              // height: kBottomNavigationBarHeight,
               height: 72.0,
               child: Material(
-                // color: Theme.of(context).colorScheme.background,
-                // color: Colors.transparent,
                 color: Colors.transparent,
                 child: InkWell(
                   onTap: () => onSelect(i),
-                  // highlightColor: Colors.transparent,
-                  // highlightColor: Colors.red,
-                  // highlightColor: Colors.white,
-                  // splashColor: Colors.white,
                   highlightColor: Theme.of(context).colorScheme.background,
                   splashColor: Theme.of(context).colorScheme.background,
-                  // highlightColor: Theme.of(context).colorScheme.background,
-
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SvgPicture.asset(
                         AppIcons.rectangle2,
-                        color: i == currentTab
-                            ? Theme.of(context).colorScheme.primary
-                            : Theme.of(context).colorScheme.background,
+                        colorFilter: ColorFilter.mode(
+                          i == currentTab
+                              ? Theme.of(context).colorScheme.primary
+                              : Theme.of(context).colorScheme.background,
+                          BlendMode.srcIn,
+                        ),
                       ),
                       const SizedBox(height: 12.0),
                       SvgPicture.asset(
                         e.iconPath,
-                        color: i == currentTab
-                            ? Theme.of(context).colorScheme.primary
-                            : Theme.of(context).colorScheme.scrim,
+                        colorFilter: ColorFilter.mode(
+                          i == currentTab
+                              ? Theme.of(context).colorScheme.primary
+                              : Theme.of(context).colorScheme.scrim,
+                          BlendMode.srcIn,
+                        ),
                       ),
                       const SizedBox(height: 12.0),
                       Text(

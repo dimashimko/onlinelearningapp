@@ -85,18 +85,18 @@ class _AddCardPageState extends State<AddCardPage> {
               cardNumber: _cardNumber,
               expiryDate: _cardExpiryDate,
               cardHolderName: _cardHolderName,
-              // cardHolderName: '_cardHolderName',
+
               cvvCode: _cardCvvCode,
               bankName: ' ',
               showBackView: _isCvvFocused,
-              // showBackView: true,
+
               obscureCardNumber: true,
               obscureCardCvv: true,
               isHolderNameVisible: true,
-              // cardBgColor: Colors.green,
+
               cardBgColor: Theme.of(context).colorScheme.primary,
               backgroundImage: null,
-              // isSwipeGestureEnabled: true,
+
               isSwipeGestureEnabled: false,
               onCreditCardWidgetChange: (CreditCardBrand creditCardBrand) {},
               customCardTypeIcons: const <CustomCardTypeIcon>[
@@ -127,7 +127,7 @@ class _AddCardPageState extends State<AddCardPage> {
                       expiryDate: _cardExpiryDate,
                       themeColor: Colors.green,
                       textColor: Colors.black,
-                      // cardNumberValidator: (value) => cardValidation(value),
+
                       cardNumberDecoration: InputDecoration(
                         labelText: 'Number',
                         hintText: 'XXXX XXXX XXXX XXXX',
@@ -161,7 +161,7 @@ class _AddCardPageState extends State<AddCardPage> {
                         focusedBorder: border,
                         enabledBorder: border,
                         labelText: 'Card Holder',
-                        // helperText: 'helperText',
+
                       ),
                       onCreditCardModelChange: onCreditCardModelChange,
                     ),
@@ -173,8 +173,8 @@ class _AddCardPageState extends State<AddCardPage> {
                         controller: textEditingController,
                         decoration: InputDecoration(
                           hintText: 'Payment password (optional)',
-                          // border: OutlineInputBorder(),
-                          // border: border,
+
+
                           focusedBorder: border,
                           enabledBorder: border,
                         ),

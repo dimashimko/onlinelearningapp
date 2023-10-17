@@ -23,8 +23,6 @@ class CardModel {
     return 'CardModel{cardNumber: $cardNumber, cardExpiryDate: $cardExpiryDate, cardHolderName: $cardHolderName, cardCvvCode: $cardCvvCode, cardPaymentPassword: $cardPaymentPassword}';
   }
 
-
-  // Convert CardModel to JSON
   Map<String, dynamic> toJson() {
     return {
       'cardNumber': cardNumber,
@@ -35,7 +33,6 @@ class CardModel {
     };
   }
 
-  // Create CardModel from JSON
   factory CardModel.fromJson(Map<String, dynamic> json) {
     return CardModel(
       cardNumber: json['cardNumber'],
@@ -49,10 +46,10 @@ class CardModel {
 
 
 /*  factory CardModel.fromJson(Map<String, dynamic> json) {
-    // cardNumber = json['cardNumber'];
-    // cardExpiryDate = json['cardExpiryDate'];
-    // cardHolderName = json['cardHolderName'];
-    // cardCvvCode = json['cardCvvCode'];
-    // cardPaymentPassword = json['cardPaymentPassword'];
+
+
+
+
+
   }*/
 }

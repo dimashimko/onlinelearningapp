@@ -7,13 +7,11 @@ String formatDurationToHour(Duration duration) {
   return '${hours}h ${minutes}min';
 }
 
-
-
 String formatDurationToMinutes(Duration duration) {
   String twoDigits(int n) => n.toString().padLeft(2, '0');
   final String minutes = duration.inMinutes.toString();
   final String seconds = twoDigits(duration.inSeconds.remainder(60));
-  return '${minutes}:${seconds  }mins';
+  return '$minutes:${seconds}mins';
 }
 
 String formatSecondsToTimeDuration({
@@ -21,7 +19,7 @@ String formatSecondsToTimeDuration({
 }) {
   final int hours = second ~/ 3600;
   final int minutes = second ~/ 60;
-  // final int minutes = (second ~/ 60) % 60;
+
   if (hours > 0) return '$hours hours';
   if (minutes > 0) return '$minutes minutes';
   return '$second second';

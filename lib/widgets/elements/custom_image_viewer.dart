@@ -1,11 +1,11 @@
-// simple to draws from get model
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:online_learning_app/resources/app_images.dart';
 
 class CustomImageViewer extends StatelessWidget {
-  CustomImageViewer({
+  const CustomImageViewer({
     required this.link,
     this.alternativePhoto = AppImages.empty_course,
     this.height = 240,
@@ -22,20 +22,20 @@ class CustomImageViewer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // print('*** CustomImageViewer: ');
-    // String imageLink = sm.linkToCover ?? AppImages.white;
+
+
     String imageLink = link ?? alternativePhoto;
-    // print('*** imageLink: $imageLink');
+
 
     bool isNetwork = imageLink.startsWith('http');
-    // print('*** isNetwork: $isNetwork');
+
     Widget image = Container(
       color: Colors.white,
     );
     image = isNetwork
         ? Image.network(
             imageLink,
-            // width: double.infinity,
+
             width: double.infinity,
             height: height,
             fit: boxFitNetworkImage,
@@ -51,13 +51,13 @@ class CustomImageViewer extends StatelessWidget {
                 ),
               );
             },
-            // loadingBuilder: (BuildContext context, Widget exception,
-            //     ImageChunkEvent? stackTrace) {
-            //         return Image.asset(
-            //           alternativePhoto,
-            //           fit: BoxFit.cover,
-            //         );
-            //       },
+
+
+
+
+
+
+
             errorBuilder: (BuildContext context, Object exception,
                 StackTrace? stackTrace) {
               return Image.asset(
@@ -75,7 +75,7 @@ class CustomImageViewer extends StatelessWidget {
             fit: boxFitLocalImage,
             errorBuilder: (BuildContext context, Object exception,
                 StackTrace? stackTrace) {
-              // return Container(color: AppColors.whiteSmoke.withOpacity(0.9));
+
               return Image.asset(
                 alternativePhoto,
                 fit: boxFitLocalImage,

@@ -11,7 +11,6 @@ class DurationRangeModel extends Equatable {
   final int max;
   final bool isEnable;
 
-  //
   @override
   List<Object?> get props => [
         min,

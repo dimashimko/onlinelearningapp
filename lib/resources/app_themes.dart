@@ -29,7 +29,7 @@ class ThemeProvider with ChangeNotifier {
     await prefs.setBool('isDark', _currentTheme == AppThemes.dark());
 
     SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(statusBarColor: Colors.red),
+      const SystemUiOverlayStyle(statusBarColor: Colors.red),
     );
 
     notifyListeners();
@@ -39,7 +39,7 @@ class ThemeProvider with ChangeNotifier {
 /*
 class ThemeProvider with ChangeNotifier {
   ThemeData _currentTheme = AppThemes.light();
-  // ThemeData _currentTheme = AppThemes.dark();
+
 
   ThemeData get currentTheme => _currentTheme;
 
@@ -47,15 +47,15 @@ class ThemeProvider with ChangeNotifier {
     _currentTheme = _currentTheme == AppThemes.light()
         ? AppThemes.dark()
         : AppThemes.light();
-    // log('*** _currentTheme: ${_currentTheme.colorScheme}');
+
     log('*** _currentTheme colorScheme: ${_currentTheme.colorScheme}');
     notifyListeners();
   }
 
   void toggleTheme2(bool isDark) {
     _currentTheme = isDark ? AppThemes.dark() : AppThemes.light();
-    // _currentTheme == AppThemes.light() ? AppThemes.dark() : AppThemes.light();
-    // log('*** _currentTheme: ${_currentTheme.colorScheme}');
+
+
     log('*** _currentTheme colorScheme: ${_currentTheme.colorScheme}');
     notifyListeners();
   }
@@ -203,14 +203,14 @@ class AppThemes {
         selectionColor: Color(0xFF858597),
         selectionHandleColor: Color(0xFF858597),
       ),
-      // scaffoldBackgroundColor: Colors.transparent,
+
       canvasColor: Colors.transparent,
-      // bottomSheetTheme: const BottomSheetThemeData(
-      //   backgroundColor: Colors.transparent,
-      //   elevation: 0.0,
-      // ),
+
+
+
+
       textTheme: const TextTheme(
-        // display
+
         displayLarge: TextStyle(
           fontSize: 32,
           fontWeight: FontWeight.w700,
@@ -243,28 +243,26 @@ class AppThemes {
           color: Color(0xFFFF6905),
         ),
 
-        // title
         titleLarge: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w400,
           color: Color(0xFF858597),
-          // color: AppColors.gray,
+
         ),
         titleMedium: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w400,
             color: Color(0xFF858597),
             wordSpacing: 1.0
-            // color: AppColors.gray,
+
             ),
         titleSmall: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w400,
           color: Color(0xFFB8B8D2), // title under SignUp
-          // color: AppColors.gray,
+
         ),
 
-        // label
         labelLarge: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w500,
@@ -282,7 +280,6 @@ class AppThemes {
           color: Color(0xFF3D5CFF), // text in button2
         ),
 
-        // body
         bodyLarge: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w400,
@@ -290,13 +287,12 @@ class AppThemes {
           letterSpacing: 0.1,
           height: 1.5,
 
-          // color: AppColors.gray,
         ),
         bodySmall: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w400,
           color: Color(0xFFFFFFFF),
-          // text in button1
+
           letterSpacing: 0.1,
           height: 1.5,
         ),
@@ -306,33 +302,33 @@ class AppThemes {
           color: Color(0xFF1F1F39),
         ),
       ),
-      // scaffoldBackgroundColor: Colors.transparent,
+
       scaffoldBackgroundColor: const Color(0xFFFFFFFF),
       colorScheme: const ColorScheme.light().copyWith(
-        // onSecondaryContainer: const Color(0xFFFFFFFF),
-        // tertiary: const Color(0xFFFFFFFF),
-        // tertiaryContainer: const Color(0xFFFFFFFF),
-        // onTertiaryContainer: const Color(0xFFFFFFFF), // free
-        // error: const Color(0xFFFFFFFF),               // free
-        // onError: const Color(0xFFFFFFFF),             // free
-        // errorContainer: const Color(0xFFFFFFFF),      // free
-        // onErrorContainer: const Color(0xFFFFFFFF),    // free
-        // background: const Color(0xFFFFFFFF),
-        // onBackground: const Color(0xFFFFFFFF),
-        // surface: const Color(0xFFFFFFFF),
-        // onSurface: const Color(0xFFFFFFFF),
-        // surfaceVariant: const Color(0xFFFFFFFF),
-        // onSurfaceVariant: const Color(0xFFFFFFFF),
-        // outline: const Color(0xFFFFFFFF),
-        // outlineVariant: const Color(0xFFFFFFFF),
-        // shadow: const Color(0xFFFFFFFF),           // free
-        // scrim: const Color(0xFFFFFFFF),
-        // inverseSurface: const Color(0xFFFFFFFF),
-        // onInverseSurface: const Color(0xFFFFFFFF),
-        // inversePrimary: const Color(0xFFFFFFFF),
-        // surfaceTint: const Color(0xFFFFFFFF),
-        // primaryVariant: const Color(0xFFFFFFFF),   // deprecated
-        // secondaryVariant: const Color(0xFFFFFFFF), // deprecated
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         onSecondary: const Color(0xFFFFFFFF),
         onSecondaryContainer: const Color(0xFF1F1F39),
         background: const Color(0xFFFFFFFF),
@@ -370,7 +366,7 @@ class AppThemes {
           greyDark: Color(0xFF707070),
           pink: Color(0xFFEFE0FF),
           violet: Color(0xFF440687),
-          // greenLight: isDarkTheme ? Colors.yellow : Colors.red,
+
         ),
       ],
       expansionTileTheme: const ExpansionTileThemeData(
@@ -380,9 +376,9 @@ class AppThemes {
         collapsedTextColor: Color(0xFF1F1F39),
         iconColor: Color(0xFF1F1F39),
         collapsedIconColor: Color(0xFF1F1F39),
-          // iconColor: Colors.red, // Change the icon color
-          // textColor: Colors.blue, // Change the text color
-          // backgroundColor: Colors.yellow, // Change the background color
+
+
+
           ),
     );
   }
@@ -397,10 +393,9 @@ class AppThemes {
           iconColor: Color(0xFFB8B8D2),
           collapsedIconColor: Color(0xFFB8B8D2),
 
-          // collapsedTextColor: Colors.red,
-          // iconColor: Colors.red, // Change the icon color
-          // textColor: Colors.blue, // Change the text color
-          // backgroundColor: Colors.yellow, // Change the background color
+
+
+
         ),
         extensions: const <ThemeExtension<AppColors>>[
           AppColors(
@@ -418,7 +413,6 @@ class AppThemes {
             pink: Color(0xFFEFE0FF),
             violet: Color(0xFF440687),
 
-            // greenLight: isDarkTheme ? Colors.yellow : Colors.red,
           ),
         ],
         fontFamily: AppFonts.fontFamily,
@@ -431,7 +425,7 @@ class AppThemes {
           onBackground: const Color(0xFFEAEAFF),
           primary: const Color(0xFF3D5CFF),
           onPrimary: const Color(0xFF858597),
-          // onPrimary: const Color(0xFFFF0000),
+
           secondary: const Color(0xFFEAEAFF),
           secondaryContainer: const Color(0xFFEAEAFF),
           tertiary: const Color(0xFF1F1F39),
@@ -442,7 +436,7 @@ class AppThemes {
           onSurface: const Color(0xFF3E3E55),
           scrim: const Color(0xFFB8B8D2),
           inverseSurface: const Color(0xFF3E3E55),
-          // color in TextForm
+
           onInverseSurface: const Color(0xFF2F2F42),
           surfaceVariant: const Color(0xFFFFFFFF),
           onSurfaceVariant: const Color(0xFF3D5CFF),
@@ -455,7 +449,7 @@ class AppThemes {
           selectionHandleColor: Color(0xFFB8B8D2),
         ),
         textTheme: const TextTheme(
-          // display
+
           displayLarge: TextStyle(
             fontSize: 32,
             fontWeight: FontWeight.w700,
@@ -488,7 +482,6 @@ class AppThemes {
             color: Color(0xFFFF6905),
           ),
 
-          // title
           labelLarge: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w500,
@@ -498,21 +491,20 @@ class AppThemes {
             fontSize: 14,
             fontWeight: FontWeight.w400,
             color: Color(0xFFF4F3FD),
-            // color: AppColors.gray,
+
           ),
           titleSmall: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w400,
             color: Color(0xFFB8B8D2), // title under SignUp
-            // color: AppColors.gray,
+
           ),
 
-          // label
           titleLarge: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w400,
             color: Color(0xFFB8B8D2),
-            // color: AppColors.gray,
+
           ),
           labelMedium: TextStyle(
             fontSize: 16,
@@ -525,20 +517,19 @@ class AppThemes {
             color: Color(0xFFF4F3FD), // text in button2
           ),
 
-          // body
           bodyLarge: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w400,
             color: Color(0xFFF4F3FD),
             letterSpacing: 0.1,
             height: 1.5,
-            // color: AppColors.gray,
+
           ),
           bodySmall: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w400,
             color: Color(0xFFFFFFFF),
-            // text in button1
+
             letterSpacing: 0.1,
             height: 1.5,
           ),
@@ -551,30 +542,29 @@ class AppThemes {
   }
 }
 
-// onSecondary: const Color(0xFFFFFFFF),
-// secondaryContainer: const Color(0xFFFFFFFF),
-// onSecondaryContainer: const Color(0xFFFFFFFF),
-// tertiary: const Color(0xFFFFFFFF),
-// onTertiary: const Color(0xFFFFFFFF),
-// tertiaryContainer: const Color(0xFFFFFFFF),
-// onTertiaryContainer: const Color(0xFFFFFFFF),
-// error: const Color(0xFFFFFFFF),
-// onError: const Color(0xFFFFFFFF),
-// errorContainer: const Color(0xFFFFFFFF),
-// onErrorContainer: const Color(0xFFFFFFFF),
-// background: const Color(0xFFFFFFFF),
-// onBackground: const Color(0xFFFFFFFF),
-// surface: const Color(0xFFFFFFFF),
-// onSurface: const Color(0xFFFFFFFF),
-// surfaceVariant: const Color(0xFFFFFFFF),
-// onSurfaceVariant: const Color(0xFFFFFFFF),
-// outline: const Color(0xFFFFFFFF),
-// outlineVariant: const Color(0xFFFFFFFF),
-// shadow: const Color(0xFFFFFFFF),
-// scrim: const Color(0xFFFFFFFF),
-// inverseSurface: const Color(0xFFFFFFFF),
-// onInverseSurface: const Color(0xFFFFFFFF),
-// inversePrimary: const Color(0xFFFFFFFF),
-// surfaceTint: const Color(0xFFFFFFFF),
-// primaryVariant: const Color(0xFFFFFFFF),
-// secondaryVariant: const Color(0xFFFFFFFF),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -18,7 +18,6 @@ class NotificationState extends Equatable {
   final bool isHasNoReadNotification;
   final bool isNotificationEnabled;
 
-  //
   @override
   List<Object?> get props => [
         counter,

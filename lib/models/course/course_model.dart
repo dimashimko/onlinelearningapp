@@ -28,7 +28,6 @@ class CourseModel extends Equatable  {
     this.lessons,
   });
 
-  //
   @override
   List<Object?> get props => [
     uid,
@@ -43,10 +42,7 @@ class CourseModel extends Equatable  {
     lessons,
   ];
 
-  @override
-  String toString() {
-    return ' uid: $uid, name: $name, author: $author, category: $category, price: $price, duration: $duration, openLesson: $openLesson, lessonsLength: ${lessons?.length}';
-  }
+
 
   const CourseModel.empty({
     this.uid,
@@ -88,12 +84,12 @@ class CourseModel extends Equatable  {
   }
 
   factory CourseModel.fromJson(Map<String, dynamic> json) {
-    // log('*** json: $json');
+
     List listLesson = List<Map<String, dynamic>>.from(json['lessons'] ?? []);
     List<LessonModel> listLessons = [];
 
     for (Map<String, dynamic> lessonRaw in listLesson) {
-      // log('*** lessonRaw: $lessonRaw');
+
       listLessons.add(
         LessonModel.fromJson(
           lessonRaw,

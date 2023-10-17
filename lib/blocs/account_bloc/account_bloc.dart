@@ -51,9 +51,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
         String name = event.newName ?? '';
         String avatarLink = event.newAvatarLocalLink ?? '';
 
-        // check name
 
-        // check avatar
         if (state.accountModel.avatarLink != event.newAvatarLocalLink) {
           String? newURL = await submitToStorage(
             event.newAvatarLocalLink,

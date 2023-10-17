@@ -11,7 +11,6 @@ class LessonModel extends Equatable {
     this.duration,
   });
 
-  //
   @override
   List<Object?> get props => [
         link,
@@ -49,9 +48,8 @@ class LessonModel extends Equatable {
       duration: json['duration'].toDouble(),
     );
 
-    // link = json['link'];
-    // name = json['name'];
-    // duration = json['duration'].toDouble();
+
+
   }
 
   Map<String, dynamic> toJson() {

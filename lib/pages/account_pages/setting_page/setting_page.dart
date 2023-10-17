@@ -42,13 +42,9 @@ class _SettingPageState extends State<SettingPage> {
       statusBarColor: Colors.black,
     ));
     return Scaffold(
-      // appBar: AppBar(),
-
       appBar: const CustomAppBarDefault(
         title: 'Settings',
       ),
-
-      // appBar: const CustomAppBarZero(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -163,11 +159,6 @@ class ThemeSetting extends StatelessWidget {
               activeTrackColor: colors(context).blue,
               inactiveThumbColor: colors(context).violetLight,
               inactiveTrackColor: colors(context).greyDark,
-              //
-              // activeColor: Colors.white,
-              // activeTrackColor: Colors.black,
-              // inactiveThumbColor: Colors.black,
-              // inactiveTrackColor: Colors.white,
             );
           },
         ),

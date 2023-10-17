@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -113,7 +111,6 @@ class _CustomSearchTextFieldState extends State<CustomSearchTextField> {
       context.read<CoursesBloc>().add(
             ChangeFilterText(newFilterText: _searchController.text),
           );
-      // log('*** _searchController text ${_searchController.text}');
     });
   }
 
@@ -131,18 +128,14 @@ class _CustomSearchTextFieldState extends State<CustomSearchTextField> {
           bool isReadOnly =
               state.filterEnabledType == FilterEnabledType.price ||
                   state.filterEnabledType == FilterEnabledType.duration;
-          // log('*** isReadOnly: $isReadOnly');
+
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: FindTextField(
               searchController: _searchController,
               onTapSetting: () => _onTapOpenFilterSetting(context),
               onTap: () {},
-
-              // isReadOnly: true,
-              // isReadOnly: false,
               isReadOnly: isReadOnly,
-              // enabled: !isReadOnly,
             ),
           );
         },
@@ -164,9 +157,8 @@ class ButtonBack extends StatelessWidget {
     return InkWell(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        // padding: const EdgeInsets.all(16.0),
         child: SvgPicture.asset(
-          AppIcons.arrow_back,
+          AppIcons.arrowBack,
         ),
       ),
       onTap: () => goToBackPage(),
@@ -224,18 +216,14 @@ class CategoriesListView extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 separatorBuilder: (context, index) =>
                     const SizedBox(width: 8.0),
-                // itemCount: categories.length,
                 itemCount: state.categoryList.length,
                 itemBuilder: (context, index) => SizedBox(
-                      // width: 240,
                       child: CategoriesElementFilterItem(
                         name: state.categoryList[index].name ?? ' ',
                         isEnable: state.filterCategory
                             .contains(state.categoryList[index].name),
                       ),
-                    )
-                // SvgPicture.asset(state.categoryList[index].categoryTitle),
-                );
+                    ));
           },
         ),
       ),
@@ -277,7 +265,6 @@ class CategoriesElementFilterItem extends StatelessWidget {
             style: isEnable
                 ? Theme.of(context).textTheme.bodySmall
                 : Theme.of(context).textTheme.bodyLarge,
-            // : Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey),
           ),
         ),
       ),

@@ -11,7 +11,6 @@ class AccountModel extends Equatable {
     this.uid,
   });
 
-  //
   @override
   List<Object?> get props => [
     name,

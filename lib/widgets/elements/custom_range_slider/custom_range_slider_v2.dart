@@ -18,14 +18,14 @@ class _PriceFilterSliderFromGitState extends State<PriceFilterSliderFromGit> {
     return SizedBox(
       height: 100,
       child: RangeSliderFlutter(
-        // key: Key('3343'),
+
         values: [_lowerValue, _upperValue],
         rangeSlider: true,
         tooltip: RangeSliderFlutterTooltip(
           alwaysShowTooltip: true,
         ),
         max: 300,
-        // textPositionTop: 50,
+
         textPositionBottom: -150,
         handlerHeight: 30,
         trackBar: RangeSliderFlutterTrackBar(

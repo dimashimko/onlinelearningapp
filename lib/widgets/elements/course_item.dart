@@ -29,8 +29,8 @@ class CourseItem extends StatelessWidget {
           ),
         ],
         borderRadius: BorderRadius.circular(16.0),
-        // borderRadius: BorderRadius.vertical(bottom: Radius.circular(16.0)),
-        // color: Colors.black54,
+
+
       ),
       child: Padding(
         padding: const EdgeInsets.all(14.0),

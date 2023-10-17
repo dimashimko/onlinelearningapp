@@ -9,7 +9,6 @@ class AnalyticsState extends Equatable {
 
   final int counter;
 
-  //
   @override
   List<Object?> get props => [
         counter,
