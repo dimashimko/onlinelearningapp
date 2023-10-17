@@ -28,6 +28,10 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  static final GlobalKey<NavigatorState> _navigatorKey =
+      GlobalKey<NavigatorState>();
+  bool modalBottomSheetEnabled = false;
+
   static const List<String> _pages = [
     HomePage.routeName,
     CoursePage.routeName,
@@ -35,9 +39,6 @@ class _MainPageState extends State<MainPage> {
     NotificationPage.routeName,
     AccountPage.routeName,
   ];
-
-  static final GlobalKey<NavigatorState> _navigatorKey =
-      GlobalKey<NavigatorState>();
 
   void _onSelectTab(String route) {
     if (_navigatorKey.currentState != null) {
@@ -54,7 +55,19 @@ class _MainPageState extends State<MainPage> {
     return !maybePop;
   }
 
-  bool modalBottomSheetEnabled = false;
+  void _onTapSearch() {
+    context.read<AnalyticsBloc>().add(
+          const OnBottomBarEvent(
+            routeName: 'filter',
+          ),
+        );
+
+    context.read<CoursesBloc>().add(
+          FilterBottomSheetEnable(
+            isFilterNavToSearchPage: true,
+          ),
+        );
+  }
 
   void _showModalBottomSheet(BuildContext context, Widget content) {
     modalBottomSheetEnabled = true;
@@ -74,11 +87,8 @@ class _MainPageState extends State<MainPage> {
   void _hideModalBottomSheet(BuildContext context) {
     if (modalBottomSheetEnabled) {
       Navigator.of(context).pop();
-      bottomSheetEnabled = false;
     }
   }
-
-  bool bottomSheetEnabled = false;
 
   @override
   void didChangeDependencies() {
@@ -170,29 +180,21 @@ class _MainPageState extends State<MainPage> {
             floatingActionButton: Padding(
               padding: const EdgeInsets.only(top: 32.0),
               child: InkWell(
+                onTap: _onTapSearch,
                 child: SvgPicture.asset(
                   Theme.of(context).brightness == Brightness.dark
                       ? AppIcons.searchDark
                       : AppIcons.searchLight,
                 ),
-                onTap: () {
-                  context.read<AnalyticsBloc>().add(
-                        const OnBottomBarEvent(
-                          routeName: 'filter',
-                        ),
-                      );
-
-                  context.read<CoursesBloc>().add(
-                        FilterBottomSheetEnable(
-                          isFilterNavToSearchPage: true,
-                        ),
-                      );
-                },
               ),
             ),
             bottomNavigationBar: CustomBottomNavigationBar(
               currentTab: state.currentIndex,
               onSelect: (int index) {
+                if (index == 2) {
+                  _onTapSearch();
+                  return;
+                }
                 if (state.currentIndex != index) {
                   context.read<AnalyticsBloc>().add(
                         OnBottomBarEvent(
