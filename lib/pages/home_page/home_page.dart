@@ -56,21 +56,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _goToMyCoursesPage() async {
-/*    // context.read<AnalyticsBloc>().add(OnOpenMyCoursesPageEvent());
-
-    final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-    analytics.setAnalyticsCollectionEnabled(true);
-    await analytics.logEvent(
-      name: 'test_event',
-      parameters: <String, dynamic>{
-        'string': 'string',
-        'int': 42,
-        'long': 12345678910,
-        'double': 42.0,
-        'bool': true.toString(),
-      },
-    );*/
-
     Navigator.of(context, rootNavigator: true).pushNamed(
       MyCoursesPage.routeName,
     );
@@ -88,14 +73,6 @@ class _HomePageState extends State<HomePage> {
       isRoot: true,
     );
   }
-
-/*  @override
-  void initState() {
-    super.initState();
-    context.read<CoursesBloc>().add(
-          CourseBlocInit(),
-        );
-  }*/
 
   @override
   Widget build(BuildContext context) {
