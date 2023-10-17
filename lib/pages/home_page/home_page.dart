@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -100,61 +99,53 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(statusBarColor: Colors.red),
-    );
     return Scaffold(
 /*      appBar: const CustomAppBarDefault(
         title: 'HomePage',
       ),*/
 
-      body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: const SystemUiOverlayStyle(
-          systemNavigationBarColor: Colors.brown,
-        ),
-        child: SafeArea(
-          child: BlocListener<CoursesBloc, CoursesState>(
-            listenWhen: (previous, current) {
-              return previous.coursesList != current.coursesList;
-            },
-            listener: (context, state) {
-              for (CourseModel course in state.coursesList) {
-                try {
-                  if (course.title != null && course.title!.isNotEmpty) {
-                    precacheImage(
-                      NetworkImage(course.title ?? ''),
-                      context,
-                    );
-                  }
-                } catch (e) {
-                  log(e.toString());
+      body: SafeArea(
+        child: BlocListener<CoursesBloc, CoursesState>(
+          listenWhen: (previous, current) {
+            return previous.coursesList != current.coursesList;
+          },
+          listener: (context, state) {
+            for (CourseModel course in state.coursesList) {
+              try {
+                if (course.title != null && course.title!.isNotEmpty) {
+                  precacheImage(
+                    NetworkImage(course.title ?? ''),
+                    context,
+                  );
                 }
+              } catch (e) {
+                log(e.toString());
               }
-            },
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const UserInfoWidget(),
-                  Container(
-                    height: 32.0,
-                    color: colors(context).blue,
-                  ),
-                  TodayProgressWidgetWithBackground(
-                    goToMyCoursesPage: () => _goToMyCoursesPage(),
-                  ),
-                  const SizedBox(height: 16.0),
-                  AdsWidget(
-                    goToOneCoursePage: (uidCourse) {
-                      _goToOneCoursePage(
-                        uidCourse: uidCourse,
-                      );
-                    },
-                  ),
-                  const LearningPlanWidget(),
-                  const MeetupBanner(),
-                ],
-              ),
+            }
+          },
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const UserInfoWidget(),
+                Container(
+                  height: 32.0,
+                  color: colors(context).blue,
+                ),
+                TodayProgressWidgetWithBackground(
+                  goToMyCoursesPage: () => _goToMyCoursesPage(),
+                ),
+                const SizedBox(height: 16.0),
+                AdsWidget(
+                  goToOneCoursePage: (uidCourse) {
+                    _goToOneCoursePage(
+                      uidCourse: uidCourse,
+                    );
+                  },
+                ),
+                const LearningPlanWidget(),
+                const MeetupBanner(),
+              ],
             ),
           ),
         ),

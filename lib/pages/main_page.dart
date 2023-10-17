@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/blocs/account_bloc/account_bloc.dart';
@@ -39,15 +38,6 @@ class _MainPageState extends State<MainPage> {
 
   static final GlobalKey<NavigatorState> _navigatorKey =
       GlobalKey<NavigatorState>();
-
-  void _onSelectMenu(String route) {
-    if (_navigatorKey.currentState != null) {
-      _navigatorKey.currentState!.pushNamedAndRemoveUntil(
-        route,
-        (_) => false,
-      );
-    }
-  }
 
   void _onSelectTab(String route) {
     if (_navigatorKey.currentState != null) {
@@ -93,9 +83,6 @@ class _MainPageState extends State<MainPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(statusBarColor: Colors.red),
-    );
     log('*** didChangeDependencies MainPage');
     context.read<ProgressBloc>().add(
           InitProgressBlocEvent(),
@@ -119,23 +106,14 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(statusBarColor: Colors.red),
-    );
     log('*** build MainPage');
     return BlocConsumer<NavigationBloc, NavigationState>(
       listener: (_, state) {
-        if (state.status == NavigationStateStatus.menu) {
-          _onSelectMenu(state.route);
-        }
         if (state.status == NavigationStateStatus.tab) {
           _onSelectTab(state.route);
         }
       },
       builder: (context, state) {
-        SystemChrome.setSystemUIOverlayStyle(
-          const SystemUiOverlayStyle(statusBarColor: Colors.red),
-        );
         return WillPopScope(
           onWillPop: _onWillPop,
           child: Scaffold(

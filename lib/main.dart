@@ -23,7 +23,6 @@ import 'package:online_learning_app/resources/app_locale.dart';
 import 'package:online_learning_app/resources/app_themes.dart';
 import 'package:online_learning_app/routes/app_router.dart';
 import 'package:online_learning_app/services/notifi_service.dart';
-import 'package:online_learning_app/widgets/uncategorized/system_overlay.dart';
 import 'package:provider/provider.dart';
 
 void _errorHandler(Object error, StackTrace stack) {
@@ -35,14 +34,8 @@ void _errorHandler(Object error, StackTrace stack) {
 }
 
 Future<void> main() async {
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(statusBarColor: Colors.red),
-  );
   await runZonedGuarded<Future<void>>(
     () async {
-      SystemChrome.setSystemUIOverlayStyle(
-        const SystemUiOverlayStyle(statusBarColor: Colors.red),
-      );
       WidgetsFlutterBinding.ensureInitialized();
       NotificationService().initNotification();
       await Firebase.initializeApp(
@@ -74,9 +67,6 @@ Future<void> main() async {
           ),
         ),
       );
-      SystemChrome.setSystemUIOverlayStyle(
-        const SystemUiOverlayStyle(statusBarColor: Colors.red),
-      );
       EasyLocalization.logger.enableBuildModes = [];
     },
     _errorHandler,
@@ -88,20 +78,6 @@ class _App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(statusBarColor: Colors.red),
-    );
-/*    analytics.logEvent(
-      name: 'test_event',
-      parameters: <String, dynamic>{
-        'string': 'string',
-        'int': 42,
-        'long': 12345678910,
-        'double': 42.0,
-        'bool': true.toString(),
-      },
-    );*/
-
     return MultiRepositoryProvider(
       providers: [
         BlocProvider<CoursesBloc>(
@@ -138,34 +114,28 @@ class _App extends StatelessWidget {
             ),
         ),
         BlocProvider<NotificationBloc>(
-            create: (_) =>
-                NotificationBloc()..add(InitNotificationBlocEvent())),
-      ],
-      child: SystemOverlay(
-        statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.dark,
-        child: MaterialApp(
-          locale: context.locale,
-          supportedLocales: context.supportedLocales,
-          localizationsDelegates: context.localizationDelegates,
-          builder: BotToastInit(),
-          navigatorObservers: [
-            BotToastNavigatorObserver(),
-          ],
-          debugShowCheckedModeBanner: false,
-          title: 'Online Learning App',
-
-
-
-          theme: Provider.of<ThemeProvider>(context).currentTheme,
-
-
-          initialRoute: SplashScreenPage.routeName,
-          onGenerateRoute: AppRouter.generateRoute,
-          routes: {
-            SplashScreenPage.routeName: (_) => const SplashScreenPage(),
-          },
+          create: (_) => NotificationBloc()
+            ..add(
+              InitNotificationBlocEvent(),
+            ),
         ),
+      ],
+      child: MaterialApp(
+        locale: context.locale,
+        supportedLocales: context.supportedLocales,
+        localizationsDelegates: context.localizationDelegates,
+        builder: BotToastInit(),
+        navigatorObservers: [
+          BotToastNavigatorObserver(),
+        ],
+        debugShowCheckedModeBanner: false,
+        title: 'Online Learning App',
+        theme: Provider.of<ThemeProvider>(context).currentTheme,
+        initialRoute: SplashScreenPage.routeName,
+        onGenerateRoute: AppRouter.generateRoute,
+        routes: {
+          SplashScreenPage.routeName: (_) => const SplashScreenPage(),
+        },
       ),
     );
   }

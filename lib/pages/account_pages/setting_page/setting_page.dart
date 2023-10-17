@@ -38,9 +38,6 @@ class _SettingPageState extends State<SettingPage> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-      statusBarColor: Colors.black,
-    ));
     return Scaffold(
       appBar: const CustomAppBarDefault(
         title: 'Settings',

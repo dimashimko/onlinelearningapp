@@ -13,7 +13,6 @@ import 'package:online_learning_app/pages/auth_pages/sign_in_page/sign_in_page.d
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/resources/app_images.dart';
 import 'package:online_learning_app/widgets/elements/custom_image_viewer.dart';
-import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
 
 class AccountPage extends StatelessWidget {
   const AccountPage({Key? key}) : super(key: key);
@@ -82,7 +81,6 @@ class AccountPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBarZero(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),

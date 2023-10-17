@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:online_learning_app/resources/app_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 
 class ThemeProvider with ChangeNotifier {
   ThemeData _currentTheme = AppThemes.light();
@@ -22,15 +20,12 @@ class ThemeProvider with ChangeNotifier {
   }
 
   void toggleTheme() async {
-    _currentTheme =
-    _currentTheme == AppThemes.light() ? AppThemes.dark() : AppThemes.light();
+    _currentTheme = _currentTheme == AppThemes.light()
+        ? AppThemes.dark()
+        : AppThemes.light();
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isDark', _currentTheme == AppThemes.dark());
-
-    SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(statusBarColor: Colors.red),
-    );
 
     notifyListeners();
   }
@@ -165,11 +160,16 @@ class AppThemes {
         onSecondaryContainer: const Color(0xFFFF5106),
         tertiary: const Color(0xFFFF5106),
         tertiaryContainer: const Color(0xFFFF5106),
-        onTertiaryContainer: const Color(0xFFFF5106), // free
-        error: const Color(0xFFFF5106),               // free
-        onError: const Color(0xFFFF5106),             // free
-        errorContainer: const Color(0xFFFF5106),      // free
-        onErrorContainer: const Color(0xFFFF5106),    // free
+        onTertiaryContainer: const Color(0xFFFF5106),
+        // free
+        error: const Color(0xFFFF5106),
+        // free
+        onError: const Color(0xFFFF5106),
+        // free
+        errorContainer: const Color(0xFFFF5106),
+        // free
+        onErrorContainer: const Color(0xFFFF5106),
+        // free
         background: const Color(0xFFFF5106),
         onBackground: const Color(0xFFFF5106),
         surface: const Color(0xFFFF5106),
@@ -178,7 +178,8 @@ class AppThemes {
         onSurfaceVariant: const Color(0xFFFF5106),
         outline: const Color(0xFFFF5106),
         outlineVariant: const Color(0xFFFF5106),
-        shadow: const Color(0xFFFF5106),           // free
+        shadow: const Color(0xFFFF5106),
+        // free
         scrim: const Color(0xFFFF5106),
         inverseSurface: const Color(0xFFFF5106),
         onInverseSurface: const Color(0xFFFF5106),
@@ -197,20 +198,13 @@ class AppThemes {
     return ThemeData(
       fontFamily: AppFonts.fontFamily,
       useMaterial3: true,
-
       textSelectionTheme: const TextSelectionThemeData(
         cursorColor: Color(0xFF1F1F39),
         selectionColor: Color(0xFF858597),
         selectionHandleColor: Color(0xFF858597),
       ),
-
       canvasColor: Colors.transparent,
-
-
-
-
       textTheme: const TextTheme(
-
         displayLarge: TextStyle(
           fontSize: 32,
           fontWeight: FontWeight.w700,
@@ -236,33 +230,26 @@ class AppThemes {
           fontWeight: FontWeight.w700,
           color: Color(0xFF3D5CFF),
         ),
-
         headlineSmall: TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.w400,
           color: Color(0xFFFF6905),
         ),
-
         titleLarge: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w400,
           color: Color(0xFF858597),
-
         ),
         titleMedium: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w400,
             color: Color(0xFF858597),
-            wordSpacing: 1.0
-
-            ),
+            wordSpacing: 1.0),
         titleSmall: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w400,
           color: Color(0xFFB8B8D2), // title under SignUp
-
         ),
-
         labelLarge: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w500,
@@ -273,26 +260,22 @@ class AppThemes {
           fontWeight: FontWeight.w500,
           color: Color(0xFFFFFFFF), // text in button1
         ),
-
         labelSmall: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w500,
           color: Color(0xFF3D5CFF), // text in button2
         ),
-
         bodyLarge: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w400,
           color: Color(0xFF858597),
           letterSpacing: 0.1,
           height: 1.5,
-
         ),
         bodySmall: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w400,
           color: Color(0xFFFFFFFF),
-
           letterSpacing: 0.1,
           height: 1.5,
         ),
@@ -302,33 +285,8 @@ class AppThemes {
           color: Color(0xFF1F1F39),
         ),
       ),
-
       scaffoldBackgroundColor: const Color(0xFFFFFFFF),
       colorScheme: const ColorScheme.light().copyWith(
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         onSecondary: const Color(0xFFFFFFFF),
         onSecondaryContainer: const Color(0xFF1F1F39),
         background: const Color(0xFFFFFFFF),
@@ -366,7 +324,6 @@ class AppThemes {
           greyDark: Color(0xFF707070),
           pink: Color(0xFFEFE0FF),
           violet: Color(0xFF440687),
-
         ),
       ],
       expansionTileTheme: const ExpansionTileThemeData(
@@ -376,10 +333,7 @@ class AppThemes {
         collapsedTextColor: Color(0xFF1F1F39),
         iconColor: Color(0xFF1F1F39),
         collapsedIconColor: Color(0xFF1F1F39),
-
-
-
-          ),
+      ),
     );
   }
 
@@ -392,10 +346,6 @@ class AppThemes {
           collapsedTextColor: Color(0xFFB8B8D2),
           iconColor: Color(0xFFB8B8D2),
           collapsedIconColor: Color(0xFFB8B8D2),
-
-
-
-
         ),
         extensions: const <ThemeExtension<AppColors>>[
           AppColors(
@@ -412,7 +362,6 @@ class AppThemes {
             greyDark: Color(0xFF707070),
             pink: Color(0xFFEFE0FF),
             violet: Color(0xFF440687),
-
           ),
         ],
         fontFamily: AppFonts.fontFamily,
@@ -425,7 +374,6 @@ class AppThemes {
           onBackground: const Color(0xFFEAEAFF),
           primary: const Color(0xFF3D5CFF),
           onPrimary: const Color(0xFF858597),
-
           secondary: const Color(0xFFEAEAFF),
           secondaryContainer: const Color(0xFFEAEAFF),
           tertiary: const Color(0xFF1F1F39),
@@ -436,7 +384,6 @@ class AppThemes {
           onSurface: const Color(0xFF3E3E55),
           scrim: const Color(0xFFB8B8D2),
           inverseSurface: const Color(0xFF3E3E55),
-
           onInverseSurface: const Color(0xFF2F2F42),
           surfaceVariant: const Color(0xFFFFFFFF),
           onSurfaceVariant: const Color(0xFF3D5CFF),
@@ -449,7 +396,6 @@ class AppThemes {
           selectionHandleColor: Color(0xFFB8B8D2),
         ),
         textTheme: const TextTheme(
-
           displayLarge: TextStyle(
             fontSize: 32,
             fontWeight: FontWeight.w700,
@@ -465,7 +411,6 @@ class AppThemes {
             fontWeight: FontWeight.w700,
             color: Color(0xFFF4F3FD),
           ),
-
           headlineLarge: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,
@@ -481,7 +426,6 @@ class AppThemes {
             fontWeight: FontWeight.w400,
             color: Color(0xFFFF6905),
           ),
-
           labelLarge: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w500,
@@ -491,20 +435,16 @@ class AppThemes {
             fontSize: 14,
             fontWeight: FontWeight.w400,
             color: Color(0xFFF4F3FD),
-
           ),
           titleSmall: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w400,
             color: Color(0xFFB8B8D2), // title under SignUp
-
           ),
-
           titleLarge: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w400,
             color: Color(0xFFB8B8D2),
-
           ),
           labelMedium: TextStyle(
             fontSize: 16,
@@ -516,20 +456,17 @@ class AppThemes {
             fontWeight: FontWeight.w500,
             color: Color(0xFFF4F3FD), // text in button2
           ),
-
           bodyLarge: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w400,
             color: Color(0xFFF4F3FD),
             letterSpacing: 0.1,
             height: 1.5,
-
           ),
           bodySmall: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w400,
             color: Color(0xFFFFFFFF),
-
             letterSpacing: 0.1,
             height: 1.5,
           ),
@@ -541,30 +478,3 @@ class AppThemes {
         ));
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
