@@ -30,7 +30,6 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
       const Duration(milliseconds: 200),
       () {
 
-
         bool isFirst = LocalDB.instance.getFlagIsFirst() == null;
         LocalDB.instance.setFlagNoFirst();
 

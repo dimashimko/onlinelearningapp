@@ -83,14 +83,6 @@ class _CoursePageState extends State<CoursePage> {
     context.read<CoursesBloc>().add(GetAllCourses(orderBy: OrderBy.name.name));
   }
 
-
-
-
-
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
