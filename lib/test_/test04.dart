@@ -1,79 +1,149 @@
+// import 'package:appinio_video_player/appinio_video_player.dart';
+// import 'package:flutter/cupertino.dart';
+// import 'package:flutter/foundation.dart';
 // import 'package:flutter/material.dart';
-// import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:flutter_svg/flutter_svg.dart';
+// import 'package:online_learning_app/resources/app_icons.dart';
 //
 // void main() {
-//   runApp(MyApp());
+//   runApp(const MyApp());
 // }
 //
 // class MyApp extends StatelessWidget {
+//   const MyApp({Key? key}) : super(key: key);
+//
 //   @override
 //   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       home: Scaffold(
-//         appBar: AppBar(
-//           title: Text('Flutter Pagination Example'),
-//         ),
-//         body: PaginationExample(),
+//     return const CupertinoApp(
+//       debugShowCheckedModeBanner: false,
+//       theme: CupertinoThemeData(
+//         brightness: Brightness.light,
 //       ),
+//       title: 'Appinio Video Player Demo',
+//       home: MyHomePage(),
 //     );
 //   }
 // }
 //
-// class PaginationExample extends StatefulWidget {
+// class MyHomePage extends StatefulWidget {
+//   const MyHomePage({Key? key}) : super(key: key);
+//
 //   @override
-//   _PaginationExampleState createState() => _PaginationExampleState();
+//   State<MyHomePage> createState() => _MyHomePageState();
 // }
 //
-// class _PaginationExampleState extends State<PaginationExample> {
-//   final PagingController<int, QueryDocumentSnapshot> _pagingController =
-//   PagingController(firstPageKey: 0);
+// class _MyHomePageState extends State<MyHomePage> {
+//   late VideoPlayerController _videoPlayerController,
+//       _videoPlayerController2,
+//       _videoPlayerController3;
 //
-//   Future<QuerySnapshot<Map<String, dynamic>>> fetchPage(int pageNumber) async {
-//     final query = FirebaseFirestore.instance
-//         .collection('YOUR_FIREBASE_COLLECTION_NAME')
-//         .orderBy('createdAt')
-//         .limit(10)
-//         .startAfterDocument(lastDocument); // Adjust sorting criteria, limit, and collection name
-//     return await query.get();
-//   }
+//   late CustomVideoPlayerController _customVideoPlayerController;
+//   late CustomVideoPlayerWebController _customVideoPlayerWebController;
 //
-//   void _fetchPage(int pageKey) {
-//     fetchPage(pageKey).then((newItems) {
-//       if (newItems.docs.isNotEmpty) {
-//         final lastDocument = newItems.docs.last;
-//         _pagingController.appendPage(newItems.docs, pageKey + 1);
-//       } else {
-//         _pagingController.appendLastPage([]);
-//       }
-//     });
-//   }
+//   final CustomVideoPlayerSettings _customVideoPlayerSettings =
+//       CustomVideoPlayerSettings(
+//     showPlayButton: true,
+//     showDurationPlayed: true,
+//     playOnlyOnce: true,
+//     autoFadeOutControls: true,
+//     controlBarAvailable: true,
+//     durationAfterControlsFadeOut: Duration(minutes: 5),
+//     enterFullscreenButton: SvgPicture.asset(AppIcons.fullScreen),
+//     customVideoPlayerProgressBarSettings: CustomVideoPlayerProgressBarSettings(
+//       // bufferedColor: Colors.grey,
+//       progressColor: Color(0xFFFF6905),
+//       // bufferedColor: Color(0xFFFF6905),
+//       progressBarHeight: 3,
+//       // backgroundColor: Colors.grey,
+//     ),
+//   );
+//
+//   final CustomVideoPlayerWebSettings _customVideoPlayerWebSettings =
+//       CustomVideoPlayerWebSettings(
+//     src: longVideo,
+//   );
 //
 //   @override
 //   void initState() {
 //     super.initState();
-//     _fetchPage(0);
-//   }
 //
-//   @override
-//   Widget build(BuildContext context) {
-//     return PagedListView<int, QueryDocumentSnapshot>(
-//       pagingController: _pagingController,
-//       builderDelegate: PagedChildBuilderDelegate<QueryDocumentSnapshot>(
-//         itemBuilder: (context, item, index) {
-//           return ListTile(
-//             title: Text(item['title']),
-//             subtitle: Text(item['description']),
-//             // Add any other widget that you want to show for each item
-//           );
-//         },
-//       ),
+//     _videoPlayerController = VideoPlayerController.network(
+//       longVideo,
+//     )..initialize().then((value) => setState(() {}));
+//     _videoPlayerController2 = VideoPlayerController.network(video240);
+//     _videoPlayerController3 = VideoPlayerController.network(video480);
+//     _customVideoPlayerController = CustomVideoPlayerController(
+//       context: context,
+//       videoPlayerController: _videoPlayerController,
+//       customVideoPlayerSettings: _customVideoPlayerSettings,
+//       additionalVideoSources: {
+//         "240p": _videoPlayerController2,
+//         "480p": _videoPlayerController3,
+//         "720p": _videoPlayerController,
+//       },
+//     );
+//
+//     _customVideoPlayerWebController = CustomVideoPlayerWebController(
+//       webVideoPlayerSettings: _customVideoPlayerWebSettings,
 //     );
 //   }
 //
 //   @override
 //   void dispose() {
-//     _pagingController.dispose();
+//     _customVideoPlayerController.dispose();
 //     super.dispose();
 //   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return CupertinoPageScaffold(
+//       navigationBar: const CupertinoNavigationBar(
+//         middle: Text("Appinio Video Player"),
+//       ),
+//       child: SafeArea(
+//         child: ListView(
+//           children: [
+//             kIsWeb
+//                 ? Expanded(
+//                     child: CustomVideoPlayerWeb(
+//                       customVideoPlayerWebController:
+//                           _customVideoPlayerWebController,
+//                     ),
+//                   )
+//                 : CustomVideoPlayer(
+//                     customVideoPlayerController: _customVideoPlayerController,
+//                   ),
+//             CupertinoButton(
+//               child: const Text("Play Fullscreen"),
+//               onPressed: () {
+//                 if (kIsWeb) {
+//                   _customVideoPlayerWebController.setFullscreen(true);
+//                   _customVideoPlayerWebController.play();
+//                 } else {
+//                   _customVideoPlayerController.setFullscreen(true);
+//                   _customVideoPlayerController.videoPlayerController.play();
+//                 }
+//               },
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
 // }
+//
+// String videoUrlLandscape =
+//     "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4";
+// String videoUrlPortrait =
+//     'https://assets.mixkit.co/videos/preview/mixkit-a-girl-blowing-a-bubble-gum-at-an-amusement-park-1226-large.mp4';
+// String longVideo =
+//     "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+//
+// String video720 =
+//     "https://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_10mb.mp4";
+//
+// String video480 =
+//     "https://www.sample-videos.com/video123/mp4/480/big_buck_bunny_480p_10mb.mp4";
+//
+// String video240 =
+//     "https://www.sample-videos.com/video123/mp4/240/big_buck_bunny_240p_10mb.mp4";

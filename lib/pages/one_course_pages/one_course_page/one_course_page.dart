@@ -51,8 +51,6 @@ class OneCoursePage extends StatefulWidget {
 class _OneCoursePageState extends State<OneCoursePage> {
   CourseModel? currentCourse;
 
-
-
   void _navigateToPage({
     required BuildContext context,
     required String route,
@@ -71,7 +69,6 @@ class _OneCoursePageState extends State<OneCoursePage> {
   }
 
   showAlertDialog(BuildContext context) {
-
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -133,14 +130,13 @@ class _OneCoursePageState extends State<OneCoursePage> {
                 listener: (context, state) {
                   log('*** showAlertDialog');
                   context.read<NotificationBloc>().add(
-                    AddNotificationCompletingFirstLessonEvent(),
-                  );
+                        AddNotificationCompletingFirstLessonEvent(),
+                      );
                   showAlertDialog(context);
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-
                     Flexible(
                       flex: 1,
                       fit: FlexFit.tight,
@@ -150,6 +146,20 @@ class _OneCoursePageState extends State<OneCoursePage> {
                           children: [
                             CourseVideoPlayer(
                               currentCourse: currentCourse!,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 11.0,
+                                vertical: 13.0,
+                              ),
+                              child: Container(
+                                width: 24.0,
+                                height: 24.0,
+                                decoration: BoxDecoration(
+                                  color: Colors.white30,
+                                  borderRadius: BorderRadius.circular(12.0),
+                                ),
+                              ),
                             ),
                             ButtonBack(
                               onTapButtonBack: () => _goToBackPage(context),
@@ -235,12 +245,23 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
     return CustomVideoPlayerController(
       context: context,
       videoPlayerController: dataSourceController,
-      customVideoPlayerSettings: const CustomVideoPlayerSettings(
-
-
-        showPlayButton: true,
+      customVideoPlayerSettings: CustomVideoPlayerSettings(
+        enterFullscreenButton: SvgPicture.asset(
+          AppIcons.fullScreen,
+          height: 20,
+          width: 20,
+        ),
+        exitFullscreenButton: SvgPicture.asset(
+          AppIcons.normalScreen,
+          height: 20,
+          width: 20,
+        ),
+        customVideoPlayerProgressBarSettings:
+            CustomVideoPlayerProgressBarSettings(
+          progressColor: colors(context).orange ?? Colors.orange,
+          progressBarHeight: 3,
+        ),
         settingsButtonAvailable: false,
-        alwaysShowThumbnailOnVideoPaused: true,
       ),
     );
   }
@@ -248,12 +269,10 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<ProgressBloc, ProgressState>(
-
       listenWhen: (p, c) {
         return p.currentLessonIndex != c.currentLessonIndex;
       },
       listener: (context, state) {
-
         if (state.currentLessonIndex != null) {
           dataSourceController.pause();
           String? url =
@@ -268,10 +287,8 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
                 }));
 
           dataSourceController.addListener(() {
-
             if (dataSourceController.value.position ==
                 dataSourceController.value.duration) {
-
               log('*** Video finished playing');
               context.read<ProgressBloc>().add(VideoFinishEvent());
             }
@@ -300,7 +317,6 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
               isPlaying = dataSourceController.value.isPlaying;
               context.read<ProgressBloc>().add(
                     ChangePlaybackStatusEvent(
-
                       newPlaybackStatus: isPlaying
                           ? PlaybackStatus.play
                           : PlaybackStatus.pause,
@@ -311,7 +327,6 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
         }
       },
       child: BlocListener<ProgressBloc, ProgressState>(
-
         listenWhen: (p, c) {
           return p.playbackStatus != c.playbackStatus;
         },
@@ -448,8 +463,6 @@ class BottomPanelButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 98.0,
-
-
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         boxShadow: [
@@ -599,7 +612,6 @@ class LessonItem extends StatelessWidget {
             children: [
               Text(
                 lesson.name ?? '',
-
                 style: Theme.of(context).textTheme.displayLarge?.copyWith(
                       fontSize: 14.0,
                       fontWeight: FontWeight.w400,
@@ -694,7 +706,6 @@ class TextLessonDurationWithCheckBox extends StatelessWidget {
 enum WatchStatus { notViewed, inProgress, viewed }
 
 WatchStatus getWatchStatus(List<bool>? lessonProgress) {
-
   if (lessonProgress == null) {
     return WatchStatus.notViewed;
   }
