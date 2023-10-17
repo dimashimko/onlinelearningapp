@@ -312,6 +312,10 @@ class CourseProgressItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    num courseCompleted = courseModel.lessons?.length ?? 1.0;
+    double progressValue = courseCompleted == 0
+        ? 0
+        : lessonCompleted / (courseModel.lessons?.length ?? 1.0);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
@@ -321,7 +325,7 @@ class CourseProgressItem extends StatelessWidget {
               height: 18.0,
               width: 18.0,
               child: CircularProgressIndicator(
-                value: lessonCompleted / (courseModel.lessons?.length ?? 1.0),
+                value: progressValue,
                 color: colors(context).greyDark,
                 backgroundColor: colors(context).violetLight,
               ),
