@@ -43,15 +43,12 @@ class ThemeProvider with ChangeNotifier {
         ? AppThemes.dark()
         : AppThemes.light();
 
-    log('*** _currentTheme colorScheme: ${_currentTheme.colorScheme}');
     notifyListeners();
   }
 
   void toggleTheme2(bool isDark) {
     _currentTheme = isDark ? AppThemes.dark() : AppThemes.light();
 
-
-    log('*** _currentTheme colorScheme: ${_currentTheme.colorScheme}');
     notifyListeners();
   }
 }

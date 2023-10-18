@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:developer';
+
 
 import 'package:online_learning_app/database/local_database.dart';
 import 'package:online_learning_app/models/notification_model/notification_model.dart';
@@ -30,7 +30,7 @@ class LocalNotificationService {
           .map((notification) => notification.toJson())
           .toList();
       String jsonString = jsonEncode(jsonList);
-      log('*** jsonString: $jsonString');
+
       db.saveNotifications(
         jsonString,
         userUid,

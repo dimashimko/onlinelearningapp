@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:online_learning_app/models/message_model/message_model.dart';
@@ -17,7 +17,7 @@ class MyFirestoreNotificationService {
         seconds: 2,
       ),
     );*/
-    log('*** fetchPage');
+
     Query<Map<String, dynamic>> query = FirebaseFirestore.instance
         .collection('messages')
         .orderBy('time', descending: true)

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -93,21 +92,17 @@ class _LogInPageState extends State<LogInPage> {
       timeout: const Duration(seconds: 3),
       phoneNumber: _contactController.text.trim().replaceAll(' ', ''),
       verificationCompleted: (PhoneAuthCredential credential) async {
-        log("*** verificationCompleted");
         await FirebaseAuth.instance.signInWithCredential(credential);
         if (FirebaseAuth.instance.currentUser != null) {
           _goToMainPage();
         }
       },
       verificationFailed: (FirebaseAuthException e) {
-        log("*** verificationFailed");
         Navigator.of(context).pop();
-        log('*** e.code: ${e.code}');
-        log('*** e.message: ${e.message}');
+
         showCustomSnackBar(context, e.message);
       },
       codeSent: (String verificationId, int? resendToken) async {
-        log("*** codeSent");
         _goToVerifyPhonePage(verificationId: verificationId);
       },
       codeAutoRetrievalTimeout: (String verificationId) {},
@@ -134,12 +129,10 @@ class _LogInPageState extends State<LogInPage> {
     } on FirebaseAuthException catch (e) {
       if (mounted) {
         Navigator.of(context).pop();
-        log('*** e.code: ${e.code}');
-        log('*** e.message: ${e.message}');
+
         showCustomSnackBar(context, e.message);
       }
     } catch (e) {
-      log('*** Unhandled error: ${e.toString()}');
       if (mounted) {
         showCustomSnackBar(context, 'SomeError');
       }
@@ -147,15 +140,13 @@ class _LogInPageState extends State<LogInPage> {
   }
 
   Future<void> onTapForgetPassword() async {
-    log('*** onTapForgetPassword');
-
 /*    bool isValid = false;
 
     setState(() {
-      log('*** _contentFormFieldKey.currentState: ${_contentFormFieldKey.currentState}');
+
       if (_contentFormFieldKey.currentState != null) {
         isValid = _contentFormFieldKey.currentState!.validate();
-        log('*** isValid: $isValid');
+
 
       }
     });*/
@@ -184,14 +175,13 @@ class _LogInPageState extends State<LogInPage> {
       } on FirebaseAuthException catch (e) {
         if (mounted) {
           Navigator.of(context).pop();
-          log('*** e.code: ${e.code}');
-          log('*** e.message: ${e.message}');
+
           showCustomSnackBar(context, e.message);
         }
       } catch (e) {
         if (mounted) {
           Navigator.of(context).pop();
-          log('*** Unhandled error: ${e.toString()}');
+
           showCustomSnackBar(context, 'SomeError');
         }
       }
@@ -226,20 +216,16 @@ class _LogInPageState extends State<LogInPage> {
     } on FirebaseAuthException catch (e) {
       if (mounted) {
         Navigator.of(context).pop();
-        log('*** e.code: ${e.code}');
-        log('*** e.message: ${e.message}');
+
         showCustomSnackBar(context, e.message);
       }
     } catch (e) {
       if (mounted) {
-        log('*** Unhandled error: ${e.toString()}');
         Navigator.of(context).pop();
         showCustomSnackBar(context, 'SomeError');
       }
     }
   }
-
-  AccessToken? _accessToken;
 
   String prettyPrint(Map json) {
     JsonEncoder encoder = const JsonEncoder.withIndent('  ');
@@ -247,16 +233,7 @@ class _LogInPageState extends State<LogInPage> {
     return pretty;
   }
 
-  void _printCredentials() {
-    log(
-      prettyPrint(_accessToken!.toJson()),
-    );
-  }
-
-  Map<String, dynamic>? _userData;
-
   Future<void> signInWithFacebook() async {
-    log('*** signInWithFacebook');
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -269,26 +246,9 @@ class _LogInPageState extends State<LogInPage> {
 
     if (result.status == LoginStatus.success) {
       try {
-        _accessToken = result.accessToken;
-        log('*** _printCredentials:');
-        _printCredentials(); // result.accessToken
+        await FacebookAuth.instance.getUserData();
 
-        final userData = await FacebookAuth.instance.getUserData();
-
-        _userData = userData;
-        log('*** _userData: ');
-        log(prettyPrint(_userData!));
-
-        final OAuthCredential facebookAuthCredential =
-            FacebookAuthProvider.credential(result.accessToken!.token);
-        log('*** facebookAuthCredential: $facebookAuthCredential');
-
-        UserCredential userCredential = await FirebaseAuth.instance
-            .signInWithCredential(facebookAuthCredential);
-
-        log('*** userCredential$userCredential');
-        log('*** userCredential${userCredential.toString()}');
-        log('*** FirebaseAuth.instance.currentUser: ${FirebaseAuth.instance.currentUser}');
+        FacebookAuthProvider.credential(result.accessToken!.token);
 
         if (FirebaseAuth.instance.currentUser != null) {
           return _goToMainPage();
@@ -296,13 +256,11 @@ class _LogInPageState extends State<LogInPage> {
       } on FirebaseAuthException catch (e) {
         if (mounted) {
           Navigator.of(context).pop();
-          log('*** e.code: ${e.code}');
-          log('*** e.message: ${e.message}');
+
           showCustomSnackBar(context, e.message);
         }
       } catch (e) {
         if (mounted) {
-          log('*** Unhandled error: ${e.toString()}');
           Navigator.of(context).pop();
           showCustomSnackBar(context, 'SomeError');
         }
@@ -310,8 +268,6 @@ class _LogInPageState extends State<LogInPage> {
     } else {
       if (mounted) {
         Navigator.of(context).pop();
-        log(result.status.toString());
-        log(result.message.toString());
       }
     }
   }

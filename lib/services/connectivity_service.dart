@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:developer';
+
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 
@@ -15,7 +15,7 @@ class CustomConnectivityService {
     connectivityStreamSubscription = Connectivity()
         .onConnectivityChanged
         .listen((ConnectivityResult result) {
-      log('*** result: $result');
+
       onChangeConnectionState(
         result != ConnectivityResult.none,
       );
@@ -25,7 +25,7 @@ class CustomConnectivityService {
 
   void _checkConnectivity() async {
     ConnectivityResult result = await (Connectivity().checkConnectivity());
-    log('*** result: $result');
+
     onChangeConnectionState(
       result != ConnectivityResult.none,
     );

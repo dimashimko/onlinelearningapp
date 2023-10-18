@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:developer';
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,8 +49,8 @@ class _CheckPaymentStatusPageState extends State<CheckPaymentStatusPage> {
 
   void _goToCoursePage(BuildContext context) {
     Navigator.of(context).popUntil((route) {
-      log('*** route: ${route.toString()}');
-      log('*** route.settings.name: ${route.settings.name}');
+
+
       return route.settings.name == OneCoursePage.routeName;
     });
   }
@@ -143,7 +143,7 @@ class _CheckPaymentStatusPageState extends State<CheckPaymentStatusPage> {
         tryOpenUrl(customPaymentStatus.description);
       }
     } catch (e) {
-      log('*** error: $e');
+
     }
 
     setState(() {});
@@ -165,7 +165,7 @@ class _CheckPaymentStatusPageState extends State<CheckPaymentStatusPage> {
         throw 'Could not launch $url';
       }
     } catch (e) {
-      log(e.toString());
+
     }
   }
 

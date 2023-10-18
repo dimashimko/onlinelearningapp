@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 
 import 'package:appinio_video_player/appinio_video_player.dart';
 import 'package:flutter/material.dart';
@@ -64,7 +64,7 @@ class _OneCoursePageState extends State<OneCoursePage> {
   }
 
   void _goToBackPage(BuildContext context) {
-    log('*** go to back page');
+
     Navigator.of(context).pop();
   }
 
@@ -78,7 +78,7 @@ class _OneCoursePageState extends State<OneCoursePage> {
   }
 
   void onTapFavoriteButton() {
-    log('*** onTapFavoriteButton');
+
     context.read<ProgressBloc>().add(
           TapButtonFavorite(),
         );
@@ -87,7 +87,7 @@ class _OneCoursePageState extends State<OneCoursePage> {
   void onTapBuyButton({
     required double price,
   }) {
-    log('*** onTapBuyButton');
+
     _navigateToPage(
       context: context,
       route: PaymentPage.routeName,
@@ -128,7 +128,7 @@ class _OneCoursePageState extends State<OneCoursePage> {
                   return p.showStatisticTrigger != c.showStatisticTrigger;
                 },
                 listener: (context, state) {
-                  log('*** showAlertDialog');
+
                   context.read<NotificationBloc>().add(
                         AddNotificationCompletingFirstLessonEvent(),
                       );
@@ -235,7 +235,7 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
   @override
   void dispose() {
     super.dispose();
-    log('*** OneCoursePage dispose');
+
     _videoController.dispose();
   }
 
@@ -295,7 +295,7 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
                 _videoController.value.isInitialized &&
                 _videoController.value.position ==
                     _videoController.value.duration) {
-              log('*** Video finished playing');
+
               context.read<ProgressBloc>().add(
                     VideoFinishEvent(),
                   );

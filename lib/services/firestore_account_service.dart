@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -26,23 +26,23 @@ class MyFirestoreAccountService {
         await db.collection(collectionName).doc(uid).get();
     AccountModel accountModel = const AccountModel.empty();
     if (value.data() == null) {
-      log('*** value.data() == null');
+
       db.collection("activity").doc(uid).set({});
     } else {
       accountModel = AccountModel.fromJson(value.data()!);
     }
-    log('*** accountModel: $accountModel');
+
     return accountModel;
   }
 }
 
 bool checkUserUid(String? uid) {
   if (uid == null) {
-    log('*** !!! courses not update from firestore: uid == null');
+
     return false;
   } else {
     if (uid == '0') {
-      log('*** courses not update from firestore: uid == \'0\'');
+
       return false;
     }
   }

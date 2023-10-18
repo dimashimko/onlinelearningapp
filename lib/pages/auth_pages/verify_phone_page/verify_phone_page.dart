@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +49,7 @@ class _VerifyPhonePageState extends State<VerifyPhonePage> {
   Future<void> _onTapVerify() async {
     final bool isValid =
         _pinController.text.length == VerifyPhonePage.pinLength;
-    log('*** isValid: $isValid');
+
     if (!isValid) {
       showCustomSnackBar(context, 'Pin must contain 6 digits');
       return;

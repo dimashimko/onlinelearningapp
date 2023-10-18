@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:developer';
+
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
@@ -126,7 +126,7 @@ class _MainPageState extends State<MainPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    log('*** didChangeDependencies MainPage');
+
     context.read<ProgressBloc>().add(
           InitProgressBlocEvent(),
         );
@@ -188,7 +188,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    log('*** build MainPage');
+
     return BlocConsumer<NavigationBloc, NavigationState>(
       listener: (_, state) {
         if (state.status == NavigationStateStatus.tab) {

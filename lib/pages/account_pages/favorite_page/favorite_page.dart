@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,7 +55,6 @@ class _FavoritePageState extends State<FavoritePage> {
   void initState() {
     super.initState();
 
-    log('*** initState MyCoursesPage');
     context.read<ProgressBloc>().add(
           GetUserProgressEvent(),
         );
@@ -108,7 +107,7 @@ class _FavoritePageState extends State<FavoritePage> {
                           userProgress: userProgress,
                         ),
                       );
-                  log('*** BlocBuilder<CoursesBloc');
+
                   return Expanded(
                     child: GridView.builder(
                       gridDelegate:

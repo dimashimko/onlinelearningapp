@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,7 +56,6 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
   void initState() {
     super.initState();
 
-    log('*** initState MyCoursesPage');
     context.read<ProgressBloc>().add(
           GetUserProgressEvent(),
         );

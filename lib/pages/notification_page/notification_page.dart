@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -73,7 +73,7 @@ class _NotificationPageState extends State<NotificationPage> {
                         children: [
                           TabBar(
                             onTap: (int index) {
-                              log('*** TabBarIndex: $index');
+
                               if (index == 1) {
                                 context.read<NotificationBloc>().add(
                                       SaveTimeLastSeenNotification(

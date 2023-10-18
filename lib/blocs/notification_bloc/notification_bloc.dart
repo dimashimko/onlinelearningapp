@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -41,7 +41,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
     on<CheckHasNoSeenNotification>(
       (event, emit) async {
-        log('@@@ CheckHasNoSeenNotification');
+
 
         bool isHasNoSeenNotification = checkHasNoSeenNotification(
           state.notificationList,
@@ -58,7 +58,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
     on<GetTimeLastSeenNotification>(
       (event, emit) async {
-        log('@@@ LoadLastSeenNotification');
+
 
         String timeLastSeenNotification =
             await notificationService.getTimeLastSeenNotification() ?? '';
@@ -72,7 +72,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
     on<SaveTimeLastSeenNotification>(
       (event, emit) async {
-        log('@@@ UpdateLastSeenNotification');
+
 
         notificationService.saveTimeLastSeenNotification(
           timeLastSeenNotification: event.timeLastSeenNotification,
@@ -87,7 +87,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
     on<AddNotificationSuccessfulRegistrationEvent>(
       (event, emit) async {
-        log('@@@ AddNotificationSuccessfulRegistrationEvent');
+
 
         NotificationModel notificationModel = NotificationModel(
           typeNotification: TypeNotification.simple,
@@ -107,7 +107,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
     on<AddNotificationCompletingFirstLessonEvent>(
       (event, emit) async {
-        log('@@@ AddNotificationCompletingFirstLessonEvent');
+
 
         NotificationModel notificationModel = NotificationModel(
           typeNotification: TypeNotification.simple,
@@ -127,7 +127,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
     on<AddNotificationSuccessfulPurchaseEvent>(
       (event, emit) async {
-        log('@@@ AddNotificationSuccessfulPurchaseEvent');
+
 
         NotificationModel notificationModel = NotificationModel(
           typeNotification: TypeNotification.payment,
@@ -147,7 +147,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
     on<AddNotificationEvent>(
       (event, emit) async {
-        log('@@@ AddNotificationSuccessfulPurchaseEvent');
+
 
         bool isNotificationEnabled = await loadNotificationEnabled();
         if (isNotificationEnabled) {
@@ -183,7 +183,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
     on<GetAllNotificationsEvent>(
       (event, emit) async {
-        log('@@@ GetAllNotificationsEvent');
+
         String? uid = FirebaseAuth.instance.currentUser?.uid;
         List<NotificationModel> notificationList =
             await notificationService.getNotifications(uid ?? '');
@@ -201,7 +201,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
         if (uid != null && uid == lastUid) {
           List<NotificationModel> notificationList =
               await notificationService.getNotifications();
-          log('*** notificationList: $notificationList');
+
 
           emit(
             state.copyWith(

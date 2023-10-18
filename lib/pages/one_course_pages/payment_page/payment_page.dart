@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:developer';
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_brand.dart';
@@ -64,7 +64,7 @@ class _PaymentPageState extends State<PaymentPage> {
       (result) {
         if (result != null) {
           result as CardModel;
-          log('result: $result');
+
           cards.add(result);
           _saveCards(cards);
           setState(() {});
@@ -176,7 +176,7 @@ class _PaymentPageState extends State<PaymentPage> {
 /*      if (liqPayResponse.result == 'ok') {
 
         if (liqPayResponse.status == 'success') {
-          log('*** success');
+
 
           _goToCheckPaymentStatusPage();
           context.read<ProgressBloc>().add(

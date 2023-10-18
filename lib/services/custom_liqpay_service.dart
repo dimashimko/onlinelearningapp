@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:developer';
+
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
@@ -37,7 +37,6 @@ class CustomLiqPay extends LiqPay {
 
     final response = await client.post(url, body: getRequestData(order));
 
-    log('*** response body*: ${response.body}');
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);
       return data;

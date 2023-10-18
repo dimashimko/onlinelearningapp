@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -103,8 +103,8 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     });
 
     on<ChangeFilterText>((event, emit) async {
-      log('@@@ ChangeFilterText');
-      log('event.newFilterText: ${event.newFilterText}');
+
+
       if (state.filterText != event.newFilterText) {
         FilterEnabledType newFilterEnabledType = FilterEnabledType.text;
         if (event.newFilterText.isEmpty) {
@@ -200,7 +200,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     });
 
     on<GetAllCourses>((event, emit) async {
-      log('@@@ GetAllCourses');
+
       List<CourseModel> coursesList =
           await fireStoreService.getAllCoursesList(event.orderBy);
       if (event.orderBy == OrderBy.created.name) {
@@ -235,7 +235,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     });*/
 
     on<GetCategories>((event, emit) async {
-      log('@@@ GetCategories');
+
       List<CategoryModel> categoryList = await fireStoreService.getCategories();
 
       emit(
@@ -246,7 +246,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     });
 
     on<CourseBlocInit>((event, emit) async {
-      log('@@@ CourseBlocInit');
+
       add(GetCategories());
       add(GetAllCourses(orderBy: OrderBy.name.name));
     });

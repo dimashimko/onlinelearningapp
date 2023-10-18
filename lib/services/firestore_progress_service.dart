@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,7 +15,7 @@ class MyFirestoreProgressService {
     UserActivityModel? userActivityModel = await getActivityModel(); // get
 
     if (userActivityModel == null) {
-      log('*** Failed to get UserActivityModel');
+
       userActivityModel = const UserActivityModel.empty();
     }
     UserActivityModel? newUserActivityModel =
@@ -48,7 +48,7 @@ class MyFirestoreProgressService {
 
     UserActivityModel? userActivityModel = await getActivityModel();
     if (userActivityModel == null) {
-      log('*** Failed to get UserActivityModel');
+
       userActivityModel = const UserActivityModel.empty();
     }
 
@@ -119,7 +119,7 @@ class MyFirestoreProgressService {
           await db.collection("activity").doc(uid).get();
 
       if (value.data() == null) {
-        log('*** value.data() == null');
+
         db.collection("activity").doc(uid).set({});
       } else {
         userActivityModel = UserActivityModel.fromJson(value.data()!);
@@ -185,7 +185,7 @@ class MyFirestoreProgressService {
           await db.collection("progress").doc(uid).get();
 
       if (value.data() == null) {
-        log('*** value.data() == null');
+
         db.collection("progress").doc(uid).set({});
       } else {
         for (var jsonModel in value.data()!.entries) {
@@ -204,11 +204,11 @@ class MyFirestoreProgressService {
 
 bool checkUserUid(String? uid) {
   if (uid == null) {
-    log('*** !!! courses not update from firestore: uid == null');
+
     return false;
   } else {
     if (uid == '0') {
-      log('*** courses not update from firestore: uid == \'0\'');
+
       return false;
     }
   }

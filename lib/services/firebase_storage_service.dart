@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 
@@ -14,11 +14,11 @@ class FirebaseStorageServices {
     String newFileName,
     String directory,
   ) async {
-    log('*** submitToStorage');
+
     final Reference baseRef = FirebaseStorage.instance.ref();
 
     final Reference newRef = baseRef.child(directory).child(newFileName);
-    log('*** newRef fullPath: ${newRef.fullPath}');
+
 
     File file = File(localPathToNewFile);
     try {

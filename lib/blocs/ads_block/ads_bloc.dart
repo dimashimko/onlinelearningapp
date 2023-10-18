@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,7 @@ class AdsBloc extends Bloc<AdsEvent, AdsState> {
     on<GetAdsCoursesUids>(
       (event, emit) async {
         List<String> adsCoursesUids = await adsService.getAdsCoursesUids();
-        log('*** adsCoursesUids: $adsCoursesUids');
+
 
         emit(
           state.copyWith(

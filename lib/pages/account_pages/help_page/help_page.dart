@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 
 import 'package:flutter/material.dart';
 import 'package:online_learning_app/resources/app_themes.dart';
@@ -90,7 +90,7 @@ class _CustomSwitchState extends State<CustomSwitch> {
           value: isDark,
           onChanged: (value) {
             setState(() {
-              log('*** on switch');
+
               isDark = !isDark;
               themeProvider.toggleTheme();
             });

@@ -10,12 +10,12 @@ class MyFirestoreAdsService {
         await db.collection(collectionName).doc(uid).get();
     AccountModel accountModel = const AccountModel.empty();
     if (value.data() == null) {
-      log('*** value.data() == null');
+
       db.collection("activity").doc(uid).set({});
     } else {
       accountModel = AccountModel.fromJson(value.data()!);
     }
-    log('*** accountModel: $accountModel');
+
     return accountModel;
   }*/
 

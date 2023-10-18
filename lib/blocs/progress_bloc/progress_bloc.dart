@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
@@ -22,7 +22,7 @@ class ProgressBloc extends Bloc<ProgressEvent, ProgressState> {
 
     on<CoursePurchasedEvent>(
       (event, emit) async {
-        log('*** @CoursePurchasedEvent ');
+
 
         CourseProgressModel? currentCourseProgress =
             state.userProgress?[state.currentCourseUid] ??
@@ -37,20 +37,19 @@ class ProgressBloc extends Bloc<ProgressEvent, ProgressState> {
             currentCourseProgress,
           );
         }
-        log('*** @CoursePurchasedEvent currentCourseProgress: $currentCourseProgress');
+
         add(GetUserProgressEvent());
       },
     );
 
     on<TapButtonFavorite>(
       (event, emit) async {
-        log('*** @TapButtonFavorite ');
+
 
         CourseProgressModel? currentCourseProgress =
             state.userProgress?[state.currentCourseUid] ??
                 const CourseProgressModel.empty();
 
-        log('*** @TapButtonFavorite currentCourseProgress: $currentCourseProgress');
         currentCourseProgress = currentCourseProgress.copyWith(
           favorites: !(currentCourseProgress.favorites ?? true),
         );
@@ -60,14 +59,14 @@ class ProgressBloc extends Bloc<ProgressEvent, ProgressState> {
             currentCourseProgress,
           );
         }
-        log('*** @TapButtonFavorite currentCourseProgress: $currentCourseProgress');
+
         add(GetUserProgressEvent());
       },
     );
 
     on<UpdateUserActivityTimeEvent>(
       (event, emit) async {
-        log('*** @UpdateUserActivityTimeEvent ');
+
         UserActivityModel? userActivityModel =
             await fireStoreProgressService.updateActivityTime(
           difference: 0,
@@ -82,11 +81,11 @@ class ProgressBloc extends Bloc<ProgressEvent, ProgressState> {
 
     on<VideoFinishEvent>(
       (event, emit) async {
-        log('*** @VideoFinishEvent ');
+
 
         bool isNeedShowStatistic =
             await fireStoreProgressService.checkNeedShowStatistic();
-        log('*** isNeedShowStatistic: $isNeedShowStatistic');
+
         int showStatisticValue = state.showStatisticTrigger;
         showStatisticValue = showStatisticValue + 1;
         if (isNeedShowStatistic) {
@@ -122,7 +121,7 @@ class ProgressBloc extends Bloc<ProgressEvent, ProgressState> {
 
 
         if (difference > updateInterval * 2 || difference < 0) {
-          log('*** seek video (rewind video)');
+
           difference = 0.0;
           lastProgressValue = event.newProgressValue;
         }
@@ -176,7 +175,7 @@ class ProgressBloc extends Bloc<ProgressEvent, ProgressState> {
 
     on<ChangeCurrentLessonEvent>(
       (event, emit) async {
-        log('*** @ChangeCurrentLesson ');
+
         emit(
           state.copyWith(
 
@@ -191,7 +190,7 @@ class ProgressBloc extends Bloc<ProgressEvent, ProgressState> {
 
     on<ChangeCurrentCourseEvent>(
       (event, emit) async {
-        log('*** @ChangeCurrentCourse ');
+
         emit(
           state.copyWith(
             currentCourseUid: event.uidCourse,
@@ -206,13 +205,13 @@ class ProgressBloc extends Bloc<ProgressEvent, ProgressState> {
 
     on<NewProgressEvent>(
       (event, emit) async {
-        log('*** @NewProgress ');
+
       },
     );
 
     on<InitProgressBlocEvent>(
       (event, emit) async {
-        log('*** @InitProgressBlocEvent ');
+
         add(
           UpdateUserActivityTimeEvent(),
         );

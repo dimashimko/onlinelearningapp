@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,7 +28,7 @@ class _SearchFilterSheetState extends State<SearchFilterSheet> {
     bool isRoot = false,
     Object? arguments,
   }) {
-    log('*** _navigateToPage $route');
+
     Navigator.of(
       context,
       rootNavigator: isRoot,

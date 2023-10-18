@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -120,7 +120,7 @@ class UserAvatar extends StatelessWidget {
       height: 96.0,
       child: InkWell(
         onTap: () async {
-          log('*** choice photo');
+
           final ImagePicker picker = ImagePicker();
           final XFile? image = await picker.pickImage(
             source: ImageSource.gallery,
@@ -132,7 +132,7 @@ class UserAvatar extends StatelessWidget {
               print(image.path);
             });*/
           } else {
-            log('*** image not choiced');
+
           }
         },
         child: Stack(

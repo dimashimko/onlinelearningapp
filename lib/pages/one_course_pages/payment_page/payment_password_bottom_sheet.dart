@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 
 import 'package:flutter/material.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
@@ -21,7 +21,7 @@ class BottomSheetPaymentPassword extends StatelessWidget {
     if (_formKey.currentState != null) {
       bool isValid = _formKey.currentState!.validate();
       if (isValid) {
-        log('*** _pinController.text: ${_pinController.text}');
+
         Navigator.pop(context, true);
       }
     }

@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
@@ -25,7 +25,7 @@ class MyFirestoreCourseService {
             .where('name', isLessThan: searchKey + 'z');*/
 
     if (filterEnabledType == FilterEnabledType.text) {
-      log('*** searchKey: $searchKey');
+
       if (true) {
         filteredCourses = filteredCourses
             .orderBy(OrderBy.name.name)
@@ -51,7 +51,7 @@ class MyFirestoreCourseService {
     if (filterEnabledType == FilterEnabledType.duration) {
       for (DurationRangeModel durationFilter in filterDurationItems) {
         if (durationFilter.isEnable) {
-          log('*** durationFilter: $durationFilter');
+
           filteredCourses = filteredCourses
               .where(
                 OrderBy.duration.name,

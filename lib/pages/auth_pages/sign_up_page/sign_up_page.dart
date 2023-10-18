@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -120,26 +120,26 @@ class _SignUpPageState extends State<SignUpPage> {
     await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: _contactController.text.trim().replaceAll(' ', ''),
       verificationCompleted: (PhoneAuthCredential credential) async {
-        log("*** verificationCompleted");
+
         await FirebaseAuth.instance.signInWithCredential(credential);
         if (FirebaseAuth.instance.currentUser != null) {
           _successfulRegistration();
         }
       },
       verificationFailed: (FirebaseAuthException e) {
-        log("*** verificationFailed");
+
         Navigator.of(context).pop(); // need for pop CircularProgressIndicator
-        log('*** e.code: ${e.code}');
-        log('*** e.message: ${e.message}');
+
+
         showCustomSnackBar(context, e.message);
       },
       codeSent: (String verificationId, int? resendToken) async {
-        log("*** codeSent");
+
         _goToVerifyPhonePage(verificationId: verificationId);
       },
       codeAutoRetrievalTimeout: (String verificationId) {
         Navigator.of(context).pop();
-        log('*** SMS code handling fails');
+
         showCustomSnackBar(context, 'SMS code handling fails');
       },
     );
@@ -165,13 +165,13 @@ class _SignUpPageState extends State<SignUpPage> {
     } on FirebaseAuthException catch (e) {
       if (mounted) {
         Navigator.of(context).pop();
-        log('*** e.code: ${e.code}');
-        log('*** e.message: ${e.message}');
+
+
         showCustomSnackBar(context, e.message);
       }
     } catch (e) {
       if (mounted) {
-        log('*** Unhandled error: ${e.toString()}');
+
         showCustomSnackBar(context, 'SomeError');
       }
     }
