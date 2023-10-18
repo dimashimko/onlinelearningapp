@@ -1,7 +1,5 @@
-import 'dart:convert';
 import 'dart:io';
 
-import 'package:online_learning_app/models/users/user_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -53,22 +51,9 @@ class LocalDB {
 
     if (isFirst != null) return;
 
-    await saveUser(UserModel());
     await clearStorage.writeLaunch(false);
   }
 
-
-  Future<void> saveUser(UserModel user) async {
-    final Box<String> authBox = Hive.box(_authBox);
-    await authBox.put('authUser', jsonEncode(user.toJson()));
-  }
-
-  UserModel getUser() {
-    final Box<String> authBox = Hive.box(_authBox);
-    return UserModel.fromJson(
-      jsonDecode(authBox.get('authUser')!),
-    );
-  }
 
 
   Future<void> setFlagNoFirst() async {
