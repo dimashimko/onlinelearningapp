@@ -25,11 +25,3 @@ class OnChangeUserAccount extends AccountEvent {
 class GetAccountModel extends AccountEvent {}
 
 class InitAccountBlocEvent extends AccountEvent {}
-
-/*class GetAccountModel extends AccountEvent {
-  const GetAccountModel({
-    required this.counter,
-  });
-
-  final int counter;
-}*/

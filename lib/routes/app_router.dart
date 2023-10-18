@@ -88,10 +88,6 @@ class AppRouter {
         builder = (_) => const MyCoursesPage();
         break;
 
-/*      case PaymentPage.routeName:
-        builder = (_) => PaymentPage();
-        break;*/
-
       case PaymentPage.routeName:
         final PaymentPageArguments args = arguments as PaymentPageArguments;
         builder = (_) => PaymentPage(
@@ -102,10 +98,6 @@ class AppRouter {
       case AddCardPage.routeName:
         builder = (_) => const AddCardPage();
         break;
-
-/*      case CheckPaymentStatusPage.routeName:
-        builder = (_) => const CheckPaymentStatusPage();
-        break;*/
 
       case CheckPaymentStatusPage.routeName:
         final CheckPaymentStatusPageArguments args =

@@ -1,13 +1,11 @@
-
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_learning_app/blocs/notification_bloc/notification_bloc.dart';
 import 'package:online_learning_app/pages/auth_pages/log_in_page/log_in_page.dart';
 import 'package:online_learning_app/pages/auth_pages/verify_phone_page/verify_phone_page.dart';
-import 'package:online_learning_app/pages/auth_pages/widgets/authFormFields.dart';
-import 'package:online_learning_app/pages/auth_pages/widgets/successfulRegistrationDialog.dart';
+import 'package:online_learning_app/pages/auth_pages/widgets/auth_form_fields.dart';
+import 'package:online_learning_app/pages/auth_pages/widgets/successful_registration_dialog.dart';
 import 'package:online_learning_app/pages/main_page.dart';
 import 'package:online_learning_app/utils/show_custom_snack_bar.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
@@ -120,21 +118,17 @@ class _SignUpPageState extends State<SignUpPage> {
     await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: _contactController.text.trim().replaceAll(' ', ''),
       verificationCompleted: (PhoneAuthCredential credential) async {
-
         await FirebaseAuth.instance.signInWithCredential(credential);
         if (FirebaseAuth.instance.currentUser != null) {
           _successfulRegistration();
         }
       },
       verificationFailed: (FirebaseAuthException e) {
-
         Navigator.of(context).pop(); // need for pop CircularProgressIndicator
-
 
         showCustomSnackBar(context, e.message);
       },
       codeSent: (String verificationId, int? resendToken) async {
-
         _goToVerifyPhonePage(verificationId: verificationId);
       },
       codeAutoRetrievalTimeout: (String verificationId) {
@@ -166,12 +160,10 @@ class _SignUpPageState extends State<SignUpPage> {
       if (mounted) {
         Navigator.of(context).pop();
 
-
         showCustomSnackBar(context, e.message);
       }
     } catch (e) {
       if (mounted) {
-
         showCustomSnackBar(context, 'SomeError');
       }
     }
@@ -351,12 +343,6 @@ class CustomCheckBox extends StatefulWidget {
 
 class _CustomCheckBoxState extends State<CustomCheckBox> {
   bool acceptPrivacyPolicy = false;
-
-/*  @override
-  void initState() {
-    super.initState();
-    acceptPrivacyPolicy = widget.acceptPrivacyPolicy;
-  }*/
 
   @override
   Widget build(BuildContext context) {

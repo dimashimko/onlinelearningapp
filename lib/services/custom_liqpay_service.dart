@@ -40,11 +40,7 @@ class CustomLiqPay extends LiqPay {
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);
       return data;
-/*      if (data["status"] == "success") {
-        return LiqPayResponse.success(data);
-      } else {
-        return LiqPayResponse.error(data);
-      }*/
+
     } else {
       throw HttpException(response.toString(), uri: url);
     }

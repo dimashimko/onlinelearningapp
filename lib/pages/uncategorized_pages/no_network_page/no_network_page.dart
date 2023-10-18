@@ -12,10 +12,6 @@ class NoNetworkPage extends StatelessWidget {
   static const routeName = '/no_network_page/no_network_page';
   final VoidCallback onTapTryAgain;
 
-/*  void _onTapTryAgain(BuildContext context) async {
-    final connectivityResult = await (Connectivity().checkConnectivity());
-  }*/
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -11,7 +11,6 @@ class FilterUserCourses extends CoursesEvent {
   final Map<String, CourseProgressModel>? userProgress;
 }
 
-
 class ChangeEnabledFilter extends CoursesEvent {
   ChangeEnabledFilter({
     required this.newFilterEnabledType,
@@ -19,7 +18,6 @@ class ChangeEnabledFilter extends CoursesEvent {
 
   final FilterEnabledType newFilterEnabledType;
 }
-
 
 class ClearFilters extends CoursesEvent {}
 
@@ -84,13 +82,3 @@ class GetAllCoursesSortDuration extends CoursesEvent {}
 class GetCategories extends CoursesEvent {}
 
 class CourseBlocInit extends CoursesEvent {}
-
-/*
-class GetAllCourses extends CoursesEvent {
-  GetAllCourses({
-    required this.menuIndex,
-  });
-
-  final int menuIndex;
-}
-*/

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 main() {
   int repeat = 15;
   for (int n = 0; n < repeat; n++) {
@@ -14,7 +12,7 @@ main() {
   }
 }
 
-BigInt pow(int x, int exponent){
+BigInt pow(int x, int exponent) {
   // BigInt result = 1;
   var bigValue = BigInt.from(x).pow(exponent);
   return bigValue;

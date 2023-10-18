@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
@@ -59,12 +57,6 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
     context.read<ProgressBloc>().add(
           GetUserProgressEvent(),
         );
-/*    userProgress = context.read<ProgressBloc>().state.userProgress;
-    context.read<CoursesBloc>().add(
-          FilterUserCourses(
-            userProgress: userProgress,
-          ),
-        );*/
   }
 
   @override

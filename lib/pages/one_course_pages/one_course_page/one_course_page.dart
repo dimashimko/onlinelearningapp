@@ -1,5 +1,3 @@
-
-
 import 'package:appinio_video_player/appinio_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -64,7 +62,6 @@ class _OneCoursePageState extends State<OneCoursePage> {
   }
 
   void _goToBackPage(BuildContext context) {
-
     Navigator.of(context).pop();
   }
 
@@ -78,7 +75,6 @@ class _OneCoursePageState extends State<OneCoursePage> {
   }
 
   void onTapFavoriteButton() {
-
     context.read<ProgressBloc>().add(
           TapButtonFavorite(),
         );
@@ -87,7 +83,6 @@ class _OneCoursePageState extends State<OneCoursePage> {
   void onTapBuyButton({
     required double price,
   }) {
-
     _navigateToPage(
       context: context,
       route: PaymentPage.routeName,
@@ -128,7 +123,6 @@ class _OneCoursePageState extends State<OneCoursePage> {
                   return p.showStatisticTrigger != c.showStatisticTrigger;
                 },
                 listener: (context, state) {
-
                   context.read<NotificationBloc>().add(
                         AddNotificationCompletingFirstLessonEvent(),
                       );
@@ -295,7 +289,6 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
                 _videoController.value.isInitialized &&
                 _videoController.value.position ==
                     _videoController.value.duration) {
-
               context.read<ProgressBloc>().add(
                     VideoFinishEvent(),
                   );
@@ -432,11 +425,6 @@ class CoursePanel extends StatelessWidget {
                 AboutCourse(
                   description: currentCourse.about ?? '',
                 ),
-/*          Container(
-                  width: double.infinity,
-                  height: 150.0,
-                  color: Colors.black12,
-                ),*/
                 Expanded(
                   child: LessonList(
                     lessons: currentCourse.lessons ?? [],

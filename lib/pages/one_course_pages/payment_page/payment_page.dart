@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
@@ -172,27 +171,6 @@ class _PaymentPageState extends State<PaymentPage> {
     );
     if (context.mounted) {
       _goToCheckPaymentStatusPage(liqPayOrder: liqPayOrder);
-
-/*      if (liqPayResponse.result == 'ok') {
-
-        if (liqPayResponse.status == 'success') {
-
-
-          _goToCheckPaymentStatusPage();
-          context.read<ProgressBloc>().add(
-                CoursePurchasedEvent(),
-              );
-        }
-      } else {
-        liqPayResponse as LiqPayErrorResponse;
-        BotToast.showText(
-          text: '${liqPayResponse.status}: ${liqPayResponse.errorCode} '
-              '\n ${liqPayResponse.errorDescription}',
-          duration: const Duration(
-            seconds: 3,
-          ),
-        );
-      }*/
     }
   }
 

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -49,18 +48,9 @@ class _CheckPaymentStatusPageState extends State<CheckPaymentStatusPage> {
 
   void _goToCoursePage(BuildContext context) {
     Navigator.of(context).popUntil((route) {
-
-
       return route.settings.name == OneCoursePage.routeName;
     });
   }
-
-/*  void _navigateToPage(String route) {
-    Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(
-      route,
-          (_) => false,
-    );
-  }*/
 
   @override
   void initState() {
@@ -142,9 +132,7 @@ class _CheckPaymentStatusPageState extends State<CheckPaymentStatusPage> {
       if (liqPayResponseStatus == LiqPayResponseStatus.redirect) {
         tryOpenUrl(customPaymentStatus.description);
       }
-    } catch (e) {
-
-    }
+    } catch (e) {}
 
     setState(() {});
   }
@@ -164,9 +152,7 @@ class _CheckPaymentStatusPageState extends State<CheckPaymentStatusPage> {
       )) {
         throw 'Could not launch $url';
       }
-    } catch (e) {
-
-    }
+    } catch (e) {}
   }
 
   @override

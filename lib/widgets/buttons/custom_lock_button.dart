@@ -34,14 +34,9 @@ class CustomLockButton extends StatelessWidget {
                 Theme.of(context).colorScheme.onSecondary,
                 BlendMode.srcIn,
               ),
-
             ),
           ),
         ),
-/*        SplashBox(
-          borderRadius: BorderRadius.circular(buttonRadius / 2),
-          onTap: onTap,
-        ),*/
       ],
     );
   }

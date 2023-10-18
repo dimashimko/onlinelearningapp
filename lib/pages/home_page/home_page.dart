@@ -1,5 +1,3 @@
-
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -77,10 +75,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-/*      appBar: const CustomAppBarDefault(
-        title: 'HomePage',
-      ),*/
-
       body: SafeArea(
         child: BlocListener<CoursesBloc, CoursesState>(
           listenWhen: (previous, current) {
@@ -95,9 +89,7 @@ class _HomePageState extends State<HomePage> {
                     context,
                   );
                 }
-              } catch (e) {
-
-              }
+              } catch (e) {}
             }
           },
           child: SingleChildScrollView(
@@ -150,9 +142,7 @@ class MeetupBanner extends StatelessWidget {
       )) {
         throw 'Could not launch $url';
       }
-    } catch (e) {
-
-    }
+    } catch (e) {}
   }
 
   @override
@@ -372,7 +362,6 @@ class AdsWidget extends StatelessWidget {
           AdsListView(
             onTapAdsCourse: (uidCourse) {
               goToOneCoursePage(uidCourse);
-
             },
           ),
           const SizedBox(height: 16.0),

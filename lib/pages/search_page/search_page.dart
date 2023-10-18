@@ -49,9 +49,6 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-/*      appBar: SearchPageAppBar(onTap: () {
-        _goToBackPage(context);
-      }),*/
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -127,10 +127,6 @@ class MessageItem extends StatelessWidget {
               style: TextStyle(
                 color: colors(context).grey!,
               ),
-/*              style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                fontSize: 14.0,
-                color: colors(context).grey!
-              ),*/
             ),
             const SizedBox(height: 12.0),
             if (message.imageLink != null)

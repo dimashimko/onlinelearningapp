@@ -103,7 +103,6 @@ class _CustomPauseButtonWithProgressState
 }
 
 class ArchPainter extends CustomPainter {
-
   ArchPainter({
     required this.angle,
   });
@@ -120,11 +119,6 @@ class ArchPainter extends CustomPainter {
     double centerX = size.width / 2;
     double centerY = size.height / 2;
 
-/*    Path path = Path();
-    path.moveTo(centerX - radius, centerY);
-    path.quadraticBezierTo(
-        centerX, centerY - radius * 2, centerX + radius, centerY);*/
-
     canvas.drawArc(
       Rect.fromCircle(center: Offset(centerX, centerY), radius: size.width / 2),
       -pi / 2,
@@ -132,7 +126,6 @@ class ArchPainter extends CustomPainter {
       true,
       paint,
     );
-
   }
 
   @override

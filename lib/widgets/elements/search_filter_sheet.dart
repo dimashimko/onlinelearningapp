@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -28,7 +26,6 @@ class _SearchFilterSheetState extends State<SearchFilterSheet> {
     bool isRoot = false,
     Object? arguments,
   }) {
-
     Navigator.of(
       context,
       rootNavigator: isRoot,
@@ -39,9 +36,6 @@ class _SearchFilterSheetState extends State<SearchFilterSheet> {
   }
 
   void _goToSearchPage() async {
-/*    context.read<CoursesBloc>().add(
-          FilterBottomSheetDisable(),
-        );*/
     Navigator.of(context).pop();
     if (context.read<CoursesBloc>().state.isFilterNavToSearchPage) {
       _navigateToPage(

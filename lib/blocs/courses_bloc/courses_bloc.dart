@@ -224,15 +224,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       );
     });
 
-/*    on<GetAllCoursesSortDuration>((event, emit) async {
-      List<CourseModel> filteredCoursesList = await fireStoreService.getAllCoursesListSortDuration();
 
-      emit(
-        state.copyWith(
-          filteredCoursesList: filteredCoursesList,
-        ),
-      );
-    });*/
 
     on<GetCategories>((event, emit) async {
 

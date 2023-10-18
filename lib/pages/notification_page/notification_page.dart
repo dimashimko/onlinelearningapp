@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -18,20 +16,8 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPageState extends State<NotificationPage> {
-
   late List<Widget> tabs;
 
-/*  final List<Widget> tabs = [
-    const CustomTabBar(
-      name: ' message ',
-      hasNew: false,
-
-    ),
-    const CustomTabBar(
-      name: ' notification ',
-      hasNew: true,
-    ),
-  ];*/
   final List<Widget> tabsView = [
     const MessageTabView(),
     const NotificationTabView(),
@@ -40,9 +26,6 @@ class _NotificationPageState extends State<NotificationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-/*      appBar: MessagePageAppBar(onTap: () {
-        _goToBackPage(context);
-      }),*/
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -55,12 +38,10 @@ class _NotificationPageState extends State<NotificationPage> {
               Expanded(
                 child: BlocBuilder<NotificationBloc, NotificationState>(
                   builder: (context, state) {
-
                     tabs = [
                       const CustomTabBar(
                         name: ' message ',
                         hasNew: false,
-
                       ),
                       CustomTabBar(
                         name: ' notification ',
@@ -73,7 +54,6 @@ class _NotificationPageState extends State<NotificationPage> {
                         children: [
                           TabBar(
                             onTap: (int index) {
-
                               if (index == 1) {
                                 context.read<NotificationBloc>().add(
                                       SaveTimeLastSeenNotification(
@@ -81,7 +61,6 @@ class _NotificationPageState extends State<NotificationPage> {
                                             DateTime.now().toString(),
                                       ),
                                     );
-
                               }
                             },
                             dividerColor: Colors.transparent,
@@ -144,9 +123,7 @@ class CustomTabBar extends StatelessWidget {
             : const SizedBox(height: 6.0),
         Text(
           name,
-          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-
-              ),
+          style: Theme.of(context).textTheme.labelLarge?.copyWith(),
         ),
         const SizedBox(height: 8.0),
       ],
@@ -171,4 +148,3 @@ class TitleOfPage extends StatelessWidget {
     );
   }
 }
-

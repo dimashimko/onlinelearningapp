@@ -1,4 +1,3 @@
-
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 
@@ -14,11 +13,9 @@ class FirebaseStorageServices {
     String newFileName,
     String directory,
   ) async {
-
     final Reference baseRef = FirebaseStorage.instance.ref();
 
     final Reference newRef = baseRef.child(directory).child(newFileName);
-
 
     File file = File(localPathToNewFile);
     try {
@@ -26,11 +23,7 @@ class FirebaseStorageServices {
     } catch (e) {
       return null;
     }
-/*
-    String newURL = await newRef.getDownloadURL();
-    print('newURL: $newURL');*/
 
     return newRef;
   }
-
 }

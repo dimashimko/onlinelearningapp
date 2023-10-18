@@ -16,24 +16,14 @@ class NotificationModel extends Equatable {
     this.title,
   });
 
-/*  const NotificationModel.empty({
-    this.typeNotification = TypeNotification.simple,
-    this.uid = '',
-    this.time = '0',
-    this.text = '',
-    this.title = '',
-  });*/
-
   @override
   List<Object?> get props => [
-    typeNotification,
-    uid,
-    time,
-    text,
-    title,
-  ];
-
-
+        typeNotification,
+        uid,
+        time,
+        text,
+        title,
+      ];
 
   NotificationModel copyWith({
     TypeNotification? typeNotification,

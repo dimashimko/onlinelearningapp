@@ -114,14 +114,6 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
                               text: (element.$1 + 1).toString(),
                             );
                           }).toList(),
-
-                          /*                          children: userActivityModel.recordOfThisWeek!
-                              .map((isEnable) {
-                            return DayItem(
-                              isEnable: isEnable,
-                              text: '2',
-                            );
-                          }).toList(),*/
                         ),
                       ),
                     ],

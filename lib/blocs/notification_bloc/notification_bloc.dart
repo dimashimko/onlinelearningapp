@@ -1,5 +1,3 @@
-
-
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -41,8 +39,6 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
     on<CheckHasNoSeenNotification>(
       (event, emit) async {
-
-
         bool isHasNoSeenNotification = checkHasNoSeenNotification(
           state.notificationList,
           state.timeLastSeenNotification,
@@ -58,8 +54,6 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
     on<GetTimeLastSeenNotification>(
       (event, emit) async {
-
-
         String timeLastSeenNotification =
             await notificationService.getTimeLastSeenNotification() ?? '';
         emit(
@@ -72,8 +66,6 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
     on<SaveTimeLastSeenNotification>(
       (event, emit) async {
-
-
         notificationService.saveTimeLastSeenNotification(
           timeLastSeenNotification: event.timeLastSeenNotification,
         );
@@ -87,8 +79,6 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
     on<AddNotificationSuccessfulRegistrationEvent>(
       (event, emit) async {
-
-
         NotificationModel notificationModel = NotificationModel(
           typeNotification: TypeNotification.simple,
           uid: const Uuid().v4(),
@@ -107,8 +97,6 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
     on<AddNotificationCompletingFirstLessonEvent>(
       (event, emit) async {
-
-
         NotificationModel notificationModel = NotificationModel(
           typeNotification: TypeNotification.simple,
           uid: const Uuid().v4(),
@@ -127,8 +115,6 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
     on<AddNotificationSuccessfulPurchaseEvent>(
       (event, emit) async {
-
-
         NotificationModel notificationModel = NotificationModel(
           typeNotification: TypeNotification.payment,
           uid: const Uuid().v4(),
@@ -147,8 +133,6 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
     on<AddNotificationEvent>(
       (event, emit) async {
-
-
         bool isNotificationEnabled = await loadNotificationEnabled();
         if (isNotificationEnabled) {
           DateTime now = DateTime.now();
@@ -183,7 +167,6 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
     on<GetAllNotificationsEvent>(
       (event, emit) async {
-
         String? uid = FirebaseAuth.instance.currentUser?.uid;
         List<NotificationModel> notificationList =
             await notificationService.getNotifications(uid ?? '');
@@ -193,27 +176,6 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
             notificationList: notificationList,
           ),
         );
-
-/*        // check
-
-        String lastUid = await notificationService.getLastUid();
-        String? uid = FirebaseAuth.instance.currentUser?.uid;
-        if (uid != null && uid == lastUid) {
-          List<NotificationModel> notificationList =
-              await notificationService.getNotifications();
-
-
-          emit(
-            state.copyWith(
-              notificationList: notificationList,
-            ),
-          );
-        } else {
-
-          notificationService.saveNotifications(
-            listOfNotificationModel: [],
-          );
-        }*/
       },
     );
 

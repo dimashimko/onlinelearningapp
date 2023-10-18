@@ -31,29 +31,6 @@ class ThemeProvider with ChangeNotifier {
   }
 }
 
-/*
-class ThemeProvider with ChangeNotifier {
-  ThemeData _currentTheme = AppThemes.light();
-
-
-  ThemeData get currentTheme => _currentTheme;
-
-  void toggleTheme() {
-    _currentTheme = _currentTheme == AppThemes.light()
-        ? AppThemes.dark()
-        : AppThemes.light();
-
-    notifyListeners();
-  }
-
-  void toggleTheme2(bool isDark) {
-    _currentTheme = isDark ? AppThemes.dark() : AppThemes.light();
-
-    notifyListeners();
-  }
-}
-*/
-
 AppColors colors(context) => Theme.of(context).extension<AppColors>()!;
 
 @immutable

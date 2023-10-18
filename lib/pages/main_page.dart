@@ -1,6 +1,5 @@
 import 'dart:async';
 
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -164,14 +163,13 @@ class _MainPageState extends State<MainPage> {
         _hideNoNetworkModalBottomSheet(context);
       } else {
         context.read<ProgressBloc>().add(
-          const ChangePlaybackStatusEvent(
-            newPlaybackStatus: PlaybackStatus.pause
-          ),
-        );
+              const ChangePlaybackStatusEvent(
+                  newPlaybackStatus: PlaybackStatus.pause),
+            );
         _showNoNetworkModalBottomSheet(
           context,
           NoNetworkPage(
-            onTapTryAgain: (){
+            onTapTryAgain: () {
               customConnectivityService.checkNow();
             },
           ),
@@ -188,7 +186,6 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return BlocConsumer<NavigationBloc, NavigationState>(
       listener: (_, state) {
         if (state.status == NavigationStateStatus.tab) {

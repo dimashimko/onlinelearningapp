@@ -73,13 +73,5 @@ class CourseProgressModel extends Equatable {
       }),
     };
     return json;
-
-/*    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['bought'] = this.bought;
-    data['favorites'] = this.favorites;
-    data['completed'] = this.completed;
-
-    data['lessons'] = json.encode(this.lessonsProgress);
-    return data;*/
   }
 }

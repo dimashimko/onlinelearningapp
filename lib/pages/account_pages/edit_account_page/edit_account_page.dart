@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -120,20 +118,13 @@ class UserAvatar extends StatelessWidget {
       height: 96.0,
       child: InkWell(
         onTap: () async {
-
           final ImagePicker picker = ImagePicker();
           final XFile? image = await picker.pickImage(
             source: ImageSource.gallery,
           );
           if (image != null) {
             onChangeImage(image.path);
-/*            setState(() {
-              widget.linkToImage = image.path;
-              print(image.path);
-            });*/
-          } else {
-
-          }
+          } else {}
         },
         child: Stack(
           alignment: AlignmentDirectional.center,
@@ -143,13 +134,6 @@ class UserAvatar extends StatelessWidget {
               alternativePhoto: AppImages.empty_avatar,
               boxFitNetworkImage: BoxFit.fitHeight,
             ),
-/*            Container(
-
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16.0),
-                color: Colors.black26,
-              ),
-            ),*/
             SvgPicture.asset(
               AppIcons.cameraContour,
             ),
@@ -180,7 +164,6 @@ class UserNameTextField extends StatelessWidget {
         hintText: 'Name',
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.0),
-
         ),
       ),
     );

@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
@@ -58,21 +56,11 @@ class _FavoritePageState extends State<FavoritePage> {
     context.read<ProgressBloc>().add(
           GetUserProgressEvent(),
         );
-/*    userProgress = context.read<ProgressBloc>().state.userProgress;
-    context.read<CoursesBloc>().add(
-          FilterUserCourses(
-            userProgress: userProgress,
-          ),
-        );*/
   }
 
   @override
   Widget build(BuildContext context) {
-
     colorsList = [
-
-
-
       colors(context).red ?? Colors.red,
       colors(context).blue ?? Colors.red,
       colors(context).green ?? Colors.red,
@@ -95,8 +83,6 @@ class _FavoritePageState extends State<FavoritePage> {
             children: [
               BlocBuilder<CoursesBloc, CoursesState>(
                 buildWhen: (p, c) {
-
-
                   return p.favoriteList != c.favoriteList;
                 },
                 builder: (context, stateCoursesBloc) {
@@ -138,7 +124,6 @@ class _FavoritePageState extends State<FavoritePage> {
                             backgroundColor: backgroundColorsList[index % 3],
                             color: colorsList[index % 3],
                             lessonCompleted: lessonCompleted,
-
                           ),
                         );
                       },
@@ -219,7 +204,6 @@ class CourseItem extends StatelessWidget {
                 ),
               ],
             ),
-
             const Spacer(),
             Text(
               'Completed',
@@ -277,12 +261,9 @@ class CustomLinearGradientLine extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.centerLeft,
-
               end: Alignment(((minRounded * 2) / 60) - 1, 0.0),
-
               colors: <Color>[
                 Theme.of(context).colorScheme.onSecondary,
-
                 Theme.of(context).colorScheme.tertiaryContainer,
               ],
               tileMode: TileMode.decal,

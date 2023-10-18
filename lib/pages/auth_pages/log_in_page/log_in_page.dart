@@ -8,7 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_up_page/sign_up_page.dart';
 import 'package:online_learning_app/pages/auth_pages/verify_phone_page/verify_phone_page.dart';
-import 'package:online_learning_app/pages/auth_pages/widgets/authFormFields.dart';
+import 'package:online_learning_app/pages/auth_pages/widgets/auth_form_fields.dart';
 import 'package:online_learning_app/pages/main_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/utils/show_custom_snack_bar.dart';
@@ -140,17 +140,6 @@ class _LogInPageState extends State<LogInPage> {
   }
 
   Future<void> onTapForgetPassword() async {
-/*    bool isValid = false;
-
-    setState(() {
-
-      if (_contentFormFieldKey.currentState != null) {
-        isValid = _contentFormFieldKey.currentState!.validate();
-
-
-      }
-    });*/
-
     if (EmailValidator.validate(_contactController.text)) {
       showDialog(
         context: context,

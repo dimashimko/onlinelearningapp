@@ -57,9 +57,6 @@ class _AddCardPageState extends State<AddCardPage> {
     final now = DateTime.now();
     _cardExpiryDate =
         '${now.month.toString().padLeft(2, '0')}/${(now.year + 1).toString().substring(2)}';
-/*    _cardNumber = "";
-    _cardCvvCode = '';
-    _cardExpiryDate = '';*/
   }
 
   String? cardValidation(String? number) {
@@ -85,30 +82,17 @@ class _AddCardPageState extends State<AddCardPage> {
               cardNumber: _cardNumber,
               expiryDate: _cardExpiryDate,
               cardHolderName: _cardHolderName,
-
               cvvCode: _cardCvvCode,
               bankName: ' ',
               showBackView: _isCvvFocused,
-
               obscureCardNumber: true,
               obscureCardCvv: true,
               isHolderNameVisible: true,
-
               cardBgColor: Theme.of(context).colorScheme.primary,
               backgroundImage: null,
-
               isSwipeGestureEnabled: false,
               onCreditCardWidgetChange: (CreditCardBrand creditCardBrand) {},
-              customCardTypeIcons: const <CustomCardTypeIcon>[
-/*                CustomCardTypeIcon(
-                  cardType: CardType.mastercard,
-                  cardImage: Image.asset(
-                    'assets/mastercard.png',
-                    height: 48,
-                    width: 48,
-                  ),
-                ),*/
-              ],
+              customCardTypeIcons: const <CustomCardTypeIcon>[],
             ),
             Expanded(
               child: SingleChildScrollView(
@@ -127,7 +111,6 @@ class _AddCardPageState extends State<AddCardPage> {
                       expiryDate: _cardExpiryDate,
                       themeColor: Colors.green,
                       textColor: Colors.black,
-
                       cardNumberDecoration: InputDecoration(
                         labelText: 'Number',
                         hintText: 'XXXX XXXX XXXX XXXX',
@@ -161,7 +144,6 @@ class _AddCardPageState extends State<AddCardPage> {
                         focusedBorder: border,
                         enabledBorder: border,
                         labelText: 'Card Holder',
-
                       ),
                       onCreditCardModelChange: onCreditCardModelChange,
                     ),
@@ -173,8 +155,6 @@ class _AddCardPageState extends State<AddCardPage> {
                         controller: textEditingController,
                         decoration: InputDecoration(
                           hintText: 'Payment password (optional)',
-
-
                           focusedBorder: border,
                           enabledBorder: border,
                         ),
@@ -191,17 +171,6 @@ class _AddCardPageState extends State<AddCardPage> {
                 title: "SAVE",
                 onTap: () => onTapSaveNewCard(),
               ),
-/*              child: ElevatedButton(
-                onPressed: () async {
-                    final cardDate = _cardExpiryDate.split('/');
-                    final card = LiqPayCard(_cardNumber.trim(), cardDate[0],
-                        cardDate[1], _cardCvvCode);
-                    final order = LiqPayOrder(const Uuid().v4(), 1, 'Test',
-                        card: card, action: LiqPayAction.auth);
-                    await liqPay.purchase(order);
-                },
-                child: const Text("SAVE"),
-              ),*/
             )
           ],
         ),

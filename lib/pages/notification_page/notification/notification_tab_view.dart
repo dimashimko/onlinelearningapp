@@ -17,13 +17,6 @@ class NotificationTabView extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Column(
           children: [
-/*            CustomButton(
-                title: 'GetAllMessagesEvent',
-                onTap: () {
-                  context.read<NotificationBloc>().add(
-                        GetAllMessagesEvent(),
-                      );
-                }),*/
             BlocBuilder<NotificationBloc, NotificationState>(
               builder: (context, state) {
                 return state.notificationList.isEmpty
@@ -43,22 +36,6 @@ class NotificationTabView extends StatelessWidget {
     );
   }
 }
-
-/*
-class NotificationItem extends StatelessWidget {
-  const NotificationItem({
-    required this.notification,
-    super.key,
-  });
-
-  final NotificationModel notification;
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
-*/
 
 class NotificationItem extends StatelessWidget {
   const NotificationItem({
@@ -122,14 +99,6 @@ class NotificationItem extends StatelessWidget {
                 ],
               ),
             ),
-/*            SizedBox(width: 8.0),
-            Text(
-              formatDateTime(
-                DateTime.tryParse(notification.time.toString()) ??
-                    DateTime.now(),
-              ),
-              style: Theme.of(context).textTheme.titleLarge,
-            ),*/
           ],
         ),
       ),

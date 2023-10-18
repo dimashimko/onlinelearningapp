@@ -16,7 +16,6 @@ class AuthFormFields extends StatefulWidget {
   final GlobalKey<FormFieldState> contentFormFieldKey;
   final VoidCallback? onTapForgetPassword;
 
-
   @override
   State<AuthFormFields> createState() => _AuthFormFieldsState();
 }
@@ -53,12 +52,10 @@ class _AuthFormFieldsState extends State<AuthFormFields> {
           style: Theme.of(context).textTheme.titleMedium,
         ),
         CustomTextFormField(
-
           controller: widget.contactController,
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.next,
           hintText: '',
-
           validator: _isEmail
               ? (String? value) {
                   if (value == null) return null;
@@ -76,15 +73,7 @@ class _AuthFormFieldsState extends State<AuthFormFields> {
                       ? null
                       : 'Phone number must be in the format +xx xxx xxx xx xx';
                 },
-/*            :  (String? value) {
-                  if (value == null) return null;
-                  if (value.isEmpty) {
-                    return 'Enter your phone or email';
-                  }
-                  return null;
-                },*/
         ),
-
         if (_isEmail)
           Text(
             'Password',

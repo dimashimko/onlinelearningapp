@@ -46,14 +46,6 @@ class CustomBottomNavigationBar extends StatelessWidget {
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewPadding.bottom / 2,
       ),
-/*      decoration: BoxDecoration(
-        border: Border(
-          top: BorderSide(
-            width: 1.0,
-            color: AppColors.secondary.withOpacity(0.1),
-          ),
-        ),
-      ),*/
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: _items.map((e) {

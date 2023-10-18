@@ -51,7 +51,6 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
         String name = event.newName ?? '';
         String avatarLink = event.newAvatarLocalLink ?? '';
 
-
         if (state.accountModel.avatarLink != event.newAvatarLocalLink) {
           String? newURL = await submitToStorage(
             event.newAvatarLocalLink,
@@ -95,15 +94,5 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
         add(GetAccountModel());
       },
     );
-
-/*    on<SomeEvent>(
-      (event, emit) async {
-        emit(
-          state.copyWith(
-            counter: event.counter,
-          ),
-        );
-      },
-    );*/
   }
 }
