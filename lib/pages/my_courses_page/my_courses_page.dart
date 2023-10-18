@@ -4,6 +4,7 @@ import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
 import 'package:online_learning_app/blocs/progress_bloc/progress_bloc.dart';
 import 'package:online_learning_app/models/course/course_model.dart';
 import 'package:online_learning_app/models/progress/progress_model.dart';
+import 'package:online_learning_app/pages/my_courses_page/widget/no_produst_widget.dart';
 import 'package:online_learning_app/pages/one_course_pages/one_course_page/one_course_page.dart';
 import 'package:online_learning_app/resources/app_themes.dart';
 import 'package:online_learning_app/utils/count_completed_lesson.dart';
@@ -97,41 +98,45 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
                           userProgress: userProgress,
                         ),
                       );
-                  return Expanded(
-                    child: GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 200,
-                        childAspectRatio: 5 / 6,
-                        crossAxisSpacing: 16,
-                        mainAxisSpacing: 16,
-                      ),
-                      itemCount: stateCoursesBloc.userCoursesList.length,
-                      itemBuilder: (context, index) {
-                        int lessonCompleted = countCompletedLesson(
-                          userProgress: userProgress?[
-                              stateCoursesBloc.userCoursesList[index].uid],
-                        );
-                        return InkWell(
-                          onTap: () {
-                            if (stateCoursesBloc.userCoursesList[index].uid !=
-                                null) {
-                              _goToOneCoursePage(
-                                  uidCourse: stateCoursesBloc
-                                      .userCoursesList[index].uid!);
-                            }
-                          },
-                          child: CourseItem(
-                            courseModel:
-                                stateCoursesBloc.userCoursesList[index],
-                            backgroundColor: backgroundColorsList[index % 3],
-                            color: colorsList[index % 3],
-                            lessonCompleted: lessonCompleted,
+                  return stateCoursesBloc.userCoursesList.isEmpty
+                      ? const NoProductWidget()
+                      : Expanded(
+                          child: GridView.builder(
+                            gridDelegate:
+                                const SliverGridDelegateWithMaxCrossAxisExtent(
+                              maxCrossAxisExtent: 200,
+                              childAspectRatio: 5 / 6,
+                              crossAxisSpacing: 16,
+                              mainAxisSpacing: 16,
+                            ),
+                            itemCount: stateCoursesBloc.userCoursesList.length,
+                            itemBuilder: (context, index) {
+                              int lessonCompleted = countCompletedLesson(
+                                userProgress: userProgress?[stateCoursesBloc
+                                    .userCoursesList[index].uid],
+                              );
+                              return InkWell(
+                                onTap: () {
+                                  if (stateCoursesBloc
+                                          .userCoursesList[index].uid !=
+                                      null) {
+                                    _goToOneCoursePage(
+                                        uidCourse: stateCoursesBloc
+                                            .userCoursesList[index].uid!);
+                                  }
+                                },
+                                child: CourseItem(
+                                  courseModel:
+                                      stateCoursesBloc.userCoursesList[index],
+                                  backgroundColor:
+                                      backgroundColorsList[index % 3],
+                                  color: colorsList[index % 3],
+                                  lessonCompleted: lessonCompleted,
+                                ),
+                              );
+                            },
                           ),
                         );
-                      },
-                    ),
-                  );
                 },
               ),
             ],

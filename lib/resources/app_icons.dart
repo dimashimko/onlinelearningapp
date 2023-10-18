@@ -63,6 +63,7 @@ class AppIcons {
   static const String meetupIcon = '$_path/meetup_icon.svg';
   static const String normalScreen = '$_path/normalScreen.svg';
   static const String fullScreen = '$_path/fullScreen.svg';
+  static const String noProductIcon = '$_path/no_product_icon.svg';
 
 
 
