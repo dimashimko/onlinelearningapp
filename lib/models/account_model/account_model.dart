@@ -11,18 +11,6 @@ class AccountModel extends Equatable {
     this.uid,
   });
 
-  @override
-  List<Object?> get props => [
-    name,
-    avatarLink,
-    uid,
-  ];
-
-  @override
-  String toString() {
-    return ' name: $name, avatarLink: $avatarLink, uid: $uid,';
-  }
-
   const AccountModel.empty({
     this.name,
     this.avatarLink,
@@ -56,4 +44,12 @@ class AccountModel extends Equatable {
     data['uid'] = uid;
     return data;
   }
+
+  @override
+  List<Object?> get props => [
+    name,
+    avatarLink,
+    uid,
+  ];
+
 }

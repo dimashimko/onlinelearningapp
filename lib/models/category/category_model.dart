@@ -11,18 +11,6 @@ class CategoryModel extends Equatable {
     this.uid,
   });
 
-  @override
-  List<Object?> get props => [
-        name,
-        categoryTitle,
-        uid,
-      ];
-
-  @override
-  String toString() {
-    return ' name: $name, categoryTitle: $categoryTitle, uid: $uid,';
-  }
-
   const CategoryModel.empty({
     this.name,
     this.categoryTitle,
@@ -47,9 +35,6 @@ class CategoryModel extends Equatable {
       categoryTitle: json['categoryTitle'],
       uid: json['uid'],
     );
-
-
-
   }
 
   Map<String, dynamic> toJson() {
@@ -59,4 +44,11 @@ class CategoryModel extends Equatable {
     data['uid'] = uid;
     return data;
   }
+
+  @override
+  List<Object?> get props => [
+        name,
+        categoryTitle,
+        uid,
+      ];
 }

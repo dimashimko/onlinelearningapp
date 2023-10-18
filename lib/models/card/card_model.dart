@@ -13,8 +13,6 @@ class CardModel {
     required this.cardPaymentPassword,
   });
 
-
-
   @override
   String toString() {
     return 'CardModel{cardNumber: $cardNumber, cardExpiryDate: $cardExpiryDate, cardHolderName: $cardHolderName, cardCvvCode: $cardCvvCode, cardPaymentPassword: $cardPaymentPassword}';
@@ -39,8 +37,4 @@ class CardModel {
       cardPaymentPassword: json['cardPaymentPassword'],
     );
   }
-
-
-
-
 }

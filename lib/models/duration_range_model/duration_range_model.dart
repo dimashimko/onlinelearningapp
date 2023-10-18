@@ -1,27 +1,15 @@
 import 'package:equatable/equatable.dart';
 
 class DurationRangeModel extends Equatable {
+  final int min;
+  final int max;
+  final bool isEnable;
+
   const DurationRangeModel({
     required this.min,
     required this.max,
     required this.isEnable,
   });
-
-  final int min;
-  final int max;
-  final bool isEnable;
-
-  @override
-  List<Object?> get props => [
-        min,
-        max,
-        isEnable,
-      ];
-
-  @override
-  String toString() {
-    return 'min: $min, max: $max, isEnable: $isEnable';
-  }
 
   DurationRangeModel copyWith({
     int? min,
@@ -34,4 +22,11 @@ class DurationRangeModel extends Equatable {
       isEnable: isEnable ?? this.isEnable,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        min,
+        max,
+        isEnable,
+      ];
 }

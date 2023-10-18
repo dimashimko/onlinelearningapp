@@ -20,19 +20,6 @@ class CourseProgressModel extends Equatable {
     this.lessonsProgress = const {},
   });
 
-  @override
-  List<Object?> get props => [
-        bought,
-        favorites,
-        completed,
-        lessonsProgress,
-      ];
-
-  @override
-  String toString() {
-    return 'bought: $bought, favorites: $favorites, completed: $completed, lessons: $lessonsProgress';
-  }
-
   CourseProgressModel copyWith({
     bool? bought,
     bool? favorites,
@@ -74,4 +61,12 @@ class CourseProgressModel extends Equatable {
     };
     return json;
   }
+
+  @override
+  List<Object?> get props => [
+        bought,
+        favorites,
+        completed,
+        lessonsProgress,
+      ];
 }

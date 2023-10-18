@@ -28,22 +28,6 @@ class CourseModel extends Equatable  {
     this.lessons,
   });
 
-  @override
-  List<Object?> get props => [
-    uid,
-    name,
-    author,
-    category,
-    price,
-    duration,
-    about,
-    openLesson,
-    title,
-    lessons,
-  ];
-
-
-
   const CourseModel.empty({
     this.uid,
     this.name,
@@ -56,6 +40,8 @@ class CourseModel extends Equatable  {
     this.title,
     this.lessons,
   });
+
+
 
   CourseModel copyWith({
     String? uid,
@@ -124,4 +110,18 @@ class CourseModel extends Equatable  {
     data['lessons'] = lessons;
     return data;
   }
+
+  @override
+  List<Object?> get props => [
+    uid,
+    name,
+    author,
+    category,
+    price,
+    duration,
+    about,
+    openLesson,
+    title,
+    lessons,
+  ];
 }

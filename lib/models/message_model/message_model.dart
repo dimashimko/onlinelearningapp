@@ -23,21 +23,6 @@ class MessageModel extends Equatable {
     this.imageLink = '',
   });
 
-  @override
-  List<Object?> get props => [
-        iconLink,
-        name,
-        time,
-        text,
-        imageLink,
-      ];
-
-
-  @override
-  String toString() {
-    return 'MessageModel{iconLink: $iconLink, name: $name, time: $time, text: $text, imageLink: $imageLink}';
-  }
-
   MessageModel copyWith({
     String? iconLink,
     String? name,
@@ -74,4 +59,13 @@ class MessageModel extends Equatable {
     };
     return outputJson;
   }
+
+  @override
+  List<Object?> get props => [
+        iconLink,
+        name,
+        time,
+        text,
+        imageLink,
+      ];
 }

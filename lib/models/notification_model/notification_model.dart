@@ -16,15 +16,6 @@ class NotificationModel extends Equatable {
     this.title,
   });
 
-  @override
-  List<Object?> get props => [
-        typeNotification,
-        uid,
-        time,
-        text,
-        title,
-      ];
-
   NotificationModel copyWith({
     TypeNotification? typeNotification,
     String? uid,
@@ -68,4 +59,13 @@ class NotificationModel extends Equatable {
     };
     return outputJson;
   }
+
+  @override
+  List<Object?> get props => [
+        typeNotification,
+        uid,
+        time,
+        text,
+        title,
+      ];
 }

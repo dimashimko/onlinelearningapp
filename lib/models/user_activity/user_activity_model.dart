@@ -37,22 +37,6 @@ class UserActivityModel extends Equatable {
     ],
   });
 
-  @override
-  List<Object?> get props => [
-        dayOfYear,
-        timePerDay,
-        totallyHours,
-        totallyDays,
-        weekOfYear,
-        lastDayShowStatistic,
-        recordOfThisWeek
-      ];
-
-  @override
-  String toString() {
-    return 'dayOfYear: $dayOfYear, timePerDay: $timePerDay, totallyHours: $totallyHours, totallyDays: $totallyDays, weekOfYear: $weekOfYear, lastDayShowStatistic: $lastDayShowStatistic, lessons: $recordOfThisWeek';
-  }
-
   UserActivityModel copyWith({
     String? dayOfYear,
     double? timePerDay,
@@ -101,4 +85,15 @@ class UserActivityModel extends Equatable {
     };
     return outputJson;
   }
+
+  @override
+  List<Object?> get props => [
+        dayOfYear,
+        timePerDay,
+        totallyHours,
+        totallyDays,
+        weekOfYear,
+        lastDayShowStatistic,
+        recordOfThisWeek
+      ];
 }
