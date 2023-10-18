@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:online_learning_app/pages/account_pages/account_page/account_page.dart';
 import 'package:online_learning_app/pages/account_pages/edit_account_page/edit_account_page.dart';
 import 'package:online_learning_app/pages/account_pages/favorite_page/favorite_page.dart';
@@ -11,7 +12,6 @@ import 'package:online_learning_app/pages/auth_pages/verify_phone_page/verify_ph
 import 'package:online_learning_app/pages/course_page/course_page.dart';
 import 'package:online_learning_app/pages/home_page/home_page.dart';
 import 'package:online_learning_app/pages/main_page.dart';
-import 'package:flutter/material.dart';
 import 'package:online_learning_app/pages/my_courses_page/my_courses_page.dart';
 import 'package:online_learning_app/pages/notification_page/notification_page.dart';
 import 'package:online_learning_app/pages/one_course_pages/add_card_page/add_card_page.dart';
@@ -29,7 +29,6 @@ class AppRouter {
     WidgetBuilder builder;
 
     switch (settings.name) {
-
       case SignInPage.routeName:
         final SignInPageArguments args = arguments as SignInPageArguments;
         builder = (_) => SignInPage(
@@ -53,7 +52,6 @@ class AppRouter {
               verificationId: args.verificationId,
             );
         break;
-
 
       case MainPage.routeName:
         builder = (_) => const MainPage();

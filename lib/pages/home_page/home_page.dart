@@ -113,6 +113,7 @@ class _HomePageState extends State<HomePage> {
                   goToMyCoursesPage: () => _goToMyCoursesPage(),
                 ),
                 const SizedBox(height: 16.0),
+                // const Buttons(),
                 AdsWidget(
                   goToOneCoursePage: (uidCourse) {
                     _goToOneCoursePage(

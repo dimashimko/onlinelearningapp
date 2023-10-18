@@ -12,11 +12,11 @@ class MyFirestoreNotificationService {
   Future<List<MessageModel>> fetchPage(
     int pageNumber,
   ) async {
-    await Future.delayed(
+/*    await Future.delayed(
       const Duration(
         seconds: 2,
       ),
-    );
+    );*/
     log('*** fetchPage');
     Query<Map<String, dynamic>> query = FirebaseFirestore.instance
         .collection('messages')

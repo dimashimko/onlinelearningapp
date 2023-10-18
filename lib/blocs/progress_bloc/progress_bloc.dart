@@ -83,6 +83,7 @@ class ProgressBloc extends Bloc<ProgressEvent, ProgressState> {
     on<VideoFinishEvent>(
       (event, emit) async {
         log('*** @VideoFinishEvent ');
+
         bool isNeedShowStatistic =
             await fireStoreProgressService.checkNeedShowStatistic();
         log('*** isNeedShowStatistic: $isNeedShowStatistic');
