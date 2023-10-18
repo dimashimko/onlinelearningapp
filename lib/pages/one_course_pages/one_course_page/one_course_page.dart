@@ -222,12 +222,12 @@ class CourseVideoPlayer extends StatefulWidget {
 }
 
 class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
-  late VideoPlayerController dataSourceController =
+  late VideoPlayerController _videoController =
       VideoPlayerController.networkUrl(Uri.parse(''));
   late CustomVideoPlayerController _customVideoPlayerController =
       CustomVideoPlayerController(
     context: context,
-    videoPlayerController: dataSourceController,
+    videoPlayerController: _videoController,
   );
   bool isPlaying = false;
   int currentProgress = 0;
@@ -236,7 +236,7 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
   void dispose() {
     super.dispose();
     log('*** OneCoursePage dispose');
-    dataSourceController.dispose();
+    _videoController.dispose();
   }
 
   CustomVideoPlayerController getCustomVideoPlayerController({
@@ -274,30 +274,37 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
       },
       listener: (context, state) {
         if (state.currentLessonIndex != null) {
-          dataSourceController.pause();
+          _videoController.pause();
           String? url =
               widget.currentCourse.lessons?[state.currentLessonIndex!].link;
           final uri = Uri.parse(url ?? '');
-          dataSourceController = VideoPlayerController.networkUrl(uri)
-            ..initialize().then((value) => setState(() {
+          _videoController = VideoPlayerController.networkUrl(uri)
+            ..initialize().then(
+              (value) => setState(
+                () {
                   _customVideoPlayerController = getCustomVideoPlayerController(
-                    dataSourceController: dataSourceController,
+                    dataSourceController: _videoController,
                   );
-                  dataSourceController.play();
-                }));
+                  _videoController.play();
+                },
+              ),
+            );
 
-          dataSourceController.addListener(() {
-            if (dataSourceController.value.position ==
-                dataSourceController.value.duration) {
+          _videoController.addListener(() {
+            if (!_videoController.value.isPlaying &&
+                _videoController.value.isInitialized &&
+                _videoController.value.position ==
+                    _videoController.value.duration) {
               log('*** Video finished playing');
-              context.read<ProgressBloc>().add(VideoFinishEvent());
+              context.read<ProgressBloc>().add(
+                    VideoFinishEvent(),
+                  );
             }
-            if (currentProgress !=
-                dataSourceController.value.position.inSeconds) {
-              currentProgress = dataSourceController.value.position.inSeconds;
+            if (currentProgress != _videoController.value.position.inSeconds) {
+              currentProgress = _videoController.value.position.inSeconds;
 
-              Duration currentPosition = dataSourceController.value.position;
-              Duration totalDuration = dataSourceController.value.duration;
+              Duration currentPosition = _videoController.value.position;
+              Duration totalDuration = _videoController.value.duration;
               double? newViewProgressInPercent =
                   (currentPosition.inMilliseconds /
                           totalDuration.inMilliseconds) *
@@ -307,14 +314,14 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
                     ChangeProgressEvent(
                       newViewProgressInPercent: newViewProgressInPercent,
                       newProgressValue:
-                          dataSourceController.value.position.inMicroseconds /
+                          _videoController.value.position.inMicroseconds /
                               1000000,
                     ),
                   );
             }
 
-            if (dataSourceController.value.isPlaying != isPlaying) {
-              isPlaying = dataSourceController.value.isPlaying;
+            if (_videoController.value.isPlaying != isPlaying) {
+              isPlaying = _videoController.value.isPlaying;
               context.read<ProgressBloc>().add(
                     ChangePlaybackStatusEvent(
                       newPlaybackStatus: isPlaying
@@ -332,7 +339,7 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
         },
         listener: (context, state) {
           if (state.playbackStatus == PlaybackStatus.pause) {
-            if (dataSourceController.value.isPlaying) {
+            if (_videoController.value.isPlaying) {
               _customVideoPlayerController.videoPlayerController.pause();
             }
           } else {
@@ -345,10 +352,10 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
                 link: widget.currentCourse.title,
                 alternativePhoto: AppImages.empty_course,
               )
-            : dataSourceController.value.isInitialized
+            : _videoController.value.isInitialized
                 ? Center(
                     child: AspectRatio(
-                      aspectRatio: dataSourceController.value.aspectRatio,
+                      aspectRatio: _videoController.value.aspectRatio,
                       child: CustomVideoPlayer(
                         customVideoPlayerController:
                             _customVideoPlayerController,
