@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:developer';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -13,8 +15,10 @@ import 'package:online_learning_app/pages/account_pages/account_page/account_pag
 import 'package:online_learning_app/pages/course_page/course_page.dart';
 import 'package:online_learning_app/pages/home_page/home_page.dart';
 import 'package:online_learning_app/pages/notification_page/notification_page.dart';
+import 'package:online_learning_app/pages/uncategorized_pages/no_network_page/no_network_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/routes/app_router.dart';
+import 'package:online_learning_app/services/connectivity_service.dart';
 import 'package:online_learning_app/widgets/elements/search_filter_sheet.dart';
 import 'package:online_learning_app/widgets/navigation/custom_bottom_navigation_bar.dart';
 
@@ -30,7 +34,11 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   static final GlobalKey<NavigatorState> _navigatorKey =
       GlobalKey<NavigatorState>();
-  bool modalBottomSheetEnabled = false;
+  bool searchModalBottomSheetEnabled = false;
+  bool noNetworkModalBottomSheetEnabled = false;
+  StreamSubscription<ConnectivityResult>? connectivityStreamSubscription;
+  bool isNetworkAvailable = true;
+  late CustomConnectivityService customConnectivityService;
 
   static const List<String> _pages = [
     HomePage.routeName,
@@ -69,8 +77,8 @@ class _MainPageState extends State<MainPage> {
         );
   }
 
-  void _showModalBottomSheet(BuildContext context, Widget content) {
-    modalBottomSheetEnabled = true;
+  void _showSearchModalBottomSheet(BuildContext context, Widget content) {
+    searchModalBottomSheetEnabled = true;
     showModalBottomSheet<void>(
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
@@ -80,12 +88,37 @@ class _MainPageState extends State<MainPage> {
       },
     ).whenComplete(() {
       context.read<CoursesBloc>().add(FilterBottomSheetDisable());
-      modalBottomSheetEnabled = false;
+      searchModalBottomSheetEnabled = false;
     });
   }
 
-  void _hideModalBottomSheet(BuildContext context) {
-    if (modalBottomSheetEnabled) {
+  void _hideSearchModalBottomSheet(BuildContext context) {
+    if (searchModalBottomSheetEnabled) {
+      Navigator.of(context).pop();
+    }
+  }
+
+  void _showNoNetworkModalBottomSheet(BuildContext context, Widget content) {
+    noNetworkModalBottomSheetEnabled = true;
+    showModalBottomSheet<void>(
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      context: context,
+      builder: (BuildContext context) {
+        return WillPopScope(
+          onWillPop: () async {
+            return false; // Returning false prevents back button from closing the sheet
+          },
+          child: content,
+        );
+      },
+      enableDrag: false,
+      isDismissible: false,
+    );
+  }
+
+  void _hideNoNetworkModalBottomSheet(BuildContext context) {
+    if (noNetworkModalBottomSheetEnabled) {
       Navigator.of(context).pop();
     }
   }
@@ -115,6 +148,45 @@ class _MainPageState extends State<MainPage> {
   }
 
   @override
+  initState() {
+    super.initState();
+
+    customConnectivityService = CustomConnectivityService(
+      onChangeConnectionState: updateConnectivityStatus,
+    );
+    customConnectivityService.init();
+  }
+
+  void updateConnectivityStatus(bool newConnectivityState) {
+    setState(() {
+      isNetworkAvailable = newConnectivityState;
+      if (isNetworkAvailable) {
+        _hideNoNetworkModalBottomSheet(context);
+      } else {
+        context.read<ProgressBloc>().add(
+          const ChangePlaybackStatusEvent(
+            newPlaybackStatus: PlaybackStatus.pause
+          ),
+        );
+        _showNoNetworkModalBottomSheet(
+          context,
+          NoNetworkPage(
+            onTapTryAgain: (){
+              customConnectivityService.checkNow();
+            },
+          ),
+        );
+      }
+    });
+  }
+
+  @override
+  dispose() {
+    super.dispose();
+    customConnectivityService.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     log('*** build MainPage');
     return BlocConsumer<NavigationBloc, NavigationState>(
@@ -134,13 +206,13 @@ class _MainPageState extends State<MainPage> {
               },
               listener: (context, state) {
                 if (state.filterStatus == FilterBottomSheetStatus.enable) {
-                  _showModalBottomSheet(
+                  _showSearchModalBottomSheet(
                     context,
                     const SearchFilterSheet(),
                   );
                 }
                 if (state.filterStatus == FilterBottomSheetStatus.disable) {
-                  _hideModalBottomSheet(
+                  _hideSearchModalBottomSheet(
                     context,
                   );
                 }
