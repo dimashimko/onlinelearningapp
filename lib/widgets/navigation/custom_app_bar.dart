@@ -42,10 +42,9 @@ class CustomAppBarDefault extends StatelessWidget
           BlendMode.srcIn,
         ),
       ),
-
-      onLeading: () {
-        Navigator.of(context).pop();
-      },
+      onLeading: onLeading ?? () {
+              Navigator.of(context).pop();
+            },
       title: Text(
         title ?? '',
         style: Theme.of(context).textTheme.displayLarge?.copyWith(
@@ -54,7 +53,6 @@ class CustomAppBarDefault extends StatelessWidget
       ),
       action: const Text(
         '          ',
-
       ),
     );
   }
