@@ -6,16 +6,20 @@ class SecureStorageDB {
   static const SecureStorageDB instance = SecureStorageDB._();
   final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
 
-  Future<String?> read({required String key}) async {
-    String? cardData = await secureStorage.read(key: key);
+  Future<String?> loadCards() async {
+    String? cardData = await secureStorage.read(
+      key: 'cards_',
+    );
 
     return cardData;
   }
 
-  Future<void> write({
-    required String key,
+  Future<void> saveCards({
     required String? value,
   }) async {
-    secureStorage.write(key: key, value: value);
+    secureStorage.write(
+      key: 'cards_',
+      value: value,
+    );
   }
 }

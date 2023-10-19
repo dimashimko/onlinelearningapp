@@ -91,14 +91,13 @@ class _PaymentPageState extends State<PaymentPage> {
   void _saveCards(List<CardModel> cards) {
     String? cardsData = json.encode(cards);
 
-    secureStorageDB.write(
-      key: 'cards_',
+    secureStorageDB.saveCards(
       value: cardsData,
     );
   }
 
   void _getStoredCards() async {
-    String? cardsData = await secureStorageDB.read(key: 'cards_');
+    String? cardsData = await secureStorageDB.loadCards();
 
     final cardsRaw = List<Map<String, dynamic>>.from(
       json.decode(
