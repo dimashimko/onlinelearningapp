@@ -138,8 +138,11 @@ class _OneCoursePageState extends State<OneCoursePage> {
                         alignment: Alignment.topLeft,
                         child: Stack(
                           children: [
-                            CourseVideoPlayer(
-                              currentCourse: currentCourse!,
+                            SizedBox(
+                              width: double.infinity,
+                              child: CourseVideoPlayer(
+                                currentCourse: currentCourse!,
+                              ),
                             ),
                             Padding(
                               padding: const EdgeInsets.symmetric(
