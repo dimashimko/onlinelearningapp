@@ -7,6 +7,8 @@ abstract class NotificationEvent {
   const NotificationEvent();
 }
 
+class ClearNotificationsStateEvent extends NotificationEvent {}
+
 class CheckHasNoSeenNotification extends NotificationEvent {}
 
 class GetTimeLastSeenNotification extends NotificationEvent {}

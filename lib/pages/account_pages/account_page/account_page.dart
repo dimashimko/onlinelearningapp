@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:online_learning_app/blocs/account_bloc/account_bloc.dart';
+import 'package:online_learning_app/blocs/notification_bloc/notification_bloc.dart';
 import 'package:online_learning_app/firebase_options.dart';
 import 'package:online_learning_app/pages/account_pages/edit_account_page/edit_account_page.dart';
 import 'package:online_learning_app/pages/account_pages/favorite_page/favorite_page.dart';
@@ -72,6 +73,9 @@ class AccountPage extends StatelessWidget {
   }
 
   void logOut(BuildContext context) async {
+    context.read<NotificationBloc>().add(
+          ClearNotificationsStateEvent(),
+        );
     _goToSignInPage(context);
     await FirebaseAuth.instance.signOut();
     await GoogleSignIn(

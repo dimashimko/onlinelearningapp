@@ -20,6 +20,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       MyFirestoreNotificationService();
 
   NotificationBloc() : super(const NotificationState()) {
+    on<ClearNotificationsStateEvent>(_clearNotificationsStateEvent);
     on<CheckHasNoSeenNotification>(_checkHasNoSeenNotification);
     on<GetTimeLastSeenNotification>(_getTimeLastSeenNotification);
     on<SaveTimeLastSeenNotification>(_saveTimeLastSeenNotification);
@@ -35,7 +36,16 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     on<InitNotificationBlocEvent>(_initNotificationBloc);
   }
 
-  // Add method implementations here
+  void _clearNotificationsStateEvent(
+    ClearNotificationsStateEvent event,
+    Emitter<NotificationState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        notificationList: [],
+      ),
+    );
+  }
 
   bool checkHasNoSeenNotification(
     List<NotificationModel> notificationList,
