@@ -89,6 +89,7 @@ class CourseModel extends Equatable  {
       author: json['author'],
       category: json['category'],
       price: json['price'].toDouble(),
+      duration: json['duration'].toDouble(),
       about: json['about'],
       openLesson: json['openLesson'],
       title: json['titleImage'],
