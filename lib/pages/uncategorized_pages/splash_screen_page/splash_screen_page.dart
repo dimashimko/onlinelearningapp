@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:online_learning_app/database/local_database.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_in_page/sign_in_page.dart';
 import 'package:online_learning_app/pages/main_page.dart';
-import 'package:online_learning_app/resources/app_colors.dart';
 import 'package:online_learning_app/resources/app_fonts.dart';
 import 'package:online_learning_app/widgets/animations/fade_in_animation.dart';
 
@@ -29,16 +28,12 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
     Timer(
       const Duration(milliseconds: 200),
       () {
-
         bool isFirst = LocalDB.instance.getFlagIsFirst() == null;
         LocalDB.instance.setFlagNoFirst();
 
         if (FirebaseAuth.instance.currentUser != null) {
-          print('*** 1 FirebaseAuth true');
           return _goToMainPage();
         } else {
-          print('*** 1 FirebaseAuth false');
-
           return _goToSignInPage(isFirst);
         }
       },
@@ -64,9 +59,9 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: FadeInAnimation(
-        duration: Duration(
+        duration: const Duration(
           milliseconds: 100,
         ),
         child: Column(
@@ -74,11 +69,10 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
           children: [
             Text(
               'Online Learning App',
-              style: TextStyle(
-                fontSize: 26.0,
-                color: AppColors.textPrimary,
-                fontWeight: AppFonts.extraBold,
-              ),
+              style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                    fontSize: 26.0,
+                    fontWeight: AppFonts.extraBold,
+                  ),
             ),
           ],
         ),
