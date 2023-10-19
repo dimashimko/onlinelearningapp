@@ -11,6 +11,5 @@ class AppLocale {
 
   static const List<Locale> supportedLocales = [
     Locale('en', 'US'), // English
-    Locale('ru', 'RU'), // Russian
   ];
 }
