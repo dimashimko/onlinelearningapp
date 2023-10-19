@@ -113,7 +113,9 @@ class _HomePageState extends State<HomePage> {
                     );
                   },
                 ),
-                const LearningPlanWidget(),
+                LearningPlanWidget(
+                  goToMyCoursesPage: () => _goToMyCoursesPage(),
+                ),
                 const MeetupBanner(),
               ],
             ),
@@ -200,7 +202,12 @@ class MeetupBanner extends StatelessWidget {
 }
 
 class LearningPlanWidget extends StatelessWidget {
-  const LearningPlanWidget({super.key});
+  const LearningPlanWidget({
+    required this.goToMyCoursesPage,
+    super.key,
+  });
+
+  final VoidCallback goToMyCoursesPage;
 
   @override
   Widget build(BuildContext context) {
@@ -244,18 +251,21 @@ class LearningPlanWidget extends StatelessWidget {
                         ),
                       );
                   return SingleChildScrollView(
-                    child: Column(
-                      children: state.userCoursesList.map(
-                        (e) {
-                          int lessonCompleted = countCompletedLesson(
-                            userProgress: userProgress?[e.uid],
-                          );
-                          return CourseProgressItem(
-                            courseModel: e,
-                            lessonCompleted: lessonCompleted,
-                          );
-                        },
-                      ).toList(),
+                    child: InkWell(
+                      onTap: goToMyCoursesPage,
+                      child: Column(
+                        children: state.userCoursesList.map(
+                          (e) {
+                            int lessonCompleted = countCompletedLesson(
+                              userProgress: userProgress?[e.uid],
+                            );
+                            return CourseProgressItem(
+                              courseModel: e,
+                              lessonCompleted: lessonCompleted,
+                            );
+                          },
+                        ).toList(),
+                      ),
                     ),
                   );
                 },
