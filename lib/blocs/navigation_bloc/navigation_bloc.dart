@@ -8,24 +8,34 @@ part 'navigation_state.dart';
 
 class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
   NavigationBloc() : super(const NavigationState()) {
-    on<NavigateMenu>((event, emit) {
-      emit(
-        state.copyWith(
-          status: NavigationStateStatus.menu,
-          currentIndex: event.menuIndex,
-          route: event.route,
-        ),
-      );
-    });
+    on<NavigateMenu>(_navigateMenu);
+    on<NavigateTab>(_navigateTab);
+  }
 
-    on<NavigateTab>((event, emit) {
-      emit(
-        state.copyWith(
-          status: NavigationStateStatus.tab,
-          currentIndex: event.tabIndex,
-          route: event.route,
-        ),
-      );
-    });
+  void _navigateMenu(
+    NavigateMenu event,
+    Emitter<NavigationState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        status: NavigationStateStatus.menu,
+        currentIndex: event.menuIndex,
+        route: event.route,
+      ),
+    );
+  }
+
+  void _navigateTab(
+    NavigateTab event,
+    Emitter<NavigationState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        status: NavigationStateStatus.tab,
+        currentIndex: event.tabIndex,
+        route: event.route,
+      ),
+    );
   }
 }
+

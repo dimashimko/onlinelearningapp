@@ -4,14 +4,6 @@ abstract class AccountEvent {
   const AccountEvent();
 }
 
-class OnChangeUserAvatar extends AccountEvent {
-  const OnChangeUserAvatar({
-    required this.newUserAvatar,
-  });
-
-  final String newUserAvatar;
-}
-
 class OnChangeUserAccount extends AccountEvent {
   const OnChangeUserAccount({
     required this.newName,

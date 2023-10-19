@@ -53,16 +53,5 @@ class ChangeCurrentCourseEvent extends ProgressEvent {
 
 class GetProgressEvent extends ProgressEvent {}
 
-class NewProgressEvent extends ProgressEvent {
-  const NewProgressEvent({
-    this.uidCourse,
-    this.numLesson,
-    this.timePoint,
-  });
-
-  final String? uidCourse;
-  final int? numLesson;
-  final int? timePoint;
-}
 
 class ProgressBlocInitEvent extends ProgressEvent {}

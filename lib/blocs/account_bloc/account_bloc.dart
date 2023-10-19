@@ -11,88 +11,79 @@ part 'account_event.dart';
 part 'account_state.dart';
 
 class AccountBloc extends Bloc<AccountEvent, AccountState> {
+  MyFirestoreAccountService accountService = MyFirestoreAccountService();
+  FirebaseStorageServices storageServices = FirebaseStorageServices();
+
   AccountBloc() : super(const AccountState()) {
-    MyFirestoreAccountService accountService = MyFirestoreAccountService();
-    FirebaseStorageServices storageServices = FirebaseStorageServices();
+    on<OnChangeUserAccount>(_onChangeUserAccount);
+    on<GetAccountModel>(_getAccountModel);
+    on<InitAccountBlocEvent>(_initAccountBlocEvent);
+  }
 
-    on<OnChangeUserAvatar>(
-      (event, emit) async {
-        AccountModel accountModel = state.accountModel.copyWith(
-          avatarLink: event.newUserAvatar,
-        );
-        accountService.pushAccountModel(
-          accountModel: accountModel,
-        );
-        emit(
-          state.copyWith(
-            accountModel: accountModel,
-          ),
-        );
-      },
-    );
+  void _onChangeUserAccount(
+    OnChangeUserAccount event,
+    Emitter<AccountState> emit,
+  ) async {
+    String name = event.newName ?? '';
+    String avatarLink = event.newAvatarLocalLink ?? '';
 
-    Future<String?> submitToStorage(String? newAvatarLocalLink) async {
-      if (newAvatarLocalLink == null) return null;
-      if (newAvatarLocalLink.isEmpty) return null;
-      String fileName = DateTime.now().microsecondsSinceEpoch.toString();
-      Reference? reference = await storageServices.submitToStorage(
-        newAvatarLocalLink,
-        fileName,
-        'avatars',
+    if (state.accountModel.avatarLink != event.newAvatarLocalLink) {
+      String? newURL = await submitToStorage(
+        event.newAvatarLocalLink,
       );
-      if (reference == null) return null;
-      String newURL = await reference.getDownloadURL();
-
-      return newURL;
+      if (newURL != null) {
+        avatarLink = newURL;
+      }
     }
 
-    on<OnChangeUserAccount>(
-      (event, emit) async {
-        String name = event.newName ?? '';
-        String avatarLink = event.newAvatarLocalLink ?? '';
-
-        if (state.accountModel.avatarLink != event.newAvatarLocalLink) {
-          String? newURL = await submitToStorage(
-            event.newAvatarLocalLink,
-          );
-          if (newURL != null) {
-            avatarLink = newURL;
-          }
-        }
-
-        AccountModel accountModel = state.accountModel.copyWith(
-          name: name,
-          avatarLink: avatarLink,
-        );
-
-        if (state.accountModel != accountModel) {
-          accountService.pushAccountModel(
-            accountModel: accountModel,
-          );
-          emit(
-            state.copyWith(
-              accountModel: accountModel,
-            ),
-          );
-        }
-      },
+    AccountModel accountModel = state.accountModel.copyWith(
+      name: name,
+      avatarLink: avatarLink,
     );
 
-    on<GetAccountModel>(
-      (event, emit) async {
-        AccountModel accountModel = await accountService.getAccountModel();
-        emit(
-          state.copyWith(
-            accountModel: accountModel,
-          ),
-        );
-      },
-    );
+    if (state.accountModel != accountModel) {
+      accountService.pushAccountModel(
+        accountModel: accountModel,
+      );
+      emit(
+        state.copyWith(
+          accountModel: accountModel,
+        ),
+      );
+    }
+  }
 
-    on<InitAccountBlocEvent>(
-      (event, emit) async {
-        add(GetAccountModel());
-      },
+  Future<String?> submitToStorage(String? newAvatarLocalLink) async {
+    if (newAvatarLocalLink == null) return null;
+    if (newAvatarLocalLink.isEmpty) return null;
+    String fileName = DateTime.now().microsecondsSinceEpoch.toString();
+    Reference? reference = await storageServices.submitToStorage(
+      newAvatarLocalLink,
+      fileName,
+      'avatars',
     );
+    if (reference == null) return null;
+    String newURL = await reference.getDownloadURL();
+
+    return newURL;
+  }
+
+  void _getAccountModel(
+    GetAccountModel event,
+    Emitter<AccountState> emit,
+  ) async {
+    AccountModel accountModel = await accountService.getAccountModel();
+    emit(
+      state.copyWith(
+        accountModel: accountModel,
+      ),
+    );
+  }
+
+  void _initAccountBlocEvent(
+    InitAccountBlocEvent event,
+    Emitter<AccountState> emit,
+  ) async {
+    add(GetAccountModel());
   }
 }
