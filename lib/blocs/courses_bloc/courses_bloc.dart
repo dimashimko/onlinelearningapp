@@ -1,5 +1,3 @@
-
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,8 +17,6 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     MyFirestoreCourseService fireStoreService = MyFirestoreCourseService();
 
     on<FilterUserCourses>((event, emit) async {
-
-
       Map<String, CourseProgressModel> userProgress = event.userProgress ?? {};
 
       List<CourseModel> userCoursesList = state.coursesList.where((course) {
@@ -66,7 +62,6 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
         newFilterDurationItems.add(durationItem.copyWith(isEnable: false));
       }
 
-
       emit(
         state.copyWith(
           filterCategory: {},
@@ -80,8 +75,6 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     });
 
     on<GetFilteredCourses>((event, emit) async {
-
-
       List<String> uidsSelectedCategories =
           getUidsCategories(state.filterCategory, state.categoryList);
 
@@ -103,8 +96,6 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     });
 
     on<ChangeFilterText>((event, emit) async {
-
-
       if (state.filterText != event.newFilterText) {
         FilterEnabledType newFilterEnabledType = FilterEnabledType.text;
         if (event.newFilterText.isEmpty) {
@@ -139,7 +130,6 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     });
 
     on<InverseDurationRangeItem>((event, emit) async {
-
       FilterEnabledType newFilterEnabledType = FilterEnabledType.duration;
 
       List<DurationRangeModel> filterDurationItems = [];
@@ -147,7 +137,6 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
         if (durationItem.min == event.durationRange.min) {
           durationItem = durationItem.copyWith(
             isEnable: !durationItem.isEnable,
-
           );
           if (!durationItem.isEnable) {
             newFilterEnabledType = FilterEnabledType.all;
@@ -177,7 +166,6 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       emit(
         state.copyWith(
           filterCategory: filterCategory,
-
         ),
       );
       add(GetFilteredCourses());
@@ -200,7 +188,6 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     });
 
     on<GetAllCourses>((event, emit) async {
-
       List<CourseModel> coursesList =
           await fireStoreService.getAllCoursesList(event.orderBy);
       if (event.orderBy == OrderBy.created.name) {
@@ -224,10 +211,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       );
     });
 
-
-
     on<GetCategories>((event, emit) async {
-
       List<CategoryModel> categoryList = await fireStoreService.getCategories();
 
       emit(
@@ -238,7 +222,6 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     });
 
     on<CourseBlocInit>((event, emit) async {
-
       add(GetCategories());
       add(GetAllCourses(orderBy: OrderBy.name.name));
     });

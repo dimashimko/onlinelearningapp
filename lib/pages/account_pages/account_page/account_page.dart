@@ -42,6 +42,7 @@ class AccountPage extends StatelessWidget {
     _navigateToPage(
       context: context,
       route: EditAccountPage.routeName,
+      isRoot: true,
     );
   }
 

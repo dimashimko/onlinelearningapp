@@ -15,9 +15,9 @@ import 'package:online_learning_app/pages/main_page.dart';
 import 'package:online_learning_app/pages/my_courses_page/my_courses_page.dart';
 import 'package:online_learning_app/pages/notification_page/notification_page.dart';
 import 'package:online_learning_app/pages/one_course_pages/add_card_page/add_card_page.dart';
+import 'package:online_learning_app/pages/one_course_pages/check_payment_status_page/check_payment_status_page.dart';
 import 'package:online_learning_app/pages/one_course_pages/one_course_page/one_course_page.dart';
 import 'package:online_learning_app/pages/one_course_pages/payment_page/payment_page.dart';
-import 'package:online_learning_app/pages/one_course_pages/successful_purchase_page/successful_purchase_page.dart';
 import 'package:online_learning_app/pages/search_page/search_page.dart';
 
 class AppRouter {

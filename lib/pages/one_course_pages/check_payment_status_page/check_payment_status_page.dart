@@ -158,8 +158,9 @@ class _CheckPaymentStatusPageState extends State<CheckPaymentStatusPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBarDefault(
+      appBar: CustomAppBarDefault(
         title: '',
+        onLeading: ()=> _goToCoursePage(context),
       ),
       body: SafeArea(
         child: Padding(
