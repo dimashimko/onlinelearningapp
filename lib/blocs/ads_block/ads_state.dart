@@ -1,6 +1,5 @@
 part of 'ads_bloc.dart';
 
-
 @immutable
 class AdsState extends Equatable {
   const AdsState({
@@ -11,7 +10,7 @@ class AdsState extends Equatable {
 
   @override
   List<Object?> get props => [
-    adsCoursesUids,
+        adsCoursesUids,
       ];
 
   AdsState copyWith({

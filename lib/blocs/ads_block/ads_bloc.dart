@@ -1,5 +1,3 @@
-
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,21 +8,22 @@ part 'ads_event.dart';
 part 'ads_state.dart';
 
 class AdsBloc extends Bloc<AdsEvent, AdsState> {
+  MyFirestoreAdsService adsService = MyFirestoreAdsService();
+
   AdsBloc() : super(const AdsState()) {
-    MyFirestoreAdsService adsService = MyFirestoreAdsService();
+    on<GetAdsCoursesUids>(_getAdsCoursesUids);
+  }
 
-    on<GetAdsCoursesUids>(
-      (event, emit) async {
-        List<String> adsCoursesUids = await adsService.getAdsCoursesUids();
+  void _getAdsCoursesUids(
+    GetAdsCoursesUids event,
+    Emitter<AdsState> emit,
+  ) async {
+    List<String> adsCoursesUids = await adsService.getAdsCoursesUids();
 
-
-        emit(
-          state.copyWith(
-            adsCoursesUids: adsCoursesUids,
-          ),
-        );
-      },
+    emit(
+      state.copyWith(
+        adsCoursesUids: adsCoursesUids,
+      ),
     );
-
   }
 }
