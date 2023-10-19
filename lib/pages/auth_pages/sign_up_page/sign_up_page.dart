@@ -73,6 +73,7 @@ class _SignUpPageState extends State<SignUpPage> {
     context.read<NotificationBloc>().add(
           AddNotificationSuccessfulRegistrationEvent(),
         );
+
     _showCompleteRegistrationDialog();
   }
 
