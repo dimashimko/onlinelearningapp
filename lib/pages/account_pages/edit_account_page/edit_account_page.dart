@@ -137,7 +137,7 @@ class UserAvatar extends StatelessWidget {
           children: [
             CustomImageViewer(
               link: avatarLink,
-              alternativePhoto: AppImages.empty_avatar,
+              alternativePhoto: AppImages.emptyAvatar,
               boxFitNetworkImage: BoxFit.fitHeight,
             ),
             SvgPicture.asset(

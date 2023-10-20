@@ -99,7 +99,7 @@ class MessageItem extends StatelessWidget {
                   height: 48,
                   child: CustomImageViewer(
                     link: message.iconLink,
-                    alternativePhoto: AppImages.empty_message_icon,
+                    alternativePhoto: AppImages.emptyMessageIcon,
                   ),
                 ),
                 const SizedBox(width: 8.0),
@@ -132,7 +132,7 @@ class MessageItem extends StatelessWidget {
             if (message.imageLink != null)
               CustomImageViewer(
                 link: message.imageLink,
-                alternativePhoto: AppImages.empty_message_icon,
+                alternativePhoto: AppImages.emptyMessageIcon,
               )
           ],
         ),

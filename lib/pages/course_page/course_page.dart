@@ -249,7 +249,7 @@ class CategoriesListView extends StatelessWidget {
                         width: 240,
                         child: CustomImageViewer(
                           link: state.categoryList[index].categoryTitle,
-                          alternativePhoto: AppImages.empty_course,
+                          alternativePhoto: AppImages.emptyCourse,
                         ),
                       ),
                     ));

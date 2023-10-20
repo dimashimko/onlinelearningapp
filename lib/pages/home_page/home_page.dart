@@ -451,7 +451,7 @@ class AdsCourseItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomImageViewer(
       link: courseModel.title,
-      alternativePhoto: AppImages.empty_course,
+      alternativePhoto: AppImages.emptyCourse,
     );
   }
 }
@@ -523,7 +523,7 @@ class UserInfoWidget extends StatelessWidget {
                   width: 96.0,
                   child: CustomImageViewer(
                     link: state.accountModel.avatarLink,
-                    alternativePhoto: AppImages.empty_avatar,
+                    alternativePhoto: AppImages.emptyAvatar,
                     boxFitNetworkImage: BoxFit.fitHeight,
                   ),
                 ),
