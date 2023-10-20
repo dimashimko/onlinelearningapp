@@ -10,23 +10,22 @@ import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
 import 'package:online_learning_app/blocs/notification_bloc/notification_bloc.dart';
 import 'package:online_learning_app/blocs/progress_bloc/progress_bloc.dart';
 import 'package:online_learning_app/firebase_options.dart';
+import 'package:online_learning_app/helpers/count_completed_lesson_helper.dart';
+import 'package:online_learning_app/helpers/get_course_model_by_uid_helper.dart';
 import 'package:online_learning_app/models/course/course_model.dart';
 import 'package:online_learning_app/models/progress/progress_model.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_in_page/sign_in_page.dart';
 import 'package:online_learning_app/pages/my_courses_page/my_courses_page.dart';
 import 'package:online_learning_app/pages/one_course_pages/one_course_page/one_course_page.dart';
 import 'package:online_learning_app/pages/one_course_pages/one_course_page/statistic_alert_dialog.dart';
+import 'package:online_learning_app/resources/app_colors.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/resources/app_images.dart';
-import 'package:online_learning_app/resources/app_themes.dart';
 import 'package:online_learning_app/services/firestore_course_service.dart';
 import 'package:online_learning_app/services/notifi_service.dart';
-import 'package:online_learning_app/helpers/count_completed_lesson_helper.dart';
-import 'package:online_learning_app/helpers/get_course_model_by_uid_helper.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/elements/custom_image_viewer.dart';
 import 'package:online_learning_app/widgets/elements/today_progress_widget.dart';
-import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
@@ -651,14 +650,3 @@ class _ButtonsState extends State<Buttons> {
   }
 }
 
-PreferredSizeWidget homePageAppBar() {
-  return const CustomAppBar(
-    title: Text(
-      'HomePage',
-    ),
-    action: Text(
-      '          ',
-      style: TextStyle(color: Colors.white),
-    ),
-  );
-}

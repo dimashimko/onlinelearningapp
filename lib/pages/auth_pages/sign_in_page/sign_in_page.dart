@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:online_learning_app/models/slide_model/slide_model.dart';
 import 'package:online_learning_app/pages/auth_pages/log_in_page/log_in_page.dart';
+import 'package:online_learning_app/pages/auth_pages/sign_in_page/widgets/custom_slide_item.dart';
+import 'package:online_learning_app/pages/auth_pages/sign_in_page/widgets/custom_smooth_page_indicator.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_up_page/sign_up_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button_light.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class SignInPageArguments {
   SignInPageArguments({
@@ -26,18 +27,6 @@ class SignInPage extends StatefulWidget {
 
   @override
   State<SignInPage> createState() => _SignInPageState();
-}
-
-class _SlideModel {
-  _SlideModel({
-    required this.illustration,
-    required this.title,
-    required this.description,
-  });
-
-  String illustration;
-  String title;
-  String description;
 }
 
 class _SignInPageState extends State<SignInPage> {
@@ -131,7 +120,7 @@ class _SignInPageState extends State<SignInPage> {
                         itemCount: listSlideModel.length,
                         controller: imageController,
                         itemBuilder: (_, index) {
-                          return _CustomSlideItem(
+                          return CustomSlideItem(
                             slideModel:
                                 listSlideModel[index % listSlideModel.length],
                           );
@@ -184,97 +173,23 @@ class _SignInPageState extends State<SignInPage> {
     );
   }
 
-  final List<_SlideModel> listSlideModel = [
-    _SlideModel(
+  final List<SlideModel> listSlideModel = [
+    SlideModel(
       illustration: AppIcons.illustration_01,
       title: 'Numerous free trial courses',
       description: 'Free courses for you to find your way to learning',
     ),
-    _SlideModel(
+    SlideModel(
       illustration: AppIcons.illustration_02,
       title: 'Quick and easy learning',
       description:
           'Easy and fast learning at any time to help you improve various skills',
     ),
-    _SlideModel(
+    SlideModel(
       illustration: AppIcons.illustration_03,
       title: 'Create your own study plan',
       description:
           'Study according to the study plan, make study more motivated',
     ),
   ];
-}
-
-class CustomSmoothPageIndicator extends StatelessWidget {
-  const CustomSmoothPageIndicator({
-    required this.imageController,
-    required this.length,
-    super.key,
-  });
-
-  final PageController imageController;
-  final int length;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
-      child: Align(
-        alignment: Alignment.bottomCenter,
-        child: SmoothPageIndicator(
-          controller: imageController,
-          count: length,
-          effect: ExpandingDotsEffect(
-            spacing: 12.0,
-            radius: 4.0,
-            dotWidth: 12.0,
-            dotHeight: 6.0,
-            paintStyle: PaintingStyle.fill,
-            activeDotColor: Theme.of(context).colorScheme.primary,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _CustomSlideItem extends StatelessWidget {
-  const _CustomSlideItem({
-    required this.slideModel,
-    Key? key,
-  }) : super(key: key);
-
-  final _SlideModel slideModel;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: [
-          SvgPicture.asset(
-            slideModel.illustration,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              slideModel.title,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.displayMedium,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              slideModel.description,
-              textAlign: TextAlign.center,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium
-                  ?.copyWith(fontSize: 16.0),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }

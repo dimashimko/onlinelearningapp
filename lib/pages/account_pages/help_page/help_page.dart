@@ -1,9 +1,6 @@
-
-
 import 'package:flutter/material.dart';
-import 'package:online_learning_app/resources/app_themes.dart';
+import 'package:online_learning_app/pages/account_pages/help_page/widgets/qa_item.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
-import 'package:provider/provider.dart';
 
 class HelpPage extends StatelessWidget {
   const HelpPage({Key? key}) : super(key: key);
@@ -23,7 +20,6 @@ class HelpPage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                CustomSwitch(),
                 QAItem(
                   question:
                       'How do I access the courses on the "Online Learning App"?',
@@ -68,76 +64,6 @@ class HelpPage extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class CustomSwitch extends StatefulWidget {
-  const CustomSwitch({super.key});
-
-  @override
-  State<CustomSwitch> createState() => _CustomSwitchState();
-}
-
-class _CustomSwitchState extends State<CustomSwitch> {
-  bool isDark = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<ThemeProvider>(
-      builder: (context, themeProvider, child) {
-        return Switch(
-          value: isDark,
-          onChanged: (value) {
-            setState(() {
-
-              isDark = !isDark;
-              themeProvider.toggleTheme();
-            });
-          },
-        );
-      },
-    );
-  }
-}
-
-class QAItem extends StatelessWidget {
-  const QAItem({
-    Key? key,
-    required this.question,
-    required this.answer,
-  }) : super(key: key);
-
-  final String question;
-  final String answer;
-
-  @override
-  Widget build(BuildContext context) {
-    return ExpansionTile(
-      title: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: Text(
-          question,
-          style: const TextStyle(fontSize: 18.0),
-        ),
-      ),
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: Column(
-            children: [
-              Text(
-                answer,
-                style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w400,
-                    ),
-              ),
-              const SizedBox(height: 8.0),
-            ],
-          ),
-        ),
-      ],
     );
   }
 }

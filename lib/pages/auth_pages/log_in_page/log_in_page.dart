@@ -1,17 +1,14 @@
-import 'dart:convert';
-
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:online_learning_app/helpers/show_custom_snack_bar_helper.dart';
+import 'package:online_learning_app/pages/auth_pages/log_in_page/widgets/login_with_other_services_buttons.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_up_page/sign_up_page.dart';
 import 'package:online_learning_app/pages/auth_pages/verify_phone_page/verify_phone_page.dart';
 import 'package:online_learning_app/pages/auth_pages/widgets/auth_form_fields.dart';
 import 'package:online_learning_app/pages/main_page.dart';
-import 'package:online_learning_app/resources/app_icons.dart';
-import 'package:online_learning_app/helpers/show_custom_snack_bar_helper.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
 
@@ -216,12 +213,6 @@ class _LogInPageState extends State<LogInPage> {
     }
   }
 
-  String prettyPrint(Map json) {
-    JsonEncoder encoder = const JsonEncoder.withIndent('  ');
-    String pretty = encoder.convert(json);
-    return pretty;
-  }
-
   Future<void> signInWithFacebook() async {
     showDialog(
       context: context,
@@ -392,57 +383,3 @@ class _LogInPageState extends State<LogInPage> {
   }
 }
 
-class LoginWithOtherServicesButtons extends StatelessWidget {
-  const LoginWithOtherServicesButtons({
-    required this.onGoogle,
-    required this.onFacebook,
-    Key? key,
-  }) : super(key: key);
-
-  final VoidCallback onGoogle;
-  final VoidCallback onFacebook;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            const Expanded(
-              child: Divider(),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Text(
-                'Or login with',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-            ),
-            const Expanded(
-              child: Divider(),
-            ),
-          ],
-        ),
-        const SizedBox(height: 12.0),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            InkWell(
-              child: SvgPicture.asset(AppIcons.google),
-              onTap: () {
-                onGoogle();
-              },
-            ),
-            const SizedBox(width: 20.0),
-            InkWell(
-              child: SvgPicture.asset(AppIcons.facebook),
-              onTap: () {
-                onFacebook();
-              },
-            ),
-          ],
-        )
-      ],
-    );
-  }
-}

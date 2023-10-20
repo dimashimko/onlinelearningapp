@@ -1,7 +1,5 @@
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:online_learning_app/resources/app_colors.dart';
-import 'package:online_learning_app/resources/app_fonts.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 
 class CustomAppBarZero extends StatelessWidget implements PreferredSizeWidget {
@@ -88,11 +86,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0.0,
       scrolledUnderElevation: 0.0,
       centerTitle: true,
-      titleTextStyle: const TextStyle(
-        color: AppColors.textPrimary,
-        fontWeight: AppFonts.bold,
-        fontSize: 20.0,
-      ),
       actions: [
         if (action != null)
           InkWell(

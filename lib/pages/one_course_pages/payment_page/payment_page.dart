@@ -1,20 +1,18 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_credit_card/credit_card_brand.dart';
-import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:liqpay/liqpay.dart';
 import 'package:online_learning_app/database/secure_storage.dart';
 import 'package:online_learning_app/models/card/card_model.dart';
 import 'package:online_learning_app/pages/one_course_pages/add_card_page/add_card_page.dart';
 import 'package:online_learning_app/pages/one_course_pages/check_payment_status_page/check_payment_status_page.dart';
-import 'package:online_learning_app/pages/one_course_pages/payment_page/payment_password_bottom_sheet.dart';
+import 'package:online_learning_app/pages/one_course_pages/payment_page/widgets/card_item.dart';
+import 'package:online_learning_app/pages/one_course_pages/payment_page/widgets/custom_smooth_payment_page_indicator.dart';
+import 'package:online_learning_app/pages/one_course_pages/payment_page/widgets/payment_password_bottom_sheet.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
-import 'package:online_learning_app/resources/app_themes.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:uuid/uuid.dart';
 
 class PaymentPageArguments {
@@ -233,7 +231,7 @@ class _PaymentPageState extends State<PaymentPage> {
                         },
                       ),
                     ),
-                    CustomSmoothPageIndicator(
+                    CustomSmoothPaymentPageIndicator(
                       cardController: cardController,
                       length: cards.length + 1,
                     ),
@@ -259,87 +257,3 @@ class _PaymentPageState extends State<PaymentPage> {
   }
 }
 
-class CustomSmoothPageIndicator extends StatelessWidget {
-  const CustomSmoothPageIndicator({
-    required this.cardController,
-    required this.length,
-    super.key,
-  });
-
-  final PageController cardController;
-  final int length;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
-      child: Align(
-        alignment: Alignment.bottomCenter,
-        child: SmoothPageIndicator(
-          controller: cardController,
-          count: length,
-          effect: SlideEffect(
-            spacing: 8.0,
-            radius: 6.0,
-            dotWidth: 8.0,
-            dotHeight: 8.0,
-            paintStyle: PaintingStyle.fill,
-            dotColor: colors(context).violetLight ?? Colors.grey,
-            activeDotColor: Theme.of(context).colorScheme.outlineVariant,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class CardItem extends StatelessWidget {
-  const CardItem({
-    required this.cardModel,
-    required this.deleteCard,
-    super.key,
-  });
-
-  final CardModel cardModel;
-  final VoidCallback deleteCard;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.end,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        CreditCardWidget(
-          glassmorphismConfig: null,
-          cardNumber: cardModel.cardNumber,
-          expiryDate: cardModel.cardExpiryDate,
-          cardHolderName: cardModel.cardHolderName,
-          cvvCode: cardModel.cardCvvCode,
-          bankName: ' ',
-          showBackView: false,
-          obscureCardNumber: true,
-          obscureCardCvv: true,
-          isHolderNameVisible: true,
-          cardBgColor: Theme.of(context).colorScheme.primary,
-          backgroundImage: null,
-          isSwipeGestureEnabled: false,
-          onCreditCardWidgetChange: (CreditCardBrand creditCardBrand) {},
-        ),
-        InkWell(
-          onTap: () => deleteCard(),
-          child: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
-            child: Text(
-              'Delete card',
-              style: TextStyle(
-                color: Colors.red,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}

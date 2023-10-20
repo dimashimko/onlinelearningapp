@@ -2,16 +2,16 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:liqpay/liqpay.dart';
 import 'package:online_learning_app/blocs/notification_bloc/notification_bloc.dart';
 import 'package:online_learning_app/blocs/progress_bloc/progress_bloc.dart';
 import 'package:online_learning_app/models/payment_status_model/payment_status_model.dart';
+import 'package:online_learning_app/pages/one_course_pages/check_payment_status_page/widgets/error_payment_widget.dart';
+import 'package:online_learning_app/pages/one_course_pages/check_payment_status_page/widgets/successful_payment_widget.dart';
+import 'package:online_learning_app/pages/one_course_pages/check_payment_status_page/widgets/wait_payment_status_widget.dart';
 import 'package:online_learning_app/pages/one_course_pages/one_course_page/one_course_page.dart';
-import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/services/custom_liqpay_service.dart';
 import 'package:online_learning_app/utils/enums.dart';
-import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -42,7 +42,7 @@ class _CheckPaymentStatusPageState extends State<CheckPaymentStatusPage> {
   int counter = 0;
   late CustomLiqPay customLiqPay;
 
-  Widget contentWidget = const WaitStatusWidget(counterState: 0);
+  Widget contentWidget = const WaitPaymentStatusWidget(counterState: 0);
 
   void _goToBackPage(BuildContext context) {
     Navigator.of(context).pop();
@@ -117,7 +117,7 @@ class _CheckPaymentStatusPageState extends State<CheckPaymentStatusPage> {
       }
       if (liqPayResponseStatus == LiqPayResponseStatus.error) {
         timer.cancel();
-        contentWidget = ErrorWidget(
+        contentWidget = ErrorPaymentWidget(
           customPaymentStatus: customPaymentStatus,
           goToBackPage: () {
             _goToBackPage(context);
@@ -126,7 +126,7 @@ class _CheckPaymentStatusPageState extends State<CheckPaymentStatusPage> {
       }
 
       if (liqPayResponseStatus == LiqPayResponseStatus.wait) {
-        contentWidget = WaitStatusWidget(
+        contentWidget = WaitPaymentStatusWidget(
           counterState: counter,
         );
         tryOpenUrl(customPaymentStatus.description);
@@ -172,97 +172,6 @@ class _CheckPaymentStatusPageState extends State<CheckPaymentStatusPage> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class ErrorWidget extends StatelessWidget {
-  const ErrorWidget({
-    required this.customPaymentStatus,
-    required this.goToBackPage,
-    super.key,
-  });
-
-  final CustomPaymentStatus customPaymentStatus;
-  final VoidCallback goToBackPage;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          'An error occurred during payment',
-          style: Theme.of(context).textTheme.labelLarge,
-        ),
-        const Text('Error description:'),
-        Text(customPaymentStatus.description),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: CustomButton(
-            title: 'Return',
-            onTap: goToBackPage,
-          ),
-        )
-      ],
-    );
-  }
-}
-
-class WaitStatusWidget extends StatelessWidget {
-  const WaitStatusWidget({
-    required this.counterState,
-    Key? key,
-  }) : super(key: key);
-
-  final int counterState;
-
-  @override
-  Widget build(BuildContext context) {
-    int numberOfPoint = counterState % 3 + 1;
-
-    List<String> points = List.generate(numberOfPoint, (index) => '.');
-    return SizedBox(
-      width: 200,
-      child: Text(
-        'Payment is pending ${points.join().padRight(3 - numberOfPoint, ' ')}',
-        style: const TextStyle(
-          fontSize: 18.0,
-        ),
-      ),
-    );
-  }
-}
-
-class SuccessfulPaymentWidget extends StatelessWidget {
-  const SuccessfulPaymentWidget({
-    required this.goToCoursePage,
-    super.key,
-  });
-
-  final VoidCallback goToCoursePage;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        SvgPicture.asset(AppIcons.checkMark3),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16.0),
-          child: Text(
-            'Successful purchase!',
-            style: Theme.of(context).textTheme.labelLarge,
-          ),
-        ),
-        CustomButton(
-          title: 'Start learning',
-          onTap: () {
-            goToCoursePage();
-          },
-        ),
-      ],
     );
   }
 }

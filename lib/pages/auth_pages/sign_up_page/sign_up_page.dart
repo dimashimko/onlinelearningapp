@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_learning_app/blocs/notification_bloc/notification_bloc.dart';
 import 'package:online_learning_app/pages/auth_pages/log_in_page/log_in_page.dart';
+import 'package:online_learning_app/pages/auth_pages/sign_up_page/widgets/custom_check_box.dart';
 import 'package:online_learning_app/pages/auth_pages/verify_phone_page/verify_phone_page.dart';
 import 'package:online_learning_app/pages/auth_pages/widgets/auth_form_fields.dart';
 import 'package:online_learning_app/pages/auth_pages/widgets/successful_registration_dialog.dart';
@@ -335,47 +336,3 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 }
 
-class CustomCheckBox extends StatefulWidget {
-  const CustomCheckBox({
-    required this.acceptPrivacyPolicy,
-    required this.changeAcceptPrivacyPolicy,
-    Key? key,
-  }) : super(key: key);
-
-  final bool acceptPrivacyPolicy;
-  final Function(bool) changeAcceptPrivacyPolicy;
-
-  @override
-  State<CustomCheckBox> createState() => _CustomCheckBoxState();
-}
-
-class _CustomCheckBoxState extends State<CustomCheckBox> {
-  bool acceptPrivacyPolicy = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return acceptPrivacyPolicy
-        ? InkWell(
-            child: const Icon(Icons.check_box),
-            onTap: () {
-              setState(() {
-                acceptPrivacyPolicy = false;
-                widget.changeAcceptPrivacyPolicy(
-                  acceptPrivacyPolicy,
-                );
-              });
-            },
-          )
-        : InkWell(
-            child: const Icon(Icons.check_box_outline_blank),
-            onTap: () {
-              setState(() {
-                acceptPrivacyPolicy = true;
-                widget.changeAcceptPrivacyPolicy(
-                  acceptPrivacyPolicy,
-                );
-              });
-            },
-          );
-  }
-}

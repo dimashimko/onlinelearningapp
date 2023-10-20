@@ -1,17 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:online_learning_app/blocs/account_bloc/account_bloc.dart';
 import 'package:online_learning_app/blocs/notification_bloc/notification_bloc.dart';
 import 'package:online_learning_app/firebase_options.dart';
+import 'package:online_learning_app/pages/account_pages/account_page/widgets/account_menu_item.dart';
+import 'package:online_learning_app/pages/account_pages/account_page/widgets/title_of_page.dart';
 import 'package:online_learning_app/pages/account_pages/edit_account_page/edit_account_page.dart';
 import 'package:online_learning_app/pages/account_pages/favorite_page/favorite_page.dart';
 import 'package:online_learning_app/pages/account_pages/help_page/help_page.dart';
 import 'package:online_learning_app/pages/account_pages/setting_page/setting_page.dart';
 import 'package:online_learning_app/pages/auth_pages/sign_in_page/sign_in_page.dart';
-import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/resources/app_images.dart';
 import 'package:online_learning_app/widgets/elements/custom_image_viewer.dart';
 
@@ -134,60 +134,6 @@ class AccountPage extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class AccountMenuItem extends StatelessWidget {
-  const AccountMenuItem({
-    required this.title,
-    required this.onTap,
-    super.key,
-  });
-
-  final String title;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: SizedBox(
-        height: 64.0,
-        child: Row(
-          children: [
-            Text(
-              title,
-              style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w500,
-                  ),
-            ),
-            const Spacer(),
-            SvgPicture.asset(
-              AppIcons.arrowRight,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class TitleOfPage extends StatelessWidget {
-  const TitleOfPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Text(
-        'Account',
-        style: Theme.of(context).textTheme.displayLarge?.copyWith(
-              fontSize: 24.0,
-            ),
-        textAlign: TextAlign.start,
       ),
     );
   }

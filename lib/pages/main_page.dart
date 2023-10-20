@@ -13,7 +13,7 @@ import 'package:online_learning_app/blocs/progress_bloc/progress_bloc.dart';
 import 'package:online_learning_app/pages/account_pages/account_page/account_page.dart';
 import 'package:online_learning_app/pages/course_page/course_page.dart';
 import 'package:online_learning_app/pages/home_page/home_page.dart';
-import 'package:online_learning_app/pages/notification_page/notification_page.dart';
+import 'package:online_learning_app/pages/notification_page/notification_page/notification_page.dart';
 import 'package:online_learning_app/pages/uncategorized_pages/no_network_page/no_network_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/routes/app_router.dart';

@@ -20,7 +20,7 @@ import 'package:online_learning_app/database/local_database.dart';
 import 'package:online_learning_app/firebase_options.dart';
 import 'package:online_learning_app/pages/uncategorized_pages/splash_screen_page/splash_screen_page.dart';
 import 'package:online_learning_app/resources/app_locale.dart';
-import 'package:online_learning_app/resources/app_themes.dart';
+import 'package:online_learning_app/resources/themes/theme_provider.dart';
 import 'package:online_learning_app/routes/app_router.dart';
 import 'package:online_learning_app/services/notifi_service.dart';
 import 'package:provider/provider.dart';

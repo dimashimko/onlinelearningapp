@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:online_learning_app/pages/account_pages/privacy_policy_page/privacy_policy_page.dart';
-import 'package:online_learning_app/resources/app_themes.dart';
-import 'package:online_learning_app/database/shared_preferecnes.dart';
+import 'package:online_learning_app/pages/account_pages/setting_page/widgets/notification_setting.dart';
+import 'package:online_learning_app/pages/account_pages/setting_page/widgets/theme_setting.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
-import 'package:provider/provider.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({Key? key}) : super(key: key);
@@ -65,101 +63,6 @@ class _SettingPageState extends State<SettingPage> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class NotificationSetting extends StatefulWidget {
-  const NotificationSetting({super.key});
-
-  @override
-  State<NotificationSetting> createState() => _NotificationSettingState();
-}
-
-class _NotificationSettingState extends State<NotificationSetting> {
-  bool isNotificationEnabled = false;
-
-  @override
-  void initState() {
-    super.initState();
-    loadNotificationEnabledState();
-  }
-
-  void loadNotificationEnabledState() async {
-    isNotificationEnabled = await loadNotificationEnabled();
-    setState(() {});
-  }
-
-  void saveNotificationEnabledState(bool newState) async {
-    saveNotificationEnabled(newState);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          'Notification:',
-          style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                fontSize: 16.0,
-                fontWeight: FontWeight.w500,
-              ),
-        ),
-        const Spacer(),
-        const SizedBox(height: 8.0),
-        Consumer<ThemeProvider>(
-          builder: (context, themeProvider, child) {
-            return Switch.adaptive(
-              value: isNotificationEnabled,
-              onChanged: (value) {
-                saveNotificationEnabledState(value);
-                setState(() {
-                  isNotificationEnabled = !isNotificationEnabled;
-                });
-              },
-              activeColor: colors(context).violetLight,
-              activeTrackColor: colors(context).blue,
-              inactiveThumbColor: colors(context).violetLight,
-              inactiveTrackColor: colors(context).greyDark,
-            );
-          },
-        ),
-      ],
-    );
-  }
-}
-
-class ThemeSetting extends StatelessWidget {
-  const ThemeSetting({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          'Theme:',
-          style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                fontSize: 16.0,
-                fontWeight: FontWeight.w500,
-              ),
-        ),
-        const Spacer(),
-        const SizedBox(height: 8.0),
-        Consumer<ThemeProvider>(
-          builder: (context, themeProvider, child) {
-            return Switch.adaptive(
-              value: themeProvider.currentTheme == AppThemes.dark(),
-              onChanged: (value) {
-                themeProvider.toggleTheme();
-              },
-              activeColor: colors(context).violetLight,
-              activeTrackColor: colors(context).blue,
-              inactiveThumbColor: colors(context).violetLight,
-              inactiveTrackColor: colors(context).greyDark,
-            );
-          },
-        ),
-      ],
     );
   }
 }
