@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:liqpay/liqpay.dart';
 import 'package:online_learning_app/blocs/notification_bloc/notification_bloc.dart';
 import 'package:online_learning_app/blocs/progress_bloc/progress_bloc.dart';
+import 'package:online_learning_app/models/payment_status_model/payment_status_model.dart';
 import 'package:online_learning_app/pages/one_course_pages/one_course_page/one_course_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/services/custom_liqpay_service.dart';
