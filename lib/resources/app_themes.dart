@@ -124,50 +124,6 @@ class AppColors extends ThemeExtension<AppColors> {
 class AppThemes {
   const AppThemes._();
 
-  static ThemeData light2() {
-    return ThemeData(
-      primarySwatch: Colors.blue,
-      bottomSheetTheme: BottomSheetThemeData(
-        backgroundColor: Colors.black.withOpacity(0),
-      ),
-      colorScheme: const ColorScheme.light().copyWith(
-        onSecondaryContainer: const Color(0xFFFF5106),
-        tertiary: const Color(0xFFFF5106),
-        tertiaryContainer: const Color(0xFFFF5106),
-        onTertiaryContainer: const Color(0xFFFF5106),
-        // free
-        error: const Color(0xFFFF5106),
-        // free
-        onError: const Color(0xFFFF5106),
-        // free
-        errorContainer: const Color(0xFFFF5106),
-        // free
-        onErrorContainer: const Color(0xFFFF5106),
-        // free
-        background: const Color(0xFFFF5106),
-        onBackground: const Color(0xFFFF5106),
-        surface: const Color(0xFFFF5106),
-        onSurface: const Color(0xFFFF5106),
-        surfaceVariant: const Color(0xFFFF5106),
-        onSurfaceVariant: const Color(0xFFFF5106),
-        outline: const Color(0xFFFF5106),
-        outlineVariant: const Color(0xFFFF5106),
-        shadow: const Color(0xFFFF5106),
-        // free
-        scrim: const Color(0xFFFF5106),
-        inverseSurface: const Color(0xFFFF5106),
-        onInverseSurface: const Color(0xFFFF5106),
-        inversePrimary: const Color(0xFFFF5106),
-        surfaceTint: const Color(0xFFFF5106),
-        onSecondary: const Color(0xFFFF5106),
-        primary: const Color(0xFFFF5106),
-        onPrimary: const Color(0xFFFF5106),
-        secondary: const Color(0xFFFF5106),
-        secondaryContainer: const Color(0xFFFF5106),
-      ),
-    );
-  }
-
   static ThemeData light() {
     return ThemeData(
       fontFamily: AppFonts.fontFamily,
