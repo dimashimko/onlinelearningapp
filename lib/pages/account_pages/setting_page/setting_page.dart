@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:online_learning_app/pages/account_pages/privacy_policy_page/privacy_policy_page.dart';
 import 'package:online_learning_app/resources/app_themes.dart';
-import 'package:online_learning_app/utils/custom_shared_preferecnes.dart';
+import 'package:online_learning_app/database/shared_preferecnes.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
 import 'package:provider/provider.dart';
 

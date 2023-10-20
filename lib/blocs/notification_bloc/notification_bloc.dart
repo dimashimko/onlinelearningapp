@@ -7,7 +7,7 @@ import 'package:online_learning_app/models/notification_model/notification_model
 import 'package:online_learning_app/services/firestore_notification_service.dart';
 import 'package:online_learning_app/services/local_notification_service.dart';
 import 'package:online_learning_app/services/notifi_service.dart';
-import 'package:online_learning_app/utils/custom_shared_preferecnes.dart';
+import 'package:online_learning_app/database/shared_preferecnes.dart';
 import 'package:online_learning_app/utils/enums.dart';
 import 'package:uuid/uuid.dart';
 

@@ -22,7 +22,7 @@ import 'package:online_learning_app/resources/app_themes.dart';
 import 'package:online_learning_app/services/firestore_course_service.dart';
 import 'package:online_learning_app/services/notifi_service.dart';
 import 'package:online_learning_app/helpers/count_completed_lesson_helper.dart';
-import 'package:online_learning_app/utils/get_course_model_by_uid.dart';
+import 'package:online_learning_app/helpers/get_course_model_by_uid_helper.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/elements/custom_image_viewer.dart';
 import 'package:online_learning_app/widgets/elements/today_progress_widget.dart';

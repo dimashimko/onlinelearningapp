@@ -8,7 +8,7 @@ import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/utils/enums.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button_light.dart';
-import 'package:online_learning_app/widgets/elements/custom_range_slider/custom_range_slider_v1.dart';
+import 'package:online_learning_app/widgets/sliders/custom_range_slider.dart';
 import 'package:online_learning_app/widgets/uncategorized/custom_widget_switcher.dart';
 
 class SearchFilterSheet extends StatefulWidget {

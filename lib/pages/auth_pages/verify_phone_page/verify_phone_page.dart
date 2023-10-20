@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:online_learning_app/pages/main_page.dart';
-import 'package:online_learning_app/utils/show_custom_snack_bar.dart';
+import 'package:online_learning_app/helpers/show_custom_snack_bar_helper.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/elements/custom_keyboard.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';

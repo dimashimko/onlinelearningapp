@@ -11,7 +11,7 @@ import 'package:online_learning_app/pages/auth_pages/verify_phone_page/verify_ph
 import 'package:online_learning_app/pages/auth_pages/widgets/auth_form_fields.dart';
 import 'package:online_learning_app/pages/main_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
-import 'package:online_learning_app/utils/show_custom_snack_bar.dart';
+import 'package:online_learning_app/helpers/show_custom_snack_bar_helper.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
 

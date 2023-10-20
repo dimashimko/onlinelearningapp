@@ -16,8 +16,8 @@ import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/resources/app_images.dart';
 import 'package:online_learning_app/resources/app_themes.dart';
 import 'package:online_learning_app/utils/enums.dart';
-import 'package:online_learning_app/utils/formatDataTime.dart';
-import 'package:online_learning_app/utils/get_course_model_by_uid.dart';
+import 'package:online_learning_app/utils/extensions.dart';
+import 'package:online_learning_app/helpers/get_course_model_by_uid_helper.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button_light.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button_star.dart';
@@ -418,11 +418,8 @@ class CoursePanel extends StatelessWidget {
                 ),
                 const SizedBox(height: 4.0),
                 Text(
-                  '${formatDurationToHour(
-                    Duration(
-                      seconds: currentCourse.duration?.toInt() ?? 0,
-                    ),
-                  )} · ${currentCourse.lessons?.length} Lessons',
+                  '${Duration(seconds: currentCourse.duration?.toInt() ?? 0).formatToHour()} '
+                  '· ${currentCourse.lessons?.length} Lessons',
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const SizedBox(height: 16.0),
@@ -677,11 +674,9 @@ class TextLessonDurationWithCheckBox extends StatelessWidget {
     return Row(
       children: [
         Text(
-          formatDurationToMinutes(
-            Duration(
-              seconds: lesson.duration?.toInt() ?? 0,
-            ),
-          ),
+          Duration(
+            seconds: lesson.duration?.toInt() ?? 0,
+          ).formatToMinutes(),
           style: Theme.of(context).textTheme.displayLarge?.copyWith(
                 fontSize: 14.0,
                 fontWeight: FontWeight.w500,

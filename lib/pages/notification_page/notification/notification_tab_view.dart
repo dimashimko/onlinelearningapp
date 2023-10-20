@@ -6,7 +6,7 @@ import 'package:online_learning_app/models/notification_model/notification_model
 import 'package:online_learning_app/pages/notification_page/no_notification_widget/no_notification_widget.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/utils/enums.dart';
-import 'package:online_learning_app/utils/formatDataTime.dart';
+import 'package:online_learning_app/utils/extensions.dart';
 
 class NotificationTabView extends StatelessWidget {
   const NotificationTabView({super.key});
@@ -89,10 +89,9 @@ class NotificationItem extends StatelessWidget {
                       SvgPicture.asset(AppIcons.clock),
                       const SizedBox(width: 4.0),
                       Text(
-                        formatRelativeTime(
-                          DateTime.tryParse(notification.time ?? '') ??
-                              DateTime.now(),
-                        ),
+                        (DateTime.tryParse(notification.time ?? '') ??
+                                DateTime.now())
+                            .toRelativeTime(),
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                     ],

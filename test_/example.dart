@@ -1,7 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:online_learning_app/utils/pretty_print.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,6 +25,13 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     _checkIfIsLogged();
   }
+
+  String prettyPrint(Map json) {
+    JsonEncoder encoder = const JsonEncoder.withIndent('  ');
+    String pretty = encoder.convert(json);
+    return pretty;
+  }
+
 
   Future<void> _checkIfIsLogged() async {
     final accessToken = await FacebookAuth.instance.accessToken;
