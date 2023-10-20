@@ -54,6 +54,12 @@ class _EditAccountPageState extends State<EditAccountPage> {
   }
 
   @override
+  void dispose() {
+    nameController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false, // fluter 2.x

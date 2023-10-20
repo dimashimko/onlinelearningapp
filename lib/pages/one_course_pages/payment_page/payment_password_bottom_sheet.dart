@@ -1,36 +1,46 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/elements/custom_keyboard.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-class BottomSheetPaymentPassword extends StatelessWidget {
-  BottomSheetPaymentPassword({
+class BottomSheetPaymentPassword extends StatefulWidget {
+  const BottomSheetPaymentPassword({
     required this.correctPin,
     super.key,
   });
 
   static const pinLength = 6;
 
-  final TextEditingController _pinController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
   final String correctPin;
+
+  @override
+  State<BottomSheetPaymentPassword> createState() => _BottomSheetPaymentPasswordState();
+}
+
+class _BottomSheetPaymentPasswordState extends State<BottomSheetPaymentPassword> {
+  final TextEditingController _pinController = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
 
   void _onTapVerifyAndPay(BuildContext context) {
     if (_formKey.currentState != null) {
       bool isValid = _formKey.currentState!.validate();
       if (isValid) {
-
         Navigator.pop(context, true);
       }
     }
   }
 
   String? pinValidator(String? text) {
-    if (text != correctPin) return 'Pin is incorrect';
+    if (text != widget.correctPin) return 'Pin is incorrect';
 
     return null;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _pinController.dispose();
   }
 
   @override

@@ -20,6 +20,8 @@ class CoursePage extends StatefulWidget {
 }
 
 class _CoursePageState extends State<CoursePage> {
+  final _searchController = TextEditingController();
+
   void _navigateToPage({
     required BuildContext context,
     required String route,
@@ -33,7 +35,6 @@ class _CoursePageState extends State<CoursePage> {
   }
 
   void _goToSearchPage(BuildContext context) async {
-
     context.read<CoursesBloc>().add(
           ClearFilters(),
         );
@@ -41,7 +42,6 @@ class _CoursePageState extends State<CoursePage> {
       context: context,
       route: SearchPage.routeName,
       isRoot: true,
-
     );
   }
 
@@ -58,7 +58,6 @@ class _CoursePageState extends State<CoursePage> {
       context: context,
       route: SearchPage.routeName,
       isRoot: true,
-
     );
   }
 
@@ -75,12 +74,16 @@ class _CoursePageState extends State<CoursePage> {
     );
   }
 
-  final _searchController = TextEditingController();
-
   @override
   void initState() {
     super.initState();
     context.read<CoursesBloc>().add(GetAllCourses(orderBy: OrderBy.name.name));
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   @override
@@ -112,7 +115,6 @@ class _CoursePageState extends State<CoursePage> {
                       onTapSetting: () => _goToSearchPage(context),
                       onTap: () => _goToSearchPage(context),
                       isReadOnly: true,
-
                     ),
                     CategoriesListView(
                       onTapCategory: (String? category) {
@@ -168,7 +170,6 @@ class _CustomToggleButtonsState extends State<CustomToggleButtons> {
           context
               .read<CoursesBloc>()
               .add(GetAllCourses(orderBy: OrderBy.duration.name));
-
         }
         if (newCurrent == 2) {
           context
@@ -239,7 +240,6 @@ class CategoriesListView extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 separatorBuilder: (context, index) =>
                     const SizedBox(width: 8.0),
-
                 itemCount: state.categoryList.length,
                 itemBuilder: (context, index) => InkWell(
                       onTap: () {
@@ -252,9 +252,7 @@ class CategoriesListView extends StatelessWidget {
                           alternativePhoto: AppImages.empty_course,
                         ),
                       ),
-                    )
-
-                );
+                    ));
           },
         ),
       ),
@@ -295,4 +293,3 @@ class CoursesListView extends StatelessWidget {
     );
   }
 }
-

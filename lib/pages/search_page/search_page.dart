@@ -112,6 +112,12 @@ class _CustomSearchTextFieldState extends State<CustomSearchTextField> {
   }
 
   @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocListener<CoursesBloc, CoursesState>(
       listenWhen: (p, c) {

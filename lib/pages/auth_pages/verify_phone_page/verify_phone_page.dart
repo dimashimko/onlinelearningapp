@@ -1,5 +1,3 @@
-
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:online_learning_app/pages/main_page.dart';
@@ -72,6 +70,12 @@ class _VerifyPhonePageState extends State<VerifyPhonePage> {
     if (FirebaseAuth.instance.currentUser != null) {
       _goToMainPage();
     }
+  }
+
+  @override
+  void dispose() {
+    _pinController.dispose();
+    super.dispose();
   }
 
   @override

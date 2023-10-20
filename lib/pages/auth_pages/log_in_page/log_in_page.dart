@@ -25,6 +25,15 @@ class LogInPage extends StatefulWidget {
 }
 
 class _LogInPageState extends State<LogInPage> {
+  final _contactController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final _contentFormFieldKey = GlobalKey<FormFieldState>();
+
+  String emailErrorText = '';
+  String nameErrorText = '';
+  String passwordErrorText = '';
+
   void _goToSignUpPage() async {
     Navigator.pushNamedAndRemoveUntil(
       context,
@@ -53,15 +62,6 @@ class _LogInPageState extends State<LogInPage> {
       ),
     );
   }
-
-  final _contactController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-  final _contentFormFieldKey = GlobalKey<FormFieldState>();
-
-  String emailErrorText = '';
-  String nameErrorText = '';
-  String passwordErrorText = '';
 
   void onTapLogin() async {
     bool isValid = false;
@@ -259,6 +259,13 @@ class _LogInPageState extends State<LogInPage> {
         Navigator.of(context).pop();
       }
     }
+  }
+
+  @override
+  void dispose() {
+    _contactController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 
   @override

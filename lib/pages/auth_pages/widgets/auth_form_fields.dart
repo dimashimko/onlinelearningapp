@@ -42,6 +42,7 @@ class _AuthFormFieldsState extends State<AuthFormFields> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Column(

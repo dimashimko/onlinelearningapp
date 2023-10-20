@@ -22,6 +22,14 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  final _contactController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final _contentFormFieldKey = GlobalKey<FormFieldState>();
+
+  bool acceptPrivacyPolicy = false;
+  String privacyPolicyErrorText = '';
+
   void _navigateToPage({
     required BuildContext context,
     required String route,
@@ -60,14 +68,6 @@ class _SignUpPageState extends State<SignUpPage> {
       (_) => false,
     );
   }
-
-  final _contactController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-  final _contentFormFieldKey = GlobalKey<FormFieldState>();
-
-  bool acceptPrivacyPolicy = false;
-  String privacyPolicyErrorText = '';
 
   void _successfulRegistration() async {
     context.read<NotificationBloc>().add(
@@ -181,6 +181,13 @@ class _SignUpPageState extends State<SignUpPage> {
     }
 
     return isValid;
+  }
+
+  @override
+  void dispose() {
+    _contactController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 
   @override

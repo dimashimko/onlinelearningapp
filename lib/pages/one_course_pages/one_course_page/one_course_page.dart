@@ -229,13 +229,6 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
   bool isPlaying = false;
   int currentProgress = 0;
 
-  @override
-  void dispose() {
-    super.dispose();
-
-    _videoController.dispose();
-  }
-
   CustomVideoPlayerController getCustomVideoPlayerController({
     required VideoPlayerController dataSourceController,
   }) {
@@ -261,6 +254,13 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
         settingsButtonAvailable: false,
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _videoController.dispose();
+    _customVideoPlayerController.dispose();
   }
 
   @override

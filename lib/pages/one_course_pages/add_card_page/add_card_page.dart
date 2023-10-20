@@ -24,7 +24,7 @@ class _AddCardPageState extends State<AddCardPage> {
   String _cardHolderName = "";
   String _cardCvvCode = "";
   bool _isCvvFocused = false;
-  late TextEditingController textEditingController;
+  TextEditingController textEditingController = TextEditingController();
 
   void onTapSaveNewCard() {
     if (formKey.currentState?.validate() ?? false) {
@@ -40,11 +40,16 @@ class _AddCardPageState extends State<AddCardPage> {
     }
   }
 
+  String? cardValidation(String? number) {
+    if (number == null || number.isEmpty) {
+      return "Inputs Can't be Empty";
+    }
+    return null;
+  }
+
   @override
   void initState() {
     super.initState();
-
-    textEditingController = TextEditingController();
 
     border = OutlineInputBorder(
       borderSide: BorderSide(
@@ -59,11 +64,10 @@ class _AddCardPageState extends State<AddCardPage> {
         '${now.month.toString().padLeft(2, '0')}/${(now.year + 1).toString().substring(2)}';
   }
 
-  String? cardValidation(String? number) {
-    if (number == null || number.isEmpty) {
-      return "Inputs Can't be Empty";
-    }
-    return null;
+  @override
+  void dispose() {
+    textEditingController.dispose();
+    super.dispose();
   }
 
   @override
