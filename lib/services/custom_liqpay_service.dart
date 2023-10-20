@@ -5,20 +5,10 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:liqpay/liqpay.dart';
 import 'package:liqpay/src/constants.dart';
+import 'package:online_learning_app/models/payment_status_model/payment_status_model.dart';
 
 enum LiqPayResponseStatus { success, wait, error, redirect }
 
-class CustomPaymentStatus {
-  final LiqPayResponseStatus status;
-  final String description;
-
-  CustomPaymentStatus(this.status, this.description);
-
-  @override
-  String toString() {
-    return 'CustomPaymentStatus{status: $status, description: $description}';
-  }
-}
 
 class CustomLiqPay extends LiqPay {
   CustomLiqPay(super.publicKey, super.privateKey);
