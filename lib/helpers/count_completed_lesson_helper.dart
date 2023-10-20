@@ -1,6 +1,8 @@
 import 'package:online_learning_app/models/progress/progress_model.dart';
 
-int countCompletedLesson({CourseProgressModel? userProgress}) {
+int countCompletedLesson({
+  CourseProgressModel? userProgress,
+}) {
   int completedLesson = 0;
   if (userProgress != null) {
     if (userProgress.lessonsProgress != null) {

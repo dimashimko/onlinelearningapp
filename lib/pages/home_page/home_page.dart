@@ -21,7 +21,7 @@ import 'package:online_learning_app/resources/app_images.dart';
 import 'package:online_learning_app/resources/app_themes.dart';
 import 'package:online_learning_app/services/firestore_course_service.dart';
 import 'package:online_learning_app/services/notifi_service.dart';
-import 'package:online_learning_app/utils/count_completed_lesson.dart';
+import 'package:online_learning_app/helpers/count_completed_lesson_helper.dart';
 import 'package:online_learning_app/utils/get_course_model_by_uid.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/elements/custom_image_viewer.dart';
