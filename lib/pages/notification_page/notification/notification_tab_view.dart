@@ -5,6 +5,7 @@ import 'package:online_learning_app/blocs/notification_bloc/notification_bloc.da
 import 'package:online_learning_app/models/notification_model/notification_model.dart';
 import 'package:online_learning_app/pages/notification_page/no_notification_widget/no_notification_widget.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
+import 'package:online_learning_app/utils/enums.dart';
 import 'package:online_learning_app/utils/formatDataTime.dart';
 
 class NotificationTabView extends StatelessWidget {

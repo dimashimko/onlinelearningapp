@@ -1,7 +1,5 @@
 part of 'notification_bloc.dart';
 
-enum TypeNotification { payment, simple }
-
 @immutable
 abstract class NotificationEvent {
   const NotificationEvent();

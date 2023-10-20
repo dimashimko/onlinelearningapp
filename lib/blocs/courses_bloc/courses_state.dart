@@ -1,9 +1,5 @@
 part of 'courses_bloc.dart';
 
-enum FilterBottomSheetStatus { enable, disable }
-enum FilterEnabledType { text, price, duration, all}
-enum OrderBy { name, duration, created}
-
 @immutable
 class CoursesState extends Equatable {
   const CoursesState({
@@ -28,26 +24,25 @@ class CoursesState extends Equatable {
     this.filterEnabledType = FilterEnabledType.all,
     this.userCoursesList = const [],
     this.favoriteList = const [],
-
   });
 
   @override
   List<Object?> get props => [
-    filterStatus,
-    currentIndex,
-    coursesList,
-    categoryList,
-    filterCategory,
-    filterDurationItems,
-    filterPriceRangeValues,
-    filteredCoursesList,
-    maxPricePerCourse,
-    filterText,
-    isFilterNavToSearchPage,
-    filterEnabledType,
-    userCoursesList,
-    favoriteList,
-  ];
+        filterStatus,
+        currentIndex,
+        coursesList,
+        categoryList,
+        filterCategory,
+        filterDurationItems,
+        filterPriceRangeValues,
+        filteredCoursesList,
+        maxPricePerCourse,
+        filterText,
+        isFilterNavToSearchPage,
+        filterEnabledType,
+        userCoursesList,
+        favoriteList,
+      ];
 
   final FilterBottomSheetStatus filterStatus;
   final int currentIndex;
@@ -70,7 +65,6 @@ class CoursesState extends Equatable {
     String? route,
     List<CourseModel>? coursesList,
     List<CategoryModel>? categoryList,
-
     Set<String>? filterCategory,
     List<DurationRangeModel>? filterDurationItems,
     RangeValues? filterPriceRangeValues,
@@ -89,11 +83,13 @@ class CoursesState extends Equatable {
       categoryList: categoryList ?? this.categoryList,
       filterCategory: filterCategory ?? this.filterCategory,
       filterDurationItems: filterDurationItems ?? this.filterDurationItems,
-      filterPriceRangeValues: filterPriceRangeValues ?? this.filterPriceRangeValues,
+      filterPriceRangeValues:
+          filterPriceRangeValues ?? this.filterPriceRangeValues,
       filteredCoursesList: filteredCoursesList ?? this.filteredCoursesList,
       maxPricePerCourse: maxPricePerCourse ?? this.maxPricePerCourse,
       filterText: filterText ?? this.filterText,
-      isFilterNavToSearchPage: isFilterNavToSearchPage ?? this.isFilterNavToSearchPage,
+      isFilterNavToSearchPage:
+          isFilterNavToSearchPage ?? this.isFilterNavToSearchPage,
       filterEnabledType: filterEnabledType ?? this.filterEnabledType,
       userCoursesList: userCoursesList ?? this.userCoursesList,
       favoriteList: favoriteList ?? this.favoriteList,

@@ -1,9 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:online_learning_app/models/video_model/lesson_model.dart';
 
-enum Categories { programming, math, painting, language, other }
-
-class CourseModel extends Equatable  {
+class CourseModel extends Equatable {
   final String? uid;
   final String? name;
   final String? author;
@@ -41,8 +39,6 @@ class CourseModel extends Equatable  {
     this.lessons,
   });
 
-
-
   CourseModel copyWith({
     String? uid,
     String? name,
@@ -70,12 +66,10 @@ class CourseModel extends Equatable  {
   }
 
   factory CourseModel.fromJson(Map<String, dynamic> json) {
-
     List listLesson = List<Map<String, dynamic>>.from(json['lessons'] ?? []);
     List<LessonModel> listLessons = [];
 
     for (Map<String, dynamic> lessonRaw in listLesson) {
-
       listLessons.add(
         LessonModel.fromJson(
           lessonRaw,
@@ -114,15 +108,15 @@ class CourseModel extends Equatable  {
 
   @override
   List<Object?> get props => [
-    uid,
-    name,
-    author,
-    category,
-    price,
-    duration,
-    about,
-    openLesson,
-    title,
-    lessons,
-  ];
+        uid,
+        name,
+        author,
+        category,
+        price,
+        duration,
+        about,
+        openLesson,
+        title,
+        lessons,
+      ];
 }

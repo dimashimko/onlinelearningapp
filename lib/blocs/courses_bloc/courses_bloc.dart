@@ -6,6 +6,7 @@ import 'package:online_learning_app/models/course/course_model.dart';
 import 'package:online_learning_app/models/duration_range_model/duration_range_model.dart';
 import 'package:online_learning_app/models/progress/progress_model.dart';
 import 'package:online_learning_app/services/firestore_course_service.dart';
+import 'package:online_learning_app/utils/enums.dart';
 import 'package:online_learning_app/utils/get_uisd_catogories.dart';
 
 part 'courses_event.dart';

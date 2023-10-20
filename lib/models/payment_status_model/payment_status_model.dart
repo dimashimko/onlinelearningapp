@@ -1,4 +1,4 @@
-import 'package:online_learning_app/services/custom_liqpay_service.dart';
+import 'package:online_learning_app/utils/enums.dart';
 
 class CustomPaymentStatus {
   final LiqPayResponseStatus status;

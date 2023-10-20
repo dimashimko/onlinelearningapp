@@ -45,7 +45,12 @@ class MyFirestoreNotificationService {
         for (var doc in snapshot.docs) {
           listOfMessageModel.add(
             MessageModel.fromJson(
-              doc.data()..addAll({'uid': doc.id.toString()}),
+              doc.data()
+                ..addAll(
+                  {
+                    'uid': doc.id.toString(),
+                  },
+                ),
             ),
           );
         }

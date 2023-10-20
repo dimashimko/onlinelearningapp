@@ -5,6 +5,7 @@ import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
 import 'package:online_learning_app/models/duration_range_model/duration_range_model.dart';
 import 'package:online_learning_app/pages/search_page/search_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
+import 'package:online_learning_app/utils/enums.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button_light.dart';
 import 'package:online_learning_app/widgets/elements/custom_range_slider/custom_range_slider_v1.dart';

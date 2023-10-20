@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_learning_app/pages/home_page/home_page.dart';
+import 'package:online_learning_app/utils/enums.dart';
 
 part 'navigation_event.dart';
 

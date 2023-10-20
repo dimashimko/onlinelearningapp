@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
-import 'package:online_learning_app/blocs/notification_bloc/notification_bloc.dart';
+import 'package:online_learning_app/utils/enums.dart';
 
 class NotificationModel extends Equatable {
   final TypeNotification? typeNotification;
-  final String? uid; // uid
+  final String? uid;
   final String? time;
   final String? text;
   final String? title;

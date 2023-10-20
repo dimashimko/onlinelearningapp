@@ -1,7 +1,5 @@
 part of 'progress_bloc.dart';
 
-enum PlaybackStatus { play, pause }
-
 class ProgressState extends Equatable {
   const ProgressState({
     this.totalDuration = 0,

@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
 import 'package:online_learning_app/models/category/category_model.dart';
 import 'package:online_learning_app/models/course/course_model.dart';
 import 'package:online_learning_app/models/duration_range_model/duration_range_model.dart';
+import 'package:online_learning_app/utils/enums.dart';
 
 class MyFirestoreCourseService {
   FirebaseFirestore db = FirebaseFirestore.instance;

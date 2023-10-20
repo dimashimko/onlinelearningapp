@@ -6,9 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:liqpay/liqpay.dart';
 import 'package:liqpay/src/constants.dart';
 import 'package:online_learning_app/models/payment_status_model/payment_status_model.dart';
-
-enum LiqPayResponseStatus { success, wait, error, redirect }
-
+import 'package:online_learning_app/utils/enums.dart';
 
 class CustomLiqPay extends LiqPay {
   CustomLiqPay(super.publicKey, super.privateKey);
@@ -30,7 +28,6 @@ class CustomLiqPay extends LiqPay {
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);
       return data;
-
     } else {
       throw HttpException(response.toString(), uri: url);
     }

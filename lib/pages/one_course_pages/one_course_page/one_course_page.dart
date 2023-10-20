@@ -15,6 +15,7 @@ import 'package:online_learning_app/pages/one_course_pages/payment_page/payment_
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/resources/app_images.dart';
 import 'package:online_learning_app/resources/app_themes.dart';
+import 'package:online_learning_app/utils/enums.dart';
 import 'package:online_learning_app/utils/formatDataTime.dart';
 import 'package:online_learning_app/utils/get_course_model_by_uid.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
@@ -700,8 +701,6 @@ class TextLessonDurationWithCheckBox extends StatelessWidget {
     );
   }
 }
-
-enum WatchStatus { notViewed, inProgress, viewed }
 
 WatchStatus getWatchStatus(List<bool>? lessonProgress) {
   if (lessonProgress == null) {

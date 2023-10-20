@@ -5,6 +5,7 @@ import 'package:online_learning_app/models/progress/progress_model.dart';
 import 'package:online_learning_app/models/user_activity/user_activity_model.dart';
 import 'package:online_learning_app/services/firestore_progress_service.dart';
 import 'package:online_learning_app/utils/constants.dart';
+import 'package:online_learning_app/utils/enums.dart';
 
 part 'progress_event.dart';
 

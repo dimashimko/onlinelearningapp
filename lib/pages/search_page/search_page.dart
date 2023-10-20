@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
 import 'package:online_learning_app/pages/one_course_pages/one_course_page/one_course_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
+import 'package:online_learning_app/utils/enums.dart';
 import 'package:online_learning_app/widgets/elements/course_item.dart';
 import 'package:online_learning_app/widgets/elements/custom_search_text_field.dart';
 

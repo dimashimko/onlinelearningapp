@@ -1,7 +1,5 @@
 part of 'navigation_bloc.dart';
 
-enum NavigationStateStatus { initial, menu, tab }
-
 @immutable
 class NavigationState {
   const NavigationState({

@@ -10,6 +10,7 @@ import 'package:online_learning_app/models/payment_status_model/payment_status_m
 import 'package:online_learning_app/pages/one_course_pages/one_course_page/one_course_page.dart';
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/services/custom_liqpay_service.dart';
+import 'package:online_learning_app/utils/enums.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -161,7 +162,7 @@ class _CheckPaymentStatusPageState extends State<CheckPaymentStatusPage> {
     return Scaffold(
       appBar: CustomAppBarDefault(
         title: '',
-        onLeading: ()=> _goToCoursePage(context),
+        onLeading: () => _goToCoursePage(context),
       ),
       body: SafeArea(
         child: Padding(

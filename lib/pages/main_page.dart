@@ -18,6 +18,7 @@ import 'package:online_learning_app/pages/uncategorized_pages/no_network_page/no
 import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/routes/app_router.dart';
 import 'package:online_learning_app/services/connectivity_service.dart';
+import 'package:online_learning_app/utils/enums.dart';
 import 'package:online_learning_app/widgets/elements/search_filter_sheet.dart';
 import 'package:online_learning_app/widgets/navigation/custom_bottom_navigation_bar.dart';
 
@@ -164,7 +165,8 @@ class _MainPageState extends State<MainPage> {
       } else {
         context.read<ProgressBloc>().add(
               const ChangePlaybackStatusEvent(
-                  newPlaybackStatus: PlaybackStatus.pause),
+                newPlaybackStatus: PlaybackStatus.pause,
+              ),
             );
         _showNoNetworkModalBottomSheet(
           context,
