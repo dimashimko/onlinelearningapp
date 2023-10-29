@@ -42,6 +42,10 @@ class _AboutCourseWidgetState extends State<AboutCourseWidget> {
               padding: const EdgeInsets.all(16.0),
               child: SvgPicture.asset(
                 isFullText ? AppIcons.arrowUp : AppIcons.arrowDown,
+                colorFilter: ColorFilter.mode(
+                  Theme.of(context).colorScheme.onBackground,
+                  BlendMode.srcIn,
+                ),
               ),
             ),
             onTap: () {

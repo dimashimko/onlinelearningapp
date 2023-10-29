@@ -99,22 +99,24 @@ class _MainPageState extends State<MainPage> {
   }
 
   void _showNoNetworkModalBottomSheet(BuildContext context, Widget content) {
-    noNetworkModalBottomSheetEnabled = true;
-    showModalBottomSheet<void>(
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      context: context,
-      builder: (BuildContext context) {
-        return WillPopScope(
-          onWillPop: () async {
-            return false; // Returning false prevents back button from closing the sheet
-          },
-          child: content,
-        );
-      },
-      enableDrag: false,
-      isDismissible: false,
-    );
+    if (!noNetworkModalBottomSheetEnabled) {
+      noNetworkModalBottomSheetEnabled = true;
+      showModalBottomSheet<void>(
+        backgroundColor: Colors.transparent,
+        isScrollControlled: true,
+        context: context,
+        builder: (BuildContext context) {
+          return WillPopScope(
+            onWillPop: () async {
+              return false; // Returning false prevents back button from closing the sheet
+            },
+            child: content,
+          );
+        },
+        enableDrag: false,
+        isDismissible: false,
+      );
+    }
   }
 
   void _hideNoNetworkModalBottomSheet(BuildContext context) {

@@ -26,9 +26,13 @@ class _AddCardPageState extends State<AddCardPage> {
   bool _isCvvFocused = false;
   TextEditingController textEditingController = TextEditingController();
 
-  void onTapSaveNewCard() {
+  void onTapSaveNewCard() async {
     if (formKey.currentState?.validate() ?? false) {
       FocusScope.of(context).unfocus();
+      await Future.delayed(
+        const Duration(milliseconds: 100),
+      );
+      // formKey.currentState?.dispose();
       CardModel cardModel = CardModel(
         cardNumber: _cardNumber.replaceAll(' ', ''),
         cardExpiryDate: _cardExpiryDate,
@@ -36,7 +40,9 @@ class _AddCardPageState extends State<AddCardPage> {
         cardCvvCode: _cardCvvCode,
         cardPaymentPassword: textEditingController.text.trim(),
       );
-      Navigator.pop(context, cardModel);
+      if (mounted) {
+        Navigator.pop(context, cardModel);
+      }
     }
   }
 
@@ -113,10 +119,11 @@ class _AddCardPageState extends State<AddCardPage> {
                       isExpiryDateVisible: true,
                       cardHolderName: _cardHolderName,
                       expiryDate: _cardExpiryDate,
-                      themeColor: Colors.green,
-                      textColor: Colors.black,
+                      themeColor: Colors.blue,
+                      // textColor: Colors.green,
+                      textColor: Theme.of(context).colorScheme.onBackground,
                       cardNumberDecoration: InputDecoration(
-                        labelText: 'Number',
+                        labelText: 'Number2',
                         hintText: 'XXXX XXXX XXXX XXXX',
                         hintStyle: const TextStyle(color: Colors.grey),
                         labelStyle: const TextStyle(color: Colors.grey),
@@ -143,8 +150,8 @@ class _AddCardPageState extends State<AddCardPage> {
                         hintText: 'XXX',
                       ),
                       cardHolderDecoration: InputDecoration(
-                        hintStyle: const TextStyle(color: Colors.black),
-                        labelStyle: const TextStyle(color: Colors.black),
+                        hintStyle: const TextStyle(color: Colors.grey),
+                        labelStyle: const TextStyle(color: Colors.grey),
                         focusedBorder: border,
                         enabledBorder: border,
                         labelText: 'Card Holder',
@@ -159,6 +166,7 @@ class _AddCardPageState extends State<AddCardPage> {
                         controller: textEditingController,
                         decoration: InputDecoration(
                           hintText: 'Payment password (optional)',
+                          hintStyle: const TextStyle(color: Colors.grey),
                           focusedBorder: border,
                           enabledBorder: border,
                         ),

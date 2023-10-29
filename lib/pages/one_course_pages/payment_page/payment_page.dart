@@ -99,7 +99,7 @@ class _PaymentPageState extends State<PaymentPage> {
 
     final cardsRaw = List<Map<String, dynamic>>.from(
       json.decode(
-        cardsData ?? '',
+        cardsData ?? '[]',
       ),
     );
     List<CardModel> cardsList = [];

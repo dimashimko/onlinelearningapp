@@ -1,6 +1,5 @@
 import 'dart:async';
 
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 
 class CustomConnectivityService {
@@ -15,11 +14,14 @@ class CustomConnectivityService {
     connectivityStreamSubscription = Connectivity()
         .onConnectivityChanged
         .listen((ConnectivityResult result) {
-
       onChangeConnectionState(
         result != ConnectivityResult.none,
       );
     });
+    _checkConnectivity();
+  }
+
+  void checkNow() {
     _checkConnectivity();
   }
 
@@ -31,9 +33,9 @@ class CustomConnectivityService {
     );
   }
 
-  void checkNow(){
-    _checkConnectivity();
-  }
+/*  void checkChanges(){
+
+  }*/
 
   void dispose() {
     connectivityStreamSubscription?.cancel();

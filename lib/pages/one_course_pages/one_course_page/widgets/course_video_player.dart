@@ -40,6 +40,16 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
       context: context,
       videoPlayerController: dataSourceController,
       customVideoPlayerSettings: CustomVideoPlayerSettings(
+        playButton: SvgPicture.asset(
+          AppIcons.playButton,
+          height: 20,
+          width: 20,
+        ),
+        pauseButton: SvgPicture.asset(
+          AppIcons.pauseButton,
+          height: 20,
+          width: 20,
+        ),
         enterFullscreenButton: SvgPicture.asset(
           AppIcons.fullScreen,
           height: 20,
@@ -56,6 +66,8 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
           progressBarHeight: 3,
         ),
         settingsButtonAvailable: false,
+
+        // playButton: CustomVideoPlay
       ),
     );
   }
@@ -63,8 +75,8 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
   @override
   void dispose() {
     super.dispose();
+    // _customVideoPlayerController.dispose();
     _videoController.dispose();
-    _customVideoPlayerController.dispose();
   }
 
   @override

@@ -80,7 +80,7 @@ class _HomePageState extends State<HomePage> {
             return previous.coursesList != current.coursesList;
           },
           listener: (context, state) {
-            for (CourseModel course in state.coursesList) {
+/*            for (CourseModel course in state.coursesList) {
               try {
                 if (course.title != null && course.title!.isNotEmpty) {
                   precacheImage(
@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
                   );
                 }
               } catch (e) {}
-            }
+            }*/
           },
           child: SingleChildScrollView(
             child: Column(

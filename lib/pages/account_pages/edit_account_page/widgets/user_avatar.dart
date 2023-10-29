@@ -37,8 +37,19 @@ class UserAvatar extends StatelessWidget {
               alternativePhoto: AppImages.emptyAvatar,
               boxFitNetworkImage: BoxFit.fitHeight,
             ),
-            SvgPicture.asset(
-              AppIcons.cameraContour,
+/*            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SvgPicture.asset(
+                AppIcons.cameraContour,
+              ),
+            ),*/
+            Container(
+              width: 48.0,
+              height: 48.0,
+              child: SvgPicture.asset(
+                AppIcons.cameraContour,
+                fit: BoxFit.fitWidth,
+              ),
             ),
           ],
         ),

@@ -21,7 +21,9 @@ class SuccessRegistrationDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           const SizedBox(height: 16.0),
-          SvgPicture.asset(AppIcons.checkMark),
+          SvgPicture.asset(
+            AppIcons.checkMark,
+          ),
           const SizedBox(height: 16.0),
           Text(
             'Success',

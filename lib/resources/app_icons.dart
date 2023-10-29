@@ -64,6 +64,8 @@ class AppIcons {
   static const String normalScreen = '$_path/normalScreen.svg';
   static const String fullScreen = '$_path/fullScreen.svg';
   static const String noProductIcon = '$_path/no_product_icon.svg';
+  static const String playButton = '$_path/play_button.svg';
+  static const String pauseButton = '$_path/pause_button.svg';
 
 
 

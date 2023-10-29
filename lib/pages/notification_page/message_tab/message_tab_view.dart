@@ -58,8 +58,8 @@ class _MessageTabViewState extends State<MessageTabView> {
 
   @override
   void dispose() {
-    _pagingController.dispose();
     super.dispose();
+    _pagingController.dispose();
   }
 }
 

@@ -17,6 +17,10 @@ class ButtonBackSearchPage extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: SvgPicture.asset(
           AppIcons.arrowBack,
+          colorFilter: ColorFilter.mode(
+            Theme.of(context).colorScheme.onBackground,
+            BlendMode.srcIn,
+          ),
         ),
       ),
       onTap: () => goToBackPage(),

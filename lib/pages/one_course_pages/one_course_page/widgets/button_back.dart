@@ -16,7 +16,9 @@ class ButtonBack extends StatelessWidget {
       onTap: () => onTapButtonBack(),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: SvgPicture.asset(AppIcons.arrowBack),
+        child: SvgPicture.asset(
+          AppIcons.arrowBack,
+        ),
       ),
     );
   }

@@ -17,9 +17,13 @@ class SuccessfulPaymentWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
-        SvgPicture.asset(AppIcons.checkMark3),
+        SvgPicture.asset(
+          AppIcons.checkMark3,
+        ),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          padding: const EdgeInsets.symmetric(
+            vertical: 16.0,
+          ),
           child: Text(
             'Successful purchase!',
             style: Theme.of(context).textTheme.labelLarge,

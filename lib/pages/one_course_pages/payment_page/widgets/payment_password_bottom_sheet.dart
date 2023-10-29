@@ -136,6 +136,7 @@ class PinCodeVerificationWidgetState extends State<PinCodeVerificationWidget> {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0),
         child: PinCodeTextField(
+          autoDisposeControllers: false,
           readOnly: true,
           showCursor: false,
           obscureText: true,

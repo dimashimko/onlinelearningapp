@@ -86,7 +86,9 @@ class NotificationItem extends StatelessWidget {
                   const SizedBox(height: 4.0),
                   Row(
                     children: [
-                      SvgPicture.asset(AppIcons.clock),
+                      SvgPicture.asset(
+                        AppIcons.clock,
+                      ),
                       const SizedBox(width: 4.0),
                       Text(
                         (DateTime.tryParse(notification.time ?? '') ??

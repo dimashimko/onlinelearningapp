@@ -129,6 +129,10 @@ class KeyboardSign extends StatelessWidget {
           )
               : SvgPicture.asset(
             AppIcons.delete,
+            colorFilter: ColorFilter.mode(
+              Theme.of(context).colorScheme.onBackground,
+              BlendMode.srcIn,
+            ),
           ),
         ),
       ),
