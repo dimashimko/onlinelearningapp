@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
 import 'package:online_learning_app/blocs/progress_bloc/progress_bloc.dart';
-import 'package:online_learning_app/helpers/count_completed_lesson_helper.dart';
 import 'package:online_learning_app/models/course/course_model.dart';
 import 'package:online_learning_app/models/progress/progress_model.dart';
 import 'package:online_learning_app/pages/my_courses_page/widget/no_produst_widget.dart';
 import 'package:online_learning_app/pages/one_course_pages/one_course_page/one_course_page.dart';
 import 'package:online_learning_app/resources/app_colors.dart';
+import 'package:online_learning_app/utils/extensions.dart';
 import 'package:online_learning_app/widgets/buttons/custom_play_button.dart';
 import 'package:online_learning_app/widgets/elements/today_progress_widget.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
@@ -111,10 +111,11 @@ class _MyCoursesPageState extends State<MyCoursesPage> {
                             ),
                             itemCount: stateCoursesBloc.userCoursesList.length,
                             itemBuilder: (context, index) {
-                              int lessonCompleted = countCompletedLesson(
-                                userProgress: userProgress?[stateCoursesBloc
-                                    .userCoursesList[index].uid],
-                              );
+                              int lessonCompleted = userProgress?[
+                                          stateCoursesBloc
+                                              .userCoursesList[index].uid]
+                                      ?.countCompletedLesson() ??
+                                  0;
                               return InkWell(
                                 onTap: () {
                                   if (stateCoursesBloc

@@ -10,7 +10,6 @@ import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
 import 'package:online_learning_app/blocs/notification_bloc/notification_bloc.dart';
 import 'package:online_learning_app/blocs/progress_bloc/progress_bloc.dart';
 import 'package:online_learning_app/firebase_options.dart';
-import 'package:online_learning_app/helpers/count_completed_lesson_helper.dart';
 import 'package:online_learning_app/helpers/get_course_model_by_uid_helper.dart';
 import 'package:online_learning_app/models/course/course_model.dart';
 import 'package:online_learning_app/models/progress/progress_model.dart';
@@ -23,6 +22,7 @@ import 'package:online_learning_app/resources/app_icons.dart';
 import 'package:online_learning_app/resources/app_images.dart';
 import 'package:online_learning_app/services/firestore_course_service.dart';
 import 'package:online_learning_app/services/notifi_service.dart';
+import 'package:online_learning_app/utils/extensions.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
 import 'package:online_learning_app/widgets/elements/custom_image_viewer.dart';
 import 'package:online_learning_app/widgets/elements/today_progress_widget.dart';
@@ -255,9 +255,9 @@ class LearningPlanWidget extends StatelessWidget {
                       child: Column(
                         children: state.userCoursesList.map(
                           (e) {
-                            int lessonCompleted = countCompletedLesson(
-                              userProgress: userProgress?[e.uid],
-                            );
+                            int lessonCompleted =
+                                userProgress?[e.uid]?.countCompletedLesson() ??
+                                    0;
                             return CourseProgressItem(
                               courseModel: e,
                               lessonCompleted: lessonCompleted,
@@ -649,4 +649,3 @@ class _ButtonsState extends State<Buttons> {
     );
   }
 }
-

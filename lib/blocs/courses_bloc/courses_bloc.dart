@@ -7,10 +7,9 @@ import 'package:online_learning_app/models/duration_range_model/duration_range_m
 import 'package:online_learning_app/models/progress/progress_model.dart';
 import 'package:online_learning_app/services/firestore_course_service.dart';
 import 'package:online_learning_app/utils/enums.dart';
-import 'package:online_learning_app/helpers/get_uisd_catogories_helper.dart';
+import 'package:online_learning_app/utils/extensions.dart';
 
 part 'courses_event.dart';
-
 part 'courses_state.dart';
 
 class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
@@ -107,8 +106,14 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     GetFilteredCourses event,
     Emitter<CoursesState> emit,
   ) async {
+    // List<String> uidsSelectedCategories = getUidsCategories(
+    //   state.filterCategory,
+    //   state.categoryList,
+    // );
     List<String> uidsSelectedCategories =
-        getUidsCategories(state.filterCategory, state.categoryList);
+        state.categoryList.getUidsCategories(
+      state.filterCategory,
+    );
 
     List<CourseModel> filteredCoursesList =
         await fireStoreService.getFilteredCoursesList(

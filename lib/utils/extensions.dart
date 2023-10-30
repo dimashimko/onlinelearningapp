@@ -1,4 +1,41 @@
 import 'package:intl/intl.dart';
+import 'package:online_learning_app/models/category/category_model.dart';
+import 'package:online_learning_app/models/progress/progress_model.dart';
+
+extension ListX on List<CategoryModel> {
+  List<String>  getUidsCategories(Set<String> categories,) {
+    List<String> result = [];
+    for (CategoryModel category in this) {
+      if (categories.contains(category.name)) {
+        if (category.uid != null) {
+          result.add(category.uid!);
+        }
+      }
+    }
+    return result;
+  }
+}
+
+extension CourseProgressModelX on CourseProgressModel {
+  int countCompletedLesson() {
+    int completedLesson = 0;
+    if (lessonsProgress != null) {
+      for (List<bool> lessonProgress in lessonsProgress!.values) {
+        if (allTrue(lessonProgress)) completedLesson++;
+      }
+    }
+      return completedLesson;
+  }
+}
+
+bool allTrue(List<bool> boolList) {
+  for (bool element in boolList) {
+    if (!element) {
+      return false;
+    }
+  }
+  return true;
+}
 
 extension DataTimeConverter on DateTime {
   String toRelativeTime() {

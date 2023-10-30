@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_learning_app/blocs/courses_bloc/courses_bloc.dart';
 import 'package:online_learning_app/blocs/progress_bloc/progress_bloc.dart';
-import 'package:online_learning_app/helpers/count_completed_lesson_helper.dart';
 import 'package:online_learning_app/models/progress/progress_model.dart';
 import 'package:online_learning_app/pages/account_pages/favorite_page/widgets/course_item.dart';
 import 'package:online_learning_app/pages/one_course_pages/one_course_page/one_course_page.dart';
 import 'package:online_learning_app/resources/app_colors.dart';
+import 'package:online_learning_app/utils/extensions.dart';
 import 'package:online_learning_app/widgets/navigation/custom_app_bar.dart';
 
 class FavoritePage extends StatefulWidget {
@@ -104,11 +104,10 @@ class _FavoritePageState extends State<FavoritePage> {
                       ),
                       itemCount: stateCoursesBloc.favoriteList.length,
                       itemBuilder: (context, index) {
-                        int lessonCompleted = countCompletedLesson(
-                          userProgress: userProgress?[
-                              stateCoursesBloc.favoriteList[index].uid],
-                        );
-
+                        int lessonCompleted = userProgress?[
+                                    stateCoursesBloc.favoriteList[index].uid]!
+                                .countCompletedLesson() ??
+                            0;
                         return InkWell(
                           onTap: () {
                             if (stateCoursesBloc.favoriteList[index].uid !=

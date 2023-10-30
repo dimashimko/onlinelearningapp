@@ -121,6 +121,7 @@ class _MainPageState extends State<MainPage> {
 
   void _hideNoNetworkModalBottomSheet(BuildContext context) {
     if (noNetworkModalBottomSheetEnabled) {
+      noNetworkModalBottomSheetEnabled = false;
       Navigator.of(context).pop();
     }
   }
