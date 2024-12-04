@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:online_learning_app/models/card/card_model.dart';
 import 'package:online_learning_app/widgets/buttons/custom_button.dart';
@@ -119,43 +118,46 @@ class _AddCardPageState extends State<AddCardPage> {
                       isExpiryDateVisible: true,
                       cardHolderName: _cardHolderName,
                       expiryDate: _cardExpiryDate,
-                      themeColor: Colors.blue,
+                      inputConfiguration: InputConfiguration(
+                        cardNumberDecoration: InputDecoration(
+                          labelText: 'Number2',
+                          hintText: 'XXXX XXXX XXXX XXXX',
+                          hintStyle: const TextStyle(color: Colors.grey),
+                          labelStyle: const TextStyle(color: Colors.grey),
+                          focusedBorder: border,
+                          enabledBorder: border,
+                          errorBorder: border,
+                        ),
+                        expiryDateDecoration: InputDecoration(
+                          hintStyle: const TextStyle(color: Colors.grey),
+                          labelStyle: const TextStyle(color: Colors.grey),
+                          focusedBorder: border,
+                          enabledBorder: border,
+                          errorBorder: border,
+                          labelText: 'Expired Date',
+                          hintText: 'XX/XX',
+                        ),
+                        cvvCodeDecoration: InputDecoration(
+                          hintStyle: const TextStyle(color: Colors.grey),
+                          labelStyle: const TextStyle(color: Colors.grey),
+                          focusedBorder: border,
+                          enabledBorder: border,
+                          errorBorder: border,
+                          labelText: 'CVV',
+                          hintText: 'XXX',
+                        ),
+                        cardHolderDecoration: InputDecoration(
+                          hintStyle: const TextStyle(color: Colors.grey),
+                          labelStyle: const TextStyle(color: Colors.grey),
+                          focusedBorder: border,
+                          enabledBorder: border,
+                          labelText: 'Card Holder',
+                        ),
+                      ),
+                      // themeColor: Colors.blue,
                       // textColor: Colors.green,
-                      textColor: Theme.of(context).colorScheme.onBackground,
-                      cardNumberDecoration: InputDecoration(
-                        labelText: 'Number2',
-                        hintText: 'XXXX XXXX XXXX XXXX',
-                        hintStyle: const TextStyle(color: Colors.grey),
-                        labelStyle: const TextStyle(color: Colors.grey),
-                        focusedBorder: border,
-                        enabledBorder: border,
-                        errorBorder: border,
-                      ),
-                      expiryDateDecoration: InputDecoration(
-                        hintStyle: const TextStyle(color: Colors.grey),
-                        labelStyle: const TextStyle(color: Colors.grey),
-                        focusedBorder: border,
-                        enabledBorder: border,
-                        errorBorder: border,
-                        labelText: 'Expired Date',
-                        hintText: 'XX/XX',
-                      ),
-                      cvvCodeDecoration: InputDecoration(
-                        hintStyle: const TextStyle(color: Colors.grey),
-                        labelStyle: const TextStyle(color: Colors.grey),
-                        focusedBorder: border,
-                        enabledBorder: border,
-                        errorBorder: border,
-                        labelText: 'CVV',
-                        hintText: 'XXX',
-                      ),
-                      cardHolderDecoration: InputDecoration(
-                        hintStyle: const TextStyle(color: Colors.grey),
-                        labelStyle: const TextStyle(color: Colors.grey),
-                        focusedBorder: border,
-                        enabledBorder: border,
-                        labelText: 'Card Holder',
-                      ),
+                      // textColor: Theme.of(context).colorScheme.onBackground,
+
                       onCreditCardModelChange: onCreditCardModelChange,
                     ),
                     Padding(

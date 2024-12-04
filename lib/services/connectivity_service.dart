@@ -1,24 +1,20 @@
 import 'dart:async';
 
-import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 
 class CustomConnectivityService {
   final Function(bool) onChangeConnectionState;
-  StreamSubscription<ConnectivityResult>? connectivityStreamSubscription;
+  StreamSubscription<InternetStatus>? listener;
 
   CustomConnectivityService({
     required this.onChangeConnectionState,
   });
 
   Future<void> init() async {
-    connectivityStreamSubscription = Connectivity()
-        .onConnectivityChanged
-        .listen((ConnectivityResult result) {
-      onChangeConnectionState(
-        result != ConnectivityResult.none,
-      );
+    listener =
+        InternetConnection().onStatusChange.listen((InternetStatus status) {
+      onChangeConnectionState(status == InternetStatus.connected);
     });
-    _checkConnectivity();
   }
 
   void checkNow() {
@@ -26,18 +22,14 @@ class CustomConnectivityService {
   }
 
   void _checkConnectivity() async {
-    ConnectivityResult result = await (Connectivity().checkConnectivity());
+    bool result = await InternetConnection().hasInternetAccess;
 
     onChangeConnectionState(
-      result != ConnectivityResult.none,
+      result,
     );
   }
 
-/*  void checkChanges(){
-
-  }*/
-
   void dispose() {
-    connectivityStreamSubscription?.cancel();
+    listener?.cancel();
   }
 }

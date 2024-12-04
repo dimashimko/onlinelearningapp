@@ -19,11 +19,11 @@ class AnalyticsService {
   }) async {
     await analytics.logEvent(
       name: 'course_selected',
-      parameters: <String, dynamic>{
-        'uid': uid,
-        'name': name,
-        'author': author,
-        'category': category,
+      parameters: <String, Object>{
+        'uid': uid ?? 'uid',
+        'name': name ?? 'name',
+        'author': author ?? 'author',
+        'category': category ?? 'category',
       },
     );
   }
@@ -33,8 +33,8 @@ class AnalyticsService {
   }) async {
     await analytics.logEvent(
       name: 'bottom_bar_event',
-      parameters: <String, dynamic>{
-        'bottomBarIndex': routeName,
+      parameters: <String, Object>{
+        'bottomBarIndex': routeName ?? 'routeName',
       },
     );
   }
@@ -51,7 +51,7 @@ class AnalyticsService {
 
     await analytics.logEvent(
       name: name,
-      parameters: <String, dynamic>{
+      parameters: <String, Object>{
         'dateTime': dateTimeNow,
       },
     );

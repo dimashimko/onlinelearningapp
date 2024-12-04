@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:appinio_video_player/appinio_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,8 +25,8 @@ class CourseVideoPlayer extends StatefulWidget {
 }
 
 class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
-  late VideoPlayerController _videoController =
-      VideoPlayerController.networkUrl(Uri.parse(''));
+  late CachedVideoPlayerController _videoController =
+      CachedVideoPlayerController.network('');
   late CustomVideoPlayerController _customVideoPlayerController =
       CustomVideoPlayerController(
     context: context,
@@ -34,12 +36,13 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
   int currentProgress = 0;
 
   CustomVideoPlayerController getCustomVideoPlayerController({
-    required VideoPlayerController dataSourceController,
+    required CachedVideoPlayerController dataSourceController,
   }) {
     return CustomVideoPlayerController(
       context: context,
       videoPlayerController: dataSourceController,
       customVideoPlayerSettings: CustomVideoPlayerSettings(
+        showMuteButton: false,
         playButton: SvgPicture.asset(
           AppIcons.playButton,
           height: 20,
@@ -66,8 +69,6 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
           progressBarHeight: 3,
         ),
         settingsButtonAvailable: false,
-
-        // playButton: CustomVideoPlay
       ),
     );
   }
@@ -90,11 +91,12 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer> {
           _videoController.pause();
           String? url =
               widget.currentCourse.lessons?[state.currentLessonIndex!].link;
-          final uri = Uri.parse(url ?? '');
-          _videoController = VideoPlayerController.networkUrl(uri)
+          _videoController = CachedVideoPlayerController.network(url ?? '')
             ..initialize().then(
               (value) => setState(
                 () {
+                  log('*** initialized');
+
                   _customVideoPlayerController = getCustomVideoPlayerController(
                     dataSourceController: _videoController,
                   );

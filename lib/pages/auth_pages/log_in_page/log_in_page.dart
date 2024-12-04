@@ -228,7 +228,8 @@ class _LogInPageState extends State<LogInPage> {
       try {
         await FacebookAuth.instance.getUserData();
 
-        FacebookAuthProvider.credential(result.accessToken!.token);
+        // FacebookAuthProvider.credential(result.accessToken!.token);
+        FacebookAuthProvider.credential(result.accessToken!.tokenString);
 
         if (FirebaseAuth.instance.currentUser != null) {
           return _goToMainPage();
@@ -382,4 +383,3 @@ class _LogInPageState extends State<LogInPage> {
     );
   }
 }
-

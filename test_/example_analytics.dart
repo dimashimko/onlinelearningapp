@@ -8,9 +8,9 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
 // import 'firebase_options.dart';
 import 'package:online_learning_app/firebase_options.dart';
+
 import 'tabs_page.dart';
 
 Future<void> main() async {
@@ -94,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // https://firebase.google.com/docs/reference/android/com/google/firebase/analytics/FirebaseAnalytics#public-void-logevent-string-name,-bundle-params
     await widget.analytics.logEvent(
       name: 'test_event',
-      parameters: <String, dynamic>{
+      parameters: <String, Object>{
         'string': 'string',
         'int': 42,
         'long': 12345678910,
