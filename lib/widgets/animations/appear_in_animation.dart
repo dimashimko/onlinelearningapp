@@ -16,7 +16,8 @@ class SlideTransitionAnimation extends StatefulWidget {
   final Widget child;
 
   @override
-  _SlideTransitionAnimationState createState() => _SlideTransitionAnimationState();
+  _SlideTransitionAnimationState createState() =>
+      _SlideTransitionAnimationState();
 }
 
 class _SlideTransitionAnimationState extends State<SlideTransitionAnimation>
@@ -54,30 +55,14 @@ class _SlideTransitionAnimationState extends State<SlideTransitionAnimation>
 
     return SlideTransition(
       position: Tween<Offset>(
-        begin: Offset(0, -1), // Начальное положение виджета (сверху)
-        end: Offset.zero, // Конечное положение виджета (начало координат)
+        begin: Offset(0, -1),
+        end: Offset.zero,
       ).animate(
         CurvedAnimation(
           parent: _controller,
           curve: Curves.easeOut,
         ),
       ),
-    );
-
-    return FadeTransition(
-      opacity: _animation,
-      child: widget.child,
-    );
-
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        if (widget.placeholder != null) widget.placeholder!,
-        FadeTransition(
-          opacity: _animation,
-          child: widget.child,
-        ),
-      ],
     );
   }
 }
